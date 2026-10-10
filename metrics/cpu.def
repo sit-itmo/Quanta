@@ -1,61 +1,61 @@
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
-INV_METRIC(cpu_utilization,
+QUANTA_METRIC(cpu_utilization,
  .key="cpu.utilization", .title="CPU busy fraction",
  .description="Delta busy / delta total; idle and iowait are not busy; guest is not counted twice.", .doc_path="docs/metrics/cpu.utilization.md",
- .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="1", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpu_provider, .read=inv_cpu_read, .arg="utilization"
+ .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="utilization"
 )
-INV_METRIC(cpu_time_total,
+QUANTA_METRIC(cpu_time_total,
  .key="cpu.time_total", .title="CPU accounted ticks",
  .description="CPU accounted ticks", .doc_path="docs/metrics/cpu.time_total.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_COUNTER, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER, .refresh=QUANTA_REFRESH_POLL,
  .unit="ticks", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="",
- .provider=&inv_cpu_provider, .read=inv_cpu_read, .arg="total"
+ .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="total"
 )
-INV_METRIC(cpu_idle_total,
+QUANTA_METRIC(cpu_idle_total,
  .key="cpu.idle_total", .title="CPU idle ticks",
  .description="CPU idle ticks", .doc_path="docs/metrics/cpu.idle_total.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_COUNTER, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER, .refresh=QUANTA_REFRESH_POLL,
  .unit="ticks", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="",
- .provider=&inv_cpu_provider, .read=inv_cpu_read, .arg="idle"
+ .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="idle"
 )
-INV_METRIC(cpu_core_utilization,
+QUANTA_METRIC(cpu_core_utilization,
  .key="cpu.core.utilization", .title="CPU busy fraction",
  .description="Delta busy / delta total; idle and iowait are not busy; guest is not counted twice.", .doc_path="docs/metrics/cpu.core.utilization.md",
- .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="1", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="cpu", .dependencies="",
- .provider=&inv_cpu_provider, .read=inv_cpu_read, .arg="utilization"
+ .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="utilization"
 )
-INV_METRIC(cpu_core_time_total,
+QUANTA_METRIC(cpu_core_time_total,
  .key="cpu.core.time_total", .title="CPU accounted ticks",
  .description="CPU accounted ticks", .doc_path="docs/metrics/cpu.core.time_total.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_COUNTER, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER, .refresh=QUANTA_REFRESH_POLL,
  .unit="ticks", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="cpu", .dependencies="",
- .provider=&inv_cpu_provider, .read=inv_cpu_read, .arg="total"
+ .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="total"
 )
-INV_METRIC(cpu_core_idle_total,
+QUANTA_METRIC(cpu_core_idle_total,
  .key="cpu.core.idle_total", .title="CPU idle ticks",
  .description="CPU idle ticks", .doc_path="docs/metrics/cpu.core.idle_total.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_COUNTER, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER, .refresh=QUANTA_REFRESH_POLL,
  .unit="ticks", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="cpu", .dependencies="",
- .provider=&inv_cpu_provider, .read=inv_cpu_read, .arg="idle"
+ .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="idle"
 )

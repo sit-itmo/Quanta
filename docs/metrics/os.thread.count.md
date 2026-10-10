@@ -4,9 +4,9 @@ System thread count.
 
 Единица: `без единицы`. Источник: `GlobalMemoryStatusEx / GetPerformanceInfo`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
-команда `inv describe os.thread.count` показывает актуальные метаданные сборки.
+команда `quanta describe os.thread.count` показывает актуальные метаданные сборки.
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Физические total/available получены одним GlobalMemoryStatusEx; used = total − available,
 utilization = used / total. Available включает страницы, которые Windows считает доступными,

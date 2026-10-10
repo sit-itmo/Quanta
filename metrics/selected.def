@@ -1,31 +1,31 @@
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
-#if INV_OS_WINDOWS
+#if QUANTA_OS_WINDOWS
 #include "windows/selected.def"
 #else
 #include "os.def"
-#if INV_WITH_MEMORY
+#if QUANTA_WITH_MEMORY
 #include "memory.def"
 #endif
-#if INV_WITH_CPU
+#if QUANTA_WITH_CPU
 #include "cpu.def"
 #endif
-#if INV_WITH_DMI
+#if QUANTA_WITH_DMI
 #include "dmi.def"
 #endif
-#if INV_WITH_NETWORK
+#if QUANTA_WITH_NETWORK
 #include "network.def"
 #endif
-#if INV_WITH_HWMON
+#if QUANTA_WITH_HWMON
 #include "hwmon.def"
 #endif
-#if INV_WITH_CPUID && INV_ARCH_X86
+#if QUANTA_WITH_CPUID && QUANTA_ARCH_X86
 #include "cpuid.def"
 #endif
-#if INV_WITH_FILESYSTEM
+#if QUANTA_WITH_FILESYSTEM
 #include "filesystem.def"
 #endif
-#if INV_WITH_PROCESS
+#if QUANTA_WITH_PROCESS
 #include "process.def"
 #endif
 
-#endif /* INV_OS_WINDOWS */
+#endif /* QUANTA_OS_WINDOWS */

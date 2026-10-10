@@ -1,66 +1,66 @@
 /* SPDX-License-Identifier: MIT -- Windows descriptors */
-INV_METRIC(process_self_rss_bytes,
+QUANTA_METRIC(process_self_rss_bytes,
  .key="process.self.rss_bytes", .title="Collector resident memory",
  .description="Collector resident memory", .doc_path="docs/metrics/process.self.rss_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="rss"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="rss"
 )
-INV_METRIC(win_process_self_pid,
+QUANTA_METRIC(win_process_self_pid,
  .key="process.self.pid", .title="INV process ID",
  .description="INV process ID", .doc_path="docs/metrics/process.self.pid.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_PROPERTY,
- .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY,
+ .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="pid"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="pid"
 )
-INV_METRIC(win_process_self_private_bytes,
+QUANTA_METRIC(win_process_self_private_bytes,
  .key="process.self.private_bytes", .title="INV private committed memory",
  .description="INV private committed memory", .doc_path="docs/metrics/process.self.private_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="private"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="private"
 )
-INV_METRIC(win_process_self_handles,
+QUANTA_METRIC(win_process_self_handles,
  .key="process.self.handles", .title="INV handle count",
  .description="INV handle count", .doc_path="docs/metrics/process.self.handles.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="handles"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="handles"
 )
-INV_METRIC(win_process_self_io_read_bytes_total,
+QUANTA_METRIC(win_process_self_io_read_bytes_total,
  .key="process.self.io.read_bytes_total", .title="INV read transfer bytes (not necessarily disk I/O)",
  .description="INV read transfer bytes (not necessarily disk I/O)", .doc_path="docs/metrics/process.self.io.read_bytes_total.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_COUNTER,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="read_bytes"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="read_bytes"
 )
-INV_METRIC(win_process_self_io_write_bytes_total,
+QUANTA_METRIC(win_process_self_io_write_bytes_total,
  .key="process.self.io.write_bytes_total", .title="INV write transfer bytes (not necessarily disk I/O)",
  .description="INV write transfer bytes (not necessarily disk I/O)", .doc_path="docs/metrics/process.self.io.write_bytes_total.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_COUNTER,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="write_bytes"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="write_bytes"
 )

@@ -8,7 +8,7 @@ Operational state — semantic version 1.
 
 - Type: `string`; kind: `gauge`.
 - Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `ifname,ifindex`.
 - Source: /sys/class/net identity and attributes; one /proc/net/dev counters snapshot.
 
@@ -16,7 +16,7 @@ Operational state — semantic version 1.
 
 sysfs operstate string. It is not a test of Internet connectivity. unknown, down, dormant etc. are valid values, not errors.
 
-Identity includes ifindex and the observed sysfs directory identity; display name is not used alone. Rediscovery is approximately every 5 s or explicit refresh. Very fast remove/recreate cycles can be missed by any periodic enumeration.
+Identity is ifindex within the current network namespace; display name is not used alone. Reuse of the same ifindex is not guaranteed to be detected. Rediscovery is approximately every 5 s or explicit refresh. Very fast remove/recreate cycles can be missed by any periodic enumeration.
 
 ## Errors and unavailable values
 
@@ -39,7 +39,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://docs.kernel.org/networking/statistics.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
 строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие

@@ -1,0 +1,35 @@
+# Apply options to our own targets, without exporting private headers or flags.
+function(quanta_target target)
+    target_include_directories(${target} PRIVATE
+        ${PROJECT_SOURCE_DIR}/core/private
+        ${PROJECT_SOURCE_DIR}/osal/private
+        ${PROJECT_BINARY_DIR}/generated)
+    if(WIN32)
+        target_compile_definitions(${target} PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX
+            UNICODE _UNICODE _WIN32_WINNT=0x0601 WINVER=0x0601
+            NTDDI_VERSION=0x06010000 PSAPI_VERSION=1 _CRT_SECURE_NO_WARNINGS)
+        if(MINGW)
+            target_compile_definitions(${target} PRIVATE __USE_MINGW_ANSI_STDIO=1)
+        endif()
+    else()
+        target_compile_definitions(${target} PRIVATE _POSIX_C_SOURCE=200809L _GNU_SOURCE)
+    endif()
+    if(MSVC)
+        target_compile_options(${target} PRIVATE /W4 /utf-8 /Zc:preprocessor)
+        if(QUANTA_WARNINGS_AS_ERRORS)
+            target_compile_options(${target} PRIVATE /WX)
+        endif()
+    elseif(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Wformat=2 -Wformat-security)
+        if(QUANTA_WARNINGS_AS_ERRORS)
+            target_compile_options(${target} PRIVATE -Werror)
+        endif()
+        if(QUANTA_SANITIZE)
+            target_compile_options(${target} PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
+            target_link_options(${target} PRIVATE -fsanitize=address,undefined)
+        endif()
+        if(QUANTA_STRICT_STATIC)
+            target_link_options(${target} PRIVATE -static)
+        endif()
+    endif()
+endfunction()

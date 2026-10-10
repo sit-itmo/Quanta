@@ -1,3 +1,0 @@
-PASS: /tmp/inv-xcb-test.Ao8MgC/xcb-smoke has no PT_INTERP and no DT_NEEDED
-Authorized X11 execution passed: XCB static backend: window, authentication, events and pixel transport OK
-Unauthorized X11 connection rejected as expected

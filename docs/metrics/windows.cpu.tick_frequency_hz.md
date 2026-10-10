@@ -4,9 +4,9 @@ GetSystemTimes raw counter frequency.
 
 Единица: `Hz`. Источник: `GetSystemTimes / PDH Processor Information`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
-команда `inv describe windows.cpu.tick_frequency_hz` показывает актуальные метаданные сборки.
+команда `quanta describe windows.cpu.tick_frequency_hz` показывает актуальные метаданные сборки.
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 На системе с одной процессорной группой GetSystemTimes даёт aggregate kernel + user;
 idle уже входит в kernel и второй раз не добавляется. Загрузка вычисляется по двум снимкам:

@@ -1,19 +1,188 @@
 {
   "version": 3,
-  "cmakeMinimumRequired": {"major": 3, "minor": 21, "patch": 0},
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
   "configurePresets": [
-    {"name": "windows-x64-cli", "displayName": "Windows x64 / static CRT / CLI and TUI", "generator": "Visual Studio 17 2022", "architecture": "x64", "binaryDir": "${sourceDir}/out/preset-x64-cli", "cacheVariables": {"INV_WITH_GUI": "OFF", "INV_STRICT_STATIC": "ON"}},
-    {"name": "windows-x64-gui", "inherits": "windows-x64-cli", "displayName": "Windows x64 / Dear ImGui software GDI", "binaryDir": "${sourceDir}/out/preset-x64-gui", "cacheVariables": {"INV_WITH_GUI": "ON"}},
-    {"name": "windows-x86-cli", "inherits": "windows-x64-cli", "architecture": "Win32", "binaryDir": "${sourceDir}/out/preset-x86-cli"}
+    {
+      "name": "linux-default",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "ON",
+        "QUANTA_TESTS_ON_BUILD": "ON",
+        "QUANTA_WITH_GUI": "OFF"
+      }
+    },
+    {
+      "name": "linux-minimal",
+      "inherits": "linux-default",
+      "cacheVariables": {
+        "QUANTA_WITH_MEMORY": "OFF",
+        "QUANTA_WITH_CPU": "OFF",
+        "QUANTA_WITH_DMI": "OFF",
+        "QUANTA_WITH_NETWORK": "OFF",
+        "QUANTA_WITH_HWMON": "OFF",
+        "QUANTA_WITH_CPUID": "OFF",
+        "QUANTA_WITH_FILESYSTEM": "OFF",
+        "QUANTA_WITH_PROCESS": "OFF",
+        "QUANTA_WITH_TUI": "OFF",
+        "QUANTA_EMBED_DOCS": "OFF"
+      }
+    },
+    {
+      "name": "linux-hwmon",
+      "inherits": "linux-minimal",
+      "cacheVariables": {
+        "QUANTA_WITH_HWMON": "ON",
+        "QUANTA_EMBED_DOCS": "ON"
+      }
+    },
+    {
+      "name": "linux-asan",
+      "inherits": "linux-default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "clang",
+        "QUANTA_SANITIZE": "ON",
+        "QUANTA_WARNINGS_AS_ERRORS": "ON"
+      },
+      "environment": {
+        "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS": "halt_on_error=1"
+      }
+    },
+    {
+      "name": "windows-native",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "cacheVariables": {
+        "BUILD_TESTING": "ON",
+        "QUANTA_TESTS_ON_BUILD": "ON",
+        "QUANTA_WITH_GUI": "OFF"
+      }
+    },
+    {
+      "name": "windows-minimal",
+      "inherits": "windows-native",
+      "cacheVariables": {
+        "QUANTA_WITH_MEMORY": "OFF",
+        "QUANTA_WITH_CPU": "OFF",
+        "QUANTA_WITH_DMI": "OFF",
+        "QUANTA_WITH_NETWORK": "OFF",
+        "QUANTA_WITH_HWMON": "OFF",
+        "QUANTA_WITH_CPUID": "OFF",
+        "QUANTA_WITH_FILESYSTEM": "OFF",
+        "QUANTA_WITH_PROCESS": "OFF",
+        "QUANTA_WITH_TUI": "OFF",
+        "QUANTA_EMBED_DOCS": "OFF"
+      }
+    }
   ],
   "buildPresets": [
-    {"name": "windows-x64-cli", "configurePreset": "windows-x64-cli", "configuration": "Release"},
-    {"name": "windows-x64-gui", "configurePreset": "windows-x64-gui", "configuration": "Release"},
-    {"name": "windows-x86-cli", "configurePreset": "windows-x86-cli", "configuration": "Release"}
+    {
+      "name": "linux-default",
+      "configurePreset": "linux-default"
+    },
+    {
+      "name": "linux-minimal",
+      "configurePreset": "linux-minimal"
+    },
+    {
+      "name": "linux-hwmon",
+      "configurePreset": "linux-hwmon"
+    },
+    {
+      "name": "linux-asan",
+      "configurePreset": "linux-asan"
+    },
+    {
+      "name": "windows-native",
+      "configurePreset": "windows-native",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-minimal",
+      "configurePreset": "windows-minimal",
+      "configuration": "Release"
+    }
   ],
   "testPresets": [
-    {"name": "windows-x64-cli", "configurePreset": "windows-x64-cli", "configuration": "Release", "output": {"outputOnFailure": true}},
-    {"name": "windows-x64-gui", "configurePreset": "windows-x64-gui", "configuration": "Release", "output": {"outputOnFailure": true}},
-    {"name": "windows-x86-cli", "configurePreset": "windows-x86-cli", "configuration": "Release", "output": {"outputOnFailure": true}}
+    {
+      "name": "linux-default",
+      "configurePreset": "linux-default",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "linux-minimal",
+      "configurePreset": "linux-minimal",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "linux-hwmon",
+      "configurePreset": "linux-hwmon",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "linux-asan",
+      "configurePreset": "linux-asan",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "windows-native",
+      "configurePreset": "windows-native",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-minimal",
+      "configurePreset": "windows-minimal",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "configuration": "Release"
+    }
   ]
 }

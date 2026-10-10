@@ -1,1 +1,0 @@
-PASS: ./build-check/inv has no PT_INTERP and no DT_NEEDED

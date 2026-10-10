@@ -4,9 +4,9 @@ System serial number.
 
 Единица: `без единицы`. Источник: `GetSystemFirmwareTable RSMB / bounded SMBIOS parser`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
-команда `inv describe system.serial` показывает актуальные метаданные сборки.
+команда `quanta describe system.serial` показывает актуальные метаданные сборки.
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Данные приходят из GetSystemFirmwareTable(RSMB), без dmidecode, WMI, PowerShell и драйвера.
 Парсер ограничивает длины и проверяет структуру, строки и двойные NUL. SMBIOS types 0/1/2/17

@@ -8,7 +8,7 @@ Host name — semantic version 1.
 
 - Type: `string`; kind: `property`.
 - Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `INV_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
+- Refresh policy: `QUANTA_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
 - Labels: `(none)`.
 - Source: uname(), sysconf(), /etc/os-release, /proc/uptime and /proc/loadavg.
 
@@ -16,7 +16,7 @@ Host name — semantic version 1.
 
 uname.nodename. Sensitive identity; affected by the current UTS namespace.
 
-This metric is INV_SENSITIVE: --redact masks its displayed/exported value, not collection or process memory.
+This metric is QUANTA_SENSITIVE: --redact masks its displayed/exported value, not collection or process memory.
 
 ## Errors and unavailable values
 
@@ -39,7 +39,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://docs.kernel.org/filesystems/proc.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Источник Windows — Win32 API; `os.arch` — нативная архитектура ОС, а не разрядность EXE.
 `os.name` возвращает ProductName из реестра дословно (или Microsoft Windows при его отсутствии).

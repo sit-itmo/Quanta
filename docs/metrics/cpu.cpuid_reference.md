@@ -8,7 +8,7 @@ Logical CPU used for CPUID — semantic version 1.
 
 - Type: `u64`; kind: `property`.
 - Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `INV_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
+- Refresh policy: `QUANTA_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
 - Labels: `(none)`.
 - Source: CPUID instruction on one affinity-pinned allowed logical CPU.
 
@@ -37,7 +37,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Используется прямой CPUID на одном допустимом reference CPU с временной group affinity,
 которая восстанавливается после чтения. cpu.cpuid_reference = (group << 16) | processor_number.

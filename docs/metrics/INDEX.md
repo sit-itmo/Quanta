@@ -55,4 +55,4 @@
 - [fs.root.utilization](fs.root.utilization.md) — Root filesystem allocated fraction; `f64`, `1`.
 - [process.self.rss_bytes](process.self.rss_bytes.md) — Collector resident memory; `u64`, `B`.
 
-Файл описывает полную сборку. `inv list --compiled` — авторитетный каталог текущего бинарника.
+Файл описывает полную сборку. `quanta list --compiled` — авторитетный каталог текущего бинарника.

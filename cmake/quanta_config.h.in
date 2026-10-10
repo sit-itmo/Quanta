@@ -1,0 +1,18 @@
+#ifndef QUANTA_CONFIG_H
+#define QUANTA_CONFIG_H
+#cmakedefine01 QUANTA_ARCH_X86
+#cmakedefine01 QUANTA_OS_WINDOWS
+#cmakedefine01 QUANTA_OS_LINUX
+#cmakedefine01 QUANTA_WITH_GUI
+#cmakedefine01 QUANTA_WITH_TUI
+#cmakedefine01 QUANTA_WITH_MEMORY
+#cmakedefine01 QUANTA_WITH_CPU
+#cmakedefine01 QUANTA_WITH_DMI
+#cmakedefine01 QUANTA_WITH_NETWORK
+#cmakedefine01 QUANTA_WITH_HWMON
+#cmakedefine01 QUANTA_WITH_CPUID
+#cmakedefine01 QUANTA_WITH_FILESYSTEM
+#cmakedefine01 QUANTA_WITH_PROCESS
+#cmakedefine01 QUANTA_EMBED_DOCS
+#cmakedefine01 QUANTA_STRICT_STATIC
+#endif

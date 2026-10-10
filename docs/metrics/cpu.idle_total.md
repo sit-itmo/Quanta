@@ -8,7 +8,7 @@ CPU idle ticks — semantic version 1.
 
 - Type: `u64`; kind: `counter`.
 - Canonical unit: `ticks`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `(none)`.
 - Source: one /proc/stat snapshot, first eight CPU time fields only.
 
@@ -41,7 +41,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://docs.kernel.org/filesystems/proc.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 На системе с одной процессорной группой GetSystemTimes даёт aggregate kernel + user;
 idle уже входит в kernel и второй раз не добавляется. Загрузка вычисляется по двум снимкам:
@@ -50,6 +50,7 @@ idle уже входит в kernel и второй раз не добавляе�
 windows.cpu.tick_frequency_hz = 10 000 000. Это не USER_HZ Linux.
 На системах с несколькими группами сырые aggregate tick-метрики возвращают UNSUPPORTED,
 а общая и поядерная загрузка используют PDH Processor Information / % Processor Time.
+Поядерная загрузка всегда берётся из прямых PDH fractions, не из искусственно накопленных ticks.
 Метки cpu.core.utilization: cpu="group,number", group и number. Локализация PDH выполняется
 через PdhAddEnglishCounterW и локализованный wildcard; имена групп не зависят от языка интерфейса.
 Метрика измеряет долю занятого процессорного времени, а не Processor Utility с поправкой на частоту.

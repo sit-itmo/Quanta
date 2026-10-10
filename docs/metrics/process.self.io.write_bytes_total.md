@@ -4,9 +4,9 @@ INV write transfer bytes (not necessarily disk I/O).
 
 Единица: `B`. Источник: `GetProcessMemoryInfo / GetProcessIoCounters`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
-команда `inv describe process.self.io.write_bytes_total` показывает актуальные метаданные сборки.
+команда `quanta describe process.self.io.write_bytes_total` показывает актуальные метаданные сборки.
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Измеряется только сам процесс INV, не любой произвольный PID.
 rss_bytes = WorkingSetSize, private_bytes = PrivateUsage (private committed bytes),

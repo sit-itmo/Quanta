@@ -17,12 +17,12 @@ def main():
     if any((dst/f).exists() for f in FILES):
         raise RuntimeError('Refusing to replace existing ImGui source files: '+str(dst))
     dst.parent.mkdir(parents=True,exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='.inv-imgui-',dir=dst.parent) as stage:
+    with tempfile.TemporaryDirectory(prefix='.quanta-imgui-',dir=dst.parent) as stage:
         stage=pathlib.Path(stage);hashes={}
         for name in FILES:
             url='https://raw.githubusercontent.com/ocornut/imgui/'+COMMIT+'/'+name
             print('Fetching',name,flush=True)
-            request=urllib.request.Request(url,headers={'User-Agent':'inv-source-fetch/0.1.0'})
+            request=urllib.request.Request(url,headers={'User-Agent':'quanta-source-fetch/0.1.0'})
             with urllib.request.urlopen(request,timeout=60) as response:
                 data=response.read(8*1024*1024+1)
             if not data or len(data)>8*1024*1024: raise RuntimeError('Unexpected source size: '+name)
@@ -36,7 +36,7 @@ def main():
         dst.mkdir(parents=True,exist_ok=True)
         for source in stage.iterdir():shutil.move(str(source),str(dst/source.name))
     print('Source dependency ready:',dst)
-    print('Configure with -DINV_WITH_GUI=ON -DINV_FETCH_IMGUI=OFF')
+    print('Configure with -DQUANTA_WITH_GUI=ON -DQUANTA_FETCH_IMGUI=OFF')
 if __name__=='__main__':
     try:main()
     except (OSError,ValueError,RuntimeError) as exc:print('fetch_imgui:',exc,file=sys.stderr);sys.exit(1)

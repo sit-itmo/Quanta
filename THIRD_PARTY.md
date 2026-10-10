@@ -15,7 +15,7 @@ under the root MIT license. No external monitor executable is called at runtime.
 ## XCB (Linux-only optional GUI)
 
 - Upstream: https://xcb.freedesktop.org/
-- Ubuntu development package: libxcb1-dev. This project links libxcb.a.
+- Ubuntu development package: libxcb1-dev. Default GUI links the selected system XCB library; strict static additionally requires static archives.
 - XCB sources/license files are not bundled; retain applicable upstream notices
   when distributing the linked library or binary. The platform uses the local
   socket connection path, avoiding DNS/NSS and vendor GPU libraries.
@@ -46,6 +46,6 @@ System import libraries refer to Windows DLLs; these DLLs are not bundled or
 incorporated into the EXE. MinGW may depend on the system MSVCRT/UCRT even with
 -static. Consult toolchain redistribution terms before distributing binaries.
 
-Primary API/semantics references are listed in docs/WINDOWS.md and per-metric
+Primary API/semantics references are listed in docs/AUDIT.md and per-metric
 Markdown. SMBIOS parser is original bounded C code, not code copied from dmidecode.
 Windows PDH localization follows Microsoft's documented English-counter sequence.

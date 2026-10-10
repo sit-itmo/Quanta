@@ -1,8 +1,10 @@
-build*/
-.cache/
+/out/
+/build*/
+/.vs/
+/.cache/
 __pycache__/
 *.pyc
-*.csv
-imgui.ini
-vendor/imgui/*
-!vendor/imgui/README.md
+/vendor/imgui/*
+!/vendor/imgui/README.md
+CMakeUserPresets.json
+*.qblob

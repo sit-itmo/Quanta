@@ -1,0 +1,41 @@
+[1/13] Building C object sensors/CMakeFiles/quanta_sensors.dir/metric_docs.c.o
+[2/13] Building C object tests/CMakeFiles/quanta_windows_schema_tests.dir/__/sensors/metric_docs.c.o
+[3/13] Linking C static library sensors/libquanta_sensors.a
+[4/13] Linking C executable tests/quanta_windows_schema_tests
+[5/13] Linking C executable bin/quanta_cli
+[6/13] Linking C executable bin/quanta
+[7/13] Linking C executable bin/quanta_txt
+[8/13] Linking C executable tests/quanta_windows_data_tests
+[9/13] Linking C executable tests/quanta_unit_tests
+[10/13] Linking C executable bin/quanta_csv
+[11/13] Linking C executable tests/quanta_device_tests
+[12/13] Linking C executable tests/quanta_linux_hal_tests
+[12/13] cd /mnt/data/work/matrix/minimal/tests && /usr/bin/ctest --test-dir /mnt/data/work/matrix/minimal -C Release --output-on-failure --no-tests=error
+Internal ctest changing into directory: /mnt/data/work/matrix/minimal
+Test project /mnt/data/work/matrix/minimal
+      Start  1: quanta_unit_tests
+ 1/11 Test  #1: quanta_unit_tests ................   Passed    0.04 sec
+      Start  2: quanta_windows_data_tests
+ 2/11 Test  #2: quanta_windows_data_tests ........   Passed    0.12 sec
+      Start  3: quanta_device_tests
+ 3/11 Test  #3: quanta_device_tests ..............   Passed    0.00 sec
+      Start  4: quanta_linux_hal_tests
+ 4/11 Test  #4: quanta_linux_hal_tests ...........   Passed    0.00 sec
+      Start  5: windows_schema
+ 5/11 Test  #5: windows_schema ...................   Passed    0.00 sec
+      Start  6: frontend_modes
+ 6/11 Test  #6: frontend_modes ...................   Passed    0.89 sec
+      Start  7: documentation
+ 7/11 Test  #7: documentation ....................   Passed    0.85 sec
+      Start  8: integration
+ 8/11 Test  #8: integration ......................   Passed    1.13 sec
+      Start  9: quanta_catalog_tests
+ 9/11 Test  #9: quanta_catalog_tests .............   Passed    0.05 sec
+      Start 10: quanta_history_tests
+10/11 Test #10: quanta_history_tests .............   Passed    0.00 sec
+      Start 11: quanta_osal_tests
+11/11 Test #11: quanta_osal_tests ................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 11
+
+Total Test time (real) =   3.09 sec

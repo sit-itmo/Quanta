@@ -1,0 +1,179 @@
+Start testing: Oct 10 12:48 UTC
+----------------------------------------------------------
+1/11 Testing: quanta_unit_tests
+1/11 Test: quanta_unit_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_unit_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_unit_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+3261 checks, 0 failures
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_unit_tests" end time: Oct 10 12:48 UTC
+"quanta_unit_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/11 Testing: quanta_windows_data_tests
+2/11 Test: quanta_windows_data_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_windows_data_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_windows_data_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+Windows data (portable): 10606 checks, 0 failures
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_windows_data_tests" end time: Oct 10 12:48 UTC
+"quanta_windows_data_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/11 Testing: quanta_device_tests
+3/11 Test: quanta_device_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_device_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_device_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+device fixtures: 0 checks, 0 failures
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_device_tests" end time: Oct 10 12:48 UTC
+"quanta_device_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/11 Testing: quanta_linux_hal_tests
+4/11 Test: quanta_linux_hal_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_linux_hal_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_linux_hal_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+Linux HAL fixtures: 35 checks, 0 failures
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_linux_hal_tests" end time: Oct 10 12:48 UTC
+"quanta_linux_hal_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/11 Testing: windows_schema
+5/11 Test: windows_schema
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_windows_schema_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"windows_schema" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+Windows schema only: 7 metric descriptors; 0 query files validated (no WinAPI execution)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"windows_schema" end time: Oct 10 12:48 UTC
+"windows_schema" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/11 Testing: frontend_modes
+6/11 Test: frontend_modes
+Command: "/opt/pyvenv/bin/python3" "/mnt/data/Quanta-0.3.0/tests/frontend_modes.py" "/mnt/data/work/matrix/minimal/bin/quanta" "/mnt/data/work/matrix/minimal/bin/quanta_cli" "/mnt/data/work/matrix/minimal/bin/quanta_csv" "/mnt/data/work/matrix/minimal/bin/quanta_txt"
+Directory: /mnt/data/work/matrix/minimal/tests
+"frontend_modes" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+9 frontend entrypoint/format cases passed
+<end of output>
+Test time =   0.89 sec
+----------------------------------------------------------
+Test Passed.
+"frontend_modes" end time: Oct 10 12:48 UTC
+"frontend_modes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/11 Testing: documentation
+7/11 Test: documentation
+Command: "/opt/pyvenv/bin/python3" "/mnt/data/Quanta-0.3.0/tools/embed_docs.py" "--check"
+Directory: /mnt/data/work/matrix/minimal/tests
+"documentation" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+Embedded docs match the metric registry and Markdown files
+<end of output>
+Test time =   0.85 sec
+----------------------------------------------------------
+Test Passed.
+"documentation" end time: Oct 10 12:48 UTC
+"documentation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/11 Testing: integration
+8/11 Test: integration
+Command: "/opt/pyvenv/bin/python3" "/mnt/data/Quanta-0.3.0/tests/integration.py" "/mnt/data/work/matrix/minimal/bin/quanta"
+Directory: /mnt/data/work/matrix/minimal/tests
+"integration" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+25 CLI integration cases passed
+<end of output>
+Test time =   1.13 sec
+----------------------------------------------------------
+Test Passed.
+"integration" end time: Oct 10 12:48 UTC
+"integration" time elapsed: 00:00:01
+----------------------------------------------------------
+
+9/11 Testing: quanta_catalog_tests
+9/11 Test: quanta_catalog_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_catalog_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_catalog_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+Core/catalog contracts: 118 checks, 0 failures
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_catalog_tests" end time: Oct 10 12:48 UTC
+"quanta_catalog_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/11 Testing: quanta_history_tests
+10/11 Test: quanta_history_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_history_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_history_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+History/value boundaries: 50 checks, 0 failures
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_history_tests" end time: Oct 10 12:48 UTC
+"quanta_history_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/11 Testing: quanta_osal_tests
+11/11 Test: quanta_osal_tests
+Command: "/mnt/data/work/matrix/minimal/tests/quanta_osal_tests"
+Directory: /mnt/data/work/matrix/minimal/tests
+"quanta_osal_tests" start time: Oct 10 12:48 UTC
+Output:
+----------------------------------------------------------
+Native OSAL: 23 checks, 0 failures
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"quanta_osal_tests" end time: Oct 10 12:48 UTC
+"quanta_osal_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 10 12:48 UTC

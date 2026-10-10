@@ -67,14 +67,14 @@ if 'device.net.rx_bytes_total' in keys:
     data = rows(p.stdout)
     for row in data:
         if row['status'] == 'OK': assert float(row['value']) >= 0 and int(row['window_ns']) > 0
-with tempfile.TemporaryDirectory(prefix='inv-integration-') as tmp:
+with tempfile.TemporaryDirectory(prefix='quanta-integration-') as tmp:
     path = pathlib.Path(tmp)/'result.csv'
     run('get', 'os.name', '--format', 'csv', '--output', str(path))
     assert rows(path.read_text())
     before = path.read_bytes()
     run('get', 'os.name', '--format', 'csv', '--output', str(path), code=1)
     assert path.read_bytes() == before
-    q = pathlib.Path(tmp)/'query.invq'
+    q = pathlib.Path(tmp)/'query.q'
     q.write_text('mode file; format csv; once; select os.name;')
     assert len(rows(run('run', '--query-file', str(q)).stdout)) == 1
     q.write_bytes(b'select os.name;\x00select os.hostname;')

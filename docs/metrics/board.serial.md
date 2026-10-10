@@ -8,7 +8,7 @@ Board serial number — semantic version 1.
 
 - Type: `string`; kind: `property`.
 - Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `INV_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
+- Refresh policy: `QUANTA_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
 - Labels: `(none)`.
 - Source: /sys/class/dmi/id attributes.
 
@@ -16,7 +16,7 @@ Board serial number — semantic version 1.
 
 DMI board_serial string. Frequently readable only with elevated privileges, sometimes missing or a firmware placeholder. Returned as provided; sensitive output can be masked with --redact.
 
-This metric is INV_SENSITIVE: --redact masks its displayed/exported value, not collection or process memory.
+This metric is QUANTA_SENSITIVE: --redact masks its displayed/exported value, not collection or process memory.
 
 ## Errors and unavailable values
 
@@ -39,7 +39,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://github.com/torvalds/linux/blob/master/drivers/firmware/dmi-id.c
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Данные приходят из GetSystemFirmwareTable(RSMB), без dmidecode, WMI, PowerShell и драйвера.
 Парсер ограничивает длины и проверяет структуру, строки и двойные NUL. SMBIOS types 0/1/2/17

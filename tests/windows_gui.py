@@ -3,7 +3,7 @@
 This is not a screenshot comparison or a substitute for manual UI testing.
 """
 import ctypes, ctypes.wintypes as wt, os, pathlib, subprocess, sys, time
-if os.name != 'nt': raise SystemExit('Requires Windows and a real INV_WITH_GUI=ON build.')
+if os.name != 'nt': raise SystemExit('Requires Windows and a real QUANTA_WITH_GUI=ON build.')
 user32 = ctypes.WinDLL('user32', use_last_error=True)
 user32.GetWindowThreadProcessId.argtypes = [wt.HWND, ctypes.POINTER(wt.DWORD)]
 user32.GetWindowThreadProcessId.restype = wt.DWORD

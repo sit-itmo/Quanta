@@ -59,9 +59,9 @@ if 'device.net.rx_bytes_total' in keys:
     out, _ = run('run','-q','every 250ms; count 4; format csv; select optional rate(device.net.rx_bytes_total);')
     for r in rows(out):
         if r['status']=='OK': assert float(r['value']) >= 0 and int(r['window_ns']) > 0
-with tempfile.TemporaryDirectory(prefix='inv-windows-') as folder:
+with tempfile.TemporaryDirectory(prefix='quanta-windows-') as folder:
     root = pathlib.Path(folder)
-    query = root / '\u0437\u0430\u043f\u0440\u043e\u0441.invq'
+    query = root / '\u0437\u0430\u043f\u0440\u043e\u0441.q'
     output = root / '\u043e\u0442\u0447\u0451\u0442.csv'
     query.write_text('version 1; once; mode file; format csv; select os.name;',encoding='utf-8-sig')
     run('run','--query-file',str(query),'--output',str(output))
@@ -76,7 +76,9 @@ with tempfile.TemporaryDirectory(prefix='inv-windows-') as folder:
 # Complete example plans validate in a full build. GUI/TUI are switched to FILE
 # for this test ONLY; this does not test those frontends.
 if {'windows.memory.commit.used_bytes','cpu.utilization','process.self.pid','fs.root.total_bytes'} <= keys:
-    for query in sorted((ROOT/'queries/windows').glob('*.invq')):
+    queries = sorted((ROOT/'examples/queries/windows').glob('*.q'))
+    assert queries, 'Windows example directory is missing'
+    for query in queries:
         run('explain','--query-file',str(query),'--mode','file')
         args = ['run','--query-file',str(query),'--mode','file']
         if 'once;' not in query.read_text(encoding='utf-8'): args += ['--count','2','--duration','250ms']

@@ -1,0 +1,38 @@
+Internal ctest changing into directory: /mnt/data/work/build-original
+Test project /mnt/data/work/build-original
+    Start 1: unit
+1/7 Test #1: unit .............................   Passed    0.04 sec
+    Start 2: windows_data
+2/7 Test #2: windows_data .....................   Passed    0.11 sec
+    Start 3: devices
+3/7 Test #3: devices ..........................***Failed    0.61 sec
+FAIL /mnt/data/work/original/tests/test_devices.c:49: c.added==2 && c.removed==1
+FAIL /mnt/data/work/original/tests/test_devices.c:49: c.first_id!=c.last_id
+device fixtures: 109 checks, 2 failures
+
+    Start 4: windows_schema
+4/7 Test #4: windows_schema ...................   Passed    0.00 sec
+    Start 5: documentation
+5/7 Test #5: documentation ....................***Failed    0.88 sec
+embed_docs: [Errno 2] No such file or directory: '/mnt/data/work/original/docs/metrics/mcu.chip_id.md'
+
+    Start 6: integration
+6/7 Test #6: integration ......................***Failed    0.92 sec
+Traceback (most recent call last):
+  File "/mnt/data/work/original/tests/integration.py", line 27, in <module>
+    assert len(r) == 2 and all(x['status'] == 'OK' for x in r)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+    Start 7: tui_pty
+7/7 Test #7: tui_pty ..........................   Passed    3.31 sec
+
+57% tests passed, 3 tests failed out of 7
+
+Total Test time (real) =   5.87 sec
+
+The following tests FAILED:
+	  3 - devices (Failed)
+	  5 - documentation (Failed)
+	  6 - integration (Failed)
+Errors while running CTest

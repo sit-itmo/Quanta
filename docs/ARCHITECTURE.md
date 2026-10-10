@@ -1,90 +1,117 @@
-# Архитектура реализации 0.1
+# Архитектура Quanta 0.3.0
 
-## Путь данных
+Основание: неизменённый [Quanta_Design.md](Quanta_Design.md) и предоставленная схема.
+Этот документ описывает фактическое устройство baseline, а не подменяет целевой дизайн.
 
-CLI → parser → validated inv_plan → registry/provider discovery → acquisition
-channels → scheduler/group refresh → getter → inv_sample → rate/delta bindings
-→ один inv_sink → file или C-модель представления → TUI/ImGui.
+## Границы модулей и сборочные targets
 
-`inv_metric_desc` — const-описатель семейства. `inv_instance` — ресурс с метками,
-provider locator и локальным состоянием. `inv_series` — выходная серия конкретного
-выбора и вида. У неё есть собственный id и source_id. Две карточки одной метрики
-имеют разные output id, но одинаковый source_id и одно физическое чтение.
+| Target / слой | Ответственность | Зависит от |
+|---|---|---|
+| `quanta_core` STATIC, C11 | catalog, query, lifecycle, discovery, scheduler, values, numeric history, live queue | стандартная C library, OSAL; на Linux threads/libm |
+| `quanta_sensors` STATIC, C11 | builtin registry, providers, metric docs, native snapshots | `quanta_core`; выбранные HAL/native OS libraries |
+| `quanta_output` STATIC, C11 | форматы, presentation helpers, file sink | `quanta_core` |
+| `quanta_tui` STATIC, C11 | терминал и управление представлением | `quanta_output` |
+| `quanta_gui` STATIC, C++ adapter | ImGui, software raster, native window | `quanta_output`, optional ImGui, XCB или Win32 |
+| четыре CLI executables | аргументы, композиция каталога, engine и frontend | sensors, output, выбранные TUI/GUI |
 
-Реестр создаётся из `metrics/selected.def` и групповых `.def` через X-macro.
-Указатели на getter и provider разрешаются статически; загрузчиков `.so` нет.
-Названия источников в `dependencies` — информация для инспекции, **не**
-универсальный исполняемый граф зависимостей. Вычислительный слой v0.1 поддерживает
-только встроенные семантические getter-ы и одноуровневые rate/delta.
+OSAL имеет отдельные исходники, но входит в target core: это не отдельная библиотека ради
+одного слоя папок. Аналогично HAL компилируется в sensors. Циклических CMake-зависимостей нет.
+`query/src/query.c` физически выделен, но остаётся частью ядра.
 
-## Периоды и снимки
+## Core по файлам
 
-Период канала — самый быстрый допустимый из его потребителей. На каждом тике
-провайдер обновляет группу исходных данных один раз, затем getter-ы извлекают
-поля. `/proc/meminfo`, `/proc/stat`, `/proc/net/dev` читаются группами.
-Отдельные hwmon/sysfs-атрибуты имеют собственные чтения. Единого атомарного
-снимка всех подсистем нет. Время и длительность получения передаются с sample.
+| Файл | Содержание |
+|---|---|
+| `core/src/registry.c` | валидация immutable catalog, lookup, default/explicit provider selection |
+| `core/src/provider.c` | generic provider helpers, discovery singleton |
+| `core/src/engine.c` | создание, владение планом/paths, cleanup, управление, explain |
+| `core/src/discovery.c` | экземпляры, labels, channels, bindings, появление/исчезновение |
+| `core/src/scheduler.c` | due-time, batch refresh, sample emission, разные интервалы представлений |
+| `core/src/value.c` | проверка typed values, numeric conversion, units, rate/delta |
+| `core/src/history.c` | last/last-good и ограниченные numeric ring buffers |
+| `core/src/live.c` | worker и очередь событий для интерактивного frontend |
+| `core/src/text.c`, `status.c` | bounded strings/identity и имена статусов/типов |
+| `query/src/query.c` | синтаксис и semantic validation запросов |
 
-Планирование — CLOCK_MONOTONIC, для CSV также фиксируется realtime. Переполнения
-счётчика не угадываются: уменьшение/смена эпохи/невалидное время → WARMUP,
-новая база. Разность u64 вычисляется до преобразования в double.
+`core/include/quanta/` — устанавливаемый API. `core/private/` — внутреннее состояние,
+не устанавливается. Публичные заголовки не включают WinAPI, pthread, HAL или UI.
 
-ONCE-свойства кешируются до refresh или пересоздания экземпляра; ON_EVENT
-перечитывается в окне перечисления примерно 5 секунд. Это периодическое
-переобнаружение, **не** netlink/udev подписка. `r` ускоряет перечисление, но не
-нарушает минимальный интервал датчика. Новое устройство → новая серия/поколение,
-история не склеивается. Неудачное частичное перечисление не считается доказанным
-исчезновением всех неувиденных устройств.
+## Сущности и поток данных
 
-Ошибка опроса и последний успешный sample хранятся отдельно. Повторная отрисовка
-не добавляет точку истории. График хранит реальные временные отметки, разрывает
-линию при ошибке/длительном разрыве. Ошибка не подменяется нулём.
+`quanta_metric_desc` содержит имя, описание, doc_path, type, unit, refresh policy,
+минимальный/рекомендуемый период, labels, flags и provider. `quanta_provider_desc` задаёт
+`open → discover → refresh → close`; read-функция дескриптора извлекает поле из batch snapshot.
 
-## Потоки, владение и завершение
+`quanta_instance` — обнаруженный экземпляр с entity_key и labels. `quanta_channel` — единственный
+канал получения конкретного descriptor/entity. `quanta_series`/binding — отдельное представление
+канала, например raw-value и plot или rate. Эти сущности намеренно не отождествлены.
 
-FILE исполняет engine синхронно. Live-режимы запускают один C-поток сбора (pthread на Linux, _beginthreadex на Windows),
-который отправляет **копии** событий в ограниченную очередь 256 элементов.
-UI-thread применяет события к C-модели, затем рисует. Вызовов ImGui из collector
-thread нет. При заполнении очереди действует обратное давление, а не скрытая
-потеря измерений. Пауза замораживает копию модели, не коллектор.
+Два `select` одной метрики разделяют acquisition channel. Все due channels одного provider
+используют один `refresh` на проход scheduler. Rate-baseline находится у binding: медленный
+вывод не использует чужую, более частую разность счётчика. Другие независимые engine не разделяют
+кеш: межклиентский глобальный scheduler остаётся TODO.
 
-Значения содержат bounded-owned storage, не висячие `const char *`: строка до
-511 байт UTF-8 плюс NUL, bytes до 256 байт. Описатели реестра живут весь процесс.
-Метаданные и sample передаются callback-у как заимствованные на время вызова;
-сохраняющий потребитель копирует их. `inv_sink` содержит struct_size/api_version
-и callbacks со статусом. Core однопоточен, кроме защищённых stop/refresh.
+`quanta_sample` несёт значение, статус, quality, sequence и времена. Значение без успешного
+статуса не становится успешным нулём. CPU/rate сначала выдают `WARMUP`; counter reset не превращается
+в огромное положительное значение. Frontend получает только sink events и metadata, не вызывает HAL.
 
-Остановка кооперативная. Произвольное зависшее системное чтение невозможно
-универсально безопасно убить внутри C-потока. Hard timeout, helper-процессы и
-watchdog для недоверенных драйверов в этой версии отсутствуют.
+## Provider selection
 
-## Лимиты
+Каталог — пользовательский immutable view `quanta_catalog`, а не встроенный глобальный registry.
+Несколько descriptors могут иметь одно имя, если совместимы по типу/единицам/kind/labels/версии
+семантики и различаются provider. Default — первый descriptor соответствующего ключа.
+Явный выбор: `provider("id", metric{labels})`. **Автоматического переключения при ошибке пока нет.**
 
-128 select, 4096 acquisition channels, 2048 output series, 6 labels/instance,
-путь/identity 1024 байта; история не более 8192 точек/график и 64 MiB суммарно.
-При нехватке памяти возвращается NO_MEMORY; превышение общих лимитов — LIMIT.
-История при ограничении ёмкости сохраняет более короткое окно и выдаёт диагностику.
-GUI-поверхность ограничена 4096×4096. Размер исходного снимка ограничен отдельно
-в провайдере (например, CPU/net — до 1 MiB). Это защитные пределы, а не silent truncate.
+`quanta_engine_create_with_catalog()` и `quanta_plan_validate_with_catalog()` не требуют sensors.
+Convenience API `quanta_engine_create()`, `quanta_registry()` и builtin catalog объявлены
+в `sensors/include/quanta/sensors.h` и реализованы в sensors. Тест `test_catalog.c` показывает
+полный mock provider и связывается только с `quanta_core`.
 
-## Переносимость
+## HAL и OSAL
 
-Открытые заголовки — C99 без XCB/pthread/ImGui типов. В 0.1 `internal.h`, scheduler
-control и live queue использовали POSIX pthread напрямую; в 0.2 это вынесено в platform/thread. Для нового порта
-потребуется не только новый collector, но и перенос platform/worker/control,
-сборочных условий и выбранного frontend. В 0.2 добавлен исходный Windows-порт.
-BSD/macOS-портов нет. Нативные Windows-сборки в среде подготовки не проверены.
+HAL принимает `quanta_hal_context`: borrowed `quanta_paths` и необязательный error-buffer с capacity.
+Он не получает `quanta_read_ctx`, query, catalog или frontend object. Providers адаптируют
+контекст и преобразуют `quanta_cpu_snapshot`, `quanta_memory_snapshot`, `quanta_network_snapshot`
+и другие типизированные данные в метрики. Сырые native структуры не протекают в публичный API core.
 
-## Windows-порт 0.2
+HAL здесь — слой acquisition из native API/procfs/sysfs, не обещание доступа ко всем регистрам
+процессора. OSAL — время, файлы, сигналы остановки, потоки/locks/conditions, affinity.
+Общий allocator abstraction и внешние драйверы пока не реализованы.
 
-В `src/platform/thread.h` находится закрытая абстракция mutex/condition/thread.
-Engine и live queue больше не вызывают pthread напрямую. Публичный API не содержит
-типов ОС. На Windows используются CRITICAL_SECTION/CONDITION_VARIABLE/_beginthreadex,
-QPC и Unicode-файлы/аргументы. Реестры `metrics/*.def` и `metrics/windows/*.def`
-выбираются через `INV_OS_LINUX`/`INV_OS_WINDOWS`; namespaces и неидентичные единицы
-не склеиваются автоматически. Нумерация провайдеров остаётся общей (0..8).
+## Владение и concurrency
 
-TUI view отделена от terminal_posix/terminal_windows. GUI использует window.h:
-xcb_platform.c или win32_platform.c; raster.c и семантический GUI view общие.
-Windows провайдеры лежат в `src/providers/windows`, чистые тестируемые парсеры —
-в `src/providers/common`. Правила владения snapshot/queue не изменены.
+Engine копирует plan и строки paths. Catalog view, массив указателей, descriptors/provider descriptors
+и их строки должны жить дольше engine и сохранённых моделей. Это не deep-copy всего каталога.
+Аргументы sink callback заимствуются на время вызова; копия series сохраняет borrowed metric pointer.
+
+Один engine запускается один раз. `stop`/`refresh` можно вызывать параллельно с `run`;
+другие операции сериализует владелец. Нельзя destroy/run рекурсивно из callback.
+Ошибки callback завершают сбор. После попытки open cleanup вызывается также для partial allocation;
+close обязан переносить NULL/частичное состояние. Неоткрытые providers не закрываются.
+
+Live worker заимствует engine и plan до join. Очередь bounded, 256 событий, с backpressure;
+она не теряет события при обычном pump. `finish(stop=0)` разрешён только после `done()`.
+`finish(stop=1)` будит очередь, отменяет и join-ит worker; невостребованные события при отмене
+могут быть отброшены. После ошибки pump нужен `finish(stop=1)`.
+
+## History и ограничения
+
+History — часть модели ядра, которую может подключить любой sink/frontend. Выделяется для plot,
+а не каждого датчика: максимум 8192 numeric points на серию, общий бюджет history allocations
+64 MiB на модель. Сам массив items/engine/очередь в этот budget не входят. Есть pruning по времени,
+сохранение last-good, deep clone и безопасный resize с откатом при нехватке памяти.
+
+Это **не** универсальный time-series store: string/bytes history, disk persistence и replay отсутствуют.
+Диапазон `history` ограничен 24 часами; selectors — 128; providers — 32; series — 2048;
+channels — 4096; query text — 65536 bytes. Изменение ABI capacity macros должно быть одинаковым
+для библиотеки и её потребителей; нельзя менять их только в одном translation unit.
+
+## Отличия от полного дизайна
+
+`value` расширен unsigned integer и bool относительно примера дизайна. Строка — bounded
+NUL-terminated array, а не length+array; bytes имеют length. Status/quality находятся в sample,
+а не внутри value. Эти решения фиксируются как различия ABI, не выдаются за буквальное совпадение.
+
+ON_EVENT присутствует как policy, но полноценного event subscription backend нет. EXPENSIVE/SENSITIVE
+и quality metadata есть, но cost-budget planner ещё не реализован. Saved blob/File/Pipe sources,
+UART/JTAG и автоматический fallback — отдельные пункты [TODO](TODO.md).

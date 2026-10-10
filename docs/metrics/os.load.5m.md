@@ -6,7 +6,7 @@ Load average (5 minutes) — semantic version 1.
 
 - Type: `f64`; kind: `gauge`.
 - Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `(none)`.
 - Source: uname(), sysconf(), /etc/os-release, /proc/uptime and /proc/loadavg.
 

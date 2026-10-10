@@ -8,7 +8,7 @@ Root filesystem allocated space — semantic version 1.
 
 - Type: `u64`; kind: `gauge`.
 - Canonical unit: `B`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `(none)`.
 - Source: statvfs("/") in the current mount namespace.
 
@@ -37,7 +37,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://pubs.opengroup.org/onlinepubs/9799919799/functions/statvfs.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Под root в Windows понимается том установки Windows, найденный GetWindowsDirectoryW,
 а не текущий рабочий каталог и не все диски. GetDiskFreeSpaceExW возвращает квотное представление

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Verify the executable itself, not merely the type of internal libraries.
 set -eu
-binary=${1:-build/inv}
+binary=${1:-build/static/bin/quanta}
 command -v readelf >/dev/null 2>&1 || { echo 'readelf (binutils) is required' >&2; exit 1; }
 [ -f "$binary" ] || { echo "Not found: $binary" >&2; exit 1; }
 headers=$(LC_ALL=C readelf -l "$binary")

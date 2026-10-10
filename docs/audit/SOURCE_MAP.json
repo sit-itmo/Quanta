@@ -1,0 +1,1627 @@
+{
+  "note": "Paths show refactored destinations, not byte-for-byte identity. Every original non-build file is retained in the nested baseline archive.",
+  "files": {
+    "PATCH-0.2.0-to-0.2.1.diff": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/PATCH-0.2.0-to-0.2.1.diff"
+    },
+    "CMakePresets.json": {
+      "current": [
+        "CMakePresets.json"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CMakePresets.json"
+    },
+    "PATCH-0.2.1-to-0.2.2.diff": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/PATCH-0.2.1-to-0.2.2.diff"
+    },
+    "LICENSE": {
+      "current": [
+        "LICENSE"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/LICENSE"
+    },
+    ".clang-format": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.clang-format"
+    },
+    "CMakeLists.txt": {
+      "current": [
+        "CMakeLists.txt",
+        "core/CMakeLists.txt",
+        "sensors/CMakeLists.txt",
+        "frontends/CMakeLists.txt",
+        "tests/CMakeLists.txt"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CMakeLists.txt"
+    },
+    ".gitignore": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.gitignore"
+    },
+    "THIRD_PARTY.md": {
+      "current": [
+        "THIRD_PARTY.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/THIRD_PARTY.md"
+    },
+    "README-LINUX.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/README-LINUX.md"
+    },
+    "MANIFEST.sha256": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/MANIFEST.sha256"
+    },
+    "CHANGELOG.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CHANGELOG.md"
+    },
+    "TEST_REPORT.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/TEST_REPORT.md"
+    },
+    "README.md": {
+      "current": [
+        "README.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/README.md"
+    },
+    "docs/INVQ.md": {
+      "current": [
+        "docs/QUERY.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/INVQ.md"
+    },
+    "docs/BUILD.md": {
+      "current": [
+        "docs/BUILD.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/BUILD.md"
+    },
+    "docs/EXPORT.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/EXPORT.md"
+    },
+    "docs/WINDOWS.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/WINDOWS.md"
+    },
+    "docs/EXTENDING.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/EXTENDING.md"
+    },
+    "docs/WINDOWS_METRICS.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/WINDOWS_METRICS.md"
+    },
+    "docs/SECURITY.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/SECURITY.md"
+    },
+    "docs/ARCHITECTURE.md": {
+      "current": [
+        "docs/ARCHITECTURE.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/ARCHITECTURE.md"
+    },
+    "resources/inv.rc": {
+      "current": [
+        "resources/quanta.rc"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/resources/inv.rc"
+    },
+    "resources/inv.manifest": {
+      "current": [
+        "resources/quanta.manifest"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/resources/inv.manifest"
+    },
+    "cmake/inv_config.h.in": {
+      "current": [
+        "cmake/quanta_config.h.in"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/inv_config.h.in"
+    },
+    "cmake/ImGui.cmake": {
+      "current": [
+        "cmake/ImGui.cmake"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/ImGui.cmake"
+    },
+    "tests/test_devices.c": {
+      "current": [
+        "tests/test_devices.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_devices.c"
+    },
+    "tests/windows_integration.py": {
+      "current": [
+        "tests/windows_integration.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_integration.py"
+    },
+    "tests/tui_pty.py": {
+      "current": [
+        "tests/tui_pty.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/tui_pty.py"
+    },
+    "tests/integration.py": {
+      "current": [
+        "tests/integration.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/integration.py"
+    },
+    "tests/gui_smoke.py": {
+      "current": [
+        "tests/gui_smoke.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/gui_smoke.py"
+    },
+    "tests/examples.py": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/examples.py"
+    },
+    "tests/test_windows_data.c": {
+      "current": [
+        "tests/test_windows_data.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows_data.c"
+    },
+    "tests/test_windows.c": {
+      "current": [
+        "tests/test_windows.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows.c"
+    },
+    "tests/windows_schema_stubs.c": {
+      "current": [
+        "tests/windows_schema_stubs.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_schema_stubs.c"
+    },
+    "tests/test_windows_schema.c": {
+      "current": [
+        "tests/test_windows_schema.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows_schema.c"
+    },
+    "tests/x11_smoke.py": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/x11_smoke.py"
+    },
+    "tests/test_core.c": {
+      "current": [
+        "tests/test_core.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_core.c"
+    },
+    "tests/xcb_smoke.c": {
+      "current": [
+        "tests/xcb_smoke.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/xcb_smoke.c"
+    },
+    "tests/windows_gui.py": {
+      "current": [
+        "tests/windows_gui.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_gui.py"
+    },
+    "metrics/filesystem.def": {
+      "current": [
+        "metrics/filesystem.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/filesystem.def"
+    },
+    "metrics/process.def": {
+      "current": [
+        "metrics/process.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/process.def"
+    },
+    "metrics/os.def": {
+      "current": [
+        "metrics/os.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/os.def"
+    },
+    "metrics/cpu.def": {
+      "current": [
+        "metrics/cpu.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/cpu.def"
+    },
+    "metrics/selected.def": {
+      "current": [
+        "metrics/selected.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/selected.def"
+    },
+    "metrics/mcu.def": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/mcu.def"
+    },
+    "metrics/dmi.def": {
+      "current": [
+        "metrics/dmi.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/dmi.def"
+    },
+    "metrics/hwmon.def": {
+      "current": [
+        "metrics/hwmon.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/hwmon.def"
+    },
+    "metrics/catalog.json": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/catalog.json"
+    },
+    "metrics/network.def": {
+      "current": [
+        "metrics/network.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/network.def"
+    },
+    "metrics/cpuid.def": {
+      "current": [
+        "metrics/cpuid.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/cpuid.def"
+    },
+    "metrics/memory.def": {
+      "current": [
+        "metrics/memory.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/memory.def"
+    },
+    "examples-output/windows-schema-validation.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/examples-output/windows-schema-validation.txt"
+    },
+    "examples-output/README.md": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/examples-output/README.md"
+    },
+    "test-logs/windows-schema-on-linux.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-schema-on-linux.txt"
+    },
+    "test-logs/linux-static.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-static.txt"
+    },
+    "test-logs/pe-reader-fixture.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/pe-reader-fixture.txt"
+    },
+    "test-logs/windows-data-on-linux.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-data-on-linux.txt"
+    },
+    "test-logs/linux-small-build.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-build.txt"
+    },
+    "test-logs/linux-0.2.1-hotfix-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-ctest.txt"
+    },
+    "test-logs/linux-0.2.1-hotfix-config.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-config.txt"
+    },
+    "test-logs/linux-gcc-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-gcc-ctest.txt"
+    },
+    "test-logs/imgui-dependency-unavailable.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/imgui-dependency-unavailable.txt"
+    },
+    "test-logs/windows-0.2.2-schema-on-linux.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-0.2.2-schema-on-linux.txt"
+    },
+    "test-logs/linux-asan-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-ctest.txt"
+    },
+    "test-logs/linux-small-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-ctest.txt"
+    },
+    "test-logs/linux-gcc-build.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-gcc-build.txt"
+    },
+    "test-logs/linux-0.2.2-examples.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-examples.txt"
+    },
+    "test-logs/linux-asan-config.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-config.txt"
+    },
+    "test-logs/linux-examples.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-examples.txt"
+    },
+    "test-logs/linux-xcb.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-xcb.txt"
+    },
+    "test-logs/linux-0.2.1-hotfix-build.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-build.txt"
+    },
+    "test-logs/linux-0.2.2-gcc-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-gcc-ctest.txt"
+    },
+    "test-logs/linux-0.2.2-clang-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-clang-ctest.txt"
+    },
+    "test-logs/linux-small-config.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-config.txt"
+    },
+    "test-logs/windows-toolchain-unavailable.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-toolchain-unavailable.txt"
+    },
+    "test-logs/linux-asan-build.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-build.txt"
+    },
+    "test-logs/archive-roundtrip-ctest.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/archive-roundtrip-ctest.txt"
+    },
+    "test-logs/linux-0.2.2-static.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-static.txt"
+    },
+    "queries/11-gui-table.invq": {
+      "current": [
+        "examples/queries/11-gui-table.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/11-gui-table.invq"
+    },
+    "queries/10-filter-labels.invq": {
+      "current": [
+        "examples/queries/10-filter-labels.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/10-filter-labels.invq"
+    },
+    "queries/03-dashboard-tui.invq": {
+      "current": [
+        "examples/queries/03-dashboard-tui.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/03-dashboard-tui.invq"
+    },
+    "queries/08-core-cpu.invq": {
+      "current": [
+        "examples/queries/08-core-cpu.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/08-core-cpu.invq"
+    },
+    "queries/01-inventory.invq": {
+      "current": [
+        "examples/queries/01-inventory.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/01-inventory.invq"
+    },
+    "queries/02-memory.invq": {
+      "current": [
+        "examples/queries/02-memory.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/02-memory.invq"
+    },
+    "queries/05-record-csv.invq": {
+      "current": [
+        "examples/queries/05-record-csv.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/05-record-csv.invq"
+    },
+    "queries/09-report-markdown.invq": {
+      "current": [
+        "examples/queries/09-report-markdown.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/09-report-markdown.invq"
+    },
+    "queries/07-network-tui.invq": {
+      "current": [
+        "examples/queries/07-network-tui.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/07-network-tui.invq"
+    },
+    "queries/06-sensors.invq": {
+      "current": [
+        "examples/queries/06-sensors.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/06-sensors.invq"
+    },
+    "queries/04-dashboard-gui.invq": {
+      "current": [
+        "examples/queries/04-dashboard-gui.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/04-dashboard-gui.invq"
+    },
+    "tools/build.sh": {
+      "current": [
+        "tools/build.sh"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build.sh"
+    },
+    "tools/embed_docs.py": {
+      "current": [
+        "tools/embed_docs.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/embed_docs.py"
+    },
+    "tools/build_windows.ps1": {
+      "current": [
+        "tools/build_windows.ps1"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build_windows.ps1"
+    },
+    "tools/fetch_imgui.py": {
+      "current": [
+        "tools/fetch_imgui.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/fetch_imgui.py"
+    },
+    "tools/verify_windows_imports.py": {
+      "current": [
+        "tools/verify_windows_imports.py"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/verify_windows_imports.py"
+    },
+    "tools/test_xcb.sh": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/test_xcb.sh"
+    },
+    "tools/verify_static.sh": {
+      "current": [
+        "tools/verify_static.sh"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/verify_static.sh"
+    },
+    "tools/build_windows.cmd": {
+      "current": [
+        "tools/build_windows.cmd"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build_windows.cmd"
+    },
+    "vendor/imgui/README.md": {
+      "current": [
+        "vendor/imgui/README.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/vendor/imgui/README.md"
+    },
+    "queries/windows/03-dashboard-tui.invq": {
+      "current": [
+        "examples/queries/windows/03-dashboard-tui.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/03-dashboard-tui.invq"
+    },
+    "queries/windows/08-cpu-cores.invq": {
+      "current": [
+        "examples/queries/windows/08-cpu-cores.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/08-cpu-cores.invq"
+    },
+    "queries/windows/12-gui-table.invq": {
+      "current": [
+        "examples/queries/windows/12-gui-table.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/12-gui-table.invq"
+    },
+    "queries/windows/01-inventory.invq": {
+      "current": [
+        "examples/queries/windows/01-inventory.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/01-inventory.invq"
+    },
+    "queries/windows/02-memory.invq": {
+      "current": [
+        "examples/queries/windows/02-memory.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/02-memory.invq"
+    },
+    "queries/windows/05-record-csv.invq": {
+      "current": [
+        "examples/queries/windows/05-record-csv.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/05-record-csv.invq"
+    },
+    "queries/windows/09-report-markdown.invq": {
+      "current": [
+        "examples/queries/windows/09-report-markdown.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/09-report-markdown.invq"
+    },
+    "queries/windows/06-thermal-zones.invq": {
+      "current": [
+        "examples/queries/windows/06-thermal-zones.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/06-thermal-zones.invq"
+    },
+    "queries/windows/07-network-tui.invq": {
+      "current": [
+        "examples/queries/windows/07-network-tui.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/07-network-tui.invq"
+    },
+    "queries/windows/13-filter-labels.invq": {
+      "current": [
+        "examples/queries/windows/13-filter-labels.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/13-filter-labels.invq"
+    },
+    "queries/windows/10-dimm-inventory.invq": {
+      "current": [
+        "examples/queries/windows/10-dimm-inventory.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/10-dimm-inventory.invq"
+    },
+    "queries/windows/04-dashboard-gui.invq": {
+      "current": [
+        "examples/queries/windows/04-dashboard-gui.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/04-dashboard-gui.invq"
+    },
+    "queries/windows/11-process.invq": {
+      "current": [
+        "examples/queries/windows/11-process.q"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/11-process.invq"
+    },
+    "include/inv/inv.h": {
+      "current": [
+        "core/include/quanta/quanta.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/include/inv/inv.h"
+    },
+    "include/inv/view.h": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/include/inv/view.h"
+    },
+    ".github/workflows/windows.yml": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.github/workflows/windows.yml"
+    },
+    ".github/workflows/linux.yml": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.github/workflows/linux.yml"
+    },
+    "metrics/windows/filesystem.def": {
+      "current": [
+        "metrics/windows/filesystem.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/filesystem.def"
+    },
+    "metrics/windows/process.def": {
+      "current": [
+        "metrics/windows/process.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/process.def"
+    },
+    "metrics/windows/os.def": {
+      "current": [
+        "metrics/windows/os.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/os.def"
+    },
+    "metrics/windows/cpu.def": {
+      "current": [
+        "metrics/windows/cpu.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/cpu.def"
+    },
+    "metrics/windows/selected.def": {
+      "current": [
+        "metrics/windows/selected.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/selected.def"
+    },
+    "metrics/windows/dmi.def": {
+      "current": [
+        "metrics/windows/dmi.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/dmi.def"
+    },
+    "metrics/windows/hwmon.def": {
+      "current": [
+        "metrics/windows/hwmon.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/hwmon.def"
+    },
+    "metrics/windows/catalog.json": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/catalog.json"
+    },
+    "metrics/windows/network.def": {
+      "current": [
+        "metrics/windows/network.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/network.def"
+    },
+    "metrics/windows/cpuid.def": {
+      "current": [
+        "metrics/windows/cpuid.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/cpuid.def"
+    },
+    "metrics/windows/memory.def": {
+      "current": [
+        "metrics/windows/memory.def"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/memory.def"
+    },
+    "cmake/toolchains/mingw64.cmake": {
+      "current": [
+        "cmake/toolchains/mingw64.cmake"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/toolchains/mingw64.cmake"
+    },
+    "docs/metrics/system.serial.md": {
+      "current": [
+        "docs/metrics/system.serial.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.serial.md"
+    },
+    "docs/metrics/board.vendor.md": {
+      "current": [
+        "docs/metrics/board.vendor.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.vendor.md"
+    },
+    "docs/metrics/windows.handle.count.md": {
+      "current": [
+        "docs/metrics/windows.handle.count.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.handle.count.md"
+    },
+    "docs/metrics/device.net.rx_link_bps.md": {
+      "current": [
+        "docs/metrics/device.net.rx_link_bps.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_link_bps.md"
+    },
+    "docs/metrics/INDEX.md": {
+      "current": [
+        "docs/metrics/INDEX.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/INDEX.md"
+    },
+    "docs/metrics/system.vendor.md": {
+      "current": [
+        "docs/metrics/system.vendor.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.vendor.md"
+    },
+    "docs/metrics/cpu.core.time_total.md": {
+      "current": [
+        "docs/metrics/cpu.core.time_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.time_total.md"
+    },
+    "docs/metrics/os.memory.available_bytes.md": {
+      "current": [
+        "docs/metrics/os.memory.available_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.available_bytes.md"
+    },
+    "docs/metrics/windows.cpu.tick_frequency_hz.md": {
+      "current": [
+        "docs/metrics/windows.cpu.tick_frequency_hz.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.cpu.tick_frequency_hz.md"
+    },
+    "docs/metrics/process.self.io.read_bytes_total.md": {
+      "current": [
+        "docs/metrics/process.self.io.read_bytes_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.io.read_bytes_total.md"
+    },
+    "docs/metrics/bios.version.md": {
+      "current": [
+        "docs/metrics/bios.version.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.version.md"
+    },
+    "docs/metrics/process.self.io.write_bytes_total.md": {
+      "current": [
+        "docs/metrics/process.self.io.write_bytes_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.io.write_bytes_total.md"
+    },
+    "docs/metrics/device.memory.vendor.md": {
+      "current": [
+        "docs/metrics/device.memory.vendor.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.vendor.md"
+    },
+    "docs/metrics/os.swap.used_bytes.md": {
+      "current": [
+        "docs/metrics/os.swap.used_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.swap.used_bytes.md"
+    },
+    "docs/metrics/fs.root.total_bytes.md": {
+      "current": [
+        "docs/metrics/fs.root.total_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.total_bytes.md"
+    },
+    "docs/metrics/device.net.tx_errors_total.md": {
+      "current": [
+        "docs/metrics/device.net.tx_errors_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_errors_total.md"
+    },
+    "docs/metrics/device.net.rx_packets_total.md": {
+      "current": [
+        "docs/metrics/device.net.rx_packets_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_packets_total.md"
+    },
+    "docs/metrics/system.model.md": {
+      "current": [
+        "docs/metrics/system.model.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.model.md"
+    },
+    "docs/metrics/process.self.private_bytes.md": {
+      "current": [
+        "docs/metrics/process.self.private_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.private_bytes.md"
+    },
+    "docs/metrics/cpu.avx.md": {
+      "current": [
+        "docs/metrics/cpu.avx.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.avx.md"
+    },
+    "docs/metrics/cpu.sse2.md": {
+      "current": [
+        "docs/metrics/cpu.sse2.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.sse2.md"
+    },
+    "docs/metrics/cpu.core.utilization.md": {
+      "current": [
+        "docs/metrics/cpu.core.utilization.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.utilization.md"
+    },
+    "docs/metrics/windows.memory.commit.used_bytes.md": {
+      "current": [
+        "docs/metrics/windows.memory.commit.used_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.used_bytes.md"
+    },
+    "docs/metrics/process.self.rss_bytes.md": {
+      "current": [
+        "docs/metrics/process.self.rss_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.rss_bytes.md"
+    },
+    "docs/metrics/system.uuid.md": {
+      "current": [
+        "docs/metrics/system.uuid.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.uuid.md"
+    },
+    "docs/metrics/windows.memory.commit.peak_bytes.md": {
+      "current": [
+        "docs/metrics/windows.memory.commit.peak_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.peak_bytes.md"
+    },
+    "docs/metrics/device.net.mac.md": {
+      "current": [
+        "docs/metrics/device.net.mac.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.mac.md"
+    },
+    "docs/metrics/device.memory.speed_mt_s.md": {
+      "current": [
+        "docs/metrics/device.memory.speed_mt_s.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.speed_mt_s.md"
+    },
+    "docs/metrics/sensor.fan_rpm.md": {
+      "current": [
+        "docs/metrics/sensor.fan_rpm.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/sensor.fan_rpm.md"
+    },
+    "docs/metrics/device.memory.part_number.md": {
+      "current": [
+        "docs/metrics/device.memory.part_number.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.part_number.md"
+    },
+    "docs/metrics/os.cpu.online.md": {
+      "current": [
+        "docs/metrics/os.cpu.online.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.cpu.online.md"
+    },
+    "docs/metrics/sensor.temperature.md": {
+      "current": [
+        "docs/metrics/sensor.temperature.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/sensor.temperature.md"
+    },
+    "docs/metrics/board.model.md": {
+      "current": [
+        "docs/metrics/board.model.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.model.md"
+    },
+    "docs/metrics/process.self.pid.md": {
+      "current": [
+        "docs/metrics/process.self.pid.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.pid.md"
+    },
+    "docs/metrics/cpu.vendor.md": {
+      "current": [
+        "docs/metrics/cpu.vendor.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.vendor.md"
+    },
+    "docs/metrics/device.net.rx_bytes_total.md": {
+      "current": [
+        "docs/metrics/device.net.rx_bytes_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_bytes_total.md"
+    },
+    "docs/metrics/device.memory.serial.md": {
+      "current": [
+        "docs/metrics/device.memory.serial.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.serial.md"
+    },
+    "docs/metrics/os.name.md": {
+      "current": [
+        "docs/metrics/os.name.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.name.md"
+    },
+    "docs/metrics/bios.date.md": {
+      "current": [
+        "docs/metrics/bios.date.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.date.md"
+    },
+    "docs/metrics/device.net.tx_bytes_total.md": {
+      "current": [
+        "docs/metrics/device.net.tx_bytes_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_bytes_total.md"
+    },
+    "docs/metrics/windows.memory.cache_bytes.md": {
+      "current": [
+        "docs/metrics/windows.memory.cache_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.cache_bytes.md"
+    },
+    "docs/metrics/device.net.tx_link_bps.md": {
+      "current": [
+        "docs/metrics/device.net.tx_link_bps.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_link_bps.md"
+    },
+    "docs/metrics/windows.memory.kernel_nonpaged_bytes.md": {
+      "current": [
+        "docs/metrics/windows.memory.kernel_nonpaged_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.kernel_nonpaged_bytes.md"
+    },
+    "docs/metrics/os.hostname.md": {
+      "current": [
+        "docs/metrics/os.hostname.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.hostname.md"
+    },
+    "docs/metrics/cpu.vmx.md": {
+      "current": [
+        "docs/metrics/cpu.vmx.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.vmx.md"
+    },
+    "docs/metrics/device.net.tx_packets_total.md": {
+      "current": [
+        "docs/metrics/device.net.tx_packets_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_packets_total.md"
+    },
+    "docs/metrics/os.arch.md": {
+      "current": [
+        "docs/metrics/os.arch.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.arch.md"
+    },
+    "docs/metrics/device.net.rx_errors_total.md": {
+      "current": [
+        "docs/metrics/device.net.rx_errors_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_errors_total.md"
+    },
+    "docs/metrics/os.memory.used_bytes.md": {
+      "current": [
+        "docs/metrics/os.memory.used_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.used_bytes.md"
+    },
+    "docs/metrics/fs.root.utilization.md": {
+      "current": [
+        "docs/metrics/fs.root.utilization.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.utilization.md"
+    },
+    "docs/metrics/cpu.brand.md": {
+      "current": [
+        "docs/metrics/cpu.brand.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.brand.md"
+    },
+    "docs/metrics/os.uptime.md": {
+      "current": [
+        "docs/metrics/os.uptime.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.uptime.md"
+    },
+    "docs/metrics/os.load.5m.md": {
+      "current": [
+        "docs/metrics/os.load.5m.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.load.5m.md"
+    },
+    "docs/metrics/windows.memory.kernel_paged_bytes.md": {
+      "current": [
+        "docs/metrics/windows.memory.kernel_paged_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.kernel_paged_bytes.md"
+    },
+    "docs/metrics/device.memory.size_bytes.md": {
+      "current": [
+        "docs/metrics/device.memory.size_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.size_bytes.md"
+    },
+    "docs/metrics/os.process.count.md": {
+      "current": [
+        "docs/metrics/os.process.count.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.process.count.md"
+    },
+    "docs/metrics/os.swap.total_bytes.md": {
+      "current": [
+        "docs/metrics/os.swap.total_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.swap.total_bytes.md"
+    },
+    "docs/metrics/cpu.cpuid_reference.md": {
+      "current": [
+        "docs/metrics/cpu.cpuid_reference.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.cpuid_reference.md"
+    },
+    "docs/metrics/process.self.handles.md": {
+      "current": [
+        "docs/metrics/process.self.handles.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.handles.md"
+    },
+    "docs/metrics/os.memory.utilization.md": {
+      "current": [
+        "docs/metrics/os.memory.utilization.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.utilization.md"
+    },
+    "docs/metrics/cpu.utilization.md": {
+      "current": [
+        "docs/metrics/cpu.utilization.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.utilization.md"
+    },
+    "docs/metrics/fs.root.used_bytes.md": {
+      "current": [
+        "docs/metrics/fs.root.used_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.used_bytes.md"
+    },
+    "docs/metrics/os.memory.total_bytes.md": {
+      "current": [
+        "docs/metrics/os.memory.total_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.total_bytes.md"
+    },
+    "docs/metrics/bios.vendor.md": {
+      "current": [
+        "docs/metrics/bios.vendor.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.vendor.md"
+    },
+    "docs/metrics/cpu.hypervisor.md": {
+      "current": [
+        "docs/metrics/cpu.hypervisor.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.hypervisor.md"
+    },
+    "docs/metrics/os.thread.count.md": {
+      "current": [
+        "docs/metrics/os.thread.count.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.thread.count.md"
+    },
+    "docs/metrics/windows.memory.commit.limit_bytes.md": {
+      "current": [
+        "docs/metrics/windows.memory.commit.limit_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.limit_bytes.md"
+    },
+    "docs/metrics/device.net.state.md": {
+      "current": [
+        "docs/metrics/device.net.state.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.state.md"
+    },
+    "docs/metrics/os.kernel.release.md": {
+      "current": [
+        "docs/metrics/os.kernel.release.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.kernel.release.md"
+    },
+    "docs/metrics/cpu.idle_total.md": {
+      "current": [
+        "docs/metrics/cpu.idle_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.idle_total.md"
+    },
+    "docs/metrics/os.load.1m.md": {
+      "current": [
+        "docs/metrics/os.load.1m.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.load.1m.md"
+    },
+    "docs/metrics/cpu.svm.md": {
+      "current": [
+        "docs/metrics/cpu.svm.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.svm.md"
+    },
+    "docs/metrics/os.memory.free_bytes.md": {
+      "current": [
+        "docs/metrics/os.memory.free_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.free_bytes.md"
+    },
+    "docs/metrics/cpu.core.idle_total.md": {
+      "current": [
+        "docs/metrics/cpu.core.idle_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.idle_total.md"
+    },
+    "docs/metrics/cpu.avx2.md": {
+      "current": [
+        "docs/metrics/cpu.avx2.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.avx2.md"
+    },
+    "docs/metrics/os.kernel.version.md": {
+      "current": [
+        "docs/metrics/os.kernel.version.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.kernel.version.md"
+    },
+    "docs/metrics/fs.root.available_bytes.md": {
+      "current": [
+        "docs/metrics/fs.root.available_bytes.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.available_bytes.md"
+    },
+    "docs/metrics/cpu.time_total.md": {
+      "current": [
+        "docs/metrics/cpu.time_total.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.time_total.md"
+    },
+    "docs/metrics/board.serial.md": {
+      "current": [
+        "docs/metrics/board.serial.md"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.serial.md"
+    },
+    "src/providers/hwmon.c": {
+      "current": [
+        "sensors/temperature/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/hwmon.c"
+    },
+    "src/providers/process.c": {
+      "current": [
+        "sensors/process/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/process.c"
+    },
+    "src/providers/cpuid.c": {
+      "current": [
+        "sensors/cpuid/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/cpuid.c"
+    },
+    "src/providers/cpu.c": {
+      "current": [
+        "sensors/cpu/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/cpu.c"
+    },
+    "src/providers/network.c": {
+      "current": [
+        "sensors/network/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/network.c"
+    },
+    "src/providers/memory.c": {
+      "current": [
+        "sensors/memory/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/memory.c"
+    },
+    "src/providers/dmi.c": {
+      "current": [
+        "sensors/board/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/dmi.c"
+    },
+    "src/providers/os.c": {
+      "current": [
+        "sensors/os/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/os.c"
+    },
+    "src/providers/filesystem.c": {
+      "current": [
+        "sensors/filesystem/provider.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/filesystem.c"
+    },
+    "src/providers/mcu.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/mcu.c"
+    },
+    "src/core/engine.c": {
+      "current": [
+        "core/src/engine.c",
+        "core/src/discovery.c",
+        "core/src/scheduler.c",
+        "core/private/engine_internal.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/engine.c"
+    },
+    "src/core/common.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/common.c"
+    },
+    "src/core/docs.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/docs.c"
+    },
+    "src/core/registry.c": {
+      "current": [
+        "core/src/registry.c",
+        "sensors/registry.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/registry.c"
+    },
+    "src/core/internal.h": {
+      "current": [
+        "core/private/core_internal.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/internal.h"
+    },
+    "src/query/query.c": {
+      "current": [
+        "query/src/query.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/query/query.c"
+    },
+    "src/view/live.c": {
+      "current": [
+        "core/src/live.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/view/live.c"
+    },
+    "src/view/model.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/view/model.c"
+    },
+    "src/frontends/imgui/window.h": {
+      "current": [
+        "frontends/gui/window.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/window.h"
+    },
+    "src/frontends/imgui/gui.cpp": {
+      "current": [
+        "frontends/gui/gui.cpp"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/gui.cpp"
+    },
+    "src/frontends/imgui/raster.h": {
+      "current": [
+        "frontends/gui/raster.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/raster.h"
+    },
+    "src/frontends/imgui/raster.c": {
+      "current": [
+        "frontends/gui/raster.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/raster.c"
+    },
+    "src/frontends/imgui/win32_platform.c": {
+      "current": [
+        "frontends/gui/win32_platform.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/win32_platform.c"
+    },
+    "src/frontends/imgui/xcb_platform.c": {
+      "current": [
+        "frontends/gui/xcb_platform.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/xcb_platform.c"
+    },
+    "src/frontends/tui/terminal_posix.c": {
+      "current": [
+        "frontends/tui/terminal_posix.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal_posix.c"
+    },
+    "src/frontends/tui/tui.c": {
+      "current": [
+        "frontends/tui/tui.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/tui.c"
+    },
+    "src/frontends/tui/terminal.h": {
+      "current": [
+        "frontends/tui/terminal.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal.h"
+    },
+    "src/frontends/tui/terminal_windows.c": {
+      "current": [
+        "frontends/tui/terminal_windows.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal_windows.c"
+    },
+    "src/frontends/cli/main.c": {
+      "current": [
+        "frontends/cli/main.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/cli/main.c"
+    },
+    "src/frontends/cli/windows_entry.c": {
+      "current": [
+        "frontends/cli/windows_entry.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/cli/windows_entry.c"
+    },
+    "src/frontends/file/file.c": {
+      "current": [
+        "frontends/common/file.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/file/file.c"
+    },
+    "src/hal/linux/hwmon.c": {
+      "current": [
+        "hal/linux/hwmon.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/hwmon.c"
+    },
+    "src/hal/linux/process.c": {
+      "current": [
+        "hal/linux/process.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/process.c"
+    },
+    "src/hal/linux/cpuid.c": {
+      "current": [
+        "hal/linux/cpuid.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/cpuid.c"
+    },
+    "src/hal/linux/cpu.c": {
+      "current": [
+        "hal/linux/cpu.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/cpu.c"
+    },
+    "src/hal/linux/network.c": {
+      "current": [
+        "hal/linux/network.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/network.c"
+    },
+    "src/hal/linux/memory.c": {
+      "current": [
+        "hal/linux/memory.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/memory.c"
+    },
+    "src/hal/linux/dmi.c": {
+      "current": [
+        "hal/linux/dmi.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/dmi.c"
+    },
+    "src/hal/linux/os.c": {
+      "current": [
+        "hal/linux/os.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/os.c"
+    },
+    "src/hal/linux/filesystem.c": {
+      "current": [
+        "hal/linux/filesystem.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/filesystem.c"
+    },
+    "src/hal/windows/hwmon.c": {
+      "current": [
+        "hal/windows/hwmon.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/hwmon.c"
+    },
+    "src/hal/windows/process.c": {
+      "current": [
+        "hal/windows/process.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/process.c"
+    },
+    "src/hal/windows/cpuid.c": {
+      "current": [
+        "hal/windows/cpuid.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/cpuid.c"
+    },
+    "src/hal/windows/cpu.c": {
+      "current": [
+        "hal/windows/cpu.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/cpu.c"
+    },
+    "src/hal/windows/network.c": {
+      "current": [
+        "hal/windows/network.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/network.c"
+    },
+    "src/hal/windows/memory.c": {
+      "current": [
+        "hal/windows/memory.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/memory.c"
+    },
+    "src/hal/windows/dmi.c": {
+      "current": [
+        "hal/windows/dmi.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/dmi.c"
+    },
+    "src/hal/windows/os.c": {
+      "current": [
+        "hal/windows/os.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/os.c"
+    },
+    "src/hal/windows/pdh_set.c": {
+      "current": [
+        "hal/windows/pdh_set.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/pdh_set.c"
+    },
+    "src/hal/windows/filesystem.c": {
+      "current": [
+        "hal/windows/filesystem.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/filesystem.c"
+    },
+    "src/hal/esp8266/os.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/esp8266/os.c"
+    },
+    "src/hal/esp8266/mcu.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/esp8266/mcu.c"
+    },
+    "src/hal/include/cpu.h": {
+      "current": [
+        "hal/include/cpu.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/cpu.h"
+    },
+    "src/hal/include/process.h": {
+      "current": [
+        "hal/include/process.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/process.h"
+    },
+    "src/hal/include/os.h": {
+      "current": [
+        "hal/include/os.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/os.h"
+    },
+    "src/hal/include/filesystem.h": {
+      "current": [
+        "hal/include/filesystem.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/filesystem.h"
+    },
+    "src/hal/include/network.h": {
+      "current": [
+        "hal/include/network.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/network.h"
+    },
+    "src/hal/include/dmi.h": {
+      "current": [
+        "hal/include/dmi.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/dmi.h"
+    },
+    "src/hal/include/mcu.h": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/mcu.h"
+    },
+    "src/hal/include/hwmon.h": {
+      "current": [
+        "hal/include/hwmon.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/hwmon.h"
+    },
+    "src/hal/include/memory.h": {
+      "current": [
+        "hal/include/memory.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/memory.h"
+    },
+    "src/hal/include/pdh_set.h": {
+      "current": [
+        "hal/include/pdh_set.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/pdh_set.h"
+    },
+    "src/hal/include/hal_cpuid.h": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/hal_cpuid.h"
+    },
+    "src/firmware/esp8266/sdkconfig": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/sdkconfig"
+    },
+    "src/firmware/esp8266/CMakeLists.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/CMakeLists.txt"
+    },
+    "src/firmware/esp8266/sdkconfig.defaults": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/sdkconfig.defaults"
+    },
+    "src/firmware/esp8266/main/app_main.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/main/app_main.c"
+    },
+    "src/firmware/esp8266/main/CMakeLists.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/main/CMakeLists.txt"
+    },
+    "src/firmware/esp8266/components/inv/CMakeLists.txt": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/components/inv/CMakeLists.txt"
+    },
+    "src/firmware/esp8266/components/inv/config/inv_config.h": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/components/inv/config/inv_config.h"
+    },
+    "src/platform/linux/affinity.c": {
+      "current": [
+        "osal/linux/affinity.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/affinity.c"
+    },
+    "src/platform/linux/thread.c": {
+      "current": [
+        "osal/linux/thread.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/thread.c"
+    },
+    "src/platform/linux/linux.c": {
+      "current": [
+        "osal/linux/linux.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/linux.c"
+    },
+    "src/platform/windows/windows.c": {
+      "current": [
+        "osal/windows/windows.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/windows.c"
+    },
+    "src/platform/windows/affinity.c": {
+      "current": [
+        "osal/windows/affinity.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/affinity.c"
+    },
+    "src/platform/windows/thread.c": {
+      "current": [
+        "osal/windows/thread.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/thread.c"
+    },
+    "src/platform/freertos/freertos.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/freertos/freertos.c"
+    },
+    "src/platform/freertos/thread.c": {
+      "current": [],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/freertos/thread.c"
+    },
+    "src/platform/include/affinity.h": {
+      "current": [
+        "osal/private/affinity.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/affinity.h"
+    },
+    "src/platform/include/windows_internal.h": {
+      "current": [
+        "osal/private/windows_internal.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/windows_internal.h"
+    },
+    "src/platform/include/thread.h": {
+      "current": [
+        "osal/private/thread.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/thread.h"
+    },
+    "src/providers/common/smbios.h": {
+      "current": [
+        "hal/common/smbios.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/smbios.h"
+    },
+    "src/providers/common/windows_math.c": {
+      "current": [
+        "hal/common/windows_math.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/windows_math.c"
+    },
+    "src/providers/common/smbios.c": {
+      "current": [
+        "hal/common/smbios.c"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/smbios.c"
+    },
+    "src/providers/common/windows_math.h": {
+      "current": [
+        "hal/common/windows_math.h"
+      ],
+      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/windows_math.h"
+    }
+  }
+}

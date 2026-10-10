@@ -8,7 +8,7 @@ Temperature channel — semantic version 1.
 
 - Type: `f64`; kind: `gauge`.
 - Canonical unit: `degC`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `chip,channel,label,device`.
 - Source: /sys/class/hwmon/hwmon*/tempN_input or fanN_input.
 
@@ -39,7 +39,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://docs.kernel.org/hwmon/sysfs-interface.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Windows-провайдер использует PDH Thermal Zone Information / Temperature только при наличии
 этих счётчиков. Документированная единица Temperature — kelvin; INV возвращает kelvin − 273.15

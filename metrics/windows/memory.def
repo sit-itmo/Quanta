@@ -1,140 +1,140 @@
 /* SPDX-License-Identifier: MIT -- Windows descriptors */
-INV_METRIC(os_memory_total_bytes,
+QUANTA_METRIC(os_memory_total_bytes,
  .key="os.memory.total_bytes", .title="Physical memory",
  .description="Physical memory", .doc_path="docs/metrics/os.memory.total_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="total"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="total"
 )
-INV_METRIC(os_memory_available_bytes,
+QUANTA_METRIC(os_memory_available_bytes,
  .key="os.memory.available_bytes", .title="Available memory estimate",
  .description="Available memory estimate", .doc_path="docs/metrics/os.memory.available_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="available"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="available"
 )
-INV_METRIC(os_memory_used_bytes,
+QUANTA_METRIC(os_memory_used_bytes,
  .key="os.memory.used_bytes", .title="Memory: total minus available",
  .description="Memory: total minus available", .doc_path="docs/metrics/os.memory.used_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="used"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="used"
 )
-INV_METRIC(os_memory_utilization,
+QUANTA_METRIC(os_memory_utilization,
  .key="os.memory.utilization", .title="Memory utilization",
  .description="Memory utilization", .doc_path="docs/metrics/os.memory.utilization.md",
- .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="1", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="utilization"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="utilization"
 )
-INV_METRIC(win_windows_memory_commit_used_bytes,
+QUANTA_METRIC(win_windows_memory_commit_used_bytes,
  .key="windows.memory.commit.used_bytes", .title="System committed memory, not pagefile occupancy",
  .description="System committed memory, not pagefile occupancy", .doc_path="docs/metrics/windows.memory.commit.used_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="commit_used"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="commit_used"
 )
-INV_METRIC(win_windows_memory_commit_limit_bytes,
+QUANTA_METRIC(win_windows_memory_commit_limit_bytes,
  .key="windows.memory.commit.limit_bytes", .title="System commit limit",
  .description="System commit limit", .doc_path="docs/metrics/windows.memory.commit.limit_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="commit_limit"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="commit_limit"
 )
-INV_METRIC(win_windows_memory_commit_peak_bytes,
+QUANTA_METRIC(win_windows_memory_commit_peak_bytes,
  .key="windows.memory.commit.peak_bytes", .title="Peak system commit since boot",
  .description="Peak system commit since boot", .doc_path="docs/metrics/windows.memory.commit.peak_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="commit_peak"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="commit_peak"
 )
-INV_METRIC(win_windows_memory_cache_bytes,
+QUANTA_METRIC(win_windows_memory_cache_bytes,
  .key="windows.memory.cache_bytes", .title="System cache physical pages",
  .description="System cache physical pages", .doc_path="docs/metrics/windows.memory.cache_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="cache"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="cache"
 )
-INV_METRIC(win_windows_memory_kernel_paged_bytes,
+QUANTA_METRIC(win_windows_memory_kernel_paged_bytes,
  .key="windows.memory.kernel_paged_bytes", .title="Paged kernel memory",
  .description="Paged kernel memory", .doc_path="docs/metrics/windows.memory.kernel_paged_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="kernel_paged"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="kernel_paged"
 )
-INV_METRIC(win_windows_memory_kernel_nonpaged_bytes,
+QUANTA_METRIC(win_windows_memory_kernel_nonpaged_bytes,
  .key="windows.memory.kernel_nonpaged_bytes", .title="Nonpaged kernel memory",
  .description="Nonpaged kernel memory", .doc_path="docs/metrics/windows.memory.kernel_nonpaged_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="kernel_nonpaged"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="kernel_nonpaged"
 )
-INV_METRIC(win_os_process_count,
+QUANTA_METRIC(win_os_process_count,
  .key="os.process.count", .title="System process count",
  .description="System process count", .doc_path="docs/metrics/os.process.count.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="process_count"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="process_count"
 )
-INV_METRIC(win_os_thread_count,
+QUANTA_METRIC(win_os_thread_count,
  .key="os.thread.count", .title="System thread count",
  .description="System thread count", .doc_path="docs/metrics/os.thread.count.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="thread_count"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="thread_count"
 )
-INV_METRIC(win_windows_handle_count,
+QUANTA_METRIC(win_windows_handle_count,
  .key="windows.handle.count", .title="System handle count",
  .description="System handle count", .doc_path="docs/metrics/windows.handle.count.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE,
- .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
+ .refresh=QUANTA_REFRESH_POLL,
  .unit="", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&inv_memory_provider, .read=inv_memory_read, .arg="handle_count"
+ .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="handle_count"
 )

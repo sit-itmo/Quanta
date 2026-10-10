@@ -1,61 +1,61 @@
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
-INV_METRIC(board_vendor,
+QUANTA_METRIC(board_vendor,
  .key="board.vendor", .title="Board manufacturer",
  .description="Board manufacturer", .doc_path="docs/metrics/board.vendor.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="board_vendor"
+ .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_vendor"
 )
-INV_METRIC(board_model,
+QUANTA_METRIC(board_model,
  .key="board.model", .title="Board model",
  .description="Board model", .doc_path="docs/metrics/board.model.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="board_name"
+ .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_name"
 )
-INV_METRIC(board_serial,
+QUANTA_METRIC(board_serial,
  .key="board.serial", .title="Board serial number",
  .description="Board serial number", .doc_path="docs/metrics/board.serial.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=INV_SENSITIVE, .counter_bits=0,
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="board_serial"
+ .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_serial"
 )
-INV_METRIC(bios_vendor,
+QUANTA_METRIC(bios_vendor,
  .key="bios.vendor", .title="BIOS vendor",
  .description="BIOS vendor", .doc_path="docs/metrics/bios.vendor.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="bios_vendor"
+ .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_vendor"
 )
-INV_METRIC(bios_version,
+QUANTA_METRIC(bios_version,
  .key="bios.version", .title="BIOS version",
  .description="BIOS version", .doc_path="docs/metrics/bios.version.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="bios_version"
+ .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_version"
 )
-INV_METRIC(bios_date,
+QUANTA_METRIC(bios_date,
  .key="bios.date", .title="BIOS release date",
  .description="BIOS release date", .doc_path="docs/metrics/bios.date.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="bios_date"
+ .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_date"
 )

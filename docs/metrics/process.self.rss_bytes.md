@@ -8,13 +8,13 @@ Collector resident memory — semantic version 1.
 
 - Type: `u64`; kind: `gauge`.
 - Canonical unit: `B`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `(none)`.
 - Source: /proc/self/statm resident pages × sysconf(_SC_PAGESIZE).
 
 ## Meaning
 
-Resident pages from /proc/self/statm times page size. A low-cost, approximate current resident footprint of inv, not PSS, allocator bytes, peak RSS or another process.
+Resident pages from /proc/self/statm times page size. A low-cost, approximate current resident footprint of quanta, not PSS, allocator bytes, peak RSS or another process.
 
 ## Errors and unavailable values
 
@@ -37,7 +37,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://docs.kernel.org/filesystems/proc.html
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Измеряется только сам процесс INV, не любой произвольный PID.
 rss_bytes = WorkingSetSize, private_bytes = PrivateUsage (private committed bytes),

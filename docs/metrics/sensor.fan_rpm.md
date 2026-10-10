@@ -6,7 +6,7 @@ Fan speed channel — semantic version 1.
 
 - Type: `u64`; kind: `gauge`.
 - Canonical unit: `rpm`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `chip,channel,label,device`.
 - Source: /sys/class/hwmon/hwmon*/tempN_input or fanN_input.
 

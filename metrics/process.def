@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
-INV_METRIC(process_self_rss_bytes,
+QUANTA_METRIC(process_self_rss_bytes,
  .key="process.self.rss_bytes", .title="Collector resident memory",
  .description="Collector resident memory", .doc_path="docs/metrics/process.self.rss_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_process_provider, .read=inv_process_read, .arg="rss"
+ .provider=&quanta_process_provider, .read=quanta_process_read, .arg="rss"
 )

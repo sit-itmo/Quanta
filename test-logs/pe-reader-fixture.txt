@@ -1,5 +1,0 @@
-PE machine=0x8664; profile=mingw; direct DLL imports:
-  kernel32.dll
-  msvcrt.dll
-No unexpected application runtime DLLs in the direct/delay import tables.
-Windows system DLLs remain required; this is not a no-DLL executable.

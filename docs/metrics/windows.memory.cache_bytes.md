@@ -4,9 +4,9 @@ System cache physical pages.
 
 Единица: `B`. Источник: `GlobalMemoryStatusEx / GetPerformanceInfo`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
-команда `inv describe windows.memory.cache_bytes` показывает актуальные метаданные сборки.
+команда `quanta describe windows.memory.cache_bytes` показывает актуальные метаданные сборки.
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Физические total/available получены одним GlobalMemoryStatusEx; used = total − available,
 utilization = used / total. Available включает страницы, которые Windows считает доступными,

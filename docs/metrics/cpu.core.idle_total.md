@@ -6,7 +6,7 @@ CPU idle ticks — semantic version 1.
 
 - Type: `u64`; kind: `counter`.
 - Canonical unit: `ticks`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `cpu`.
 - Source: one /proc/stat snapshot, first eight CPU time fields only.
 

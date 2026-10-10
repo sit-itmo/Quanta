@@ -1,25 +1,25 @@
 # Dear ImGui is C++, but only this optional adapter requires a C++ compiler.
-set(INV_IMGUI_DIR "${PROJECT_SOURCE_DIR}/vendor/imgui" CACHE PATH "Directory containing pinned Dear ImGui sources")
-option(INV_FETCH_IMGUI "Fetch pinned ImGui if INV_IMGUI_DIR is empty" ON)
-if(NOT EXISTS "${INV_IMGUI_DIR}/imgui.cpp")
-  if(NOT INV_FETCH_IMGUI)
-    message(FATAL_ERROR "ImGui sources missing. Run tools/fetch_imgui.py or set INV_IMGUI_DIR.")
+set(QUANTA_IMGUI_DIR "${PROJECT_SOURCE_DIR}/vendor/imgui" CACHE PATH "Directory containing pinned Dear ImGui sources")
+option(QUANTA_FETCH_IMGUI "Fetch pinned ImGui if QUANTA_IMGUI_DIR is empty" OFF)
+if(NOT EXISTS "${QUANTA_IMGUI_DIR}/imgui.cpp")
+  if(NOT QUANTA_FETCH_IMGUI)
+    message(FATAL_ERROR "ImGui sources missing. Run tools/fetch_imgui.py or set QUANTA_IMGUI_DIR.")
   endif()
   include(FetchContent)
   if(POLICY CMP0135)
     cmake_policy(SET CMP0135 NEW)
   endif()
-  FetchContent_Declare(inv_imgui
+  FetchContent_Declare(quanta_imgui
     URL https://github.com/ocornut/imgui/archive/f5befd2d29e66809cd1110a152e375a7f1981f06.tar.gz)
-  FetchContent_MakeAvailable(inv_imgui)
-  set(INV_IMGUI_DIR "${inv_imgui_SOURCE_DIR}")
+  FetchContent_MakeAvailable(quanta_imgui)
+  set(QUANTA_IMGUI_DIR "${quanta_imgui_SOURCE_DIR}")
 endif()
 add_library(imgui_vendor STATIC
-  ${INV_IMGUI_DIR}/imgui.cpp ${INV_IMGUI_DIR}/imgui_draw.cpp
-  ${INV_IMGUI_DIR}/imgui_tables.cpp ${INV_IMGUI_DIR}/imgui_widgets.cpp)
-target_include_directories(imgui_vendor PUBLIC ${INV_IMGUI_DIR})
+  ${QUANTA_IMGUI_DIR}/imgui.cpp ${QUANTA_IMGUI_DIR}/imgui_draw.cpp
+  ${QUANTA_IMGUI_DIR}/imgui_tables.cpp ${QUANTA_IMGUI_DIR}/imgui_widgets.cpp)
+target_include_directories(imgui_vendor PUBLIC ${QUANTA_IMGUI_DIR})
 target_compile_definitions(imgui_vendor PUBLIC IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
 target_compile_features(imgui_vendor PUBLIC cxx_std_11)
-if(INV_SANITIZE)
+if(QUANTA_SANITIZE)
   target_compile_options(imgui_vendor PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
 endif()

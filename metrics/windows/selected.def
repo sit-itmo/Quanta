@@ -1,25 +1,25 @@
 #include "windows/os.def"
-#if INV_WITH_MEMORY
+#if QUANTA_WITH_MEMORY
 #include "windows/memory.def"
 #endif
-#if INV_WITH_CPU
+#if QUANTA_WITH_CPU
 #include "windows/cpu.def"
 #endif
-#if INV_WITH_CPUID && INV_ARCH_X86
+#if QUANTA_WITH_CPUID && QUANTA_ARCH_X86
 #include "windows/cpuid.def"
 #endif
-#if INV_WITH_DMI
+#if QUANTA_WITH_DMI
 #include "windows/dmi.def"
 #endif
-#if INV_WITH_NETWORK
+#if QUANTA_WITH_NETWORK
 #include "windows/network.def"
 #endif
-#if INV_WITH_HWMON
+#if QUANTA_WITH_HWMON
 #include "windows/hwmon.def"
 #endif
-#if INV_WITH_FILESYSTEM
+#if QUANTA_WITH_FILESYSTEM
 #include "windows/filesystem.def"
 #endif
-#if INV_WITH_PROCESS
+#if QUANTA_WITH_PROCESS
 #include "windows/process.def"
 #endif

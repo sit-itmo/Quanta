@@ -8,7 +8,7 @@ BIOS release date — semantic version 1.
 
 - Type: `string`; kind: `property`.
 - Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `INV_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
+- Refresh policy: `QUANTA_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
 - Labels: `(none)`.
 - Source: /sys/class/dmi/id attributes.
 
@@ -37,7 +37,7 @@ or run a periodic query. Actual minimums can require a longer interval.
 
 https://github.com/torvalds/linux/blob/master/drivers/firmware/dmi-id.c
 
-## Windows (0.2)
+## Windows backend (требует нативной проверки)
 
 Данные приходят из GetSystemFirmwareTable(RSMB), без dmidecode, WMI, PowerShell и драйвера.
 Парсер ограничивает длины и проверяет структуру, строки и двойные NUL. SMBIOS types 0/1/2/17

@@ -1,91 +1,91 @@
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
-INV_METRIC(cpu_vendor,
+QUANTA_METRIC(cpu_vendor,
  .key="cpu.vendor", .title="CPU vendor",
  .description="CPU vendor; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.vendor.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="vendor"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="vendor"
 )
-INV_METRIC(cpu_brand,
+QUANTA_METRIC(cpu_brand,
  .key="cpu.brand", .title="CPU brand string",
  .description="CPU brand string; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.brand.md",
- .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="brand"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="brand"
 )
-INV_METRIC(cpu_cpuid_reference,
+QUANTA_METRIC(cpu_cpuid_reference,
  .key="cpu.cpuid_reference", .title="Logical CPU used for CPUID",
  .description="Logical CPU used for CPUID; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.cpuid_reference.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="cpuid_reference"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="cpuid_reference"
 )
-INV_METRIC(cpu_vmx,
+QUANTA_METRIC(cpu_vmx,
  .key="cpu.vmx", .title="VMX hardware capability",
  .description="VMX hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.vmx.md",
- .semantic_version=1, .type=INV_BOOL, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="vmx"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="vmx"
 )
-INV_METRIC(cpu_svm,
+QUANTA_METRIC(cpu_svm,
  .key="cpu.svm", .title="SVM hardware capability",
  .description="SVM hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.svm.md",
- .semantic_version=1, .type=INV_BOOL, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="svm"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="svm"
 )
-INV_METRIC(cpu_sse2,
+QUANTA_METRIC(cpu_sse2,
  .key="cpu.sse2", .title="SSE2 capability",
  .description="SSE2 capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.sse2.md",
- .semantic_version=1, .type=INV_BOOL, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="sse2"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="sse2"
 )
-INV_METRIC(cpu_avx,
+QUANTA_METRIC(cpu_avx,
  .key="cpu.avx", .title="AVX hardware capability",
  .description="AVX hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.avx.md",
- .semantic_version=1, .type=INV_BOOL, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="avx"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="avx"
 )
-INV_METRIC(cpu_avx2,
+QUANTA_METRIC(cpu_avx2,
  .key="cpu.avx2", .title="AVX2 hardware capability",
  .description="AVX2 hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.avx2.md",
- .semantic_version=1, .type=INV_BOOL, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="avx2"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="avx2"
 )
-INV_METRIC(cpu_hypervisor,
+QUANTA_METRIC(cpu_hypervisor,
  .key="cpu.hypervisor", .title="Hypervisor-present CPUID bit",
  .description="Hypervisor-present CPUID bit; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.hypervisor.md",
- .semantic_version=1, .type=INV_BOOL, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
  .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_cpuid_provider, .read=inv_cpuid_read, .arg="hypervisor"
+ .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="hypervisor"
 )

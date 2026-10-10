@@ -1,41 +1,41 @@
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
-INV_METRIC(fs_root_total_bytes,
+QUANTA_METRIC(fs_root_total_bytes,
  .key="fs.root.total_bytes", .title="Root filesystem capacity",
  .description="Root filesystem capacity", .doc_path="docs/metrics/fs.root.total_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_filesystem_provider, .read=inv_filesystem_read, .arg="total_bytes"
+ .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="total_bytes"
 )
-INV_METRIC(fs_root_available_bytes,
+QUANTA_METRIC(fs_root_available_bytes,
  .key="fs.root.available_bytes", .title="Root filesystem space available to this user",
  .description="Root filesystem space available to this user", .doc_path="docs/metrics/fs.root.available_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_filesystem_provider, .read=inv_filesystem_read, .arg="available_bytes"
+ .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="available_bytes"
 )
-INV_METRIC(fs_root_used_bytes,
+QUANTA_METRIC(fs_root_used_bytes,
  .key="fs.root.used_bytes", .title="Root filesystem allocated space",
  .description="Root filesystem allocated space", .doc_path="docs/metrics/fs.root.used_bytes.md",
- .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="B", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_filesystem_provider, .read=inv_filesystem_read, .arg="used_bytes"
+ .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="used_bytes"
 )
-INV_METRIC(fs_root_utilization,
+QUANTA_METRIC(fs_root_utilization,
  .key="fs.root.utilization", .title="Root filesystem allocated fraction",
  .description="Root filesystem allocated fraction", .doc_path="docs/metrics/fs.root.utilization.md",
- .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
  .unit="1", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&inv_filesystem_provider, .read=inv_filesystem_read, .arg="utilization"
+ .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="utilization"
 )

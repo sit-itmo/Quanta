@@ -6,7 +6,7 @@ Completely free memory — semantic version 1.
 
 - Type: `u64`; kind: `gauge`.
 - Canonical unit: `B`.
-- Refresh policy: `INV_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
+- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
 - Labels: `(none)`.
 - Source: one /proc/meminfo snapshot.
 
