@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * Reconcile metric instances into deduplicated acquisition channels and query
  * bindings. */
+#include "quanta/osal.h"
 #include "engine_internal.h"
 
 quanta_status quanta_engine_announce(quanta_engine *e, quanta_binding *b)
@@ -43,12 +44,12 @@ static quanta_status reserve_channels(quanta_engine *e)
         {
             cap = QUANTA_MAX_CHANNELS;
         }
-        p = (quanta_channel *)realloc(e->channels, cap * sizeof(*p));
+        p = (quanta_channel *)quanta_realloc(e->channels, cap * sizeof(*p));
         if (!p)
         {
             return QUANTA_NO_MEMORY;
         }
-        memset(p + e->channel_cap, 0, (cap - e->channel_cap) * sizeof(*p));
+        quanta_memset(p + e->channel_cap, 0, (cap - e->channel_cap) * sizeof(*p));
         e->channels = p;
         e->channel_cap = cap;
     }
@@ -69,12 +70,12 @@ static quanta_status reserve_bindings(quanta_engine *e)
         {
             cap = QUANTA_MAX_SERIES;
         }
-        p = (quanta_binding *)realloc(e->bindings, cap * sizeof(*p));
+        p = (quanta_binding *)quanta_realloc(e->bindings, cap * sizeof(*p));
         if (!p)
         {
             return QUANTA_NO_MEMORY;
         }
-        memset(p + e->binding_cap, 0, (cap - e->binding_cap) * sizeof(*p));
+        quanta_memset(p + e->binding_cap, 0, (cap - e->binding_cap) * sizeof(*p));
         e->bindings = p;
         e->binding_cap = cap;
     }
@@ -89,8 +90,8 @@ static quanta_status discovered(void *context, const quanta_instance *in)
     int any = 0;
     quanta_status s;
     if (!in || !in->metric || in->label_count > QUANTA_LABEL_CAP ||
-        !memchr(in->entity_key, 0, sizeof(in->entity_key)) ||
-        !memchr(in->resource, 0, sizeof(in->resource)))
+        !quanta_memchr(in->entity_key, 0, sizeof(in->entity_key)) ||
+        !quanta_memchr(in->resource, 0, sizeof(in->resource)))
     {
         return QUANTA_INVALID_DATA;
     }
@@ -108,27 +109,27 @@ static quanta_status discovered(void *context, const quanta_instance *in)
     }
     for (i = 0; i < in->label_count; ++i)
     {
-        if (!memchr(in->labels[i].key, 0, sizeof(in->labels[i].key)) ||
-            !memchr(in->labels[i].value, 0, sizeof(in->labels[i].value)) || !in->labels[i].key[0])
+        if (!quanta_memchr(in->labels[i].key, 0, sizeof(in->labels[i].key)) ||
+            !quanta_memchr(in->labels[i].value, 0, sizeof(in->labels[i].value)) || !in->labels[i].key[0])
         {
             return QUANTA_INVALID_DATA;
         }
         for (j = 0; j < i; ++j)
         {
-            if (!strcmp(in->labels[j].key, in->labels[i].key))
+            if (!quanta_strcmp(in->labels[j].key, in->labels[i].key))
             {
                 return QUANTA_INVALID_DATA;
             }
         }
         {
             const char *schema = in->metric->label_schema;
-            size_t length = strlen(in->labels[i].key);
+            size_t length = quanta_strlen(in->labels[i].key);
             int allowed = 0;
             while (*schema)
             {
-                const char *end = strchr(schema, ',');
-                size_t part = end ? (size_t)(end - schema) : strlen(schema);
-                if (part == length && !strncmp(schema, in->labels[i].key, length))
+                const char *end = quanta_strchr(schema, ',');
+                size_t part = end ? (size_t)(end - schema) : quanta_strlen(schema);
+                if (part == length && !quanta_strncmp(schema, in->labels[i].key, length))
                 {
                     allowed = 1;
                 }
@@ -160,7 +161,7 @@ static quanta_status discovered(void *context, const quanta_instance *in)
     for (i = 0; i < e->channel_count; i++)
     {
         if (e->channels[i].active && e->channels[i].in.metric == in->metric &&
-            !strcmp(e->channels[i].in.entity_key, in->entity_key))
+            !quanta_strcmp(e->channels[i].in.entity_key, in->entity_key))
         {
             ci = i;
             break;
@@ -186,7 +187,7 @@ static quanta_status discovered(void *context, const quanta_instance *in)
             ci = e->channel_count++;
         }
         c = &e->channels[ci];
-        memset(c, 0, sizeof(*c));
+        quanta_memset(c, 0, sizeof(*c));
         c->in = *in;
         c->acquisition_index = e->discovering_acquisition;
         c->in.series_id = ++e->next_id;
@@ -200,7 +201,7 @@ static quanta_status discovered(void *context, const quanta_instance *in)
         quanta_copy(c->in.resource, sizeof(c->in.resource), in->resource);
         c->in.min_poll_ns = in->min_poll_ns;
         c->in.label_count = in->label_count;
-        memcpy(c->in.labels, in->labels, sizeof(in->labels));
+        quanta_memcpy(c->in.labels, in->labels, sizeof(in->labels));
     }
     c->seen = e->discovery_epoch;
     c->period = UINT64_MAX;
@@ -265,7 +266,7 @@ static quanta_status discovered(void *context, const quanta_instance *in)
                 }
                 b = &e->bindings[e->binding_count++];
             }
-            memset(b, 0, sizeof(*b));
+            quanta_memset(b, 0, sizeof(*b));
             b->active = 1;
             b->channel_index = ci;
             b->previous.status = QUANTA_NO_DATA;
@@ -284,14 +285,14 @@ static quanta_status discovered(void *context, const quanta_instance *in)
             }
             else
             {
-                snprintf(b->meta.key, sizeof(b->meta.key), "%s(%s)",
+                quanta_snprintf(b->meta.key, sizeof(b->meta.key), "%s(%s)",
                          sel->transform == QUANTA_RATE ? "rate" : "delta", in->metric->key);
             }
-            snprintf(b->meta.unit, sizeof(b->meta.unit), "%s%s", in->metric->unit,
+            quanta_snprintf(b->meta.unit, sizeof(b->meta.unit), "%s%s", in->metric->unit,
                      sel->transform == QUANTA_RATE ? "/s" : "");
             quanta_copy(b->meta.entity_key, sizeof(b->meta.entity_key), in->entity_key);
             b->meta.label_count = in->label_count;
-            memcpy(b->meta.labels, in->labels, sizeof(in->labels));
+            quanta_memcpy(b->meta.labels, in->labels, sizeof(in->labels));
             s = quanta_engine_announce(e, b);
             if (s != QUANTA_OK)
             {
@@ -299,11 +300,11 @@ static quanta_status discovered(void *context, const quanta_instance *in)
             }
         }
         else if (b->meta.effective_period_ns != period || b->meta.label_count != in->label_count ||
-                 memcmp(b->meta.labels, in->labels, sizeof(in->labels)))
+                 quanta_memcmp(b->meta.labels, in->labels, sizeof(in->labels)))
         {
             b->meta.effective_period_ns = period;
             b->meta.label_count = in->label_count;
-            memcpy(b->meta.labels, in->labels, sizeof(in->labels));
+            quanta_memcpy(b->meta.labels, in->labels, sizeof(in->labels));
             s = quanta_engine_announce(e, b);
             if (s != QUANTA_OK)
             {
@@ -345,7 +346,7 @@ quanta_status quanta_engine_discover(quanta_engine *e)
             if (s != QUANTA_OK && s != a->discovery_status)
             {
                 char msg[256];
-                snprintf(msg, sizeof(msg), "discovery: %s: %s", m->key,
+                quanta_snprintf(msg, sizeof(msg), "discovery: %s: %s", m->key,
                          quanta_status_name(s));
                 if (quanta_engine_diagnostic(e, s, msg) != QUANTA_OK)
                 {

@@ -2068,8 +2068,47 @@ static const char doc_39[] =
     "Описание API: https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getdiskfreespaceexw\n"
 ;
 #endif
-#if (QUANTA_PLATFORM_FREERTOS)
+#if (1)
 static const char doc_40[] =
+    "# `hal.capabilities`\n"
+    "\n"
+    "Implemented HAL operations bitmask. Общая метрика, доступная в каталоге всех платформ.\n"
+    "\n"
+    "Тип: `QUANTA_U64`. Единица: `безразмерная`. Свойство, читается один раз за сессию.\n"
+    "\n"
+    "Источник: quanta_hal_get_info выбранного HAL; собственных системных вызовов нет.\n"
+    "\n"
+    "Значение НЕ является измерением доступности операций: права и устройства проверяются во время обращения к HAL.\n"
+;
+#endif
+#if (1)
+static const char doc_41[] =
+    "# `hal.logical_cpus`\n"
+    "\n"
+    "HAL logical CPU count. Общая метрика, доступная в каталоге всех платформ.\n"
+    "\n"
+    "Тип: `QUANTA_U64`. Единица: `count`. Свойство, читается один раз за сессию.\n"
+    "\n"
+    "Источник: quanta_hal_get_info выбранного HAL; собственных системных вызовов нет.\n"
+    "\n"
+    "Неизвестное количество CPU возвращается как UNSUPPORTED, а не как нулевое измерение.\n"
+;
+#endif
+#if (1)
+static const char doc_42[] =
+    "# `hal.name`\n"
+    "\n"
+    "Selected hardware backend. Общая метрика, доступная в каталоге всех платформ.\n"
+    "\n"
+    "Тип: `QUANTA_STRING`. Единица: `безразмерная`. Свойство, читается один раз за сессию.\n"
+    "\n"
+    "Источник: quanta_hal_get_info выбранного HAL; собственных системных вызовов нет.\n"
+    "\n"
+    "Значение принадлежит текущей сессии и не описывает другую машину.\n"
+;
+#endif
+#if (QUANTA_PLATFORM_FREERTOS)
+static const char doc_43[] =
     "# mcu.chip_id\n"
     "\n"
     "## Назначение и источник\n"
@@ -2078,7 +2117,7 @@ static const char doc_40[] =
     "\n"
     "Единица: `безразмерная`. Источник: `esp_efuse_mac_get_default`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2094,7 +2133,7 @@ static const char doc_40[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_41[] =
+static const char doc_44[] =
     "# mcu.cores\n"
     "\n"
     "## Назначение и источник\n"
@@ -2103,7 +2142,7 @@ static const char doc_41[] =
     "\n"
     "Единица: `безразмерная`. Источник: `esp_chip_info`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2119,7 +2158,7 @@ static const char doc_41[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_42[] =
+static const char doc_45[] =
     "# mcu.cpu.freq_mhz\n"
     "\n"
     "## Назначение и источник\n"
@@ -2128,7 +2167,7 @@ static const char doc_42[] =
     "\n"
     "Единица: `MHz`. Источник: `configCPU_CLOCK_HZ`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2144,7 +2183,7 @@ static const char doc_42[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_43[] =
+static const char doc_46[] =
     "# mcu.flash_embedded\n"
     "\n"
     "## Назначение и источник\n"
@@ -2153,7 +2192,7 @@ static const char doc_43[] =
     "\n"
     "Единица: `безразмерная`. Источник: `esp_chip_info`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2169,7 +2208,7 @@ static const char doc_43[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_44[] =
+static const char doc_47[] =
     "# mcu.heap.free_bytes\n"
     "\n"
     "## Назначение и источник\n"
@@ -2178,7 +2217,7 @@ static const char doc_44[] =
     "\n"
     "Единица: `B`. Источник: `esp_get_free_heap_size`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2194,7 +2233,7 @@ static const char doc_44[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_45[] =
+static const char doc_48[] =
     "# mcu.heap.min_free_bytes\n"
     "\n"
     "## Назначение и источник\n"
@@ -2203,7 +2242,7 @@ static const char doc_45[] =
     "\n"
     "Единица: `B`. Источник: `esp_get_minimum_free_heap_size`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2219,7 +2258,7 @@ static const char doc_45[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_46[] =
+static const char doc_49[] =
     "# mcu.power.vdd_mv\n"
     "\n"
     "## Назначение и источник\n"
@@ -2228,7 +2267,7 @@ static const char doc_46[] =
     "\n"
     "Единица: `mV`. Источник: `esp_wifi_get_vdd33`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2244,7 +2283,7 @@ static const char doc_46[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_47[] =
+static const char doc_50[] =
     "# mcu.revision\n"
     "\n"
     "## Назначение и источник\n"
@@ -2253,7 +2292,7 @@ static const char doc_47[] =
     "\n"
     "Единица: `безразмерная`. Источник: `esp_chip_info`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2269,7 +2308,7 @@ static const char doc_47[] =
 ;
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-static const char doc_48[] =
+static const char doc_51[] =
     "# mcu.sdk_version\n"
     "\n"
     "## Назначение и источник\n"
@@ -2278,7 +2317,7 @@ static const char doc_48[] =
     "\n"
     "Единица: `безразмерная`. Источник: `esp_get_idf_version`. Платформа: **ESP8266_RTOS_SDK**.\n"
     "\n"
-    "Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
+    "Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.\n"
     "\n"
     "## Запрос\n"
     "\n"
@@ -2294,7 +2333,7 @@ static const char doc_48[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_49[] =
+static const char doc_52[] =
     "# os.arch\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2348,7 +2387,7 @@ static const char doc_49[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_50[] =
+static const char doc_53[] =
     "# os.cpu.online\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2402,7 +2441,7 @@ static const char doc_50[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_51[] =
+static const char doc_54[] =
     "# os.hostname\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2458,7 +2497,7 @@ static const char doc_51[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_52[] =
+static const char doc_55[] =
     "# os.kernel.release\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2512,7 +2551,7 @@ static const char doc_52[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_53[] =
+static const char doc_56[] =
     "# os.kernel.version\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2566,7 +2605,7 @@ static const char doc_53[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS))
-static const char doc_54[] =
+static const char doc_57[] =
     "# os.load.1m\n"
     "\n"
     "Load average (1 minute) — semantic version 1.\n"
@@ -2606,7 +2645,7 @@ static const char doc_54[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS))
-static const char doc_55[] =
+static const char doc_58[] =
     "# os.load.5m\n"
     "\n"
     "Load average (5 minutes) — semantic version 1.\n"
@@ -2646,7 +2685,7 @@ static const char doc_55[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_56[] =
+static const char doc_59[] =
     "# os.memory.available_bytes\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2703,7 +2742,7 @@ static const char doc_56[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY)
-static const char doc_57[] =
+static const char doc_60[] =
     "# os.memory.free_bytes\n"
     "\n"
     "Completely free memory — semantic version 1.\n"
@@ -2745,7 +2784,7 @@ static const char doc_57[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_58[] =
+static const char doc_61[] =
     "# os.memory.total_bytes\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2802,7 +2841,7 @@ static const char doc_58[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_59[] =
+static const char doc_62[] =
     "# os.memory.used_bytes\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2859,7 +2898,7 @@ static const char doc_59[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_60[] =
+static const char doc_63[] =
     "# os.memory.utilization\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2916,7 +2955,7 @@ static const char doc_60[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_61[] =
+static const char doc_64[] =
     "# os.name\n"
     "\n"
     "## Linux / способ получения\n"
@@ -2970,7 +3009,7 @@ static const char doc_61[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_62[] =
+static const char doc_65[] =
     "# os.process.count\n"
     "\n"
     "System process count.\n"
@@ -2994,7 +3033,7 @@ static const char doc_62[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY)
-static const char doc_63[] =
+static const char doc_66[] =
     "# os.swap.total_bytes\n"
     "\n"
     "Swap capacity — semantic version 1.\n"
@@ -3036,7 +3075,7 @@ static const char doc_63[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY)
-static const char doc_64[] =
+static const char doc_67[] =
     "# os.swap.used_bytes\n"
     "\n"
     "Used swap — semantic version 1.\n"
@@ -3078,7 +3117,7 @@ static const char doc_64[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_65[] =
+static const char doc_68[] =
     "# os.thread.count\n"
     "\n"
     "System thread count.\n"
@@ -3102,7 +3141,7 @@ static const char doc_65[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-static const char doc_66[] =
+static const char doc_69[] =
     "# os.uptime\n"
     "\n"
     "## Linux / способ получения\n"
@@ -3156,7 +3195,7 @@ static const char doc_66[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-static const char doc_67[] =
+static const char doc_70[] =
     "# process.self.handles\n"
     "\n"
     "INV handle count.\n"
@@ -3179,7 +3218,7 @@ static const char doc_67[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-static const char doc_68[] =
+static const char doc_71[] =
     "# process.self.io.read_bytes_total\n"
     "\n"
     "INV read transfer bytes (not necessarily disk I/O).\n"
@@ -3202,7 +3241,7 @@ static const char doc_68[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-static const char doc_69[] =
+static const char doc_72[] =
     "# process.self.io.write_bytes_total\n"
     "\n"
     "INV write transfer bytes (not necessarily disk I/O).\n"
@@ -3225,7 +3264,7 @@ static const char doc_69[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-static const char doc_70[] =
+static const char doc_73[] =
     "# process.self.pid\n"
     "\n"
     "INV process ID.\n"
@@ -3248,7 +3287,7 @@ static const char doc_70[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-static const char doc_71[] =
+static const char doc_74[] =
     "# process.self.private_bytes\n"
     "\n"
     "INV private committed memory.\n"
@@ -3271,7 +3310,7 @@ static const char doc_71[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_PROCESS) || (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-static const char doc_72[] =
+static const char doc_75[] =
     "# process.self.rss_bytes\n"
     "\n"
     "## Linux / способ получения\n"
@@ -3324,8 +3363,21 @@ static const char doc_72[] =
     "Описание API: https://learn.microsoft.com/en-us/windows/win32/api/psapi/ns-psapi-process_memory_counters_ex\n"
 ;
 #endif
+#if (1)
+static const char doc_76[] =
+    "# `quanta.version`\n"
+    "\n"
+    "Quanta version. Общая метрика, доступная в каталоге всех платформ.\n"
+    "\n"
+    "Тип: `QUANTA_STRING`. Единица: `безразмерная`. Свойство, читается один раз за сессию.\n"
+    "\n"
+    "Источник: константа версии сборки; операционная система и HAL не требуются.\n"
+    "\n"
+    "Значение принадлежит текущей сессии и не описывает другую машину.\n"
+;
+#endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_HWMON)
-static const char doc_73[] =
+static const char doc_77[] =
     "# sensor.fan_rpm\n"
     "\n"
     "Fan speed channel — semantic version 1.\n"
@@ -3367,7 +3419,7 @@ static const char doc_73[] =
 ;
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_HWMON) || (QUANTA_OS_WINDOWS && QUANTA_WITH_HWMON)
-static const char doc_74[] =
+static const char doc_78[] =
     "# sensor.temperature\n"
     "\n"
     "## Linux / способ получения\n"
@@ -3424,7 +3476,7 @@ static const char doc_74[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_OS_WINDOWS) && QUANTA_WITH_DMI && QUANTA_ARCH_X86)
-static const char doc_75[] =
+static const char doc_79[] =
     "# smbios.legacy_mem.bios.vendor\n"
     "\n"
     "Производитель BIOS, SMBIOS type 0, vendor string.\n"
@@ -3447,7 +3499,7 @@ static const char doc_75[] =
 ;
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_OS_WINDOWS) && QUANTA_WITH_DMI && QUANTA_ARCH_X86)
-static const char doc_76[] =
+static const char doc_80[] =
     "# smbios.legacy_mem.board.model\n"
     "\n"
     "Модель baseboard, SMBIOS type 2, product string.\n"
@@ -3470,7 +3522,7 @@ static const char doc_76[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-static const char doc_77[] =
+static const char doc_81[] =
     "# system.model\n"
     "\n"
     "System product name.\n"
@@ -3498,7 +3550,7 @@ static const char doc_77[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-static const char doc_78[] =
+static const char doc_82[] =
     "# system.serial\n"
     "\n"
     "System serial number.\n"
@@ -3526,7 +3578,7 @@ static const char doc_78[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-static const char doc_79[] =
+static const char doc_83[] =
     "# system.uuid\n"
     "\n"
     "SMBIOS system UUID.\n"
@@ -3554,7 +3606,7 @@ static const char doc_79[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-static const char doc_80[] =
+static const char doc_84[] =
     "# system.vendor\n"
     "\n"
     "System manufacturer.\n"
@@ -3582,7 +3634,7 @@ static const char doc_80[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_CPU)
-static const char doc_81[] =
+static const char doc_85[] =
     "# windows.cpu.tick_frequency_hz\n"
     "\n"
     "GetSystemTimes raw counter frequency.\n"
@@ -3608,7 +3660,7 @@ static const char doc_81[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_82[] =
+static const char doc_86[] =
     "# windows.handle.count\n"
     "\n"
     "System handle count.\n"
@@ -3632,7 +3684,7 @@ static const char doc_82[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_83[] =
+static const char doc_87[] =
     "# windows.memory.cache_bytes\n"
     "\n"
     "System cache physical pages.\n"
@@ -3656,7 +3708,7 @@ static const char doc_83[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_84[] =
+static const char doc_88[] =
     "# windows.memory.commit.limit_bytes\n"
     "\n"
     "System commit limit.\n"
@@ -3680,7 +3732,7 @@ static const char doc_84[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_85[] =
+static const char doc_89[] =
     "# windows.memory.commit.peak_bytes\n"
     "\n"
     "Peak system commit since boot.\n"
@@ -3704,7 +3756,7 @@ static const char doc_85[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_86[] =
+static const char doc_90[] =
     "# windows.memory.commit.used_bytes\n"
     "\n"
     "System committed memory, not pagefile occupancy.\n"
@@ -3728,7 +3780,7 @@ static const char doc_86[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_87[] =
+static const char doc_91[] =
     "# windows.memory.kernel_nonpaged_bytes\n"
     "\n"
     "Nonpaged kernel memory.\n"
@@ -3752,7 +3804,7 @@ static const char doc_87[] =
 ;
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-static const char doc_88[] =
+static const char doc_92[] =
     "# windows.memory.kernel_paged_bytes\n"
     "\n"
     "Paged kernel memory.\n"
@@ -3897,152 +3949,164 @@ static const doc_entry docs[] = {
 #if (QUANTA_OS_LINUX && QUANTA_WITH_FILESYSTEM) || (QUANTA_OS_WINDOWS && QUANTA_WITH_FILESYSTEM)
     {"fs.root.utilization", doc_39},
 #endif
-#if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.chip_id", doc_40},
+#if (1)
+    {"hal.capabilities", doc_40},
+#endif
+#if (1)
+    {"hal.logical_cpus", doc_41},
+#endif
+#if (1)
+    {"hal.name", doc_42},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.cores", doc_41},
+    {"mcu.chip_id", doc_43},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.cpu.freq_mhz", doc_42},
+    {"mcu.cores", doc_44},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.flash_embedded", doc_43},
+    {"mcu.cpu.freq_mhz", doc_45},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.heap.free_bytes", doc_44},
+    {"mcu.flash_embedded", doc_46},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.heap.min_free_bytes", doc_45},
+    {"mcu.heap.free_bytes", doc_47},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.power.vdd_mv", doc_46},
+    {"mcu.heap.min_free_bytes", doc_48},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.revision", doc_47},
+    {"mcu.power.vdd_mv", doc_49},
 #endif
 #if (QUANTA_PLATFORM_FREERTOS)
-    {"mcu.sdk_version", doc_48},
+    {"mcu.revision", doc_50},
+#endif
+#if (QUANTA_PLATFORM_FREERTOS)
+    {"mcu.sdk_version", doc_51},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.arch", doc_49},
+    {"os.arch", doc_52},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.cpu.online", doc_50},
+    {"os.cpu.online", doc_53},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.hostname", doc_51},
+    {"os.hostname", doc_54},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.kernel.release", doc_52},
+    {"os.kernel.release", doc_55},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.kernel.version", doc_53},
+    {"os.kernel.version", doc_56},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS))
-    {"os.load.1m", doc_54},
+    {"os.load.1m", doc_57},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS))
-    {"os.load.5m", doc_55},
+    {"os.load.5m", doc_58},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"os.memory.available_bytes", doc_56},
+    {"os.memory.available_bytes", doc_59},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY)
-    {"os.memory.free_bytes", doc_57},
+    {"os.memory.free_bytes", doc_60},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"os.memory.total_bytes", doc_58},
+    {"os.memory.total_bytes", doc_61},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"os.memory.used_bytes", doc_59},
+    {"os.memory.used_bytes", doc_62},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY) || (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"os.memory.utilization", doc_60},
+    {"os.memory.utilization", doc_63},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.name", doc_61},
+    {"os.name", doc_64},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"os.process.count", doc_62},
+    {"os.process.count", doc_65},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY)
-    {"os.swap.total_bytes", doc_63},
+    {"os.swap.total_bytes", doc_66},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_MEMORY)
-    {"os.swap.used_bytes", doc_64},
+    {"os.swap.used_bytes", doc_67},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"os.thread.count", doc_65},
+    {"os.thread.count", doc_68},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)) || (QUANTA_OS_WINDOWS)
-    {"os.uptime", doc_66},
+    {"os.uptime", doc_69},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-    {"process.self.handles", doc_67},
+    {"process.self.handles", doc_70},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-    {"process.self.io.read_bytes_total", doc_68},
+    {"process.self.io.read_bytes_total", doc_71},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-    {"process.self.io.write_bytes_total", doc_69},
+    {"process.self.io.write_bytes_total", doc_72},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-    {"process.self.pid", doc_70},
+    {"process.self.pid", doc_73},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-    {"process.self.private_bytes", doc_71},
+    {"process.self.private_bytes", doc_74},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_PROCESS) || (QUANTA_OS_WINDOWS && QUANTA_WITH_PROCESS)
-    {"process.self.rss_bytes", doc_72},
+    {"process.self.rss_bytes", doc_75},
+#endif
+#if (1)
+    {"quanta.version", doc_76},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_HWMON)
-    {"sensor.fan_rpm", doc_73},
+    {"sensor.fan_rpm", doc_77},
 #endif
 #if (QUANTA_OS_LINUX && QUANTA_WITH_HWMON) || (QUANTA_OS_WINDOWS && QUANTA_WITH_HWMON)
-    {"sensor.temperature", doc_74},
+    {"sensor.temperature", doc_78},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_OS_WINDOWS) && QUANTA_WITH_DMI && QUANTA_ARCH_X86)
-    {"smbios.legacy_mem.bios.vendor", doc_75},
+    {"smbios.legacy_mem.bios.vendor", doc_79},
 #endif
 #if ((QUANTA_OS_LINUX || QUANTA_OS_WINDOWS) && QUANTA_WITH_DMI && QUANTA_ARCH_X86)
-    {"smbios.legacy_mem.board.model", doc_76},
+    {"smbios.legacy_mem.board.model", doc_80},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-    {"system.model", doc_77},
+    {"system.model", doc_81},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-    {"system.serial", doc_78},
+    {"system.serial", doc_82},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-    {"system.uuid", doc_79},
+    {"system.uuid", doc_83},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_DMI)
-    {"system.vendor", doc_80},
+    {"system.vendor", doc_84},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_CPU)
-    {"windows.cpu.tick_frequency_hz", doc_81},
+    {"windows.cpu.tick_frequency_hz", doc_85},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.handle.count", doc_82},
+    {"windows.handle.count", doc_86},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.memory.cache_bytes", doc_83},
+    {"windows.memory.cache_bytes", doc_87},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.memory.commit.limit_bytes", doc_84},
+    {"windows.memory.commit.limit_bytes", doc_88},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.memory.commit.peak_bytes", doc_85},
+    {"windows.memory.commit.peak_bytes", doc_89},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.memory.commit.used_bytes", doc_86},
+    {"windows.memory.commit.used_bytes", doc_90},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.memory.kernel_nonpaged_bytes", doc_87},
+    {"windows.memory.kernel_nonpaged_bytes", doc_91},
 #endif
 #if (QUANTA_OS_WINDOWS && QUANTA_WITH_MEMORY)
-    {"windows.memory.kernel_paged_bytes", doc_88},
+    {"windows.memory.kernel_paged_bytes", doc_92},
 #endif
     {NULL, NULL}
 };
@@ -4050,7 +4114,7 @@ static const doc_entry docs[] = {
 const char *quanta_metric_documentation(const char *key) {
 #if QUANTA_EMBED_DOCS
     size_t i;
-    for (i=0; docs[i].key; i++) if (!strcmp(key, docs[i].key)) return docs[i].text;
+    for (i=0; docs[i].key; i++) if (!quanta_strcmp(key, docs[i].key)) return docs[i].text;
 #else
     (void)key;
 #endif

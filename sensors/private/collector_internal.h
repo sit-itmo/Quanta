@@ -84,4 +84,5 @@ quanta_status quanta_smbios_mem_enumerate(quanta_metric_context *, quanta_discov
 quanta_status quanta_smbios_mem_collect(quanta_metric_context *);
 void quanta_smbios_mem_destroy(quanta_metric_context *);
 quanta_status quanta_smbios_mem_read(quanta_metric_context *, quanta_instance *, quanta_value *, uint64_t *, uint32_t *);
+quanta_status quanta_runtime_read(quanta_metric_context *, quanta_instance *, quanta_value *, uint64_t *, uint32_t *);
 #endif

@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "core_internal.h"
 
 int quanta_select_matches_metric(const quanta_select *select, const quanta_metric_desc *metric)
@@ -35,7 +36,7 @@ quanta_status quanta_discover_single(quanta_metric_context *context, quanta_disc
     {
         quanta_instance instance;
         quanta_status status;
-        memset(&instance, 0, sizeof(instance));
+        quanta_memset(&instance, 0, sizeof(instance));
         instance.metric = context->metrics[i];
         quanta_copy(instance.entity_key, sizeof(instance.entity_key), "system");
         status = sink->emit(sink->context, &instance);
@@ -53,11 +54,11 @@ quanta_status quanta_metric_read_once(const quanta_metric_desc *metric, quanta_h
     uint64_t start;
     const quanta_metric_desc *selected[1];
     if (!sample) return QUANTA_INVALID_DATA;
-    memset(sample, 0, sizeof(*sample));
+    quanta_memset(sample, 0, sizeof(*sample));
     sample->status = QUANTA_INVALID_DATA;
     if (!metric || !metric->read || !metric->label_schema || metric->label_schema[0]) return sample->status;
-    memset(&context, 0, sizeof(context));
-    memset(&instance, 0, sizeof(instance));
+    quanta_memset(&context, 0, sizeof(context));
+    quanta_memset(&instance, 0, sizeof(instance));
     selected[0] = metric;
     {
         const quanta_catalog single = {selected, 1};

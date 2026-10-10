@@ -36,7 +36,7 @@ def main():
         dst.mkdir(parents=True,exist_ok=True)
         for source in stage.iterdir():shutil.move(str(source),str(dst/source.name))
     print('Source dependency ready:',dst)
-    print('Configure with -DQUANTA_WITH_GUI=ON -DQUANTA_FETCH_IMGUI=OFF')
+    print('Configure with -DQUANTA_WITH_GUI=ON')
 if __name__=='__main__':
     try:main()
     except (OSError,ValueError,RuntimeError) as exc:print('fetch_imgui:',exc,file=sys.stderr);sys.exit(1)

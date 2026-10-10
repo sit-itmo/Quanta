@@ -2,6 +2,7 @@
  * Bounded, lossless event queue. Backpressure delays acquisition rather than
  * inventing samples or dropping metadata. Only the UI thread calls its sink.
  */
+#include "quanta/osal.h"
 #include "quanta/live.h"
 #include "core_internal.h"
 #ifndef QUANTA_LIVE_QUEUE_CAP
@@ -76,7 +77,7 @@ static quanta_status push(quanta_live *l, const event *e)
 static quanta_status qbegin(void *c, const quanta_plan *p)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     (void)p;
     e.kind = E_BEGIN;
     return push((quanta_live *)c, &e);
@@ -85,7 +86,7 @@ static quanta_status qbegin(void *c, const quanta_plan *p)
 static quanta_status qupsert(void *c, const quanta_series *s)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_UPSERT;
     e.u.series = *s;
     return push((quanta_live *)c, &e);
@@ -94,7 +95,7 @@ static quanta_status qupsert(void *c, const quanta_series *s)
 static quanta_status qremove(void *c, uint64_t id)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_REMOVE;
     e.u.id = id;
     return push((quanta_live *)c, &e);
@@ -103,7 +104,7 @@ static quanta_status qremove(void *c, uint64_t id)
 static quanta_status qframe(void *c, const quanta_frame_info *f)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_FRAME;
     e.u.frame = *f;
     return push((quanta_live *)c, &e);
@@ -112,7 +113,7 @@ static quanta_status qframe(void *c, const quanta_frame_info *f)
 static quanta_status qsample(void *c, const quanta_sample *s)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_SAMPLE;
     e.u.sample = *s;
     return push((quanta_live *)c, &e);
@@ -121,7 +122,7 @@ static quanta_status qsample(void *c, const quanta_sample *s)
 static quanta_status qendframe(void *c)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_END_FRAME;
     return push((quanta_live *)c, &e);
 }
@@ -129,7 +130,7 @@ static quanta_status qendframe(void *c)
 static quanta_status qdiag(void *c, quanta_status s, const char *text)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_DIAG;
     e.u.diag.status = s;
     quanta_safe_text(e.u.diag.text, sizeof(e.u.diag.text), text);
@@ -139,7 +140,7 @@ static quanta_status qdiag(void *c, quanta_status s, const char *text)
 static quanta_status qprogress(void *c, uint32_t i, uint32_t n, const char *text)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_PROGRESS;
     e.u.diag.index = i;
     e.u.diag.total = n;
@@ -150,7 +151,7 @@ static quanta_status qprogress(void *c, uint32_t i, uint32_t n, const char *text
 static quanta_status qend(void *c, quanta_status s)
 {
     event e;
-    memset(&e, 0, sizeof(e));
+    quanta_memset(&e, 0, sizeof(e));
     e.kind = E_END;
     e.u.diag.status = s;
     return push((quanta_live *)c, &e);
@@ -161,7 +162,7 @@ static void *worker(void *p)
     quanta_live *l = (quanta_live *)p;
     quanta_status result;
     quanta_sink s;
-    memset(&s, 0, sizeof(s));
+    quanta_memset(&s, 0, sizeof(s));
     s.struct_size = sizeof(s);
     s.api_version = 1;
     s.context = l;
@@ -194,38 +195,38 @@ quanta_status quanta_live_start(quanta_engine *e, const quanta_plan *p, quanta_l
     {
         return QUANTA_INVALID_DATA;
     }
-    l = (quanta_live *)calloc(1, sizeof(*l));
+    l = (quanta_live *)quanta_calloc(1, sizeof(*l));
     if (!l)
     {
         return QUANTA_NO_MEMORY;
     }
     l->engine = e;
     l->plan = p;
-    l->events = (event *)calloc(QUEUE_CAP, sizeof(event));
+    l->events = (event *)quanta_calloc(QUEUE_CAP, sizeof(event));
     if (!l->events)
     {
-        free(l);
+        quanta_free(l);
         return QUANTA_NO_MEMORY;
     }
     if (quanta_mutex_init(&l->mutex))
     {
-        free(l->events);
-        free(l);
+        quanta_free(l->events);
+        quanta_free(l);
         return QUANTA_IO_ERROR;
     }
     if (quanta_condition_init(&l->space))
     {
         quanta_mutex_destroy(&l->mutex);
-        free(l->events);
-        free(l);
+        quanta_free(l->events);
+        quanta_free(l);
         return QUANTA_IO_ERROR;
     }
     if (quanta_thread_start(&l->thread, worker, l))
     {
         quanta_condition_destroy(&l->space);
         quanta_mutex_destroy(&l->mutex);
-        free(l->events);
-        free(l);
+        quanta_free(l->events);
+        quanta_free(l);
         return QUANTA_IO_ERROR;
     }
     *out = l;
@@ -356,7 +357,7 @@ quanta_status quanta_live_finish(quanta_live *l, int stop)
     s = l->result;
     quanta_condition_destroy(&l->space);
     quanta_mutex_destroy(&l->mutex);
-    free(l->events);
-    free(l);
+    quanta_free(l->events);
+    quanta_free(l);
     return s;
 }

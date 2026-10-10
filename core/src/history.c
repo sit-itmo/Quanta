@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "quanta/history.h"
 #include "core_internal.h"
-#include <math.h>
 
 void quanta_model_init(quanta_model *m, const quanta_plan *p)
 {
@@ -9,7 +9,7 @@ void quanta_model_init(quanta_model *m, const quanta_plan *p)
     {
         return;
     }
-    memset(m, 0, sizeof(*m));
+    quanta_memset(m, 0, sizeof(*m));
     m->history_ns = p->history_ns;
     m->redact = p->redact;
 }
@@ -23,10 +23,10 @@ void quanta_model_destroy(quanta_model *m)
     }
     for (i = 0; i < m->count; i++)
     {
-        free(m->items[i].history);
+        quanta_free(m->items[i].history);
     }
-    free(m->items);
-    memset(m, 0, sizeof(*m));
+    quanta_free(m->items);
+    quanta_memset(m, 0, sizeof(*m));
 }
 
 quanta_item *quanta_model_find(quanta_model *m, uint64_t id)
@@ -78,7 +78,7 @@ static quanta_status resize_history(quanta_model *model, quanta_item *item,
     }
     if (capacity)
     {
-        history = (quanta_point *)calloc(capacity, sizeof(*history));
+        history = (quanta_point *)quanta_calloc(capacity, sizeof(*history));
         if (!history)
         {
             return QUANTA_NO_MEMORY;
@@ -89,7 +89,7 @@ static quanta_status resize_history(quanta_model *model, quanta_item *item,
     {
         history[i] = *quanta_history_at(item, item->history_count - retained + i);
     }
-    free(item->history);
+    quanta_free(item->history);
     item->history = history;
     item->history_cap = capacity;
     item->history_count = retained;
@@ -97,7 +97,7 @@ static quanta_status resize_history(quanta_model *model, quanta_item *item,
     model->history_bytes = model->history_bytes - old_bytes + bytes;
     if (points > QUANTA_HISTORY_MAX)
     {
-        snprintf(model->diagnostic, sizeof(model->diagnostic),
+        quanta_snprintf(model->diagnostic, sizeof(model->diagnostic),
                  "History capped at %u points per plot", QUANTA_HISTORY_MAX);
     }
     return QUANTA_OK;
@@ -150,12 +150,12 @@ static quanta_status model_upsert(void *context, const quanta_series *series)
             {
                 capacity = QUANTA_MAX_SERIES;
             }
-            items = (quanta_item *)realloc(model->items, capacity * sizeof(*items));
+            items = (quanta_item *)quanta_realloc(model->items, capacity * sizeof(*items));
             if (!items)
             {
                 return QUANTA_NO_MEMORY;
             }
-            memset(items + model->cap, 0, (capacity - model->cap) * sizeof(*items));
+            quanta_memset(items + model->cap, 0, (capacity - model->cap) * sizeof(*items));
             model->items = items;
             model->cap = capacity;
         }
@@ -179,8 +179,8 @@ static quanta_status model_remove(void *c, uint64_t id)
     if (p)
     {
         m->history_bytes -= p->history_cap * sizeof(quanta_point);
-        free(p->history);
-        memset(p, 0, sizeof(*p));
+        quanta_free(p->history);
+        quanta_memset(p, 0, sizeof(*p));
     }
     return QUANTA_OK;
 }
@@ -276,7 +276,7 @@ static quanta_status model_diag(void *c, quanta_status s, const char *text)
 static quanta_status model_progress(void *c, uint32_t a, uint32_t b, const char *text)
 {
     quanta_model *m = (quanta_model *)c;
-    snprintf(m->diagnostic, sizeof(m->diagnostic), "%u/%u %s", a, b, text);
+    quanta_snprintf(m->diagnostic, sizeof(m->diagnostic), "%u/%u %s", a, b, text);
     return QUANTA_OK;
 }
 
@@ -291,7 +291,7 @@ static quanta_status model_end(void *c, quanta_status status)
 quanta_sink quanta_model_sink(quanta_model *m)
 {
     quanta_sink s;
-    memset(&s, 0, sizeof(s));
+    quanta_memset(&s, 0, sizeof(s));
     s.struct_size = sizeof(s);
     s.api_version = 1;
     s.context = m;
@@ -333,7 +333,7 @@ quanta_status quanta_model_clone(quanta_model *dst, const quanta_model *src)
     out.cap = src->count;
     if (src->count)
     {
-        out.items = (quanta_item *)calloc(src->count, sizeof(quanta_item));
+        out.items = (quanta_item *)quanta_calloc(src->count, sizeof(quanta_item));
         if (!out.items)
         {
             return QUANTA_NO_MEMORY;
@@ -346,14 +346,14 @@ quanta_status quanta_model_clone(quanta_model *dst, const quanta_model *src)
         if (src->items[i].history_cap)
         {
             size_t bytes = src->items[i].history_cap * sizeof(quanta_point);
-            out.items[i].history = (quanta_point *)malloc(bytes);
+            out.items[i].history = (quanta_point *)quanta_malloc(bytes);
             if (!out.items[i].history)
             {
                 out.count = i + 1;
                 quanta_model_destroy(&out);
                 return QUANTA_NO_MEMORY;
             }
-            memcpy(out.items[i].history, src->items[i].history, bytes);
+            quanta_memcpy(out.items[i].history, src->items[i].history, bytes);
         }
     }
     quanta_model_destroy(dst);

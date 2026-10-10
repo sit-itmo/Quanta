@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "frontend_internal.h"
 #include "quanta/view.h"
 #include "terminal.h"
@@ -31,7 +32,7 @@ static int compare_items(const void *a, const void *b)
     }
     quanta_series_name(na, sizeof(na), &x->meta);
     quanta_series_name(nb, sizeof(nb), &y->meta);
-    return strcmp(na, nb);
+    return quanta_strcmp(na, nb);
 }
 
 static void line(const char *text, int width)
@@ -78,7 +79,7 @@ static void spark(char *out, size_t cap, const quanta_item *p, int width, uint64
     size_t i;
     int found = 0;
     width = QUANTA_MAX(4, QUANTA_MIN(width, (int)cap - 1));
-    memset(out, ' ', (size_t)width);
+    quanta_memset(out, ' ', (size_t)width);
     out[width] = 0;
     if (!p->history_count)
     {
@@ -167,7 +168,7 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
         return offset;
     }
     quanta_utc_string(m->frame.realtime_ns, utc, sizeof(utc));
-    snprintf(b, sizeof(b), "Quanta %s | %s | %s | frames=%" PRIu64 " samples=%" PRIu64,
+    quanta_snprintf(b, sizeof(b), "Quanta %s | %s | %s | frames=%" PRIu64 " samples=%" PRIu64,
              QUANTA_VERSION, paused ? "DISPLAY PAUSED (collector running)" : "LIVE", utc, m->frames,
              m->samples);
     line(b, cols);
@@ -176,11 +177,11 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
          "s sort | ? help",
          cols);
     row++;
-    snprintf(b, sizeof(b), "Filter: %s%s  Sort: %s", filter, filtering ? "_" : "",
+    quanta_snprintf(b, sizeof(b), "Filter: %s%s  Sort: %s", filter, filtering ? "_" : "",
              sorting ? "value descending" : "name");
     line(b, cols);
     row++;
-    indices = (size_t *)malloc((m->count ? m->count : 1) * sizeof(*indices));
+    indices = (size_t *)quanta_malloc((m->count ? m->count : 1) * sizeof(*indices));
     if (!indices)
     {
         line("Out of memory", cols);
@@ -196,7 +197,7 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
         {
             char name[2048];
             quanta_series_name(name, sizeof(name), &m->items[i].meta);
-            if (!*filter || strstr(name, filter) || strstr(m->items[i].meta.metric->title, filter))
+            if (!*filter || quanta_strstr(name, filter) || quanta_strstr(m->items[i].meta.metric->title, filter))
             {
                 indices[n++] = i;
             }
@@ -204,7 +205,7 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
     }
     sort_model = m;
     sort_by_value = sorting;
-    qsort(indices, n, sizeof(*indices), compare_items);
+    quanta_qsort(indices, n, sizeof(*indices), compare_items);
     if (n && offset >= n)
     {
         offset = n - 1;
@@ -239,7 +240,7 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
             quanta_series_name(name, sizeof(name), &p->meta);
             quanta_item_value(value, sizeof(value), p, m->redact);
             quanta_item_status(status, sizeof(status), p, quanta_now_ns());
-            snprintf(b, sizeof(b), "%s%s", i == offset ? "> " : "  ",
+            quanta_snprintf(b, sizeof(b), "%s%s", i == offset ? "> " : "  ",
                      p->meta.view.title[0] ? p->meta.view.title : name);
             line(b, cols);
             row++;
@@ -247,21 +248,21 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
             {
                 break;
             }
-            snprintf(b, sizeof(b), "    %s   [%s]", value, status);
+            quanta_snprintf(b, sizeof(b), "    %s   [%s]", value, status);
             line(b, cols);
             row++;
             if (row < rows - 2 && (p->meta.view.widget == QUANTA_WIDGET_BAR ||
                                    p->meta.view.widget == QUANTA_WIDGET_GAUGE))
             {
                 bar(graph, sizeof(graph), p, cols - 8);
-                snprintf(b, sizeof(b), "    %s", graph);
+                quanta_snprintf(b, sizeof(b), "    %s", graph);
                 line(b, cols);
                 row++;
             }
             else if (row < rows - 2 && p->meta.view.widget == QUANTA_WIDGET_PLOT)
             {
                 spark(graph, sizeof(graph), p, cols - 8, m->frame.monotonic_ns);
-                snprintf(b, sizeof(b), "    %s", graph);
+                quanta_snprintf(b, sizeof(b), "    %s", graph);
                 line(b, cols);
                 row++;
             }
@@ -272,20 +273,20 @@ static size_t render(const quanta_model *m, const char *filter, size_t offset, i
         line("", cols);
         row++;
     }
-    snprintf(b, sizeof(b), "%zu matching series; offset %zu; %s", n, offset, m->diagnostic);
+    quanta_snprintf(b, sizeof(b), "%zu matching series; offset %zu; %s", n, offset, m->diagnostic);
     line(b, cols);
     if (!quanta_terminal_present(terminal))
     {
         display_error = 1;
     }
-    free(indices);
+    quanta_free(indices);
     return offset;
 }
 
 static void filter_append(char *filter, size_t cap, uint32_t cp)
 {
     char bytes[4];
-    size_t count = 0, len = strlen(filter);
+    size_t count = 0, len = quanta_strlen(filter);
     if (cp < 32 || cp > 0x10ffff || (cp >= 0xd800 && cp <= 0xdfff))
     {
         return;
@@ -314,7 +315,7 @@ static void filter_append(char *filter, size_t cap, uint32_t cp)
     }
     if (len + count < cap)
     {
-        memcpy(filter + len, bytes, count);
+        quanta_memcpy(filter + len, bytes, count);
         filter[len + count] = 0;
     }
 }
@@ -331,12 +332,12 @@ int quanta_run_tui(quanta_engine *engine, const quanta_plan *plan)
     int paused = 0, filtering = 0, sorting = 0, help = 0, quit = 0, rc = 0;
     if (!quanta_terminal_open(&terminal, error, sizeof(error)))
     {
-        fprintf(stderr, "quanta: %s; use --mode file for pipes\n", error);
+        quanta_fprintf(quanta_stderr, "quanta: %s; use --mode file for pipes\n", error);
         return 2;
     }
     display_error = 0;
     quanta_model_init(&model, plan);
-    memset(&frozen, 0, sizeof(frozen));
+    quanta_memset(&frozen, 0, sizeof(frozen));
     sink = quanta_model_sink(&model);
     st = quanta_live_start(engine, plan, &live);
     if (st != QUANTA_OK)
@@ -393,7 +394,7 @@ int quanta_run_tui(quanta_engine *engine, const quanta_plan *plan)
         }
         if (filtering)
         {
-            size_t len = strlen(filter);
+            size_t len = quanta_strlen(filter);
             if (ch == '\r' || ch == '\n')
             {
                 filtering = 0;
@@ -503,7 +504,7 @@ finish:
     terminal = NULL;
     if (rc)
     {
-        fprintf(stderr, "quanta: TUI session failed: %s\n", quanta_status_name(st));
+        quanta_fprintf(quanta_stderr, "quanta: TUI session failed: %s\n", quanta_status_name(st));
     }
     return rc;
 }

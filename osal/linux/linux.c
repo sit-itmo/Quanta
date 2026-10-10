@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: MIT */
-#include "osal_internal.h"
+#include <locale.h>
+#include "support.h"
+#include <signal.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <time.h>
@@ -60,83 +62,7 @@ void quanta_sleep_ns(uint64_t ns)
     }
 }
 
-int quanta_path(char *out, size_t cap, const char *root, const char *rel)
-{
-    int n = snprintf(out, cap, "%s/%s", root, rel);
-    return n >= 0 && (size_t)n < cap;
-}
-
-quanta_status quanta_read_text(const char *path, char *out, size_t cap)
-{
-    int fd;
-    size_t n = 0;
-    ssize_t r;
-    char extra;
-    quanta_status s = QUANTA_OK;
-    if (cap < 2)
-    {
-        return QUANTA_LIMIT;
-    }
-    out[0] = 0;
-    fd = open(path, O_RDONLY | O_CLOEXEC);
-    if (fd < 0)
-    {
-        return quanta_errno_status(errno);
-    }
-    while (n + 1 < cap)
-    {
-        r = read(fd, out + n, cap - 1 - n);
-        if (r > 0)
-        {
-            n += (size_t)r;
-            continue;
-        }
-        if (r < 0 && errno == EINTR)
-        {
-            continue;
-        }
-        if (r < 0)
-        {
-            s = quanta_errno_status(errno);
-        }
-        break;
-    }
-    if (s == QUANTA_OK && n + 1 == cap)
-    {
-        do
-        {
-            r = read(fd, &extra, 1);
-        } while (r < 0 && errno == EINTR);
-        if (r > 0)
-        {
-            s = QUANTA_LIMIT;
-        }
-        else if (r < 0)
-        {
-            s = quanta_errno_status(errno);
-        }
-    }
-    close(fd);
-    if (s == QUANTA_OK && memchr(out, 0, n))
-    {
-        s = QUANTA_INVALID_DATA;
-    }
-    out[n] = 0;
-    if (s != QUANTA_OK)
-    {
-        out[0] = 0;
-    }
-    return s;
-}
-
-quanta_status quanta_read_u64(const char *p, uint64_t *v)
-{
-    char b[128];
-    quanta_status s = quanta_read_text(p, b, sizeof(b));
-    return s != QUANTA_OK ? s : (quanta_parse_u64(b, v) ? QUANTA_OK : QUANTA_INVALID_DATA);
-}
-
-FILE *quanta_fopen_utf8(const char *path, const char *mode)
+FILE *quanta_fopen(const char *path, const char *mode)
 {
     return fopen(path, mode);
 }
@@ -162,4 +88,10 @@ FILE *quanta_create_output(const char *path)
 unsigned long quanta_process_id(void)
 {
     return (unsigned long)getpid();
+}
+
+/* Application-only locale policy; never changed by the core or worker thread. */
+int quanta_numeric_locale(void)
+{
+    return setlocale(LC_NUMERIC, "C") != NULL;
 }

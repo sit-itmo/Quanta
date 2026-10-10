@@ -1,8 +1,6 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "frontend_internal.h"
-#include <ctype.h>
-#include <math.h>
-#include <time.h>
 
 void quanta_format_value(char *out, size_t cap, const quanta_value *v, const char *unit,
                          const quanta_view_spec *view, int machine)
@@ -27,7 +25,7 @@ void quanta_format_value(char *out, size_t cap, const quanta_value *v, const cha
     }
     if (v->type == QUANTA_BOOL)
     {
-        snprintf(out, cap, "%s", v->as.boolean ? "true" : "false");
+        quanta_snprintf(out, cap, "%s", v->as.boolean ? "true" : "false");
         return;
     }
     if (v->type == QUANTA_BYTES)
@@ -36,7 +34,7 @@ void quanta_format_value(char *out, size_t cap, const quanta_value *v, const cha
         out[0] = 0;
         for (i = 0; i < v->as.bytes.size && off + 2 < cap; i++)
         {
-            off += (size_t)snprintf(out + off, cap - off, "%02x", v->as.bytes.data[i]);
+            off += (size_t)quanta_snprintf(out + off, cap - off, "%02x", v->as.bytes.data[i]);
         }
         return;
     }
@@ -45,41 +43,41 @@ void quanta_format_value(char *out, size_t cap, const quanta_value *v, const cha
         switch (v->type)
         {
             case QUANTA_U64:
-                snprintf(out, cap, "%" PRIu64, v->as.u64);
+                quanta_snprintf(out, cap, "%" PRIu64, v->as.u64);
                 return;
             case QUANTA_S64:
-                snprintf(out, cap, "%" PRId64, v->as.s64);
+                quanta_snprintf(out, cap, "%" PRId64, v->as.s64);
                 return;
             default:
-                snprintf(out, cap, "%.17g", v->as.f64);
+                quanta_snprintf(out, cap, "%.17g", v->as.f64);
                 return;
         }
     }
     if (!quanta_value_number(v, &n))
     {
-        snprintf(out, cap, "invalid");
+        quanta_snprintf(out, cap, "invalid");
         return;
     }
     if (*du)
     {
         quanta_unit_scale(unit, du, &scale);
     }
-    else if (!strcmp(unit, "1"))
+    else if (!quanta_strcmp(unit, "1"))
     {
         du = "%";
         scale = 100;
     }
-    else if (!strcmp(unit, "B") || !strcmp(unit, "B/s"))
+    else if (!quanta_strcmp(unit, "B") || !quanta_strcmp(unit, "B/s"))
     {
         static const char *const u[] = {"B", "KiB", "MiB", "GiB", "TiB"};
         static const char *const r[] = {"B/s", "KiB/s", "MiB/s", "GiB/s", "TiB/s"};
         unsigned k = 0;
-        while (fabs(n * scale) >= 1024 && k < 4)
+        while (quanta_fabs(n * scale) >= 1024 && k < 4)
         {
             k++;
             scale /= 1024;
         }
-        du = !strcmp(unit, "B") ? u[k] : r[k];
+        du = !quanta_strcmp(unit, "B") ? u[k] : r[k];
     }
     else
     {
@@ -95,14 +93,14 @@ void quanta_format_value(char *out, size_t cap, const quanta_value *v, const cha
     }
     if (scale == 1 && v->type == QUANTA_U64)
     {
-        snprintf(out, cap, "%" PRIu64 "%s%s", v->as.u64, *du ? " " : "", du);
+        quanta_snprintf(out, cap, "%" PRIu64 "%s%s", v->as.u64, *du ? " " : "", du);
     }
     else if (scale == 1 && v->type == QUANTA_S64)
     {
-        snprintf(out, cap, "%" PRId64 "%s%s", v->as.s64, *du ? " " : "", du);
+        quanta_snprintf(out, cap, "%" PRId64 "%s%s", v->as.s64, *du ? " " : "", du);
     }
     else
     {
-        snprintf(out, cap, "%.*f%s%s", prec, n * scale, *du ? " " : "", du);
+        quanta_snprintf(out, cap, "%.*f%s%s", prec, n * scale, *du ? " " : "", du);
     }
 }

@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "frontend_internal.h"
 #include "terminal.h"
+#include <signal.h>
 #include <poll.h>
 #include <sys/ioctl.h>
 #include <termios.h>
@@ -31,15 +33,15 @@ static int enter(quanta_terminal *t)
     {
         return 0;
     }
-    fputs("\033[?1049h\033[?25l\033[2J", stdout);
-    fflush(stdout);
+    quanta_fputs("\033[?1049h\033[?25l\033[2J", quanta_stdout);
+    quanta_fflush(quanta_stdout);
     return 1;
 }
 
 static void leave(quanta_terminal *t)
 {
-    fputs("\033[0m\033[?25h\033[?1049l", stdout);
-    fflush(stdout);
+    quanta_fputs("\033[0m\033[?25h\033[?1049l", quanta_stdout);
+    quanta_fflush(quanta_stdout);
     (void)tcsetattr(STDIN_FILENO, TCSAFLUSH, &t->saved);
 }
 
@@ -47,34 +49,34 @@ int quanta_terminal_open(quanta_terminal **out, char *error, size_t cap)
 {
     struct sigaction action;
     quanta_terminal *t;
-    const char *term = getenv("TERM");
+    const char *term = quanta_getenv("TERM");
     *out = NULL;
-    if ((term && !strcmp(term, "dumb")) || !isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+    if ((term && !quanta_strcmp(term, "dumb")) || !isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
     {
-        snprintf(error, cap,
+        quanta_snprintf(error, cap,
                  "TUI requires an interactive ANSI terminal; use --mode file for pipes");
         return 0;
     }
-    t = (quanta_terminal *)calloc(1, sizeof(*t));
+    t = (quanta_terminal *)quanta_calloc(1, sizeof(*t));
     if (!t)
     {
-        snprintf(error, cap, "TUI: out of memory");
+        quanta_snprintf(error, cap, "TUI: out of memory");
         return 0;
     }
     if (tcgetattr(STDIN_FILENO, &t->saved) || !enter(t))
     {
-        snprintf(error, cap, "TUI: cannot configure terminal");
-        free(t);
+        quanta_snprintf(error, cap, "TUI: cannot configure terminal");
+        quanta_free(t);
         return 0;
     }
-    memset(&action, 0, sizeof(action));
+    quanta_memset(&action, 0, sizeof(action));
     action.sa_handler = suspend_handler;
     sigemptyset(&action.sa_mask);
     if (sigaction(SIGTSTP, &action, &t->old_suspend))
     {
         leave(t);
-        free(t);
-        snprintf(error, cap, "TUI: cannot install suspend handler");
+        quanta_free(t);
+        quanta_snprintf(error, cap, "TUI: cannot install suspend handler");
         return 0;
     }
     *out = t;
@@ -89,7 +91,7 @@ void quanta_terminal_close(quanta_terminal *t)
     }
     leave(t);
     (void)sigaction(SIGTSTP, &t->old_suspend, NULL);
-    free(t);
+    quanta_free(t);
 }
 
 void quanta_terminal_size(quanta_terminal *t, int *cols, int *rows)
@@ -114,7 +116,7 @@ void quanta_terminal_size(quanta_terminal *t, int *cols, int *rows)
 void quanta_terminal_begin(quanta_terminal *t)
 {
     (void)t;
-    fputs("\033[H", stdout);
+    quanta_fputs("\033[H", quanta_stdout);
 }
 
 void quanta_terminal_line(quanta_terminal *t, const char *text, int width)
@@ -122,14 +124,14 @@ void quanta_terminal_line(quanta_terminal *t, const char *text, int width)
     int n = 0;
     const unsigned char *p = (const unsigned char *)text;
     (void)t;
-    fputs("\033[2K", stdout);
+    quanta_fputs("\033[2K", quanta_stdout);
     /* Deterministic ASCII cell geometry on POSIX; file/GUI preserve UTF-8. */
     while (*p && n < width - 1)
     {
         unsigned ch = *p++;
         if (ch >= 32 && ch < 127)
         {
-            fputc((int)ch, stdout);
+            quanta_fputc((int)ch, quanta_stdout);
         }
         else if (ch >= 192)
         {
@@ -137,22 +139,22 @@ void quanta_terminal_line(quanta_terminal *t, const char *text, int width)
             {
                 p++;
             }
-            fputc('?', stdout);
+            quanta_fputc('?', quanta_stdout);
         }
         else
         {
-            fputc(' ', stdout);
+            quanta_fputc(' ', quanta_stdout);
         }
         n++;
     }
-    fputs("\r\n", stdout);
+    quanta_fputs("\r\n", quanta_stdout);
 }
 
 int quanta_terminal_present(quanta_terminal *t)
 {
     (void)t;
-    fputs("\033[J", stdout);
-    return fflush(stdout) == 0 && !ferror(stdout);
+    quanta_fputs("\033[J", quanta_stdout);
+    return quanta_fflush(quanta_stdout) == 0 && !quanta_ferror(quanta_stdout);
 }
 
 static int byte(unsigned timeout, unsigned char *out)
@@ -166,7 +168,7 @@ static int byte(unsigned timeout, unsigned char *out)
     status = poll(&fd, 1, (int)timeout);
     if (status < 0)
     {
-        return errno == EINTR ? 0 : -1;
+        return quanta_errno == EINTR ? 0 : -1;
     }
     if (!status)
     {
@@ -177,7 +179,7 @@ static int byte(unsigned timeout, unsigned char *out)
         return -1;
     }
     n = read(STDIN_FILENO, out, 1);
-    return n > 0 ? 1 : n < 0 && errno != EINTR ? -1 : 0;
+    return n > 0 ? 1 : n < 0 && quanta_errno != EINTR ? -1 : 0;
 }
 
 int quanta_terminal_key(quanta_terminal *t, uint32_t *key, unsigned timeout)
@@ -188,7 +190,7 @@ int quanta_terminal_key(quanta_terminal *t, uint32_t *key, unsigned timeout)
     {
         struct sigaction action;
         leave(t);
-        memset(&action, 0, sizeof(action));
+        quanta_memset(&action, 0, sizeof(action));
         action.sa_handler = SIG_DFL;
         sigemptyset(&action.sa_mask);
         (void)sigaction(SIGTSTP, &action, NULL);

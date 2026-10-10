@@ -6,7 +6,7 @@
 
 Единица: `B`. Источник: `esp_get_minimum_free_heap_size`. Платформа: **ESP8266_RTOS_SDK**.
 
-Реализация: `sensors/mcu/metrics.c` + `sensors/mcu/esp8266.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.
+Реализация: `sensors/platform/esp8266/mcu_metrics.c` + `sensors/platform/esp8266/mcu.c`. Вызовы SDK выполняются непосредственно кодом метрик; HAL и OSAL не содержат сервисов получения MCU-метрик. Все выбранные поля MCU используют общий снимок при работе через engine. В low-memory `quanta_metric_read_once` каждый вызов имеет собственный жизненный цикл.
 
 ## Запрос
 

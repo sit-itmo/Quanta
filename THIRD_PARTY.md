@@ -46,7 +46,7 @@ System import libraries refer to Windows DLLs; these DLLs are not bundled or
 incorporated into the EXE. MinGW may depend on the system MSVCRT/UCRT even with
 -static. Consult toolchain redistribution terms before distributing binaries.
 
-Primary API/semantics references are listed in docs/AUDIT.md and per-metric
+Primary API/semantics references are listed in docs/HAL.md, docs/ESP8266.md and per-metric
 Markdown. SMBIOS parser is original bounded C code, not code copied from dmidecode.
 Windows PDH localization follows Microsoft's documented English-counter sequence.
 
@@ -55,10 +55,10 @@ Windows PDH localization follows Microsoft's documented English-counter sequence
 The active firmware component targets ESP8266_RTOS_SDK v3.4 APIs and its Xtensa LX106 toolchain.
 SDK source, prebuilt radio libraries and toolchain are NOT in this archive. Follow Espressif's
 individual source/binary licenses; the root MIT license does not relicense them.
-`tests/esp8266_stubs` is original minimal test fixture code, not an SDK redistribution.
+`tests/platform/esp8266/stubs` is original minimal test fixture code, not an SDK redistribution.
 
 - https://github.com/espressif/ESP8266_RTOS_SDK/tree/v3.4
 - https://github.com/espressif/ESP8266_RTOS_SDK/blob/v3.4/README.md
 
-The original SDK configuration supplied by the user is retained only under firmware/reference;
+The original SDK configuration supplied by the user is retained only under firmware/esp8266/reference;
 it is not asserted to fit a different board.

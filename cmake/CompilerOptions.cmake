@@ -1,8 +1,8 @@
 # Apply options to our own targets, without exporting private headers or flags.
 function(quanta_target target)
     target_include_directories(${target} PRIVATE
-        ${PROJECT_SOURCE_DIR}/core/private
-        ${PROJECT_SOURCE_DIR}/osal/private
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/include/private
         ${PROJECT_BINARY_DIR}/generated)
     if(WIN32)
         target_compile_definitions(${target} PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX
@@ -12,7 +12,10 @@ function(quanta_target target)
             target_compile_definitions(${target} PRIVATE __USE_MINGW_ANSI_STDIO=1)
         endif()
     else()
-        target_compile_definitions(${target} PRIVATE _POSIX_C_SOURCE=200809L _GNU_SOURCE _FILE_OFFSET_BITS=64)
+        target_compile_definitions(${target} PRIVATE _POSIX_C_SOURCE=200809L)
+        if(NOT QUANTA_PORTABLE)
+            target_compile_definitions(${target} PRIVATE _GNU_SOURCE _FILE_OFFSET_BITS=64)
+        endif()
     endif()
     if(MSVC)
         target_compile_options(${target} PRIVATE /W4 /utf-8 /Zc:preprocessor)

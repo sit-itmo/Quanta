@@ -1,4 +1,3 @@
-// hal/include/hwmon.h
 #ifndef QUANTA_SENSOR_HWMON_H
 #define QUANTA_SENSOR_HWMON_H
 

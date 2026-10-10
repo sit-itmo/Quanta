@@ -3,7 +3,7 @@
 set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 preset=${1:-linux-default}
-case "$preset" in linux-default|linux-minimal|linux-hwmon|linux-asan) ;; *) echo "Unknown Linux preset: $preset" >&2; exit 2;; esac
+case "$preset" in linux-default|linux-minimal|linux-hwmon|linux-asan|portable-posix) ;; *) echo "Unknown Linux preset: $preset" >&2; exit 2;; esac
 cd "$root"
 cmake --preset "$preset"
 cmake --build --preset "$preset" --parallel

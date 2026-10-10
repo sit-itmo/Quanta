@@ -1,8 +1,6 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "core_internal.h"
-#include <ctype.h>
-#include <math.h>
-#include <time.h>
 
 int quanta_value_number(const quanta_value *v, double *n)
 {
@@ -27,7 +25,7 @@ int quanta_value_number(const quanta_value *v, double *n)
         default:
             return 0;
     }
-    return isfinite(*n);
+    return quanta_isfinite(*n);
 }
 
 int quanta_unit_scale(const char *c, const char *d, double *s)
@@ -37,48 +35,48 @@ int quanta_unit_scale(const char *c, const char *d, double *s)
         return 0;
     }
     *s = 1;
-    if (!*d || !strcmp(c, d))
+    if (!*d || !quanta_strcmp(c, d))
     {
         return 1;
     }
-    if (!strcmp(c, "1") && !strcmp(d, "%"))
+    if (!quanta_strcmp(c, "1") && !quanta_strcmp(d, "%"))
     {
         *s = 100;
         return 1;
     }
-    if (!strcmp(c, "B") || !strcmp(c, "B/s"))
+    if (!quanta_strcmp(c, "B") || !quanta_strcmp(c, "B/s"))
     {
-        int rate = !strcmp(c, "B/s");
+        int rate = !quanta_strcmp(c, "B/s");
         const char *u[] = {"KiB", "MiB", "GiB", "TiB", "KiB/s", "MiB/s", "GiB/s", "TiB/s"};
         size_t i;
         for (i = 0; i < 4; i++)
         {
-            if (!strcmp(d, u[i + (rate ? 4 : 0)]))
+            if (!quanta_strcmp(d, u[i + (rate ? 4 : 0)]))
             {
-                *s = 1.0 / pow(1024.0, (double)i + 1);
+                *s = 1.0 / quanta_pow(1024.0, (double)i + 1);
                 return 1;
             }
         }
     }
-    if (!strcmp(c, "Hz"))
+    if (!quanta_strcmp(c, "Hz"))
     {
-        if (!strcmp(d, "kHz"))
+        if (!quanta_strcmp(d, "kHz"))
         {
             *s = 1e-3;
             return 1;
         }
-        if (!strcmp(d, "MHz"))
+        if (!quanta_strcmp(d, "MHz"))
         {
             *s = 1e-6;
             return 1;
         }
-        if (!strcmp(d, "GHz"))
+        if (!quanta_strcmp(d, "GHz"))
         {
             *s = 1e-9;
             return 1;
         }
     }
-    if (!strcmp(c, "s") && !strcmp(d, "ms"))
+    if (!quanta_strcmp(c, "s") && !quanta_strcmp(d, "ms"))
     {
         *s = 1000;
         return 1;
@@ -94,7 +92,7 @@ quanta_status quanta_counter_derive(quanta_transform op, const quanta_sample *pr
     {
         return QUANTA_INVALID_DATA;
     }
-    memset(v, 0, sizeof(*v));
+    quanta_memset(v, 0, sizeof(*v));
     v->type = op == QUANTA_RATE ? QUANTA_F64 : QUANTA_U64;
     *window = 0;
     if (cur->status != QUANTA_OK)
@@ -131,12 +129,12 @@ quanta_status quanta_value_validate(const quanta_value *value)
     switch (value->type)
     {
         case QUANTA_F64:
-            return isfinite(value->as.f64) ? QUANTA_OK : QUANTA_INVALID_DATA;
+            return quanta_isfinite(value->as.f64) ? QUANTA_OK : QUANTA_INVALID_DATA;
         case QUANTA_BOOL:
             return value->as.boolean == 0 || value->as.boolean == 1 ? QUANTA_OK
                                                                     : QUANTA_INVALID_DATA;
         case QUANTA_STRING:
-            return memchr(value->as.string, 0, sizeof(value->as.string)) ? QUANTA_OK
+            return quanta_memchr(value->as.string, 0, sizeof(value->as.string)) ? QUANTA_OK
                                                                          : QUANTA_INVALID_DATA;
         case QUANTA_BYTES:
             return value->as.bytes.size <= sizeof(value->as.bytes.data) ? QUANTA_OK

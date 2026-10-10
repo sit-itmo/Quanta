@@ -1,4 +1,3 @@
-// hal/include/cpu.h
 #ifndef QUANTA_SENSOR_CPU_H
 #define QUANTA_SENSOR_CPU_H
 

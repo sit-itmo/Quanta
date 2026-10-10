@@ -1,93 +1,91 @@
 /* SPDX-License-Identifier: MIT */
-#include "thread.h"
+#include "quanta/osal.h"
+#include <windows.h>
 #include <process.h>
-#include <stdlib.h>
 
-typedef struct start_info
+typedef struct thread_start
 {
-    void *(*fn)(void *);
-    void *arg;
-} start_info;
+    quanta_thread_fn function;
+    void *argument;
+} thread_start;
 
-static unsigned __stdcall entry(void *arg)
+static unsigned __stdcall thread_entry(void *argument)
 {
-    start_info data = *(start_info *)arg;
-    free(arg);
-    (void)data.fn(data.arg);
+    thread_start start = *(thread_start *)argument;
+    quanta_free(argument);
+    (void)start.function(start.argument);
     return 0;
 }
 
-int quanta_mutex_init(quanta_mutex *m)
+int quanta_mutex_init(quanta_mutex *mutex)
 {
-    return InitializeCriticalSectionEx(m, 0, 0) ? 0 : 1;
-}
-
-void quanta_mutex_destroy(quanta_mutex *m)
-{
-    DeleteCriticalSection(m);
-}
-
-void quanta_mutex_lock(quanta_mutex *m)
-{
-    EnterCriticalSection(m);
-}
-
-void quanta_mutex_unlock(quanta_mutex *m)
-{
-    LeaveCriticalSection(m);
-}
-
-int quanta_condition_init(quanta_condition *c)
-{
-    InitializeConditionVariable(c);
+    SRWLOCK *native;
+    if (!mutex) return EINVAL;
+    mutex->handle = NULL;
+    native = (SRWLOCK *)quanta_malloc(sizeof(*native));
+    if (!native) return ENOMEM;
+    InitializeSRWLock(native);
+    mutex->handle = native;
     return 0;
 }
-
-void quanta_condition_destroy(quanta_condition *c)
+void quanta_mutex_destroy(quanta_mutex *mutex)
 {
-    (void)c;
+    if (mutex) { quanta_free(mutex->handle); mutex->handle = NULL; }
 }
+void quanta_mutex_lock(quanta_mutex *mutex)
+{ AcquireSRWLockExclusive((SRWLOCK *)mutex->handle); }
+void quanta_mutex_unlock(quanta_mutex *mutex)
+{ ReleaseSRWLockExclusive((SRWLOCK *)mutex->handle); }
 
-void quanta_condition_wait(quanta_condition *c, quanta_mutex *m)
+int quanta_condition_init(quanta_condition *condition)
 {
-    /* Infinite wait cannot time out. Spurious wakes are handled by the caller. */
-    (void)SleepConditionVariableCS(c, m, INFINITE);
+    CONDITION_VARIABLE *native;
+    if (!condition) return EINVAL;
+    condition->handle = NULL;
+    native = (CONDITION_VARIABLE *)quanta_malloc(sizeof(*native));
+    if (!native) return ENOMEM;
+    InitializeConditionVariable(native);
+    condition->handle = native;
+    return 0;
 }
-
-void quanta_condition_signal(quanta_condition *c)
+void quanta_condition_destroy(quanta_condition *condition)
 {
-    WakeConditionVariable(c);
+    if (condition) { quanta_free(condition->handle); condition->handle = NULL; }
 }
+void quanta_condition_wait(quanta_condition *condition, quanta_mutex *mutex)
+{ (void)SleepConditionVariableSRW((CONDITION_VARIABLE *)condition->handle,
+                                (SRWLOCK *)mutex->handle, INFINITE, 0); }
+void quanta_condition_signal(quanta_condition *condition)
+{ WakeConditionVariable((CONDITION_VARIABLE *)condition->handle); }
+void quanta_condition_broadcast(quanta_condition *condition)
+{ WakeAllConditionVariable((CONDITION_VARIABLE *)condition->handle); }
 
-void quanta_condition_broadcast(quanta_condition *c)
+int quanta_thread_start(quanta_thread *thread, quanta_thread_fn function, void *argument)
 {
-    WakeAllConditionVariable(c);
-}
-
-int quanta_thread_start(quanta_thread *t, void *(*fn)(void *), void *arg)
-{
-    start_info *s = (start_info *)malloc(sizeof(*s));
-    if (!s)
+    thread_start *start;
+    HANDLE handle;
+    if (!thread) return EINVAL;
+    thread->handle = NULL;
+    if (!function) return EINVAL;
+    start = (thread_start *)quanta_malloc(sizeof(*start));
+    if (!start) return ENOMEM;
+    start->function = function;
+    start->argument = argument;
+    handle = (HANDLE)_beginthreadex(NULL, 0, thread_entry, start, 0, NULL);
+    if (!handle)
     {
-        return 1;
+        quanta_free(start);
+        return EAGAIN;
     }
-    s->fn = fn;
-    s->arg = arg;
-    t->handle = (HANDLE)_beginthreadex(NULL, 0, entry, s, 0, NULL);
-    if (!t->handle)
-    {
-        free(s);
-        return 1;
-    }
+    thread->handle = handle;
     return 0;
 }
-
-void quanta_thread_join(quanta_thread *t)
+void quanta_thread_join(quanta_thread *thread)
 {
-    if (t->handle)
+    if (thread && thread->handle)
     {
-        (void)WaitForSingleObject(t->handle, INFINITE);
-        CloseHandle(t->handle);
-        t->handle = NULL;
+        (void)WaitForSingleObject((HANDLE)thread->handle, INFINITE);
+        CloseHandle((HANDLE)thread->handle);
+        thread->handle = NULL;
     }
 }

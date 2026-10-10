@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "hal_internal.h"
 #include <driver/gpio.h>
 
@@ -25,8 +26,8 @@ quanta_status quanta_hal_platform_open(const quanta_hal_options *options, quanta
     quanta_hal_info info = {0};
     quanta_hal_operations ops = {0};
     const char *name = options && options->name ? options->name : "native";
-    if (*name && strcmp(name, "native") && strcmp(name, "esp8266-native")) return QUANTA_UNSUPPORTED;
-    strcpy(info.name, "esp8266-native");
+    if (*name && quanta_strcmp(name, "native") && quanta_strcmp(name, "esp8266-native")) return QUANTA_UNSUPPORTED;
+    quanta_strcpy(info.name, "esp8266-native");
     info.logical_cpus = 1;
     info.known = QUANTA_HAL_CPU_COUNT_KNOWN;
     info.maximum_physical_address = UINT32_MAX;

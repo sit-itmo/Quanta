@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "frontend_internal.h"
 
 void quanta_item_value(char *out, size_t cap, const quanta_item *p, int redact)
@@ -16,7 +17,7 @@ void quanta_item_value(char *out, size_t cap, const quanta_item *p, int redact)
     {
         char b[QUANTA_TEXT_CAP + 64];
         quanta_format_value(b, sizeof(b), &p->good.value, p->meta.unit, &p->meta.view, 0);
-        snprintf(out, cap, "%s (last good)", b);
+        quanta_snprintf(out, cap, "%s (last good)", b);
     }
     else
     {
@@ -32,12 +33,12 @@ void quanta_item_status(char *out, size_t cap, const quanta_item *p, uint64_t no
                 age > QUANTA_MAX(p->meta.metric->stale_after_ns, 3 * p->meta.effective_period_ns);
     if (s != QUANTA_OK && p->has_good)
     {
-        snprintf(out, cap, "%s / last good %.1fs ago%s", quanta_status_name(s), (double)age / 1e9,
+        quanta_snprintf(out, cap, "%s / last good %.1fs ago%s", quanta_status_name(s), (double)age / 1e9,
                  stale ? " / STALE" : "");
     }
     else
     {
-        snprintf(out, cap, "%s%s%s", quanta_status_name(s), stale ? " / STALE" : "",
+        quanta_snprintf(out, cap, "%s%s%s", quanta_status_name(s), stale ? " / STALE" : "",
                  p->has_last && (p->last.quality_flags & QUANTA_QUALITY_ESTIMATED) ? " / estimate"
                                                                                    : "");
     }

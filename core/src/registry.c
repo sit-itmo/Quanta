@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "core_internal.h"
 
 static quanta_status invalid(char *error, size_t capacity, const char *reason, size_t index)
 {
-    if (error && capacity) snprintf(error, capacity, "%s: entry %zu", reason, index);
+    if (error && capacity) quanta_snprintf(error, capacity, "%s: entry %zu", reason, index);
     return QUANTA_INVALID_DATA;
 }
 
@@ -16,7 +17,7 @@ quanta_status quanta_catalog_validate(const quanta_catalog *catalog, char *error
     for (i = 0; i < catalog->count; ++i)
     {
         const quanta_metric_desc *m = catalog->metrics[i];
-        if (!m || !m->key || !m->key[0] || strlen(m->key) >= QUANTA_KEY_CAP || !m->title ||
+        if (!m || !m->key || !m->key[0] || quanta_strlen(m->key) >= QUANTA_KEY_CAP || !m->title ||
             !m->description || !m->doc_path || !m->unit || !m->label_schema || !m->dependencies ||
             !m->arg || !m->read || (unsigned)m->type > QUANTA_BYTES ||
             (unsigned)m->kind > QUANTA_COUNTER || (unsigned)m->refresh > QUANTA_REFRESH_ON_EVENT)
@@ -25,7 +26,7 @@ quanta_status quanta_catalog_validate(const quanta_catalog *catalog, char *error
             return invalid(error, capacity, "missing polling floor", i);
         for (j = 0; j < i; ++j)
         {
-            if (!strcmp(m->key, catalog->metrics[j]->key))
+            if (!quanta_strcmp(m->key, catalog->metrics[j]->key))
                 return invalid(error, capacity, "duplicate metric name (use a distinct method-specific key)", i);
         }
     }
@@ -37,7 +38,7 @@ const quanta_metric_desc *quanta_catalog_find(const quanta_catalog *catalog, con
     size_t i;
     if (!catalog || !key) return NULL;
     for (i = 0; i < catalog->count; ++i)
-        if (!strcmp(catalog->metrics[i]->key, key)) return catalog->metrics[i];
+        if (!quanta_strcmp(catalog->metrics[i]->key, key)) return catalog->metrics[i];
     return NULL;
 }
 

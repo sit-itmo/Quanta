@@ -1,19 +1,4 @@
-# Dear ImGui is C++, but only this optional adapter requires a C++ compiler.
-set(QUANTA_IMGUI_DIR "${PROJECT_SOURCE_DIR}/vendor/imgui" CACHE PATH "Directory containing pinned Dear ImGui sources")
-option(QUANTA_FETCH_IMGUI "Fetch pinned ImGui if QUANTA_IMGUI_DIR is empty" OFF)
-if(NOT EXISTS "${QUANTA_IMGUI_DIR}/imgui.cpp")
-  if(NOT QUANTA_FETCH_IMGUI)
-    message(FATAL_ERROR "ImGui sources missing. Run tools/fetch_imgui.py or set QUANTA_IMGUI_DIR.")
-  endif()
-  include(FetchContent)
-  if(POLICY CMP0135)
-    cmake_policy(SET CMP0135 NEW)
-  endif()
-  FetchContent_Declare(quanta_imgui
-    URL https://github.com/ocornut/imgui/archive/f5befd2d29e66809cd1110a152e375a7f1981f06.tar.gz)
-  FetchContent_MakeAvailable(quanta_imgui)
-  set(QUANTA_IMGUI_DIR "${quanta_imgui_SOURCE_DIR}")
-endif()
+# Sources are detected before targets are created. CMake never downloads code.
 add_library(imgui_vendor STATIC
   ${QUANTA_IMGUI_DIR}/imgui.cpp ${QUANTA_IMGUI_DIR}/imgui_draw.cpp
   ${QUANTA_IMGUI_DIR}/imgui_tables.cpp ${QUANTA_IMGUI_DIR}/imgui_widgets.cpp)

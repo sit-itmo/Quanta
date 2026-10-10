@@ -19,7 +19,8 @@
         "CMAKE_BUILD_TYPE": "Release",
         "BUILD_TESTING": "ON",
         "QUANTA_TESTS_ON_BUILD": "ON",
-        "QUANTA_WITH_GUI": "OFF"
+        "QUANTA_WITH_GUI": "AUTO",
+        "QUANTA_WITH_TUI": "AUTO"
       }
     },
     {
@@ -35,7 +36,8 @@
         "QUANTA_WITH_FILESYSTEM": "OFF",
         "QUANTA_WITH_PROCESS": "OFF",
         "QUANTA_WITH_TUI": "OFF",
-        "QUANTA_EMBED_DOCS": "OFF"
+        "QUANTA_EMBED_DOCS": "OFF",
+        "QUANTA_WITH_GUI": "OFF"
       }
     },
     {
@@ -53,11 +55,21 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_C_COMPILER": "clang",
         "QUANTA_SANITIZE": "ON",
-        "QUANTA_WARNINGS_AS_ERRORS": "ON"
+        "QUANTA_WARNINGS_AS_ERRORS": "ON",
+        "QUANTA_WITH_GUI": "OFF"
       },
       "environment": {
         "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
         "UBSAN_OPTIONS": "halt_on_error=1"
+      }
+    },
+    {
+      "name": "portable-posix",
+      "inherits": "linux-default",
+      "cacheVariables": {
+        "QUANTA_PORTABLE": "ON",
+        "QUANTA_WITH_TUI": "OFF",
+        "QUANTA_WITH_GUI": "OFF"
       }
     },
     {
@@ -73,7 +85,8 @@
       "cacheVariables": {
         "BUILD_TESTING": "ON",
         "QUANTA_TESTS_ON_BUILD": "ON",
-        "QUANTA_WITH_GUI": "OFF"
+        "QUANTA_WITH_GUI": "AUTO",
+        "QUANTA_WITH_TUI": "AUTO"
       }
     },
     {
@@ -89,7 +102,8 @@
         "QUANTA_WITH_FILESYSTEM": "OFF",
         "QUANTA_WITH_PROCESS": "OFF",
         "QUANTA_WITH_TUI": "OFF",
-        "QUANTA_EMBED_DOCS": "OFF"
+        "QUANTA_EMBED_DOCS": "OFF",
+        "QUANTA_WITH_GUI": "OFF"
       }
     }
   ],
@@ -109,6 +123,10 @@
     {
       "name": "linux-asan",
       "configurePreset": "linux-asan"
+    },
+    {
+      "name": "portable-posix",
+      "configurePreset": "portable-posix"
     },
     {
       "name": "windows-native",
@@ -155,6 +173,16 @@
     {
       "name": "linux-asan",
       "configurePreset": "linux-asan",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "portable-posix",
+      "configurePreset": "portable-posix",
       "output": {
         "outputOnFailure": true
       },

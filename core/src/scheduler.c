@@ -3,8 +3,8 @@
  * due channel in a collection pass; bindings maintain independent transform
  * baselines.
  */
+#include "quanta/osal.h"
 #include "engine_internal.h"
-#include <math.h>
 
 uint64_t quanta_deadline_after(uint64_t now, uint64_t delay)
 {
@@ -17,7 +17,7 @@ static quanta_status collect(quanta_engine *e, uint64_t now, int force, int *cha
     quanta_status status[QUANTA_MAX_ACQUISITIONS];
     size_t i, j;
     *changed = 0;
-    memset(status, 0, sizeof(status));
+    quanta_memset(status, 0, sizeof(status));
     for (i = 0; i < e->channel_count; i++)
     {
         quanta_channel *c = &e->channels[i];
@@ -55,7 +55,7 @@ static quanta_status collect(quanta_engine *e, uint64_t now, int force, int *cha
             refreshed[p] = 1;
             a->refresh_count++;
         }
-        memset(&sample, 0, sizeof(sample));
+        quanta_memset(&sample, 0, sizeof(sample));
         sample.series_id = c->in.series_id;
         sample.sequence = c->last.sequence + 1;
         sample.value.type = m->type;
@@ -221,7 +221,7 @@ quanta_status quanta_engine_run(quanta_engine *e, quanta_sink *sink)
         if (!found)
         {
             char msg[256];
-            snprintf(msg, sizeof(msg), "optional selector '%s' has no available instances",
+            quanta_snprintf(msg, sizeof(msg), "optional selector '%s' has no available instances",
                      e->plan.selects[i].pattern);
             if ((result = quanta_engine_diagnostic(e, QUANTA_NOT_PRESENT, msg)) != QUANTA_OK)
             {
@@ -239,7 +239,7 @@ quanta_status quanta_engine_run(quanta_engine *e, quanta_sink *sink)
                 b->meta.effective_period_ns > requested)
             {
                 char msg[256];
-                snprintf(msg, sizeof(msg), "%s: polling clamped from %.3fs to %.3fs", b->meta.key,
+                quanta_snprintf(msg, sizeof(msg), "%s: polling clamped from %.3fs to %.3fs", b->meta.key,
                          (double)requested / 1e9, (double)b->meta.effective_period_ns / 1e9);
                 if ((result = quanta_engine_diagnostic(e, QUANTA_OK, msg)) != QUANTA_OK)
                 {

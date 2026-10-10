@@ -1,4 +1,3 @@
-// hal/include/dmi.h
 #ifndef QUANTA_SENSOR_DMI_H
 #define QUANTA_SENSOR_DMI_H
 

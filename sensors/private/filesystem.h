@@ -1,5 +1,6 @@
 #ifndef QUANTA_SENSOR_FS_H
 #define QUANTA_SENSOR_FS_H
+#include "quanta/osal.h"
 #include "snapshot_context.h"
 
 typedef struct quanta_filesystem_snapshot

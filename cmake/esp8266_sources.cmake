@@ -3,13 +3,13 @@
 set(QUANTA_ESP_SOURCES
     core/src/status.c core/src/text.c core/src/value.c core/src/registry.c core/src/metric.c
     core/src/engine.c core/src/discovery.c core/src/scheduler.c core/src/history.c core/src/live.c
-    query/src/query.c osal/common.c osal/freertos/freertos.c osal/posix/thread.c
+    core/src/query.c osal/common.c osal/freertos/freertos.c osal/posix/thread.c
     hal/common/hal.c hal/esp8266/hal_esp8266.c
-    sensors/registry.c sensors/metric_docs.c sensors/os/metrics.c sensors/os/esp8266.c
-    sensors/mcu/metrics.c sensors/mcu/esp8266.c)
+    sensors/registry.c sensors/metric_docs.c sensors/common/runtime.c sensors/os/os_metrics.c sensors/platform/esp8266/os.c
+    sensors/platform/esp8266/mcu_metrics.c sensors/platform/esp8266/mcu.c)
 set(QUANTA_ESP_INCLUDES
     firmware/esp8266/components/quanta/config
-    core/include osal/include hal/include sensors/include
+    include include/private
     core/private osal/private hal/private sensors/private metrics)
 list(TRANSFORM QUANTA_ESP_SOURCES PREPEND "${QUANTA_ROOT}/")
 list(TRANSFORM QUANTA_ESP_INCLUDES PREPEND "${QUANTA_ROOT}/")

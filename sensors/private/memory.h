@@ -1,6 +1,6 @@
-// hal/include/memory.h
 #ifndef QUANTA_SENSOR_MEMORY_H
 #define QUANTA_SENSOR_MEMORY_H
+#include "quanta/osal.h"
 #include "snapshot_context.h"
 
 /* Сырой снапшот памяти.

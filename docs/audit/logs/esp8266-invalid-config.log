@@ -1,6 +1,0 @@
-Expected negative compile test. Command: gcc -std=c11 -fsyntax-only -DQUANTA_PLATFORM_FREERTOS=1 -DCONFIG_ESP_PHY_INIT_DATA_VDD33_CONST=0 -I /mnt/data/Quanta-0.4.0/firmware/esp8266/components/quanta/config -I /mnt/data/Quanta-0.4.0/core/include -I /mnt/data/Quanta-0.4.0/osal/include -I /mnt/data/Quanta-0.4.0/hal/include -I /mnt/data/Quanta-0.4.0/sensors/include -I /mnt/data/Quanta-0.4.0/core/private -I /mnt/data/Quanta-0.4.0/osal/private -I /mnt/data/Quanta-0.4.0/sensors/private -I /mnt/data/Quanta-0.4.0/tests/esp8266_stubs /mnt/data/Quanta-0.4.0/sensors/mcu/esp8266.c
-/mnt/data/Quanta-0.4.0/sensors/mcu/esp8266.c:13:2: error: #error "Quanta VDD33 requires PHY vdd33_const=255 and a board with unconnected TOUT"
-   13 | #error "Quanta VDD33 requires PHY vdd33_const=255 and a board with unconnected TOUT"
-      |  ^~~~~
-
-PASS: inconsistent VDD33/PHY configuration rejected.

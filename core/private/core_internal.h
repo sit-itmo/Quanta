@@ -3,7 +3,7 @@
 #define QUANTA_CORE_INTERNAL_H
 #include "quanta/quanta.h"
 #include "support.h"
-#include "thread.h"
+#include "quanta/osal.h"
 #include "quanta/hal.h"
 #ifndef QUANTA_INITIAL_CAPACITY
 #define QUANTA_INITIAL_CAPACITY 32u

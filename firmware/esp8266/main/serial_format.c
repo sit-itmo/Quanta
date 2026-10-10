@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT
  * No printf 64-bit/float format support is required from embedded newlib. */
+#include "quanta/osal.h"
 #include "serial_format.h"
 #include "quanta/text.h"
 #include <math.h>
@@ -36,16 +37,16 @@ int quanta_serial_value(char *out, size_t capacity, const quanta_value *value)
         if (!decimal(text + offset, sizeof(text) - offset, magnitude)) return 0;
         return quanta_copy(out, capacity, text);
     case QUANTA_F64:
-        if (!isfinite(value->as.f64) || fabs(value->as.f64) >= 1.0e12) return 0;
+        if (!quanta_isfinite(value->as.f64) || quanta_fabs(value->as.f64) >= 1.0e12) return 0;
         if (signbit(value->as.f64)) text[offset++] = '-';
-        magnitude = (uint64_t)(fabs(value->as.f64) * 1000000.0 + 0.5);
+        magnitude = (uint64_t)(quanta_fabs(value->as.f64) * 1000000.0 + 0.5);
         if (!decimal(text + offset, sizeof(text) - offset, magnitude / 1000000u)) return 0;
-        offset = strlen(text);
-        snprintf(text + offset, sizeof(text) - offset, ".%06u", (unsigned)(magnitude % 1000000u));
+        offset = quanta_strlen(text);
+        quanta_snprintf(text + offset, sizeof(text) - offset, ".%06u", (unsigned)(magnitude % 1000000u));
         return quanta_copy(out, capacity, text);
     case QUANTA_BOOL: return quanta_copy(out, capacity, value->as.boolean ? "true" : "false");
     case QUANTA_STRING:
-        if (!memchr(value->as.string, 0, sizeof(value->as.string))) return 0;
+        if (!quanta_memchr(value->as.string, 0, sizeof(value->as.string))) return 0;
         return quanta_copy(out, capacity, value->as.string);
     default: return 0;
     }

@@ -4,12 +4,12 @@ if(NOT WIN32)
     include(${QUANTA_ROOT}/cmake/esp8266_sources.cmake)
     foreach(mode enabled disabled)
         set(target quanta_esp8266_${mode}_tests)
-        add_executable(${target} test_esp8266.c ${QUANTA_ESP_SOURCES}
+        add_executable(${target} platform/esp8266/test_esp8266.c ${QUANTA_ESP_SOURCES}
             ${QUANTA_ROOT}/firmware/esp8266/main/serial_format.c
             ${QUANTA_ROOT}/firmware/esp8266/main/app_main.c)
         quanta_target(${target})
         target_include_directories(${target} BEFORE PRIVATE ${QUANTA_ESP_INCLUDES}
-            ${CMAKE_CURRENT_SOURCE_DIR}/esp8266_stubs
+            ${CMAKE_CURRENT_SOURCE_DIR}/platform/esp8266/stubs
             ${QUANTA_ROOT}/firmware/esp8266/main)
         target_compile_definitions(${target} PRIVATE ${QUANTA_ESP_DEFINITIONS})
         if(mode STREQUAL "disabled")

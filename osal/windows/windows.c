@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: MIT */
+#include <locale.h>
 #include "windows_internal.h"
+#include <signal.h>
 #include <fcntl.h>
 #include <io.h>
 #include <process.h>
@@ -189,7 +191,7 @@ wchar_t *quanta_win_widen(const char *s)
     return w;
 }
 
-FILE *quanta_fopen_utf8(const char *path, const char *mode)
+FILE *quanta_fopen(const char *path, const char *mode)
 {
     wchar_t *p = quanta_win_widen(path), *m;
     FILE *f;
@@ -242,69 +244,9 @@ unsigned long quanta_process_id(void)
     return (unsigned long)GetCurrentProcessId();
 }
 
-int quanta_path(char *out, size_t cap, const char *root, const char *rel)
-{
-    int n = snprintf(out, cap, "%s/%s", root, rel);
-    return n >= 0 && (size_t)n < cap;
-}
 
-quanta_status quanta_read_text(const char *path, char *out, size_t cap)
+/* Application-only locale policy; never changed by the core or worker thread. */
+int quanta_numeric_locale(void)
 {
-    FILE *f;
-    size_t n;
-    int extra;
-    quanta_status status = QUANTA_OK;
-    if (cap < 2)
-    {
-        return QUANTA_LIMIT;
-    }
-    out[0] = 0;
-    f = quanta_fopen_utf8(path, "rb");
-    if (!f)
-    {
-        return quanta_errno_status(errno);
-    }
-    n = fread(out, 1, cap - 1, f);
-    extra = fgetc(f);
-    if (ferror(f))
-    {
-        status = QUANTA_IO_ERROR;
-    }
-    else if (extra != EOF)
-    {
-        status = QUANTA_LIMIT;
-    }
-    else if (memchr(out, 0, n))
-    {
-        status = QUANTA_INVALID_DATA;
-    }
-    fclose(f);
-    out[n] = 0;
-    if (status != QUANTA_OK)
-    {
-        out[0] = 0;
-    }
-    return status;
-}
-
-quanta_status quanta_read_u64(const char *path, uint64_t *v)
-{
-    char s[128];
-    quanta_status st = quanta_read_text(path, s, sizeof(s));
-    return st != QUANTA_OK ? st : quanta_parse_u64(s, v) ? QUANTA_OK : QUANTA_INVALID_DATA;
-}
-
-int quanta_win_system_drive(wchar_t *out, size_t cap)
-{
-    wchar_t directory[MAX_PATH];
-    UINT n = GetWindowsDirectoryW(directory, MAX_PATH);
-    if (!n || n >= MAX_PATH || cap < 4 || directory[1] != L':')
-    {
-        return 0;
-    }
-    out[0] = directory[0];
-    out[1] = L':';
-    out[2] = L'\\';
-    out[3] = 0;
-    return 1;
+    return setlocale(LC_NUMERIC, "C") != NULL;
 }

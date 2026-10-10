@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        preset: [linux-default, linux-minimal, linux-hwmon, linux-asan]
+        preset: [linux-default, linux-minimal, portable-posix, linux-asan]
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 clang

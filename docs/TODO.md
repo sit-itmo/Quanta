@@ -1,4 +1,4 @@
-# TODO 0.4.0
+# TODO 0.5.0
 
 ## P0 — приёмка на целевых платформах
 
@@ -33,4 +33,5 @@
 
 Providers, provider fallback/priority, several runtime implementations under one metric key
 не должны возвращаться скрыто. Выбор low-level HAL — другая задача и уже реализован.
-NoOS и ESP32 не объявляются портами этой ревизии только из-за наличия ESP8266/FreeRTOS.
+NoOS и ESP32 не объявляются готовыми портами из-за наличия ESP8266/FreeRTOS или
+portable POSIX-примера. Отдельные quanta_cli/csv/txt также намеренно удалены.

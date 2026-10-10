@@ -1,8 +1,5 @@
 /* SPDX-License-Identifier: MIT */
 #include "core_internal.h"
-#include <ctype.h>
-#include <math.h>
-#include <time.h>
 
 const char *quanta_status_name(quanta_status s)
 {

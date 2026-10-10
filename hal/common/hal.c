@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "hal_internal.h"
 
 struct quanta_hal
@@ -34,7 +35,7 @@ quanta_status quanta_hal_attach(const quanta_hal_info *info, const quanta_hal_op
     size_t i;
     if (!out) return QUANTA_INVALID_DATA;
     *out = NULL;
-    if (!info || !ops || !info->name[0] || !memchr(info->name, 0, sizeof(info->name)) ||
+    if (!info || !ops || !info->name[0] || !quanta_memchr(info->name, 0, sizeof(info->name)) ||
         (options && (options->flags & ~QUANTA_HAL_ALLOW_WRITE))) return QUANTA_INVALID_DATA;
     if (options && (options->physical_range_count > QUANTA_HAL_MAX_RANGES ||
         (options->physical_range_count && !options->physical_ranges))) return QUANTA_INVALID_DATA;
@@ -46,7 +47,7 @@ quanta_status quanta_hal_attach(const quanta_hal_info *info, const quanta_hal_op
             if (!r->size || r->size - 1 > UINT64_MAX - r->base) return QUANTA_INVALID_DATA;
         }
     }
-    h = (quanta_hal *)calloc(1, sizeof(*h));
+    h = (quanta_hal *)quanta_calloc(1, sizeof(*h));
     if (!h) return QUANTA_NO_MEMORY;
     h->info = *info;
     h->info.capabilities = operation_bits(ops);
@@ -59,7 +60,7 @@ quanta_status quanta_hal_attach(const quanta_hal_info *info, const quanta_hal_op
     if (options && options->physical_range_count)
     {
         h->range_count = options->physical_range_count;
-        memcpy(h->ranges, options->physical_ranges, h->range_count * sizeof(h->ranges[0]));
+        quanta_memcpy(h->ranges, options->physical_ranges, h->range_count * sizeof(h->ranges[0]));
     }
     *out = h;
     return QUANTA_OK;
@@ -71,11 +72,11 @@ quanta_status quanta_hal_open(const quanta_hal_options *options, quanta_hal **ou
     if (!out) return QUANTA_INVALID_DATA;
     *out = NULL;
     if (!options) options = &defaults;
-    if (options->name && !strcmp(options->name, "none"))
+    if (options->name && !quanta_strcmp(options->name, "none"))
     {
         quanta_hal_info info = {0};
         quanta_hal_operations ops = {0};
-        memcpy(info.name, "none", 5);
+        quanta_memcpy(info.name, "none", 5);
         return quanta_hal_attach(&info, &ops, NULL, options, out);
     }
     return quanta_hal_platform_open(options, out);
@@ -85,7 +86,7 @@ void quanta_hal_close(quanta_hal *h)
 {
     if (!h) return;
     if (h->operations.close) h->operations.close(h->private_data);
-    free(h);
+    quanta_free(h);
 }
 
 quanta_status quanta_hal_get_info(const quanta_hal *h, quanta_hal_info *out)
@@ -97,7 +98,9 @@ quanta_status quanta_hal_get_info(const quanta_hal *h, quanta_hal_info *out)
 
 const char *const *quanta_hal_names(size_t *count)
 {
-#if QUANTA_OS_LINUX
+#if QUANTA_PORTABLE
+    static const char *const names[] = {"none", "native", "portable"};
+#elif QUANTA_OS_LINUX
     static const char *const names[] = {"none", "native", "linux-native", "linux-dev"};
 #elif QUANTA_OS_WINDOWS
     static const char *const names[] = {"none", "native", "windows-native"};
@@ -164,7 +167,7 @@ quanta_status quanta_hal_read_mem(quanta_hal *h, uint64_t address, void *out, si
     s = memory_check(h, address, out, length);
     if (s != QUANTA_OK) return s;
     s = h->operations.read_mem(h->private_data, address, out, length);
-    if (s != QUANTA_OK) memset(out, 0, length);
+    if (s != QUANTA_OK) quanta_memset(out, 0, length);
     return s;
 }
 
@@ -263,7 +266,7 @@ quanta_status quanta_hal_set_affinity(quanta_hal *h, quanta_cpu_address cpu, qua
 {
     if (!h || !old || old->active) return QUANTA_INVALID_DATA;
     if (!h->operations.set_affinity || !h->operations.restore_affinity) return QUANTA_UNSUPPORTED;
-    memset(old, 0, sizeof(*old));
+    quanta_memset(old, 0, sizeof(*old));
     return h->operations.set_affinity(h->private_data, cpu, old);
 }
 

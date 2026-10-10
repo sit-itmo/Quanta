@@ -1,6 +1,6 @@
 # Минимальный аппаратный HAL
 
-Публичный API: `hal/include/quanta/hal.h`. Общий wrapper — `hal/common/hal.c`.
+Публичный API: `include/quanta/hal.h`. Общий wrapper — `hal/common/hal.c`.
 Здесь нет SMBIOS/ACPI/CPU-load/working-set API. Все эти алгоритмы находятся выше, в sensors.
 
 ## Операции
@@ -21,6 +21,7 @@ token начинается с нулей, связан с владельцем-�
 
 | Backend | Что реализовано | Что не обещается |
 |---|---|---|
+| `portable` (`native`, только portable profile) | Info без аппаратных capabilities | Метрики ОС, hardware I/O, affinity |
 | `none` | Info с нулевыми capabilities | Любое hardware I/O |
 | `linux-native` (`native`) | Info, affinity | Физическая память, MSR, PCI/PortIO/GPIO |
 | `linux-dev` | Info, affinity; file I/O для `/dev/mem`, `/dev/port`, PCI config; MSR на x86 | Наличие nodes, права, загрузка драйверов, GPIO/CR/DR |
@@ -83,9 +84,9 @@ select optional smbios.legacy_mem.board.model;
 select optional smbios.legacy_mem.bios.vendor;
 ```
 
-Реализация `sensors/board/physical.c` ищет `_SM_`/`_SM3_` по 16-byte aligned адресам в
+Реализация `sensors/common/smbios_memory.c` ищет `_SM_`/`_SM3_` по 16-byte aligned адресам в
 **0xF0000–0xFFFFF**, проверяет entry-point checksum и длины, следует физическому указателю и
-передаёт таблицу bounded decoder `sensors/board/smbios.c`. SMBIOS3 имеет приоритет перед SMBIOS2;
+передаёт таблицу bounded decoder `sensors/common/smbios.c`. SMBIOS3 имеет приоритет перед SMBIOS2;
 это обработка формата, не provider selection.
 
 Таблица ограничена 1 MiB; в SMBIOS3 читается объявленный maximum table size целиком, поэтому
@@ -107,3 +108,11 @@ callbacks, а владение private state получает только по�
 [Linux firmware DMI scanner](https://github.com/torvalds/linux/blob/master/drivers/firmware/dmi_scan.c),
 [ESP8266 v3.4 GPIO](https://github.com/espressif/ESP8266_RTOS_SDK/blob/v3.4/components/esp8266/include/driver/gpio.h).
 Код декодера и wrapper в проекте не копировался из GPL scanner.
+
+## Безопасность автоматической сборки
+
+Тесты используют собственные RAM/file fixtures; не пишут в настоящие MSR/PCI/MMIO и не требуют
+root. Native affinity-тест временно привязывает свой поток в рамках разрешённой mask, затем
+восстанавливает её. `list --compiled` ничего не опрашивает; `list --probe` уже запускает
+измерения. `--redact` скрывает SENSITIVE values, но не обещает анонимизацию всех labels,
+titles и diagnostics. ESP VDD/GPIO требуют отдельной проверки схемы — [ESP8266](ESP8266.md).

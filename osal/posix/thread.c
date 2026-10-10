@@ -1,57 +1,88 @@
 /* SPDX-License-Identifier: MIT */
-#include "thread.h"
+#include "quanta/osal.h"
+#include <pthread.h>
 
-int quanta_mutex_init(quanta_mutex *m)
+int quanta_mutex_init(quanta_mutex *mutex)
 {
-    return pthread_mutex_init(m, 0);
+    pthread_mutex_t *native;
+    int status;
+    if (!mutex) return EINVAL;
+    mutex->handle = NULL;
+    native = (pthread_mutex_t *)quanta_malloc(sizeof(*native));
+    if (!native) return ENOMEM;
+    status = pthread_mutex_init(native, NULL);
+    if (status) quanta_free(native);
+    else mutex->handle = native;
+    return status;
 }
 
-void quanta_mutex_destroy(quanta_mutex *m)
+void quanta_mutex_destroy(quanta_mutex *mutex)
 {
-    (void)pthread_mutex_destroy(m);
+    if (mutex && mutex->handle)
+    {
+        (void)pthread_mutex_destroy((pthread_mutex_t *)mutex->handle);
+        quanta_free(mutex->handle);
+        mutex->handle = NULL;
+    }
 }
 
-void quanta_mutex_lock(quanta_mutex *m)
+void quanta_mutex_lock(quanta_mutex *mutex)
+{ (void)pthread_mutex_lock((pthread_mutex_t *)mutex->handle); }
+void quanta_mutex_unlock(quanta_mutex *mutex)
+{ (void)pthread_mutex_unlock((pthread_mutex_t *)mutex->handle); }
+
+int quanta_condition_init(quanta_condition *condition)
 {
-    (void)pthread_mutex_lock(m);
+    pthread_cond_t *native;
+    int status;
+    if (!condition) return EINVAL;
+    condition->handle = NULL;
+    native = (pthread_cond_t *)quanta_malloc(sizeof(*native));
+    if (!native) return ENOMEM;
+    status = pthread_cond_init(native, NULL);
+    if (status) quanta_free(native);
+    else condition->handle = native;
+    return status;
 }
 
-void quanta_mutex_unlock(quanta_mutex *m)
+void quanta_condition_destroy(quanta_condition *condition)
 {
-    (void)pthread_mutex_unlock(m);
+    if (condition && condition->handle)
+    {
+        (void)pthread_cond_destroy((pthread_cond_t *)condition->handle);
+        quanta_free(condition->handle);
+        condition->handle = NULL;
+    }
 }
 
-int quanta_condition_init(quanta_condition *c)
+void quanta_condition_wait(quanta_condition *condition, quanta_mutex *mutex)
+{ (void)pthread_cond_wait((pthread_cond_t *)condition->handle, (pthread_mutex_t *)mutex->handle); }
+void quanta_condition_signal(quanta_condition *condition)
+{ (void)pthread_cond_signal((pthread_cond_t *)condition->handle); }
+void quanta_condition_broadcast(quanta_condition *condition)
+{ (void)pthread_cond_broadcast((pthread_cond_t *)condition->handle); }
+
+int quanta_thread_start(quanta_thread *thread, quanta_thread_fn function, void *argument)
 {
-    return pthread_cond_init(c, 0);
+    pthread_t *native;
+    int status;
+    if (!thread) return EINVAL;
+    thread->handle = NULL;
+    if (!function) return EINVAL;
+    native = (pthread_t *)quanta_malloc(sizeof(*native));
+    if (!native) return ENOMEM;
+    status = pthread_create(native, NULL, function, argument);
+    if (status) quanta_free(native);
+    else thread->handle = native;
+    return status;
 }
 
-void quanta_condition_destroy(quanta_condition *c)
+void quanta_thread_join(quanta_thread *thread)
 {
-    (void)pthread_cond_destroy(c);
-}
-
-void quanta_condition_wait(quanta_condition *c, quanta_mutex *m)
-{
-    (void)pthread_cond_wait(c, m);
-}
-
-void quanta_condition_signal(quanta_condition *c)
-{
-    (void)pthread_cond_signal(c);
-}
-
-void quanta_condition_broadcast(quanta_condition *c)
-{
-    (void)pthread_cond_broadcast(c);
-}
-
-int quanta_thread_start(quanta_thread *t, void *(*fn)(void *), void *arg)
-{
-    return pthread_create(&t->handle, 0, fn, arg);
-}
-
-void quanta_thread_join(quanta_thread *t)
-{
-    (void)pthread_join(t->handle, 0);
+    if (thread && thread->handle)
+    {
+        (void)pthread_join(*(pthread_t *)thread->handle, NULL);
+        quanta_free(thread->handle);
+        thread->handle = NULL;
+    }
 }

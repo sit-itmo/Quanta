@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "engine_internal.h"
-#include <math.h>
 
 quanta_status quanta_engine_diagnostic(quanta_engine *e, quanta_status s, const char *m)
 {
@@ -69,16 +69,16 @@ static quanta_status add_metric(quanta_engine *e, const quanta_metric_desc *metr
     {
         quanta_acquisition *grown;
         if (index >= QUANTA_MAX_ACQUISITIONS) return QUANTA_LIMIT;
-        grown = (quanta_acquisition *)realloc(e->acquisitions, (index + 1) * sizeof(*grown));
+        grown = (quanta_acquisition *)quanta_realloc(e->acquisitions, (index + 1) * sizeof(*grown));
         if (!grown) return QUANTA_NO_MEMORY;
         e->acquisitions = grown;
-        memset(&grown[index], 0, sizeof(grown[index]));
+        quanta_memset(&grown[index], 0, sizeof(grown[index]));
         grown[index].representative = metric;
         ++e->acquisition_count;
     }
     a = &e->acquisitions[index];
     count = a->context.metric_count;
-    selected = (const quanta_metric_desc **)realloc(a->selected, (count + 1) * sizeof(*selected));
+    selected = (const quanta_metric_desc **)quanta_realloc(a->selected, (count + 1) * sizeof(*selected));
     if (!selected) return QUANTA_NO_MEMORY;
     selected[count] = metric;
     a->selected = selected;
@@ -110,11 +110,11 @@ quanta_status quanta_engine_create_with_options(const quanta_plan *plan, const q
     if (!plan || !catalog) return QUANTA_INVALID_DATA;
     status = quanta_catalog_validate(catalog, err, cap);
     if (status != QUANTA_OK) return status;
-    e = (quanta_engine *)calloc(1, sizeof(*e));
+    e = (quanta_engine *)quanta_calloc(1, sizeof(*e));
     if (!e) return QUANTA_NO_MEMORY;
     if (quanta_mutex_init(&e->control_mutex))
     {
-        free(e);
+        quanta_free(e);
         return QUANTA_IO_ERROR;
     }
     e->plan = *plan;
@@ -138,9 +138,9 @@ quanta_status quanta_engine_create_with_options(const quanta_plan *plan, const q
         e->hal = options->hal;
         status = quanta_hal_get_info(e->hal, &info);
         if (status != QUANTA_OK) goto error;
-        if (plan->hal[0] && strcmp(plan->hal, info.name))
+        if (plan->hal[0] && quanta_strcmp(plan->hal, info.name))
         {
-            snprintf(err, cap, "query HAL '%s' conflicts with injected HAL '%s'", plan->hal, info.name);
+            quanta_snprintf(err, cap, "query HAL '%s' conflicts with injected HAL '%s'", plan->hal, info.name);
             status = QUANTA_BAD_QUERY;
             goto error_keep;
         }
@@ -152,7 +152,7 @@ quanta_status quanta_engine_create_with_options(const quanta_plan *plan, const q
         status = quanta_hal_open(&hal_options, &e->hal);
         if (status != QUANTA_OK)
         {
-            snprintf(err, cap, "cannot open HAL '%s': %s", plan->hal[0] ? plan->hal : "native", quanta_status_name(status));
+            quanta_snprintf(err, cap, "cannot open HAL '%s': %s", plan->hal[0] ? plan->hal : "native", quanta_status_name(status));
             goto error_keep;
         }
         e->owns_hal = 1;
@@ -191,7 +191,7 @@ quanta_status quanta_engine_create_with_options(const quanta_plan *plan, const q
             if (e->bindings[j].active && e->bindings[j].meta.selection_index == i) { found = 1; break; }
         if (!found && !plan->selects[i].optional)
         {
-            snprintf(err, cap, "no discoverable instances for '%s'; use optional for absent hardware", plan->selects[i].pattern);
+            quanta_snprintf(err, cap, "no discoverable instances for '%s'; use optional for absent hardware", plan->selects[i].pattern);
             status = QUANTA_NOT_PRESENT;
             goto error_keep;
         }
@@ -199,7 +199,7 @@ quanta_status quanta_engine_create_with_options(const quanta_plan *plan, const q
     *out = e;
     return QUANTA_OK;
 error:
-    snprintf(err, cap, "engine initialization: %s%s", quanta_status_name(status),
+    quanta_snprintf(err, cap, "engine initialization: %s%s", quanta_status_name(status),
              status == QUANTA_BAD_QUERY ? " (strict polling is below a discovered device minimum)" : "");
 error_keep:
     quanta_engine_destroy(e);
@@ -214,21 +214,21 @@ void quanta_engine_destroy(quanta_engine *e)
     {
         quanta_acquisition *a = &e->acquisitions[i];
         if (a->initialized && a->representative->destroy) a->representative->destroy(&a->context);
-        free(a->selected);
+        quanta_free(a->selected);
     }
-    free(e->acquisitions);
-    free(e->channels);
-    free(e->bindings);
+    quanta_free(e->acquisitions);
+    quanta_free(e->channels);
+    quanta_free(e->bindings);
     if (e->owns_hal) quanta_hal_close(e->hal);
     quanta_mutex_destroy(&e->control_mutex);
-    free(e);
+    quanta_free(e);
 }
 int quanta_engine_has_sample_errors(const quanta_engine *e)
 {
     return e ? e->has_errors : 0;
 }
 
-void quanta_engine_explain(const quanta_engine *e, FILE *out)
+void quanta_engine_explain(const quanta_engine *e, quanta_file *out)
 {
     size_t i;
     if (!e || !out)
@@ -238,15 +238,15 @@ void quanta_engine_explain(const quanta_engine *e, FILE *out)
     {
         quanta_hal_info info;
         if (quanta_hal_get_info(e->hal, &info) == QUANTA_OK)
-            fprintf(out, "HAL: %s; implemented=0x%08x; hardware-writes=%s\n",
+            quanta_fprintf(out, "HAL: %s; implemented=0x%08x; hardware-writes=%s\n",
                     info.name, info.capabilities, info.writes_enabled ? "enabled" : "disabled");
     }
-    fprintf(out, "Quanta Query plan | mode=%s | %s | selections=%zu\n",
+    quanta_fprintf(out, "Quanta Query plan | mode=%s | %s | selections=%zu\n",
             e->plan.mode == QUANTA_MODE_GUI   ? "gui"
             : e->plan.mode == QUANTA_MODE_TUI ? "tui"
                                               : "file",
             e->plan.once ? "once" : "watch", e->plan.select_count);
-    fprintf(out, "Acquisition channels: %zu; output series/views: %zu\n", e->channel_count,
+    quanta_fprintf(out, "Acquisition channels: %zu; output series/views: %zu\n", e->channel_count,
             e->binding_count);
     for (i = 0; i < e->binding_count; i++)
     {
@@ -255,7 +255,7 @@ void quanta_engine_explain(const quanta_engine *e, FILE *out)
             const quanta_binding *b = &e->bindings[i];
             char name[1024];
             quanta_series_name(name, sizeof(name), &b->meta);
-            fprintf(out,
+            quanta_fprintf(out,
                     "  %s\n    output=%" PRIu64 " source=%" PRIu64
                     " method=%s type=%s unit=%s period=%.3fs policy=%s\n",
                     name, b->meta.id, b->meta.source_id, quanta_metric_source(b->meta.metric),
@@ -277,7 +277,7 @@ uint64_t quanta_engine_metric_acquisitions(const quanta_engine *e, const char *k
     {
         const quanta_acquisition *a = &e->acquisitions[i];
         for (j = 0; j < a->context.metric_count; ++j)
-            if (!strcmp(a->selected[j]->key, key)) return a->refresh_count;
+            if (!quanta_strcmp(a->selected[j]->key, key)) return a->refresh_count;
     }
     return 0;
 }

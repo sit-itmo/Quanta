@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: MIT -- no driver and no ring-0 emulation. */
+#include "quanta/osal.h"
 #include "hal_internal.h"
 #include <windows.h>
 
@@ -18,11 +19,11 @@ static quanta_status set_affinity(void *data, quanta_cpu_address cpu, quanta_aff
     if (cpu.number >= sizeof(KAFFINITY) * 8 || cpu.group >= GetActiveProcessorGroupCount())
         return QUANTA_INVALID_DATA;
     if (cpu.number >= GetActiveProcessorCount(cpu.group)) return QUANTA_NOT_PRESENT;
-    memset(&one, 0, sizeof(one));
+    quanta_memset(&one, 0, sizeof(one));
     one.Group = cpu.group;
     one.Mask = (KAFFINITY)1 << cpu.number;
     if (!SetThreadGroupAffinity(GetCurrentThread(), &one, &previous)) return win_status(GetLastError());
-    memcpy(old->native, &previous, sizeof(previous));
+    quanta_memcpy(old->native, &previous, sizeof(previous));
     old->size = sizeof(previous);
     old->owner_thread = GetCurrentThreadId();
     old->active = 1;
@@ -34,9 +35,9 @@ static quanta_status restore_affinity(void *data, quanta_affinity_state *old)
     GROUP_AFFINITY previous;
     (void)data;
     if (old->size != sizeof(previous) || old->owner_thread != GetCurrentThreadId()) return QUANTA_INVALID_DATA;
-    memcpy(&previous, old->native, sizeof(previous));
+    quanta_memcpy(&previous, old->native, sizeof(previous));
     if (!SetThreadGroupAffinity(GetCurrentThread(), &previous, NULL)) return win_status(GetLastError());
-    memset(old, 0, sizeof(*old));
+    quanta_memset(old, 0, sizeof(*old));
     return QUANTA_OK;
 }
 
@@ -46,11 +47,11 @@ quanta_status quanta_hal_platform_open(const quanta_hal_options *options, quanta
     quanta_hal_operations ops = {0};
     MEMORYSTATUSEX memory;
     const char *name = options->name;
-    if (name && *name && strcmp(name, "native") && strcmp(name, "windows-native")) return QUANTA_UNSUPPORTED;
-    strcpy(info.name, "windows-native");
+    if (name && *name && quanta_strcmp(name, "native") && quanta_strcmp(name, "windows-native")) return QUANTA_UNSUPPORTED;
+    quanta_strcpy(info.name, "windows-native");
     info.logical_cpus = GetActiveProcessorCount(ALL_PROCESSOR_GROUPS);
     if (info.logical_cpus) info.known |= QUANTA_HAL_CPU_COUNT_KNOWN;
-    memset(&memory, 0, sizeof(memory));
+    quanta_memset(&memory, 0, sizeof(memory));
     memory.dwLength = sizeof(memory);
     if (GlobalMemoryStatusEx(&memory))
     {

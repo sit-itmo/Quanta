@@ -67,9 +67,12 @@ HAL none отключает hardware primitives, но прямые native OS/CPU
 
 ## Форматы и файлы
 
-`--format human|table|csv|md|value`. `quanta_cli` — тот же CLI; `quanta_csv` по умолчанию выбирает
-CSV, `quanta_txt` — table. В этих двух executable format default имеет приоритет над `format`
-в query-файле; явный `--format` переопределяет его. Все используют один parser/core.
+Единственная программа — `quanta`. Форматы: `--format human|table|txt|csv|md|value`;
+`txt` означает `table`. В query также есть `format human|table|csv|md|value;`.
+`--format` переопределяет формат query; копий executable с другими defaults больше нет.
+`--cli/--tui/--gui` — сокращения `--mode cli/tui/gui`. `--list-modes` выводит compiled modes.
+CLI mode переопределяет query mode до выбора frontend. Несколько CLI mode-опций — ошибка,
+а недоступный GUI/TUI не вызывает скрытый переход в другой режим.
 
 `value` печатает по строке на активную серию, без заголовков и единиц. Это канонические значения,
 не отображаемые GiB/проценты. Недоступное значение — `--`; строки очищаются для безопасного
@@ -78,8 +81,8 @@ CSV, `quanta_txt` — table. В этих двух executable format default им
 
 ```bash
 quanta get os.uptime --format value
-quanta_csv get os.name os.arch --output report.csv
-quanta_txt get os.name os.arch
+quanta get os.name os.arch --format csv --output report.csv
+quanta get os.name os.arch --format txt
 quanta get os.name --format md --output report.md
 ```
 

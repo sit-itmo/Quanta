@@ -1,11 +1,10 @@
 /* SPDX-License-Identifier: MIT */
-#include "osal_internal.h"
-#include <ctype.h>
-#include <math.h>
-#include <time.h>
-
+#include "support.h"
 quanta_status quanta_errno_status(int e)
 {
+#ifdef ENOSYS
+    if (e == ENOSYS) return QUANTA_UNSUPPORTED;
+#endif
     if (e == EACCES || e == EPERM)
     {
         return QUANTA_PERMISSION_DENIED;
@@ -39,28 +38,103 @@ quanta_status quanta_errno_status(int e)
     return QUANTA_IO_ERROR;
 }
 
-void quanta_utc_string(uint64_t ns, char *out, size_t cap)
+int quanta_path(char *out, size_t capacity, const char *root, const char *relative)
 {
+    int length;
+    if (!out || !capacity || !root || !relative) return 0;
+    length = quanta_snprintf(out, capacity, "%s/%s", root, relative);
+    return length >= 0 && (size_t)length < capacity;
+}
+
+quanta_status quanta_read_text(const char *path, char *out, size_t capacity)
+{
+    quanta_file *file;
+    size_t used = 0;
+    quanta_status status = QUANTA_OK;
+    if (!out || !capacity) return QUANTA_INVALID_DATA;
+    out[0] = 0;
+    if (!path) return QUANTA_INVALID_DATA;
+    if (capacity < 2) return QUANTA_LIMIT;
+    file = quanta_fopen(path, "rb");
+    if (!file) return quanta_errno_status(quanta_errno);
+    while (used + 1 < capacity)
+    {
+        size_t count = quanta_fread(out + used, 1, capacity - 1 - used, file);
+        used += count;
+        if (quanta_ferror(file))
+        {
+            if (quanta_errno == EINTR)
+            {
+                quanta_clearerr(file);
+                continue;
+            }
+            status = QUANTA_IO_ERROR;
+            break;
+        }
+        if (!count || quanta_feof(file)) break;
+    }
+    if (status == QUANTA_OK && used + 1 == capacity)
+    {
+        int extra;
+        do
+        {
+            quanta_errno = 0;
+            extra = quanta_fgetc(file);
+            if (extra == QUANTA_EOF && quanta_ferror(file) && quanta_errno == EINTR)
+                quanta_clearerr(file);
+            else break;
+        } while (1);
+        if (quanta_ferror(file)) status = QUANTA_IO_ERROR;
+        else if (extra != QUANTA_EOF) status = QUANTA_LIMIT;
+    }
+    if (status == QUANTA_OK && quanta_memchr(out, 0, used)) status = QUANTA_INVALID_DATA;
+    if (quanta_fclose(file) && status == QUANTA_OK) status = QUANTA_IO_ERROR;
+    out[used] = 0;
+    if (status != QUANTA_OK) out[0] = 0;
+    return status;
+}
+
+quanta_status quanta_read_u64(const char *path, uint64_t *out)
+{
+    char text[128];
+    quanta_status status;
+    if (!out) return QUANTA_INVALID_DATA;
+    *out = 0;
+    status = quanta_read_text(path, text, sizeof(text));
+    return status != QUANTA_OK ? status :
+           quanta_parse_u64(text, out) ? QUANTA_OK : QUANTA_INVALID_DATA;
+}
+
+/* Positive Unix timestamps only. uint64 nanoseconds spans 1970..2554, so the
+ * bounded year loop is small. No time_t, local timezone, gmtime_r or strftime. */
+void quanta_utc_string(uint64_t nanoseconds, char *out, size_t capacity)
+{
+    static const unsigned month_days[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    uint64_t seconds = nanoseconds / QUANTA_NS_S;
+    uint64_t days = seconds / 86400;
+    unsigned year = 1970, month = 0, leap;
+    if (!out || !capacity) return;
 #if QUANTA_PLATFORM_FREERTOS
-    if (!ns)
-    {
-        quanta_copy(out, cap, "unavailable");
-        return;
-    }
+    if (!nanoseconds) { quanta_copy(out, capacity, "unavailable"); return; }
 #endif
-    time_t t = (time_t)(ns / QUANTA_NS_S);
-    struct tm tm;
-    char b[32];
-#ifdef _WIN32
-    if (gmtime_s(&tm, &t) != 0)
+    for (;;)
     {
-#else
-    if (!gmtime_r(&t, &tm))
-    {
-#endif
-        quanta_copy(out, cap, "invalid-time");
-        return;
+        leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+        if (days < 365u + leap) break;
+        days -= 365u + leap;
+        ++year;
     }
-    strftime(b, sizeof(b), "%Y-%m-%dT%H:%M:%S", &tm);
-    snprintf(out, cap, "%s.%03uZ", b, (unsigned)((ns % QUANTA_NS_S) / QUANTA_NS_MS));
+    while (month < 11)
+    {
+        unsigned length = month_days[month] + (month == 1 ? leap : 0);
+        if (days < length) break;
+        days -= length;
+        ++month;
+    }
+    seconds %= 86400;
+    quanta_snprintf(out, capacity, "%04u-%02u-%02uT%02u:%02u:%02u.%03uZ",
+                    year, month + 1, (unsigned)days + 1,
+                    (unsigned)(seconds / 3600), (unsigned)(seconds / 60 % 60),
+                    (unsigned)(seconds % 60),
+                    (unsigned)(nanoseconds % QUANTA_NS_S / QUANTA_NS_MS));
 }

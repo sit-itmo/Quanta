@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT -- native screen buffer; no VT sequences or
  * curses */
+#include "quanta/osal.h"
 #include "terminal.h"
 #include "windows_internal.h"
 
@@ -18,24 +19,24 @@ struct quanta_terminal
 
 int quanta_terminal_open(quanta_terminal **out, char *error, size_t cap)
 {
-    quanta_terminal *t = (quanta_terminal *)calloc(1, sizeof(*t));
+    quanta_terminal *t = (quanta_terminal *)quanta_calloc(1, sizeof(*t));
     DWORD mode, output_mode;
     CONSOLE_CURSOR_INFO cursor = {1, FALSE};
     *out = NULL;
     if (!t)
     {
-        snprintf(error, cap, "TUI: out of memory");
+        quanta_snprintf(error, cap, "TUI: out of memory");
         return 0;
     }
     t->input = GetStdHandle(STD_INPUT_HANDLE);
     t->original = GetStdHandle(STD_OUTPUT_HANDLE);
     if (!GetConsoleMode(t->input, &mode) || !GetConsoleMode(t->original, &output_mode))
     {
-        snprintf(error, cap,
+        quanta_snprintf(error, cap,
                  "TUI needs a Windows console (PowerShell, cmd or Windows "
                  "Terminal), not "
                  "redirected handles");
-        free(t);
+        quanta_free(t);
         return 0;
     }
     t->saved_mode = mode;
@@ -44,8 +45,8 @@ int quanta_terminal_open(quanta_terminal **out, char *error, size_t cap)
                                   NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     if (t->screen == INVALID_HANDLE_VALUE)
     {
-        snprintf(error, cap, "CreateConsoleScreenBuffer: error %lu", (unsigned long)GetLastError());
-        free(t);
+        quanta_snprintf(error, cap, "CreateConsoleScreenBuffer: error %lu", (unsigned long)GetLastError());
+        quanta_free(t);
         return 0;
     }
     mode = (mode | ENABLE_WINDOW_INPUT | ENABLE_EXTENDED_FLAGS) &
@@ -55,8 +56,8 @@ int quanta_terminal_open(quanta_terminal **out, char *error, size_t cap)
         DWORD e = GetLastError();
         (void)SetConsoleMode(t->input, t->saved_mode);
         CloseHandle(t->screen);
-        free(t);
-        snprintf(error, cap, "TUI console initialization: error %lu", (unsigned long)e);
+        quanta_free(t);
+        quanta_snprintf(error, cap, "TUI console initialization: error %lu", (unsigned long)e);
         return 0;
     }
     (void)SetConsoleCursorInfo(t->screen, &cursor);
@@ -73,8 +74,8 @@ void quanta_terminal_close(quanta_terminal *t)
     (void)SetConsoleActiveScreenBuffer(t->original);
     (void)SetConsoleMode(t->input, t->saved_mode);
     CloseHandle(t->screen);
-    free(t->cells);
-    free(t);
+    quanta_free(t->cells);
+    quanta_free(t);
 }
 
 void quanta_terminal_size(quanta_terminal *t, int *cols, int *rows)
@@ -107,7 +108,7 @@ void quanta_terminal_begin(quanta_terminal *t)
     }
     if (cells > t->capacity)
     {
-        CHAR_INFO *data = (CHAR_INFO *)realloc(t->cells, cells * sizeof(*data));
+        CHAR_INFO *data = (CHAR_INFO *)quanta_realloc(t->cells, cells * sizeof(*data));
         if (!data)
         {
             t->failed = 1;

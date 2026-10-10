@@ -2,6 +2,7 @@
  * Linux-native: topology/affinity only. Linux-dev: bounded device-file primitives.
  * No elevation, module loading, SMBIOS parsing or metric collection occurs here.
  */
+#include "quanta/osal.h"
 #include "hal_internal.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -36,13 +37,13 @@ static quanta_status set_affinity(void *data, quanta_cpu_address cpu, quanta_aff
     (void)data;
     _Static_assert(sizeof(previous) <= sizeof(old->native), "affinity state is too small");
     if (cpu.group || cpu.number >= CPU_SETSIZE) return QUANTA_UNSUPPORTED;
-    if (sched_getaffinity(0, sizeof(previous), &previous)) return errno_status(errno);
+    if (sched_getaffinity(0, sizeof(previous), &previous)) return errno_status(quanta_errno);
     /* Do not escape an existing affinity/cpuset policy. */
     if (!CPU_ISSET(cpu.number, &previous)) return QUANTA_PERMISSION_DENIED;
     CPU_ZERO(&one);
     CPU_SET(cpu.number, &one);
-    if (sched_setaffinity(0, sizeof(one), &one)) return errno_status(errno);
-    memcpy(old->native, &previous, sizeof(previous));
+    if (sched_setaffinity(0, sizeof(one), &one)) return errno_status(quanta_errno);
+    quanta_memcpy(old->native, &previous, sizeof(previous));
     old->size = sizeof(previous);
     old->owner_thread = (uint64_t)syscall(SYS_gettid);
     old->active = 1;
@@ -55,9 +56,9 @@ static quanta_status restore_affinity(void *data, quanta_affinity_state *old)
     (void)data;
     if (old->size != sizeof(previous) || old->owner_thread != (uint64_t)syscall(SYS_gettid))
         return QUANTA_INVALID_DATA;
-    memcpy(&previous, old->native, sizeof(previous));
-    if (sched_setaffinity(0, sizeof(previous), &previous)) return errno_status(errno);
-    memset(old, 0, sizeof(*old));
+    quanta_memcpy(&previous, old->native, sizeof(previous));
+    if (sched_setaffinity(0, sizeof(previous), &previous)) return errno_status(quanta_errno);
+    quanta_memset(old, 0, sizeof(*old));
     return QUANTA_OK;
 }
 
@@ -69,13 +70,13 @@ static quanta_status transfer(const char *path, uint64_t offset, void *out,
     ssize_t count;
     if (offset > INT64_MAX || length > (uint64_t)INT64_MAX - offset) return QUANTA_INVALID_DATA;
     fd = open(path, (input ? O_WRONLY : O_RDONLY) | O_CLOEXEC);
-    if (fd < 0) return errno_status(errno);
+    if (fd < 0) return errno_status(quanta_errno);
     do
     {
         count = input ? pwrite(fd, input, length, (off_t)offset)
                       : pread(fd, out, length, (off_t)offset);
-    } while (count < 0 && errno == EINTR);
-    saved_error = errno;
+    } while (count < 0 && quanta_errno == EINTR);
+    saved_error = quanta_errno;
     close(fd);
     if (count < 0) return errno_status(saved_error);
     return (size_t)count == length ? QUANTA_OK : QUANTA_IO_ERROR;
@@ -97,7 +98,7 @@ static void store_le(unsigned char *bytes, uint64_t value, unsigned length)
 
 static quanta_status memory_path(linux_hal *h, char *path, size_t capacity)
 {
-    int n = snprintf(path, capacity, "%s/mem", h->dev_root);
+    int n = quanta_snprintf(path, capacity, "%s/mem", h->dev_root);
     return n >= 0 && (size_t)n < capacity ? QUANTA_OK : QUANTA_LIMIT;
 }
 
@@ -123,7 +124,7 @@ static quanta_status msr_transfer(void *data, uint32_t index, uint32_t cpu,
     char path[1100];
     int n;
     if (cpu == QUANTA_HAL_CURRENT_CPU) return QUANTA_INVALID_DATA;
-    n = snprintf(path, sizeof(path), "%s/cpu/%u/msr", h->dev_root, cpu);
+    n = quanta_snprintf(path, sizeof(path), "%s/cpu/%u/msr", h->dev_root, cpu);
     if (n < 0 || (size_t)n >= sizeof(path)) return QUANTA_LIMIT;
     return transfer(path, index, write ? NULL : bytes, write ? bytes : NULL, 8);
 }
@@ -158,7 +159,7 @@ static quanta_status port_transfer(void *data, uint16_t port, unsigned width,
     /* /dev/port uses consecutive inb/outb operations, not inw/inl. Do not
      * silently emulate a wider transaction by touching adjacent device ports. */
     if (width != 1) return QUANTA_UNSUPPORTED;
-    n = snprintf(path, sizeof(path), "%s/port", h->dev_root);
+    n = quanta_snprintf(path, sizeof(path), "%s/port", h->dev_root);
     if (n < 0 || (size_t)n >= sizeof(path)) return QUANTA_LIMIT;
     return transfer(path, port, write ? NULL : bytes, write ? bytes : NULL, width);
 }
@@ -183,7 +184,7 @@ static quanta_status pci_transfer(void *data, quanta_pci_address a, unsigned wid
 {
     linux_hal *h = (linux_hal *)data;
     char path[1200];
-    int n = snprintf(path, sizeof(path), "%s/bus/pci/devices/%04x:%02x:%02x.%x/config",
+    int n = quanta_snprintf(path, sizeof(path), "%s/bus/pci/devices/%04x:%02x:%02x.%x/config",
                      h->sys_root, (unsigned)a.segment, (unsigned)a.bus,
                      (unsigned)a.device, (unsigned)a.function);
     if (n < 0 || (size_t)n >= sizeof(path)) return QUANTA_LIMIT;
@@ -213,10 +214,10 @@ quanta_status quanta_hal_platform_open(const quanta_hal_options *options, quanta
     quanta_status s;
     long cpus, pages, page_size;
     const char *name = options->name;
-    int devices = name && !strcmp(name, "linux-dev");
-    if (name && *name && strcmp(name, "native") && strcmp(name, "linux-native") && !devices)
+    int devices = name && !quanta_strcmp(name, "linux-dev");
+    if (name && *name && quanta_strcmp(name, "native") && quanta_strcmp(name, "linux-native") && !devices)
         return QUANTA_UNSUPPORTED;
-    strcpy(info.name, devices ? "linux-dev" : "linux-native");
+    quanta_strcpy(info.name, devices ? "linux-dev" : "linux-native");
     info.maximum_physical_address = INT64_MAX - 1;
     cpus = sysconf(_SC_NPROCESSORS_ONLN);
     if (cpus > 0 && (unsigned long)cpus <= UINT32_MAX)
@@ -237,16 +238,16 @@ quanta_status quanta_hal_platform_open(const quanta_hal_options *options, quanta
     {
         const char *dev = options->dev_root ? options->dev_root : "/dev";
         const char *sys = options->sys_root ? options->sys_root : "/sys";
-        h = (linux_hal *)calloc(1, sizeof(*h));
+        h = (linux_hal *)quanta_calloc(1, sizeof(*h));
         if (!h) return QUANTA_NO_MEMORY;
-        if (strlen(dev) >= sizeof(h->dev_root) || strlen(sys) >= sizeof(h->sys_root))
+        if (quanta_strlen(dev) >= sizeof(h->dev_root) || quanta_strlen(sys) >= sizeof(h->sys_root))
         {
-            free(h);
+            quanta_free(h);
             return QUANTA_LIMIT;
         }
-        strcpy(h->dev_root, dev);
-        strcpy(h->sys_root, sys);
-        ops.close = free;
+        quanta_strcpy(h->dev_root, dev);
+        quanta_strcpy(h->sys_root, sys);
+        ops.close = quanta_free;
         ops.read_mem = read_mem;
         ops.write_mem = write_mem;
         ops.read_portio = read_portio;
@@ -260,6 +261,6 @@ quanta_status quanta_hal_platform_open(const quanta_hal_options *options, quanta
 #endif
     }
     s = quanta_hal_attach(&info, &ops, h, options, out);
-    if (s != QUANTA_OK) free(h);
+    if (s != QUANTA_OK) quanta_free(h);
     return s;
 }

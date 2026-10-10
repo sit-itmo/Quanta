@@ -1,6 +1,6 @@
 # Документация метрик
 
-Наличие в данном индексе не означает включение во все платформы/сборки. Проверяйте `quanta list`.
+Наличие в индексе не означает включение во все платформы. Проверяйте `quanta list --compiled`.
 
 - [bios.date](bios.date.md)
 - [bios.vendor](bios.vendor.md)
@@ -42,6 +42,9 @@
 - [fs.root.total_bytes](fs.root.total_bytes.md)
 - [fs.root.used_bytes](fs.root.used_bytes.md)
 - [fs.root.utilization](fs.root.utilization.md)
+- [hal.capabilities](hal.capabilities.md)
+- [hal.logical_cpus](hal.logical_cpus.md)
+- [hal.name](hal.name.md)
 - [mcu.chip_id](mcu.chip_id.md)
 - [mcu.cores](mcu.cores.md)
 - [mcu.cpu.freq_mhz](mcu.cpu.freq_mhz.md)
@@ -75,6 +78,7 @@
 - [process.self.pid](process.self.pid.md)
 - [process.self.private_bytes](process.self.private_bytes.md)
 - [process.self.rss_bytes](process.self.rss_bytes.md)
+- [quanta.version](quanta.version.md)
 - [sensor.fan_rpm](sensor.fan_rpm.md)
 - [sensor.temperature](sensor.temperature.md)
 - [smbios.legacy_mem.bios.vendor](smbios.legacy_mem.bios.vendor.md)

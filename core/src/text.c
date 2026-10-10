@@ -1,12 +1,10 @@
 /* SPDX-License-Identifier: MIT */
+#include "quanta/osal.h"
 #include "core_internal.h"
-#include <ctype.h>
-#include <math.h>
-#include <time.h>
 
 int quanta_copy(char *d, size_t cap, const char *s)
 {
-    size_t n = strlen(s);
+    size_t n = quanta_strlen(s);
     if (!cap)
     {
         return 0;
@@ -16,24 +14,24 @@ int quanta_copy(char *d, size_t cap, const char *s)
         d[0] = '\0';
         return 0;
     }
-    memcpy(d, s, n + 1);
+    quanta_memcpy(d, s, n + 1);
     return 1;
 }
 
 void quanta_trim(char *s)
 {
-    size_t n = strlen(s), start = 0;
-    while (n && isspace((unsigned char)s[n - 1]))
+    size_t n = quanta_strlen(s), start = 0;
+    while (n && quanta_isspace((unsigned char)s[n - 1]))
     {
         s[--n] = 0;
     }
-    while (s[start] && isspace((unsigned char)s[start]))
+    while (s[start] && quanta_isspace((unsigned char)s[start]))
     {
         start++;
     }
     if (start)
     {
-        memmove(s, s + start, strlen(s + start) + 1);
+        quanta_memmove(s, s + start, quanta_strlen(s + start) + 1);
     }
 }
 
@@ -112,7 +110,7 @@ void quanta_safe_text(char *d, size_t cap, const char *s)
         {
             break;
         }
-        memcpy(d + used, s, count);
+        quanta_memcpy(d + used, s, count);
         used += count;
         s += count;
     }
@@ -124,7 +122,7 @@ const char *quanta_label_get(const quanta_label *l, size_t n, const char *key)
     size_t i;
     for (i = 0; i < n; i++)
     {
-        if (!strcmp(l[i].key, key))
+        if (!quanta_strcmp(l[i].key, key))
         {
             return l[i].value;
         }
@@ -137,7 +135,7 @@ int quanta_label_set(quanta_label *l, size_t *n, const char *k, const char *v)
     size_t i;
     for (i = 0; i < *n; i++)
     {
-        if (!strcmp(l[i].key, k))
+        if (!quanta_strcmp(l[i].key, k))
         {
             break;
         }
@@ -194,21 +192,21 @@ int quanta_parse_u64(const char *s, uint64_t *out)
 {
     unsigned long long v;
     char *e;
-    while (isspace((unsigned char)*s))
+    while (quanta_isspace((unsigned char)*s))
     {
         s++;
     }
-    if (!isdigit((unsigned char)*s))
+    if (!quanta_isdigit((unsigned char)*s))
     {
         return 0;
     }
-    errno = 0;
-    v = strtoull(s, &e, 10);
-    if (errno || e == s)
+    quanta_errno = 0;
+    v = quanta_strtoull(s, &e, 10);
+    if (quanta_errno || e == s)
     {
         return 0;
     }
-    while (isspace((unsigned char)*e))
+    while (quanta_isspace((unsigned char)*e))
     {
         e++;
     }
@@ -224,13 +222,13 @@ int quanta_parse_s64(const char *s, int64_t *out)
 {
     long long v;
     char *e;
-    errno = 0;
-    v = strtoll(s, &e, 10);
-    if (errno || e == s)
+    quanta_errno = 0;
+    v = quanta_strtoll(s, &e, 10);
+    if (quanta_errno || e == s)
     {
         return 0;
     }
-    while (isspace((unsigned char)*e))
+    while (quanta_isspace((unsigned char)*e))
     {
         e++;
     }
@@ -245,7 +243,7 @@ int quanta_parse_s64(const char *s, int64_t *out)
 void quanta_series_name(char *d, size_t cap, const quanta_series *s)
 {
     size_t i, off;
-    int x = snprintf(d, cap, "%s", s->key);
+    int x = quanta_snprintf(d, cap, "%s", s->key);
     if (x < 0)
     {
         return;
@@ -253,7 +251,7 @@ void quanta_series_name(char *d, size_t cap, const quanta_series *s)
     off = (size_t)x;
     for (i = 0; i < s->label_count && off < cap; i++)
     {
-        x = snprintf(d + off, cap - off, "%s%s=%s", i ? "," : "{", s->labels[i].key,
+        x = quanta_snprintf(d + off, cap - off, "%s%s=%s", i ? "," : "{", s->labels[i].key,
                      s->labels[i].value);
         if (x < 0)
         {
@@ -263,6 +261,6 @@ void quanta_series_name(char *d, size_t cap, const quanta_series *s)
     }
     if (s->label_count && off < cap)
     {
-        snprintf(d + off, cap - off, "}");
+        quanta_snprintf(d + off, cap - off, "}");
     }
 }

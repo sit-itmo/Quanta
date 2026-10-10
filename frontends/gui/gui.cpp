@@ -187,7 +187,7 @@ bool contains(const char *s, const char *find)
     for (; *s; s++)
     {
         const unsigned char *a = (const unsigned char *)s, *b = (const unsigned char *)find;
-        while (*a && *b && std::tolower(*a) == std::tolower(*b))
+        while (*a && *b && quanta_tolower(*a) == quanta_tolower(*b))
         {
             a++;
             b++;
@@ -285,7 +285,7 @@ void plot(const quanta_item &p, uint64_t end, uint64_t history)
     }
     if (hi <= lo)
     {
-        double pad = std::max(1.0, std::fabs(lo) * 0.02);
+        double pad = std::max(1.0, quanta_fabs(lo) * 0.02);
         lo -= pad * 0.5;
         hi += pad * 0.5;
     }
@@ -358,7 +358,7 @@ void gauge(const quanta_item &p)
         d->PathStroke(IM_COL32(94, 205, 171, 255), 0, 10);
     }
     char label[32];
-    std::snprintf(label, sizeof(label), "%.0f%%", frac * 100);
+    quanta_snprintf(label, sizeof(label), "%.0f%%", frac * 100);
     ImVec2 sz = ImGui::CalcTextSize(label);
     d->AddText(ImVec2(center.x - sz.x * .5f, center.y - sz.y * .5f), IM_COL32(231, 238, 247, 255),
                label);
@@ -471,7 +471,7 @@ void table(quanta_model &model, std::vector<size_t> &visible, bool redact)
                                      char sx[1024], sy[1024];
                                      quanta_item_value(sx, sizeof(sx), &x, redact);
                                      quanta_item_value(sy, sizeof(sy), &y, redact);
-                                     cmp = std::strcmp(sx, sy);
+                                     cmp = quanta_strcmp(sx, sy);
                                  }
                              }
                              else if (sort.ColumnUserID == 2)
@@ -486,7 +486,7 @@ void table(quanta_model &model, std::vector<size_t> &visible, bool redact)
                              }
                              else if (sort.ColumnUserID == 4)
                              {
-                                 cmp = std::strcmp(quanta_metric_source(x.meta.metric),
+                                 cmp = quanta_strcmp(quanta_metric_source(x.meta.metric),
                                                    quanta_metric_source(y.meta.metric));
                              }
                              else
@@ -494,7 +494,7 @@ void table(quanta_model &model, std::vector<size_t> &visible, bool redact)
                                  char sx[2048], sy[2048];
                                  quanta_series_name(sx, sizeof(sx), &x.meta);
                                  quanta_series_name(sy, sizeof(sy), &y.meta);
-                                 cmp = std::strcmp(sx, sy);
+                                 cmp = quanta_strcmp(sx, sy);
                              }
                              if (!cmp)
                              {
@@ -566,10 +566,10 @@ void render_draw_data(ImDrawData *data, quanta_surface *surface, const quanta_te
             {
                 continue;
             }
-            quanta_clip clip{(int)std::floor((cmd.ClipRect.x - pos.x) * scale.x),
-                             (int)std::floor((cmd.ClipRect.y - pos.y) * scale.y),
-                             (int)std::ceil((cmd.ClipRect.z - pos.x) * scale.x),
-                             (int)std::ceil((cmd.ClipRect.w - pos.y) * scale.y)};
+            quanta_clip clip{(int)quanta_floor((cmd.ClipRect.x - pos.x) * scale.x),
+                             (int)quanta_floor((cmd.ClipRect.y - pos.y) * scale.y),
+                             (int)quanta_ceil((cmd.ClipRect.z - pos.x) * scale.x),
+                             (int)quanta_ceil((cmd.ClipRect.w - pos.y) * scale.y)};
             for (unsigned k = 0; k + 2 < cmd.ElemCount; k += 3)
             {
                 quanta_vertex vertices[3];
@@ -593,7 +593,7 @@ int run(quanta_engine *engine, const quanta_plan *plan)
     if (!quanta_window_open("Quanta | System Observatory", app.width, app.height, &app.window,
                             error, sizeof(error)))
     {
-        std::fprintf(stderr, "quanta: %s\n", error);
+        quanta_fprintf(quanta_stderr, "quanta: %s\n", error);
         return 1;
     }
     IMGUI_CHECKVERSION();
@@ -609,32 +609,32 @@ int run(quanta_engine *engine, const quanta_plan *plan)
     ImGui::GetMainViewport()->PlatformHandleRaw = quanta_window_native(app.window);
     if (plan->font_path[0])
     {
-        FILE *font = quanta_fopen_utf8(plan->font_path, "rb");
+        quanta_file *font = quanta_fopen(plan->font_path, "rb");
         if (!font)
         {
-            std::fprintf(stderr, "quanta: cannot read GUI font: %s\n", plan->font_path);
+            quanta_fprintf(quanta_stderr, "quanta: cannot read GUI font: %s\n", plan->font_path);
             return 1;
         }
-        if (std::fseek(font, 0, SEEK_END) != 0)
+        if (quanta_fseek(font, 0, QUANTA_SEEK_END) != 0)
         {
-            std::fclose(font);
+            quanta_fclose(font);
             return 1;
         }
-        long bytes = std::ftell(font);
-        if (bytes <= 0 || bytes > 32 * 1024 * 1024 || std::fseek(font, 0, SEEK_SET) != 0)
+        long bytes = quanta_ftell(font);
+        if (bytes <= 0 || bytes > 32 * 1024 * 1024 || quanta_fseek(font, 0, QUANTA_SEEK_SET) != 0)
         {
-            std::fclose(font);
+            quanta_fclose(font);
             return 1;
         }
         void *data = ImGui::MemAlloc((size_t)bytes);
         if (!data)
         {
-            std::fclose(font);
+            quanta_fclose(font);
             return 1;
         }
-        size_t got = std::fread(data, 1, (size_t)bytes, font);
-        int io_error = std::ferror(font);
-        std::fclose(font);
+        size_t got = quanta_fread(data, 1, (size_t)bytes, font);
+        int io_error = quanta_ferror(font);
+        quanta_fclose(font);
         if (got != (size_t)bytes || io_error)
         {
             ImGui::MemFree(data);
@@ -644,7 +644,7 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         if (!io.Fonts->AddFontFromMemoryTTF(data, (int)bytes, 17.0f * dpi, nullptr,
                                             io.Fonts->GetGlyphRangesCyrillic()))
         {
-            std::fprintf(stderr, "quanta: cannot decode GUI font\n");
+            quanta_fprintf(quanta_stderr, "quanta: cannot decode GUI font\n");
             return 1;
         }
     }
@@ -676,7 +676,7 @@ int run(quanta_engine *engine, const quanta_plan *plan)
     quanta_status result = quanta_live_start(engine, plan, &app.live);
     if (result != QUANTA_OK)
     {
-        std::fprintf(stderr, "quanta: cannot start collector: %s\n", quanta_status_name(result));
+        quanta_fprintf(quanta_stderr, "quanta: cannot start collector: %s\n", quanta_status_name(result));
         return 1;
     }
     bool running = true, table_view = false;
@@ -718,7 +718,7 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         }
         if (available < 0)
         {
-            std::fprintf(stderr, "quanta: window event transport failed\n");
+            quanta_fprintf(quanta_stderr, "quanta: window event transport failed\n");
             return 1;
         }
         if (!running)
@@ -727,13 +727,13 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         }
         if (app.width <= 0 || app.height <= 0 || app.width > 4096 || app.height > 4096)
         {
-            std::fprintf(stderr, "quanta: GUI surface limit is 4096x4096\n");
+            quanta_fprintf(quanta_stderr, "quanta: GUI surface limit is 4096x4096\n");
             return 1;
         }
         result = quanta_live_pump(app.live, &sink);
         if (result != QUANTA_OK)
         {
-            std::fprintf(stderr, "quanta: GUI model: %s\n", quanta_status_name(result));
+            quanta_fprintf(quanta_stderr, "quanta: GUI model: %s\n", quanta_status_name(result));
             return 1;
         }
         bool done = quanta_live_done(app.live);
@@ -839,7 +839,7 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         render_draw_data(ImGui::GetDrawData(), &surface, &texture);
         if (!quanta_window_present(app.window, app.pixels.data(), app.width, app.height))
         {
-            std::fprintf(stderr, "quanta: window presentation failed\n");
+            quanta_fprintf(quanta_stderr, "quanta: window presentation failed\n");
             return 1;
         }
         uint64_t elapsed = quanta_now_ns() - frame_start;
@@ -863,12 +863,12 @@ extern "C" int quanta_run_gui(quanta_engine *engine, const quanta_plan *plan)
     }
     catch (const std::exception &e)
     {
-        std::fprintf(stderr, "quanta: GUI exception: %s\n", e.what());
+        quanta_fprintf(quanta_stderr, "quanta: GUI exception: %s\n", e.what());
         return 1;
     }
     catch (...)
     {
-        std::fprintf(stderr, "quanta: GUI failure\n");
+        quanta_fprintf(quanta_stderr, "quanta: GUI failure\n");
         return 1;
     }
 }

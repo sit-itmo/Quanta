@@ -10,13 +10,15 @@ def render():
         for definition in sorted((ROOT/'metrics'/subdir).glob('*.def')):
             if definition.stem=='selected': continue
             flag=platform
-            if definition.stem=='mcu':
+            if definition.stem=='runtime':
+                flag='1'
+            elif definition.stem=='mcu':
                 flag='QUANTA_PLATFORM_FREERTOS'
             elif definition.stem=='smbios_mem':
                 flag='(QUANTA_OS_LINUX || QUANTA_OS_WINDOWS) && QUANTA_WITH_DMI && QUANTA_ARCH_X86'
             elif definition.stem=='os' and not subdir:
                 flag='(QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)'
-            if definition.stem not in ('os','mcu','smbios_mem'): flag+=' && QUANTA_WITH_'+definition.stem.upper()
+            if definition.stem not in ('os','mcu','smbios_mem','runtime'): flag+=' && QUANTA_WITH_'+definition.stem.upper()
             if definition.stem=='cpuid': flag+=' && QUANTA_ARCH_X86'
             keys=re.findall(r'\.key\s*=\s*"([^"]+)"',definition.read_text(encoding='utf-8'))
             if len(set(keys))!=len(keys): raise RuntimeError('Duplicate keys in '+str(definition))
@@ -42,7 +44,7 @@ def render():
     out+=['    {NULL, NULL}', '};', '#endif',
           'const char *quanta_metric_documentation(const char *key) {',
           '#if QUANTA_EMBED_DOCS', '    size_t i;',
-          '    for (i=0; docs[i].key; i++) if (!strcmp(key, docs[i].key)) return docs[i].text;',
+          '    for (i=0; docs[i].key; i++) if (!quanta_strcmp(key, docs[i].key)) return docs[i].text;',
           '#else', '    (void)key;', '#endif', '    return NULL;', '}']
     return '\n'.join(out)+'\n'
 

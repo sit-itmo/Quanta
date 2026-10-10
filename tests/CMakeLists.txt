@@ -1,88 +1,76 @@
-# C tests are mandatory when BUILD_TESTING=ON. Python adds integration/doc checks.
-function(quanta_test target)
-    add_executable(${target} ${ARGN})
-    quanta_target(${target})
-    target_include_directories(${target} PRIVATE
-        ${PROJECT_SOURCE_DIR}/frontends/private ${PROJECT_SOURCE_DIR}/frontends/include
-        ${PROJECT_SOURCE_DIR}/frontends/gui ${PROJECT_SOURCE_DIR}/sensors/private
-        ${PROJECT_SOURCE_DIR}/sensors/include ${PROJECT_SOURCE_DIR}/hal/include
-        ${PROJECT_SOURCE_DIR}/hal/common ${PROJECT_SOURCE_DIR}/metrics)
-    target_link_libraries(${target} PRIVATE quanta_output quanta_sensors)
-    add_test(NAME ${target} COMMAND ${target})
-    set_property(GLOBAL APPEND PROPERTY QUANTA_TEST_TARGETS ${target})
+# Small independent C suites + black-box Python tests. No third-party framework.
+# Every suite uses a normal exit code; CTest is the sole test runner.
+function(quanta_test name)
+    add_executable(quanta_test_${name} ${ARGN})
+    quanta_target(quanta_test_${name})
+    target_include_directories(quanta_test_${name} PRIVATE
+        ${PROJECT_SOURCE_DIR}/frontends/private ${PROJECT_SOURCE_DIR}/frontends/gui/backend
+        ${PROJECT_SOURCE_DIR}/sensors/private ${PROJECT_SOURCE_DIR}/osal/private
+        ${PROJECT_SOURCE_DIR}/metrics)
+    target_link_libraries(quanta_test_${name} PRIVATE quanta_frontends quanta_sensors)
+    add_test(NAME ${name} COMMAND quanta_test_${name})
+    set_tests_properties(${name} PROPERTIES LABELS unit)
+    set_property(GLOBAL APPEND PROPERTY QUANTA_TEST_TARGETS quanta_test_${name})
 endfunction()
-quanta_test(quanta_hal_tests test_hal.c)
-quanta_test(quanta_unit_tests test_core.c ${PROJECT_SOURCE_DIR}/frontends/gui/raster.c)
-quanta_test(quanta_windows_data_tests test_windows_data.c
-    ${PROJECT_SOURCE_DIR}/sensors/windows_math.c ${PROJECT_SOURCE_DIR}/sensors/board/smbios.c)
-if(WIN32)
-    quanta_test(quanta_windows_tests test_windows.c)
-else()
-    quanta_test(quanta_device_tests test_devices.c)
-    quanta_test(quanta_linux_metrics_tests test_linux_metrics.c)
-    # A separate Windows registry compiled on Linux. This is NOT a WinAPI emulator.
-    file(READ ${PROJECT_BINARY_DIR}/generated/quanta_config.h schema_config)
-    string(REPLACE "#define QUANTA_OS_LINUX 1" "#define QUANTA_OS_LINUX 0" schema_config "${schema_config}")
-    string(REPLACE "#define QUANTA_OS_WINDOWS 0" "#define QUANTA_OS_WINDOWS 1" schema_config "${schema_config}")
-    file(CONFIGURE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/schema/quanta_config.h CONTENT "${schema_config}" @ONLY)
-    add_executable(quanta_windows_schema_tests test_windows_schema.c windows_schema_stubs.c
-        ${PROJECT_SOURCE_DIR}/sensors/registry.c ${PROJECT_SOURCE_DIR}/sensors/metric_docs.c)
-    quanta_target(quanta_windows_schema_tests)
-    target_include_directories(quanta_windows_schema_tests BEFORE PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/schema)
-    target_include_directories(quanta_windows_schema_tests PRIVATE
-        ${PROJECT_SOURCE_DIR}/frontends/private ${PROJECT_SOURCE_DIR}/frontends/include
-        ${PROJECT_SOURCE_DIR}/sensors/private ${PROJECT_SOURCE_DIR}/sensors/include
-        ${PROJECT_SOURCE_DIR}/hal/include ${PROJECT_SOURCE_DIR}/metrics)
-    target_link_libraries(quanta_windows_schema_tests PRIVATE quanta_core)
-    if(QUANTA_WITH_MEMORY AND QUANTA_WITH_CPU AND QUANTA_WITH_DMI AND QUANTA_WITH_NETWORK
-       AND QUANTA_WITH_PROCESS AND QUANTA_WITH_FILESYSTEM)
-        file(GLOB windows_queries CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/examples/queries/windows/*.q)
-    endif()
-    add_test(NAME windows_schema COMMAND quanta_windows_schema_tests ${windows_queries})
-    set_property(GLOBAL APPEND PROPERTY QUANTA_TEST_TARGETS quanta_windows_schema_tests)
-endif()
-find_package(Python3 COMPONENTS Interpreter QUIET)
-if(Python3_Interpreter_FOUND)
-    add_test(NAME hal_cli_architecture COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/hal_cli.py
-        $<TARGET_FILE:quanta> ${PROJECT_SOURCE_DIR})
-    add_test(NAME frontend_modes COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/frontend_modes.py
-        $<TARGET_FILE:quanta> $<TARGET_FILE:quanta_cli> $<TARGET_FILE:quanta_csv> $<TARGET_FILE:quanta_txt>)
-    add_test(NAME documentation COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/embed_docs.py --check)
+
+# These deliberately link core alone: no hidden metric or UI dependency is allowed.
+foreach(suite catalog history osal)
+    add_executable(quanta_test_${suite} unit/test_${suite}.c)
+    quanta_target(quanta_test_${suite})
+    target_link_libraries(quanta_test_${suite} PRIVATE quanta_core)
+    add_test(NAME ${suite} COMMAND quanta_test_${suite})
+    set_tests_properties(${suite} PROPERTIES LABELS core)
+    set_property(GLOBAL APPEND PROPERTY QUANTA_TEST_TARGETS quanta_test_${suite})
+endforeach()
+quanta_test(hal unit/test_hal.c)
+if(NOT QUANTA_PORTABLE)
+    quanta_test(core_metrics unit/test_core.c ${PROJECT_SOURCE_DIR}/frontends/gui/backend/raster.c)
+    quanta_test(windows_data platform/windows/test_windows_data.c
+        ${PROJECT_SOURCE_DIR}/sensors/common/normalize.c ${PROJECT_SOURCE_DIR}/sensors/os/windows/cpu_instance.c ${PROJECT_SOURCE_DIR}/sensors/common/smbios.c)
     if(WIN32)
-        add_test(NAME integration COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/windows_integration.py $<TARGET_FILE:quanta>)
+        quanta_test(windows_native platform/windows/test_windows.c)
+    else()
+        quanta_test(devices platform/linux/test_devices.c)
+        quanta_test(linux_metrics platform/linux/test_linux_metrics.c)
+        include(platform/windows/schema.cmake)
+    endif()
+endif()
+include(esp8266.cmake)
+
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+function(quanta_python_test name script)
+    add_test(NAME ${name} COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/integration/${script}
+        $<TARGET_FILE:quanta> ${ARGN})
+    set_tests_properties(${name} PROPERTIES LABELS integration)
+endfunction()
+quanta_python_test(cli cli.py ${PROJECT_SOURCE_DIR})
+add_test(NAME source_contract COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/source_contract.py ${PROJECT_SOURCE_DIR})
+add_test(NAME documentation COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/embed_docs.py --check)
+if(NOT QUANTA_PORTABLE)
+    if(WIN32)
+        quanta_python_test(native windows_integration.py)
         if(QUANTA_WITH_GUI)
-            add_test(NAME windows_gui COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/windows_gui.py $<TARGET_FILE:quanta>)
+            quanta_python_test(gui windows_gui.py)
         endif()
     else()
-        add_test(NAME integration COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/integration.py $<TARGET_FILE:quanta>)
+        quanta_python_test(native integration.py)
         if(QUANTA_WITH_TUI)
-            add_test(NAME tui_pty COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tui_pty.py $<TARGET_FILE:quanta>)
+            quanta_python_test(tui tui_pty.py)
         endif()
         if(QUANTA_WITH_GUI)
             find_program(QUANTA_XVFB Xvfb)
             if(QUANTA_XVFB)
-                add_test(NAME gui_x11 COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/gui_smoke.py $<TARGET_FILE:quanta>)
+                quanta_python_test(gui gui_smoke.py)
             endif()
         endif()
     endif()
-else()
-    message(STATUS "Python 3 not found: C tests enabled, Python integration/doc tests skipped")
 endif()
-# Public API tests must link to core alone: a hidden sensor dependency fails at link time.
-foreach(suite catalog history osal)
-    add_executable(quanta_${suite}_tests test_${suite}.c)
-    quanta_target(quanta_${suite}_tests)
-    target_link_libraries(quanta_${suite}_tests PRIVATE quanta_core)
-    add_test(NAME quanta_${suite}_tests COMMAND quanta_${suite}_tests)
-    set_property(GLOBAL APPEND PROPERTY QUANTA_TEST_TARGETS quanta_${suite}_tests)
-endforeach()
-include(esp8266.cmake)
 get_property(all_tests DIRECTORY PROPERTY TESTS)
 set_tests_properties(${all_tests} PROPERTIES TIMEOUT 120)
 get_property(test_targets GLOBAL PROPERTY QUANTA_TEST_TARGETS)
 add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} --test-dir ${PROJECT_BINARY_DIR} -C $<CONFIG> --output-on-failure --no-tests=error
-    DEPENDS ${test_targets} quanta quanta_cli quanta_csv quanta_txt USES_TERMINAL)
+    DEPENDS ${test_targets} quanta USES_TERMINAL)
 if(QUANTA_TESTS_ON_BUILD AND NOT CMAKE_CROSSCOMPILING)
     add_custom_target(quanta_verify ALL DEPENDS check)
 endif()

@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-#include "osal_internal.h"
+#include "support.h"
 #include <esp_timer.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -33,27 +33,14 @@ void quanta_sleep_ns(uint64_t ns)
 }
 int quanta_install_signal_handlers(void) { return 1; }
 int quanta_interrupted(void) { return 0; }
-unsigned long quanta_process_id(void) { return 1; }
-FILE *quanta_fopen_utf8(const char *path, const char *mode)
+unsigned long quanta_process_id(void) { return 0; /* No process identity on this port. */ }
+FILE *quanta_fopen(const char *path, const char *mode)
 { (void)path; (void)mode; errno = ENOSYS; return NULL; }
 FILE *quanta_create_output(const char *path)
 { (void)path; errno = ENOSYS; return NULL; }
-int quanta_path(char *out, size_t capacity, const char *root, const char *relative)
+
+int quanta_numeric_locale(void)
 {
-    int n;
-    if (!out || !capacity || !root || !relative) return 0;
-    n = snprintf(out, capacity, "%s/%s", root, relative);
-    return n >= 0 && (size_t)n < capacity;
-}
-quanta_status quanta_read_text(const char *path, char *out, size_t capacity)
-{
-    if (!path || !out || !capacity) return QUANTA_INVALID_DATA;
-    out[0] = 0;
-    return QUANTA_NOT_PRESENT;
-}
-quanta_status quanta_read_u64(const char *path, uint64_t *out)
-{
-    if (!path || !out) return QUANTA_INVALID_DATA;
-    *out = 0;
-    return QUANTA_NOT_PRESENT;
+    /* The serial SDK app uses the default C locale, with no locale service. */
+    return 1;
 }

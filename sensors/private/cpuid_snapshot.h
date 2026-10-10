@@ -1,4 +1,3 @@
-// hal/include/cpuid.h
 #ifndef QUANTA_SENSOR_CPUID_H
 #define QUANTA_SENSOR_CPUID_H
 #include "snapshot_context.h"
