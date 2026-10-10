@@ -1,6 +1,6 @@
 # os.memory.total_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Physical memory — semantic version 1.
 

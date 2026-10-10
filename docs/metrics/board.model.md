@@ -1,6 +1,6 @@
 # board.model
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Board model — semantic version 1.
 

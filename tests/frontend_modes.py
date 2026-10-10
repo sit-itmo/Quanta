@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CLI entrypoints/format contracts; uses only the always-available OS provider."""
+"""CLI entrypoints/format contracts; uses only the always-available OS metrics."""
 import csv
 import io
 from pathlib import Path
@@ -34,9 +34,9 @@ if 'os.arch' not in table or 'OK' not in table:
     raise AssertionError(table)
 with tempfile.TemporaryDirectory(prefix='quanta frontend ') as temporary:
     query = Path(temporary) / 'query with spaces.q'
-    query.write_text('version 1; mode cli; once; select provider("os", os.arch);', encoding='utf-8')
+    query.write_text('version 1; mode cli; once; hal "none"; select os.arch;', encoding='utf-8')
     if run(main, str(query), '--format', 'value') != value:
-        raise AssertionError('query shorthand/explicit provider differs')
+        raise AssertionError('query shorthand/HAL directive differs')
     run(main, str(query), '--input', 'capture.qblob', status=2)
     run(main, str(query), '--record', 'capture.qblob', status=2)
 run(main, 'run', '-q', 'once; select provider(os, os.arch);', status=2)

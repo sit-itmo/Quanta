@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT
- * Reconcile provider instances into deduplicated acquisition channels and query
+ * Reconcile metric instances into deduplicated acquisition channels and query
  * bindings. */
 #include "engine_internal.h"
 
@@ -33,7 +33,7 @@ static quanta_status reserve_channels(quanta_engine *e)
 {
     if (e->channel_count == e->channel_cap)
     {
-        size_t cap = e->channel_cap ? e->channel_cap * 2 : 32;
+        size_t cap = e->channel_cap ? e->channel_cap * 2 : QUANTA_INITIAL_CAPACITY;
         quanta_channel *p;
         if (e->channel_count >= QUANTA_MAX_CHANNELS)
         {
@@ -59,7 +59,7 @@ static quanta_status reserve_bindings(quanta_engine *e)
 {
     if (e->binding_count == e->binding_cap)
     {
-        size_t cap = e->binding_cap ? e->binding_cap * 2 : 32;
+        size_t cap = e->binding_cap ? e->binding_cap * 2 : QUANTA_INITIAL_CAPACITY;
         quanta_binding *p;
         if (e->binding_count >= QUANTA_MAX_SERIES)
         {
@@ -101,7 +101,7 @@ static quanta_status discovered(void *context, const quanta_instance *in)
             break;
         }
     }
-    if (i == e->catalog.count || in->metric->provider != e->discovering_provider ||
+    if (i == e->catalog.count || !quanta_metric_wanted(&e->acquisitions[e->discovering_acquisition].context, in->metric) ||
         !in->entity_key[0])
     {
         return QUANTA_INVALID_DATA;
@@ -188,6 +188,7 @@ static quanta_status discovered(void *context, const quanta_instance *in)
         c = &e->channels[ci];
         memset(c, 0, sizeof(*c));
         c->in = *in;
+        c->acquisition_index = e->discovering_acquisition;
         c->in.series_id = ++e->next_id;
         c->in.generation = (uint32_t)e->next_id;
         c->active = 1;
@@ -320,42 +321,44 @@ static quanta_status discovered(void *context, const quanta_instance *in)
 
 quanta_status quanta_engine_discover(quanta_engine *e)
 {
-    unsigned p;
+    size_t p;
     size_t i, j;
     quanta_discovery_sink sink;
     e->discovery_epoch++;
     sink.context = e;
     sink.emit = discovered;
-    for (p = 0; p < QUANTA_PROVIDER_COUNT; p++)
+    for (p = 0; p < e->acquisition_count; p++)
     {
-        if (e->providers[p] && e->open_status[p] == QUANTA_OK)
+        if (e->acquisitions[p].init_status == QUANTA_OK)
         {
-            e->discovering_provider = e->providers[p];
-            quanta_status s = e->providers[p]->discover
-                                  ? e->providers[p]->discover(&e->ctx[p], &sink)
-                                  : QUANTA_OK;
+            quanta_acquisition *a = &e->acquisitions[p];
+            const quanta_metric_desc *m = a->representative;
+            e->discovering_acquisition = p;
+            quanta_status s = m->enumerate
+                                  ? m->enumerate(&a->context, &sink)
+                                  : quanta_discover_single(&a->context, &sink);
             if (s == QUANTA_NO_MEMORY || s == QUANTA_LIMIT || s == QUANTA_BAD_QUERY ||
                 s == QUANTA_INVALID_DATA)
             {
                 return s;
             }
-            if (s != QUANTA_OK && s != e->discovery_status[p])
+            if (s != QUANTA_OK && s != a->discovery_status)
             {
                 char msg[256];
-                snprintf(msg, sizeof(msg), "discovery: %s: %s", e->providers[p]->id,
+                snprintf(msg, sizeof(msg), "discovery: %s: %s", m->key,
                          quanta_status_name(s));
                 if (quanta_engine_diagnostic(e, s, msg) != QUANTA_OK)
                 {
                     return QUANTA_IO_ERROR;
                 }
             }
-            e->discovery_status[p] = s;
+            a->discovery_status = s;
             /* Failed/partial enumeration is not evidence that devices disappeared. */
             if (s == QUANTA_OK)
             {
                 for (i = 0; i < e->channel_count; i++)
                 {
-                    if (e->channels[i].active && e->channels[i].in.metric->provider->index == p &&
+                    if (e->channels[i].active && e->channels[i].acquisition_index == p &&
                         e->channels[i].seen != e->discovery_epoch)
                     {
                         for (j = 0; j < e->binding_count; j++)

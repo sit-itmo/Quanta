@@ -1,82 +1,36 @@
-# TODO: достижение целевого дизайна
+# TODO 0.4.0
 
-Обозначения: P0 — приёмка/надёжность baseline; P1 — недостающая функциональность дизайна;
-P2 — расширение. Список открытых работ, а не скрытые заглушки с успешным статусом.
+## P0 — приёмка на целевых платформах
 
-## P0 — приёмка
+- [ ] ESP8266 SDK v3.4: clean cross-build/link, size/map, flash, serial log со всеми 9 MCU keys.
+  Проверить длительный heap/min-heap, stack high-water mark, cold reboot, SDK threading.
+- [ ] Проверить VDD33 только на плате с TOUT unconnected и PHY setting=255; сравнить с прибором.
+- [ ] Windows x64 VS2022 Debug/Release и минимальный preset: native collectors, HAL GroupAffinity,
+  CLI/TUI, optional GUI. CI workflow подготовлен, результат запуска не присваивается заранее.
+- [ ] GUI Linux/Windows: window open/close, fonts, resizing, worker shutdown; зависимости опциональны.
 
-| Работа | Что считать готовностью |
-|---|---|
-| Native Windows | MSVC x64 Debug/Release, full/minimal, native CTest; логи на Windows 10/11, обычный пользователь |
-| Windows edge cases | >64 logical CPUs / groups, локализованный PDH, недоступные counters, NIC hotplug, нет firmware table |
-| GUI | dependency provision, compilation и окно XCB/Win32; input/resize/close/redraw/font; leaks/raster smoke |
-| Расширить negative testing | allocator-failure injection по всем core/provider путям, fuzz discovery/catalog и query с coverage |
-| Проверка границ HAL | договориться о timeout/cancel для каждого potentially blocking native read; не только общий stop flag |
-| Отсутствие провайдера | проверить hotplug/восстановление после временного CPU/PDH discovery error без ложного удаления |
-| Метаданные проекта | подтверждённые авторы/maintainers, GitHub URL, условия публикации предоставленных изображений |
+## P1 — аппаратное направление
 
-## P1 — обязательные пробелы дизайна
+- [ ] Windows driver HAL: версионированный ограниченный IOCTL ABI, контроль доступа, read-only
+  default, write policy и адресные allowlists. Сейчас никакого драйвера в проекте нет.
+- [ ] Linux GPIO character-device primitives; platform register families при реальной доступности.
+- [ ] Точная информация о разрешённых физических диапазонах без предположения «вся RAM безопасна».
+- [ ] SMBIOS UEFI locator вне legacy window; корректный bounded incremental table read для SMBIOS3,
+  чтобы не требовать readable maximum-size range целиком; аппаратная проверка текущего legacy path.
+- [ ] ACPI decoder/metrics в sensors, использующие HAL primitives либо отдельный native method key.
+- [ ] Новые аппаратные метрики с отличающимися method-specific именами и unit/accuracy metadata.
 
-### Сохранённые данные, record и offline
+## P2 — исходный функциональный roadmap
 
-- [ ] Спецификация версионированного `qblob`: endian, lengths, typed values, labels/descriptors,
-  timestamps, statuses, limits, corruption detection и совместимость версий.
-- [ ] Writer/reader без сериализации C struct/pointer/padding «как есть».
-- [ ] `--record`, `--input`; offline playback через тот же sink/query contract без native sensors.
-- [ ] File/Pipe **data source** с framing, backpressure, EOF/cancel и ограничениями размера.
-- [ ] Roundtrip всех типов/status, damaged/truncated/oversized blobs, неизвестные поля/версии.
+- [ ] Blob recording/replay, versioned binary format, corruption/limits tests.
+- [ ] File/Pipe ingestion измерений; UART/JTAG транспорт внешних устройств. Serial ESP output
+  пока не является протоколом desktop acquisition.
+- [ ] Event subscriptions, poll cost budget, shared multi-client scheduler.
+- [ ] Универсальная bounded string/bytes history, schema/ABI version policy, exported CMake package.
+- [ ] RSS/heap/stack/per-operation timing на MCU и desktop: воспроизводимый ресурсный отчёт.
 
-Существующий CSV export — отчёт, **не** бинарный capture и не воспроизводимый источник данных.
-Чтение файла с текстом query также не считается реализацией File/Pipe acquisition.
+## Не TODO: намеренно удалённое
 
-### Provider и scheduler
-
-- [ ] Автоматический fallback: приоритеты, допустимые ошибки переключения, hysteresis,
-  reset counter/rate/history boundary при смене источника; deterministic mock tests.
-- [ ] Event-driven источники: подписка/отписка и ограниченные события; наличие enum ON_EVENT недостаточно.
-- [ ] Cost model: EXPENSIVE/ESTIMATED policy, бюджет времени и нагрузок, квоты/отложенный опрос.
-- [ ] Общий acquisition/cache для нескольких активных клиентов, а не только одного engine/query.
-- [ ] Принудительная отмена/таймаут acquisition там, где это позволяет OS API; документировать исключения.
-
-### Метрики и идентичность
-
-- [ ] `cpu.frequency_hz`: отдельно определить actual/current vs nominal/max, per-core labels,
-  Linux cpufreq и Windows источники; не заменять частотой счётчика ticks или CPUID brand.
-- [ ] Согласовать canonical naming: сейчас per-core `cpu.core.utilization`, labels сетевых метрик
-  `ifname`/`ifindex`, а не примеры `cpu.utilization{cpu=...}` и `interface` из дизайна.
-  Нужна политика aliases/deprecation, а не бесшумное разрушение запросов.
-- [ ] Несколько native providers одной метрики; текущий механизм проверен mock-каталогом,
-  встроенные collectors в основном предоставляют по одному способу.
-- [ ] Linux NIC identity: ifindex устойчив только внутри текущего network namespace;
-  reuse того же индекса и очень короткий hotplug требуют дополнительного epoch/event evidence.
-- [ ] Довести три уровня описания и согласование RU/EN для всех метрик; metadata localization.
-
-### Core ABI / History / OSAL
-
-- [ ] Решить ABI строк: дизайн предлагает length+array, baseline использует terminated array.
-- [ ] General typed history, не только numeric plot, retention/decimation без UI-зависимой настройки.
-- [ ] Allocator hooks в OSAL, allocation budgets, failure injection; сейчас используется standard allocator.
-- [ ] Документированный API-versioning для catalog/provider, при необходимости opaque layouts.
-
-## P2 — расширение
-
-- [ ] UART/JTAG внешние providers с mock transport, таймаутами и отключённым по умолчанию probing.
-- [ ] Driver/native HAL variants и соответствующие presets, только после появления работающего кода.
-- [ ] MSR/PortIO/physical-memory/control-register доступ — отдельная политика capabilities и прав;
-  не включать опасные записи в обычный read-only сбор.
-- [ ] Другие Linux архитектуры, ARM Windows, embedded/FreeRTOS: отдельные toolchains и приёмка.
-  Старый embedded код сохранён только как исторический baseline, не заявлен текущим портом.
-- [ ] Install/export CMake package для внешних потребителей, стабильный binary/plugin ABI.
-- [ ] Запросы/агрегации сложнее текущего синтаксиса. Это PromQL-подобный язык, не реализация PromQL.
-
-## Уже закрыто этой ревизией
-
-- [x] Согласованные уровни core/query/sensors/HAL/OSAL/frontend и `quanta_` namespace.
-- [x] Core без builtin catalog и renderer dependencies; generic catalog и explicit selection.
-- [x] Групповой scheduler, отдельные channels/bindings, корректный lifecycle и partial-open cleanup.
-- [x] Numeric history budget/resize/clone и проверки значений/метаданных discovery.
-- [x] Typed HAL context без обратной зависимости на provider/query.
-- [x] Linux OS mapping, NIC replacement identity и строгий parse CPU/network/memory/process.
-- [x] Windows MIB_IF_ROW2 поля, самостоятельный process collector, PDH fractions без ложного delta.
-- [x] Настоящие CSV/TXT executable entrypoints, raw value output, query-file shorthand.
-- [x] Простые CMake targets, presets, auto CTest и новые regression suites.
+Providers, provider fallback/priority, several runtime implementations under one metric key
+не должны возвращаться скрыто. Выбор low-level HAL — другая задача и уже реализован.
+NoOS и ESP32 не объявляются портами этой ревизии только из-за наличия ESP8266/FreeRTOS.

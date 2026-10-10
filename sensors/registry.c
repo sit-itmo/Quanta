@@ -26,7 +26,7 @@ const quanta_metric_desc *const *quanta_registry(size_t *count)
 
 const quanta_metric_desc *quanta_metric_find(const char *key)
 {
-    return quanta_catalog_find(&builtin_catalog, key, NULL);
+    return quanta_catalog_find(&builtin_catalog, key);
 }
 
 quanta_status quanta_registry_validate(char *error, size_t capacity)

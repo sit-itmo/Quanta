@@ -7,5 +7,9 @@ QUANTA_METRIC(process_self_rss_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="rss"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="rss"
 )

@@ -1,6 +1,6 @@
 # cpu.vendor
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 CPU vendor — semantic version 1.
 

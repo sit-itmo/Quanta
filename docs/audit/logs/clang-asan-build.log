@@ -1,0 +1,140 @@
+[0/2] Re-checking globbed directories...
+[1/102] Building C object core/CMakeFiles/quanta_core.dir/src/metric.c.o
+[2/102] Building C object core/CMakeFiles/quanta_core.dir/src/value.c.o
+[3/102] Building C object hal/CMakeFiles/quanta_hal.dir/linux/hal_linux.c.o
+[4/102] Building C object core/CMakeFiles/quanta_core.dir/src/discovery.c.o
+[5/102] Linking C static library hal/libquanta_hal.a
+[6/102] Building C object core/CMakeFiles/quanta_core.dir/src/registry.c.o
+[7/102] Building C object core/CMakeFiles/quanta_core.dir/src/engine.c.o
+[8/102] Building C object core/CMakeFiles/quanta_core.dir/src/status.c.o
+[9/102] Building C object core/CMakeFiles/quanta_core.dir/src/text.c.o
+[10/102] Building C object core/CMakeFiles/quanta_core.dir/src/scheduler.c.o
+[11/102] Building C object frontends/CMakeFiles/quanta_output.dir/common/view.c.o
+[12/102] Building C object frontends/CMakeFiles/quanta_output.dir/common/format.c.o
+[13/102] Building C object core/CMakeFiles/quanta_core.dir/src/history.c.o
+[14/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/registry.c.o
+[15/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/metric_docs.c.o
+[16/102] Building C object core/CMakeFiles/quanta_core.dir/src/live.c.o
+[17/102] Building C object core/CMakeFiles/quanta_core.dir/__/query/src/query.c.o
+[18/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/os/metrics.c.o
+[19/102] Linking C static library core/libquanta_core.a
+[20/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/memory/metrics.c.o
+[21/102] Building C object frontends/CMakeFiles/quanta_output.dir/common/file.c.o
+[22/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/cpu/metrics.c.o
+[23/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/board/metrics.c.o
+[24/102] Linking C static library frontends/libquanta_output.a
+[25/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/network/metrics.c.o
+[26/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/temperature/metrics.c.o
+[27/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/filesystem/metrics.c.o
+[28/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/cpuid/metrics.c.o
+[29/102] Building C object frontends/CMakeFiles/quanta_tui.dir/tui/terminal_posix.c.o
+[30/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/process/metrics.c.o
+[31/102] Building C object sensors/CMakeFiles/quanta_sensors.dir/board/physical.c.o
+[32/102] Linking C static library sensors/libquanta_sensors.a
+[33/102] Building C object frontends/CMakeFiles/quanta_tui.dir/tui/tui.c.o
+[34/102] Building C object tests/CMakeFiles/quanta_unit_tests.dir/test_core.c.o
+[35/102] Building C object frontends/CMakeFiles/quanta_cli.dir/cli/main.c.o
+[36/102] Building C object frontends/CMakeFiles/quanta.dir/cli/main.c.o
+[37/102] Building C object frontends/CMakeFiles/quanta_txt.dir/cli/main.c.o
+[38/102] Building C object frontends/CMakeFiles/quanta_csv.dir/cli/main.c.o
+[39/102] Linking C static library frontends/libquanta_tui.a
+[40/102] Building C object tests/CMakeFiles/quanta_hal_tests.dir/test_hal.c.o
+[41/102] Building C object tests/CMakeFiles/quanta_windows_data_tests.dir/test_windows_data.c.o
+[42/102] Building C object tests/CMakeFiles/quanta_osal_tests.dir/test_osal.c.o
+[43/102] Building C object tests/CMakeFiles/quanta_windows_schema_tests.dir/test_windows_schema.c.o
+[44/102] Building C object tests/CMakeFiles/quanta_history_tests.dir/test_history.c.o
+[45/102] Building C object tests/CMakeFiles/quanta_windows_schema_tests.dir/windows_schema_stubs.c.o
+[46/102] Building C object tests/CMakeFiles/quanta_windows_schema_tests.dir/__/sensors/metric_docs.c.o
+[47/102] Building C object tests/CMakeFiles/quanta_device_tests.dir/test_devices.c.o
+[48/102] Building C object tests/CMakeFiles/quanta_windows_schema_tests.dir/__/sensors/registry.c.o
+[49/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/metric.c.o
+[50/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/test_esp8266.c.o
+[51/102] Building C object tests/CMakeFiles/quanta_catalog_tests.dir/test_catalog.c.o
+[52/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/text.c.o
+[53/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/registry.c.o
+[54/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/scheduler.c.o
+[55/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/discovery.c.o
+[56/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/status.c.o
+[57/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/engine.c.o
+[58/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/value.c.o
+[59/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/sensors/metric_docs.c.o
+[60/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/sensors/os/metrics.c.o
+[61/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/sensors/mcu/esp8266.c.o
+[62/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/sensors/registry.c.o
+[63/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/live.c.o
+[64/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/core/src/history.c.o
+[65/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/sensors/mcu/metrics.c.o
+[66/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/firmware/esp8266/main/app_main.c.o
+[67/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/text.c.o
+[68/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/status.c.o
+[69/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/test_esp8266.c.o
+[70/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/value.c.o
+[71/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/metric.c.o
+[72/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/registry.c.o
+[73/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/engine.c.o
+[74/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/history.c.o
+[75/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/sensors/metric_docs.c.o
+[76/102] Building C object tests/CMakeFiles/quanta_esp8266_enabled_tests.dir/__/query/src/query.c.o
+[77/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/sensors/registry.c.o
+[78/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/sensors/os/metrics.c.o
+[79/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/discovery.c.o
+[80/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/sensors/mcu/metrics.c.o
+[81/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/live.c.o
+[82/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/core/src/scheduler.c.o
+[83/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/sensors/mcu/esp8266.c.o
+[84/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/firmware/esp8266/main/app_main.c.o
+[85/102] Building C object tests/CMakeFiles/quanta_esp8266_disabled_tests.dir/__/query/src/query.c.o
+[86/102] Linking C executable tests/quanta_unit_tests
+[87/102] Linking C executable tests/quanta_device_tests
+[88/102] Linking C executable tests/quanta_hal_tests
+[89/102] Linking C executable bin/quanta
+[90/102] Linking C executable tests/quanta_windows_schema_tests
+[91/102] Linking C executable tests/quanta_linux_metrics_tests
+[92/102] Linking C executable tests/quanta_windows_data_tests
+[93/102] Linking C executable bin/quanta_csv
+[94/102] Linking C executable bin/quanta_cli
+[95/102] Linking C executable bin/quanta_txt
+[96/102] Linking C executable tests/quanta_catalog_tests
+[97/102] Linking C executable tests/quanta_history_tests
+[98/102] Linking C executable tests/quanta_osal_tests
+[99/102] Linking C executable tests/quanta_esp8266_enabled_tests
+[100/102] Linking C executable tests/quanta_esp8266_disabled_tests
+[100/102] cd /mnt/data/work-quanta/build-clang-asan/tests && /usr/bin/ctest --test-dir /mnt/data/work-quanta/build-clang-asan -C Debug --output-on-failure --no-tests=error
+Internal ctest changing into directory: /mnt/data/work-quanta/build-clang-asan
+Test project /mnt/data/work-quanta/build-clang-asan
+      Start  1: quanta_hal_tests
+ 1/16 Test  #1: quanta_hal_tests .................   Passed    0.01 sec
+      Start  2: quanta_unit_tests
+ 2/16 Test  #2: quanta_unit_tests ................   Passed    0.04 sec
+      Start  3: quanta_windows_data_tests
+ 3/16 Test  #3: quanta_windows_data_tests ........   Passed    0.07 sec
+      Start  4: quanta_device_tests
+ 4/16 Test  #4: quanta_device_tests ..............   Passed    0.64 sec
+      Start  5: quanta_linux_metrics_tests
+ 5/16 Test  #5: quanta_linux_metrics_tests .......   Passed    0.02 sec
+      Start  6: windows_schema
+ 6/16 Test  #6: windows_schema ...................   Passed    0.02 sec
+      Start  7: hal_cli_architecture
+ 7/16 Test  #7: hal_cli_architecture .............   Passed    1.39 sec
+      Start  8: frontend_modes
+ 8/16 Test  #8: frontend_modes ...................   Passed    1.39 sec
+      Start  9: documentation
+ 9/16 Test  #9: documentation ....................   Passed    1.32 sec
+      Start 10: integration
+10/16 Test #10: integration ......................   Passed    3.52 sec
+      Start 11: tui_pty
+11/16 Test #11: tui_pty ..........................   Passed    3.48 sec
+      Start 12: quanta_catalog_tests
+12/16 Test #12: quanta_catalog_tests .............   Passed    0.07 sec
+      Start 13: quanta_history_tests
+13/16 Test #13: quanta_history_tests .............   Passed    0.01 sec
+      Start 14: quanta_osal_tests
+14/16 Test #14: quanta_osal_tests ................   Passed    0.01 sec
+      Start 15: quanta_esp8266_enabled_tests
+15/16 Test #15: quanta_esp8266_enabled_tests .....   Passed    0.01 sec
+      Start 16: quanta_esp8266_disabled_tests
+16/16 Test #16: quanta_esp8266_disabled_tests ....   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 16
+
+Total Test time (real) =  12.03 sec

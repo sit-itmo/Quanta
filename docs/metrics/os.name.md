@@ -1,6 +1,6 @@
 # os.name
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Operating system — semantic version 1.
 

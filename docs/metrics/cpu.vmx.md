@@ -1,6 +1,6 @@
 # cpu.vmx
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 VMX hardware capability — semantic version 1.
 

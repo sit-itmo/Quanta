@@ -51,6 +51,18 @@ typedef struct quanta_engine quanta_engine;
  * once; destroy after the worker has joined. stop/refresh are the only engine
  * calls allowed concurrently with run. */
 void quanta_series_name(char *destination, size_t capacity, const quanta_series *series);
+typedef struct quanta_engine_options
+{
+    const quanta_paths *paths;
+    /* Optional caller-owned HAL. It must outlive the engine. When NULL the
+     * engine opens the HAL named by plan.hal, read-only, and owns that handle. */
+    quanta_hal *hal;
+} quanta_engine_options;
+
+quanta_status quanta_engine_create_with_options(const quanta_plan *,
+                                               const struct quanta_catalog *,
+                                               const quanta_engine_options *,
+                                               quanta_engine **, char *, size_t);
 quanta_status quanta_engine_create_with_catalog(const quanta_plan *plan, const quanta_paths *paths,
                                                 const struct quanta_catalog *catalog,
                                                 quanta_engine **out, char *error, size_t capacity);
@@ -60,7 +72,7 @@ void quanta_engine_refresh(quanta_engine *engine);
 void quanta_engine_destroy(quanta_engine *engine);
 void quanta_engine_explain(const quanta_engine *engine, FILE *out);
 int quanta_engine_has_sample_errors(const quanta_engine *engine);
-uint64_t quanta_engine_provider_refreshes(const quanta_engine *engine, const char *provider_id);
+uint64_t quanta_engine_metric_acquisitions(const quanta_engine *engine, const char *metric_key);
 /* Sink arguments are borrowed during the callback. Samples/series may be copied
  * by value, but their metric descriptor pointer still borrows the catalog. Sink
  * callbacks must not recursively run or destroy the engine. An error from a

@@ -1,6 +1,6 @@
 # device.net.mac
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Link-layer address — semantic version 1.
 

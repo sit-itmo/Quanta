@@ -7,7 +7,11 @@ QUANTA_METRIC(board_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_vendor"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="board_vendor"
 )
 QUANTA_METRIC(board_model,
  .key="board.model", .title="Board model",
@@ -17,7 +21,11 @@ QUANTA_METRIC(board_model,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_name"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="board_name"
 )
 QUANTA_METRIC(board_serial,
  .key="board.serial", .title="Board serial number",
@@ -27,7 +35,11 @@ QUANTA_METRIC(board_serial,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_serial"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="board_serial"
 )
 QUANTA_METRIC(bios_vendor,
  .key="bios.vendor", .title="BIOS vendor",
@@ -37,7 +49,11 @@ QUANTA_METRIC(bios_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_vendor"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="bios_vendor"
 )
 QUANTA_METRIC(bios_version,
  .key="bios.version", .title="BIOS version",
@@ -47,7 +63,11 @@ QUANTA_METRIC(bios_version,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_version"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="bios_version"
 )
 QUANTA_METRIC(bios_date,
  .key="bios.date", .title="BIOS release date",
@@ -57,5 +77,9 @@ QUANTA_METRIC(bios_date,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_date"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="bios_date"
 )

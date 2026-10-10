@@ -52,8 +52,6 @@ typedef struct quanta_view_spec
 typedef struct quanta_select
 {
     char pattern[QUANTA_KEY_CAP];
-    char provider[QUANTA_NAME_CAP]; /* Empty: first registered compatible
-                                       provider. */
     quanta_label labels[QUANTA_LABEL_CAP];
     size_t label_count;
     int optional;
@@ -69,6 +67,7 @@ typedef struct quanta_plan
     int once, once_explicit, strict_poll, redact, fail_on_error, csv_safe;
     uint64_t period_ns, redraw_ns, history_ns, duration_ns, count, warmup_ns;
     unsigned columns;
+    char hal[QUANTA_NAME_CAP]; /* Empty: native. One HAL binding for the whole query. */
     char output[QUANTA_PATH_CAP];
     char font_path[QUANTA_PATH_CAP];
     quanta_select selects[QUANTA_MAX_SELECT];

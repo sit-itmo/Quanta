@@ -1,6 +1,6 @@
 # os.arch
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Machine architecture — semantic version 1.
 

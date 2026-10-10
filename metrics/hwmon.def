@@ -7,7 +7,11 @@ QUANTA_METRIC(sensor_temperature,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="chip,channel,label,device", .dependencies="",
- .provider=&quanta_hwmon_provider, .read=quanta_hwmon_read, .arg="temp"
+ .init=quanta_hwmon_init,
+    .enumerate=quanta_hwmon_enumerate,
+    .collect=quanta_hwmon_collect,
+    .destroy=quanta_hwmon_destroy,
+    .read=quanta_hwmon_read, .arg="temp"
 )
 QUANTA_METRIC(sensor_fan_rpm,
  .key="sensor.fan_rpm", .title="Fan speed channel",
@@ -17,5 +21,9 @@ QUANTA_METRIC(sensor_fan_rpm,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="chip,channel,label,device", .dependencies="",
- .provider=&quanta_hwmon_provider, .read=quanta_hwmon_read, .arg="fan"
+ .init=quanta_hwmon_init,
+    .enumerate=quanta_hwmon_enumerate,
+    .collect=quanta_hwmon_collect,
+    .destroy=quanta_hwmon_destroy,
+    .read=quanta_hwmon_read, .arg="fan"
 )

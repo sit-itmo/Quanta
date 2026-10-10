@@ -7,7 +7,11 @@ QUANTA_METRIC(cpu_utilization,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="utilization"
+ .init=quanta_cpu_init,
+    .enumerate=quanta_cpu_enumerate,
+    .collect=quanta_cpu_collect,
+    .destroy=quanta_cpu_destroy,
+    .read=quanta_cpu_read, .arg="utilization"
 )
 QUANTA_METRIC(cpu_time_total,
  .key="cpu.time_total", .title="CPU accounted ticks",
@@ -17,7 +21,11 @@ QUANTA_METRIC(cpu_time_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="total"
+ .init=quanta_cpu_init,
+    .enumerate=quanta_cpu_enumerate,
+    .collect=quanta_cpu_collect,
+    .destroy=quanta_cpu_destroy,
+    .read=quanta_cpu_read, .arg="total"
 )
 QUANTA_METRIC(cpu_idle_total,
  .key="cpu.idle_total", .title="CPU idle ticks",
@@ -27,7 +35,11 @@ QUANTA_METRIC(cpu_idle_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="idle"
+ .init=quanta_cpu_init,
+    .enumerate=quanta_cpu_enumerate,
+    .collect=quanta_cpu_collect,
+    .destroy=quanta_cpu_destroy,
+    .read=quanta_cpu_read, .arg="idle"
 )
 QUANTA_METRIC(cpu_core_utilization,
  .key="cpu.core.utilization", .title="CPU busy fraction",
@@ -37,7 +49,11 @@ QUANTA_METRIC(cpu_core_utilization,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="cpu", .dependencies="",
- .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="utilization"
+ .init=quanta_cpu_init,
+    .enumerate=quanta_cpu_enumerate,
+    .collect=quanta_cpu_collect,
+    .destroy=quanta_cpu_destroy,
+    .read=quanta_cpu_read, .arg="utilization"
 )
 QUANTA_METRIC(cpu_core_time_total,
  .key="cpu.core.time_total", .title="CPU accounted ticks",
@@ -47,7 +63,11 @@ QUANTA_METRIC(cpu_core_time_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="cpu", .dependencies="",
- .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="total"
+ .init=quanta_cpu_init,
+    .enumerate=quanta_cpu_enumerate,
+    .collect=quanta_cpu_collect,
+    .destroy=quanta_cpu_destroy,
+    .read=quanta_cpu_read, .arg="total"
 )
 QUANTA_METRIC(cpu_core_idle_total,
  .key="cpu.core.idle_total", .title="CPU idle ticks",
@@ -57,5 +77,9 @@ QUANTA_METRIC(cpu_core_idle_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="cpu", .dependencies="",
- .provider=&quanta_cpu_provider, .read=quanta_cpu_read, .arg="idle"
+ .init=quanta_cpu_init,
+    .enumerate=quanta_cpu_enumerate,
+    .collect=quanta_cpu_collect,
+    .destroy=quanta_cpu_destroy,
+    .read=quanta_cpu_read, .arg="idle"
 )

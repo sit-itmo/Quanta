@@ -1,6 +1,6 @@
 # cpu.core.utilization
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 CPU busy fraction — semantic version 1.
 

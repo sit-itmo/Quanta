@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT -- validates the REAL Windows
- * descriptors/queries, NOT the implementation of the providers. No acquisition
+ * descriptors/queries, NOT the native acquisition implementation. No acquisition
  * is attempted.
  */
 #include "collector_internal.h"

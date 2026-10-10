@@ -165,20 +165,20 @@ static void test_normalizers(void)
 {
 #if QUANTA_WITH_MEMORY && !defined(_WIN32)
     quanta_linux_meminfo m;
-    CHECK(quanta_hal_parse_meminfo("MemTotal: 1000 kB\nMemAvailable: 250 kB\nMemFree: 10 "
+    CHECK(quanta_native_parse_meminfo("MemTotal: 1000 kB\nMemAvailable: 250 kB\nMemFree: 10 "
                                    "kB\nSwapTotal: 20 kB\nSwapFree: 5 kB\n",
                                    &m) == QUANTA_OK);
     CHECK(m.total == 1024000 && m.available == 256000 && m.found == 31);
-    CHECK(quanta_hal_parse_meminfo("MemTotal: 100 kB\nMemFree: 10 kB\n", &m) == QUANTA_OK &&
+    CHECK(quanta_native_parse_meminfo("MemTotal: 100 kB\nMemFree: 10 kB\n", &m) == QUANTA_OK &&
           !(m.found & 2));
-    CHECK(quanta_hal_parse_meminfo("MemTotal: 100 kB\nMemTotal: 100 kB\n", &m) ==
+    CHECK(quanta_native_parse_meminfo("MemTotal: 100 kB\nMemTotal: 100 kB\n", &m) ==
           QUANTA_INVALID_DATA);
-    CHECK(quanta_hal_parse_meminfo("MemTotal: 100 kB\nMemAvailable: 101 kB\n", &m) ==
+    CHECK(quanta_native_parse_meminfo("MemTotal: 100 kB\nMemAvailable: 101 kB\n", &m) ==
           QUANTA_INVALID_DATA);
-    CHECK(quanta_hal_parse_meminfo("MemTotal: 18446744073709551615 kB\n", &m) ==
+    CHECK(quanta_native_parse_meminfo("MemTotal: 18446744073709551615 kB\n", &m) ==
           QUANTA_INVALID_DATA);
-    CHECK(quanta_hal_parse_meminfo("MemTotal: 100 MB\n", &m) == QUANTA_INVALID_DATA);
-    CHECK(quanta_hal_parse_meminfo("Unknown: 0\n", &m) == QUANTA_NO_DATA);
+    CHECK(quanta_native_parse_meminfo("MemTotal: 100 MB\n", &m) == QUANTA_INVALID_DATA);
+    CHECK(quanta_native_parse_meminfo("Unknown: 0\n", &m) == QUANTA_NO_DATA);
 #endif
 #if QUANTA_WITH_CPU && !defined(_WIN32)
     {
@@ -382,7 +382,7 @@ static void test_engine_fixture(void)
         CHECK(cap.source[0] == cap.source[1] && cap.source[0] != cap.source[2]);
         CHECK(cap.values[0].type == QUANTA_U64 && cap.values[0].as.u64 == 750 * 1024);
         CHECK(cap.values[2].type == QUANTA_F64 && fabs(cap.values[2].as.f64 - .75) < 1e-9);
-        CHECK(quanta_engine_provider_refreshes(e, "memory") == 1);
+        CHECK(quanta_engine_metric_acquisitions(e, "os.memory.used_bytes") == 1);
         quanta_engine_destroy(e);
     }
     unlink(path);

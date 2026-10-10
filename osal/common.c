@@ -41,6 +41,13 @@ quanta_status quanta_errno_status(int e)
 
 void quanta_utc_string(uint64_t ns, char *out, size_t cap)
 {
+#if QUANTA_PLATFORM_FREERTOS
+    if (!ns)
+    {
+        quanta_copy(out, cap, "unavailable");
+        return;
+    }
+#endif
     time_t t = (time_t)(ns / QUANTA_NS_S);
     struct tm tm;
     char b[32];

@@ -1,6 +1,6 @@
 # fs.root.used_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Root filesystem allocated space — semantic version 1.
 

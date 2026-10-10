@@ -1,6 +1,6 @@
 # cpu.sse2
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 SSE2 capability — semantic version 1.
 

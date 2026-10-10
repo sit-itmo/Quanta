@@ -7,7 +7,11 @@ QUANTA_METRIC(process_self_rss_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="rss"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="rss"
 )
 QUANTA_METRIC(win_process_self_pid,
  .key="process.self.pid", .title="INV process ID",
@@ -18,7 +22,11 @@ QUANTA_METRIC(win_process_self_pid,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="pid"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="pid"
 )
 QUANTA_METRIC(win_process_self_private_bytes,
  .key="process.self.private_bytes", .title="INV private committed memory",
@@ -29,7 +37,11 @@ QUANTA_METRIC(win_process_self_private_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="private"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="private"
 )
 QUANTA_METRIC(win_process_self_handles,
  .key="process.self.handles", .title="INV handle count",
@@ -40,7 +52,11 @@ QUANTA_METRIC(win_process_self_handles,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="handles"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="handles"
 )
 QUANTA_METRIC(win_process_self_io_read_bytes_total,
  .key="process.self.io.read_bytes_total", .title="INV read transfer bytes (not necessarily disk I/O)",
@@ -51,7 +67,11 @@ QUANTA_METRIC(win_process_self_io_read_bytes_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="read_bytes"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="read_bytes"
 )
 QUANTA_METRIC(win_process_self_io_write_bytes_total,
  .key="process.self.io.write_bytes_total", .title="INV write transfer bytes (not necessarily disk I/O)",
@@ -62,5 +82,9 @@ QUANTA_METRIC(win_process_self_io_write_bytes_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="", .dependencies="GetProcessMemoryInfo / GetProcessIoCounters",
- .provider=&quanta_process_provider, .read=quanta_process_read, .arg="write_bytes"
+ .init=quanta_process_init,
+    .enumerate=quanta_process_enumerate,
+    .collect=quanta_process_collect,
+    .destroy=quanta_process_destroy,
+    .read=quanta_process_read, .arg="write_bytes"
 )

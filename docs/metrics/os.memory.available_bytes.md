@@ -1,6 +1,6 @@
 # os.memory.available_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Available memory estimate — semantic version 1.
 

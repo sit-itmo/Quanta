@@ -1,6 +1,6 @@
 # os.memory.utilization
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Memory utilization — semantic version 1.
 

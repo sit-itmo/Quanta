@@ -1,6 +1,6 @@
 # cpu.hypervisor
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Hypervisor-present CPUID bit — semantic version 1.
 

@@ -7,5 +7,9 @@ QUANTA_METRIC(sensor_temperature,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="device,chip,channel,label", .dependencies="PDH Thermal Zone Information / Temperature",
- .provider=&quanta_hwmon_provider, .read=quanta_hwmon_read, .arg="temp"
+ .init=quanta_hwmon_init,
+    .enumerate=quanta_hwmon_enumerate,
+    .collect=quanta_hwmon_collect,
+    .destroy=quanta_hwmon_destroy,
+    .read=quanta_hwmon_read, .arg="temp"
 )

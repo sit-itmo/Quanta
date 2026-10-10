@@ -3,6 +3,9 @@
 #include "windows/selected.def"
 #else
 #include "os.def"
+#if QUANTA_WITH_MCU
+#include "mcu.def"
+#endif
 #if QUANTA_WITH_MEMORY
 #include "memory.def"
 #endif
@@ -29,3 +32,7 @@
 #endif
 
 #endif /* QUANTA_OS_WINDOWS */
+
+#if QUANTA_WITH_DMI && QUANTA_ARCH_X86
+#include "smbios_mem.def"
+#endif

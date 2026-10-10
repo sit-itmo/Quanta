@@ -1,6 +1,6 @@
 # bios.version
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 BIOS version — semantic version 1.
 

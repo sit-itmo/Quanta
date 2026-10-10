@@ -1,6 +1,6 @@
 # cpu.idle_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 CPU idle ticks — semantic version 1.
 

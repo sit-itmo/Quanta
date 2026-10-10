@@ -7,7 +7,11 @@ QUANTA_METRIC(device_net_mac,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="address"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="address"
 )
 QUANTA_METRIC(device_net_state,
  .key="device.net.state", .title="Operational state",
@@ -17,7 +21,11 @@ QUANTA_METRIC(device_net_state,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="operstate"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="operstate"
 )
 QUANTA_METRIC(device_net_rx_bytes_total,
  .key="device.net.rx_bytes_total", .title="Received bytes",
@@ -27,7 +35,11 @@ QUANTA_METRIC(device_net_rx_bytes_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="rx_bytes"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="rx_bytes"
 )
 QUANTA_METRIC(device_net_tx_bytes_total,
  .key="device.net.tx_bytes_total", .title="Transmitted bytes",
@@ -37,7 +49,11 @@ QUANTA_METRIC(device_net_tx_bytes_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="tx_bytes"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="tx_bytes"
 )
 QUANTA_METRIC(device_net_rx_packets_total,
  .key="device.net.rx_packets_total", .title="Received packets",
@@ -47,7 +63,11 @@ QUANTA_METRIC(device_net_rx_packets_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="rx_packets"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="rx_packets"
 )
 QUANTA_METRIC(device_net_tx_packets_total,
  .key="device.net.tx_packets_total", .title="Transmitted packets",
@@ -57,7 +77,11 @@ QUANTA_METRIC(device_net_tx_packets_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="tx_packets"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="tx_packets"
 )
 QUANTA_METRIC(device_net_rx_errors_total,
  .key="device.net.rx_errors_total", .title="Receive errors",
@@ -67,7 +91,11 @@ QUANTA_METRIC(device_net_rx_errors_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="rx_errors"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="rx_errors"
 )
 QUANTA_METRIC(device_net_tx_errors_total,
  .key="device.net.tx_errors_total", .title="Transmit errors",
@@ -77,7 +105,11 @@ QUANTA_METRIC(device_net_tx_errors_total,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=64,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="tx_errors"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="tx_errors"
 )
 QUANTA_METRIC(win_device_net_rx_link_bps,
  .key="device.net.rx_link_bps", .title="Receive link speed",
@@ -88,7 +120,11 @@ QUANTA_METRIC(win_device_net_rx_link_bps,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="rx_link"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="rx_link"
 )
 QUANTA_METRIC(win_device_net_tx_link_bps,
  .key="device.net.tx_link_bps", .title="Transmit link speed",
@@ -99,5 +135,9 @@ QUANTA_METRIC(win_device_net_tx_link_bps,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
- .provider=&quanta_network_provider, .read=quanta_network_read, .arg="tx_link"
+ .init=quanta_network_init,
+    .enumerate=quanta_network_enumerate,
+    .collect=quanta_network_collect,
+    .destroy=quanta_network_destroy,
+    .read=quanta_network_read, .arg="tx_link"
 )

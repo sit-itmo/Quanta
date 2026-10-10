@@ -1,147 +1,151 @@
-<p align="center"><img src="docs/assets/logo.jpg" width="300" alt="Quanta"></p>
+# Quanta 0.4.0
 
-# Quanta
+<p align="center"><img src="docs/assets/logo.jpg" width="280" alt="Quanta"></p>
 
-**Единая система сбора, обработки и отображения системных метрик на C.**
+**Сбор, обработка и отображение аппаратных и системных метрик на C.**
+Проект Мастерской системного программирования. Основные desktop-платформы — Linux и Windows;
+активный embedded-порт — **ESP8266 / ESP8266_RTOS_SDK / FreeRTOS**.
 
-Quanta объединяет информацию об операционной системе и оборудовании в общий каталог:
-стабильное имя метрики → provider → экземпляр с labels → измерение → query → frontend.
-Сбор данных отделён от представления: один запрос можно использовать для консоли,
-CSV/TXT-отчёта или интерактивного интерфейса.
+## Цель и архитектура
 
-**Версия 0.3.0 — архитектурный baseline на основе переданного `inv-0.2.2`.**
-Это не завершённая реализация всего дизайн-документа. Linux проверен сборкой и тестами;
-Windows-ветка сохранена и исправлена по исходникам, но нативный MSVC/WinAPI-прогон ещё нужен.
-Опциональный GUI сохранён в исходниках; сборка GUI и открытие окна в этой поставке не проверены.
+Аппаратные метрики используют минимальные примитивы HAL. Код метрик, которым аппаратный
+доступ не нужен, обращается к CPUID, WinAPI, procfs/sysfs или SDK непосредственно.
+OSAL предоставляет инфраструктуру: время, потоки, синхронизацию и файлы.
+Frontend не знает, как получено значение.
 
-[Дизайн](docs/Quanta_Design.md) · [Архитектура](docs/ARCHITECTURE.md) ·
-[Аудит и соответствие](docs/AUDIT.md) · [Сборка](docs/BUILD.md) ·
-[Query](docs/QUERY.md) · [Тестирование](docs/TEST_REPORT.md) · [TODO](docs/TODO.md)
-
-## Цель проекта
-
-Получать системные метрики через один небольшой переносимый core, не привязывая пользовательские
-интерфейсы к WinAPI, procfs, sysfs или конкретному устройству. Новые датчики добавляются через
-provider и каталог, а новые форматы отображения — через sink событий. Для проверки core реальное
-оборудование не требуется: в тестах используются независимые mock providers.
-
-## Архитектура
-
-![Предоставленная схема архитектуры](docs/assets/architecture-original.jpg)
-
-Схема выше — исходная целевая архитектура, **не список уже реализованных возможностей**.
-В частности, File/Pipe как источник сохранённых измерений, бинарная сериализация,
-привилегированные MSR/PortIO/physical-memory операции ещё не реализованы.
+**Одно имя метрики — одна реализация.** Выбираемой сущности provider больше нет.
+Другой метод измерения получает другое имя; HAL выбирается отдельно, один на query/engine.
 
 ```text
-frontends/                  CLI, CSV/TXT/Markdown/value, TUI, optional GUI
-        ↓ sink API
-core/ + query/              catalog, provider contract, discovery, scheduler,
-                            typed values, rate/delta, bounded history, live queue
-        ↓ provider contract
-sensors/ + metrics/         registration, semantic descriptors, extraction
-        ↓ typed HAL context
-hal/ + osal/                platform acquisition / time, files, threads, locks
+CLI / CSV / TXT / TUI / optional ImGui
+                 |
+       Core: registry, query, scheduler,
+             value, history, live queue
+                 |
+       Прямые реализации метрик (sensors/)
+             /                   \
+ hardware primitives HAL     Native API / CPUID / SDK
+
+OSAL: инфраструктура core и frontends, не каталог системных метрик.
 ```
 
-## Что работает в baseline
+[Исходный дизайн](docs/Quanta_Design.md) сохранён без изменения.
+**[Архитектурное решение 0.4.0](docs/ARCHITECTURE.md) заменяет его положения о providers**
+и уточняет границы HAL/OSAL. [Исходная схема](docs/assets/architecture-original.jpg):
 
-- Статический `quanta_core` на C11; отдельные публичные и приватные заголовки, независимый каталог.
-- Query v1: `select`, `optional`, labels/globs, `provider("id", metric)`, `rate`, `delta`,
-  интервалы опроса, ограниченная история, layout и параметры отображения.
-- Групповой опрос provider: несколько представлений одной метрики не создают независимые чтения.
-  Есть явные статусы `WARMUP`, `NO_DATA`, `PERMISSION_DENIED`, `INVALID_DATA` и другие.
-- Linux providers: OS, CPU accounting/utilization, память, network, DMI, hwmon, CPUID,
-  корневая файловая система, собственный процесс. Фактическая доступность зависит от ОС и прав.
-- Исполняемые файлы `quanta`, `quanta_cli`, `quanta_csv`, `quanta_txt`; TUI включён по умолчанию.
-  GUI — опциональный C++/Dear ImGui frontend с программным растеризатором и XCB/Win32-окном.
-- CTest запускается при обычной сборке; ошибка теста делает сборку неуспешной.
-  Python добавляет интеграционные проверки, C-тесты не требуют Python.
+<img src="docs/assets/architecture-original.jpg" width="850" alt="Исходная архитектурная схема Quanta">
 
-Полный Linux x86-64 каталог содержит 52 дескриптора; минимальная сборка оставляет OS provider.
-Это количество зарегистрированных метрик, а не гарантия наличия всех датчиков на компьютере.
+## Что есть в этой ревизии
 
-## Быстрый старт: Linux
+Прямой каталог метрик, query, групповой опрос совместимых полей, bounded history, rate/delta,
+labels и обновление устройств. Четыре executable — `quanta`, `quanta_cli`, `quanta_csv`,
+`quanta_txt`; TUI включён по умолчанию, GUI опционален.
 
-Из корня распакованного проекта, после установки CMake, Ninja, C-компилятора и Python 3:
+Низкоуровневый HAL: регистры, физическая память, PortIO, PCI, GPIO, affinity, capability/info.
+Доступность зависит от backend; неподдерживаемые операции не имитируются.
+Все штатные метрики работают без hardware writes; CLI не разрешает такие записи.
+
+ESP8266: сохранены **все 9 `mcu.*` метрик**, OS-метрики порта, компонент SDK, serial-приложение
+и FreeRTOS OSAL. Это активные файлы сборки, а не только исторический ZIP.
+Имеются host-тесты того же source manifest с подменой SDK; реальная Xtensa-сборка и плата
+требуют отдельной приёмки. [Подробности ESP8266](docs/ESP8266.md).
+
+## Быстрый запуск: Linux
 
 ```bash
+sudo apt update
+sudo apt install build-essential cmake ninja-build python3
 cmake --preset linux-default
 cmake --build --preset linux-default --parallel
 ctest --preset linux-default --output-on-failure
-
 ./build/linux-default/bin/quanta --version
-./build/linux-default/bin/quanta get os.name os.arch
-./build/linux-default/bin/quanta examples/queries/01-inventory.q --redact
-./build/linux-default/bin/quanta_csv get os.memory.total_bytes
-./build/linux-default/bin/quanta get os.uptime --format value
+./build/linux-default/bin/quanta --list-hals
+./build/linux-default/bin/quanta hal-info --hal none
+./build/linux-default/bin/quanta get os.name os.arch --hal none
 ```
 
-`ctest` после build — удобный повторный запуск: по умолчанию тесты уже выполнены самой сборкой.
+Полная нативная сборка по умолчанию сама запускает CTest; ошибка теста прерывает сборку.
+Python добавляет integration/documentation-проверки. Без Python C-тесты остаются, но набор
+проверок неполон и CMake явно сообщает об этом.
 
-## Быстрый старт: Windows
+## Быстрый запуск: Windows
 
-PowerShell, установлен Visual Studio 2022 с C++ desktop workload/Windows SDK,
-CMake и Python 3 доступны в PATH:
+Visual Studio 2022 с C++ build tools и Windows SDK, CMake 3.21+, Python 3; PowerShell:
 
 ```powershell
 cmake --preset windows-native
 cmake --build --preset windows-native --parallel
 ctest --preset windows-native --output-on-failure
-
-.\build\windows-native\bin\Release\quanta.exe --version
-.\build\windows-native\bin\Release\quanta.exe get os.name os.arch
-.\build\windows-native\bin\Release\quanta_csv.exe get os.memory.total_bytes
+.\build\windows-native\bin\Release\quanta.exe get os.name os.arch --hal none
 ```
 
-Нативная проверка этих команд на Windows остаётся пунктом приёмки. Подробности,
-обычные команды без presets, Debug/Release и GUI — в [BUILD.md](docs/BUILD.md).
+Native Windows CI настроен, но в отчёте этой поставки его запуск не заявляется.
+[Полная инструкция Linux/Windows/GUI/static](docs/BUILD.md).
+
+## HAL и query
+
+```text
+version 1;
+hal "none";
+once;
+select os.name;
+select os.arch;
+```
+
+`--hal NAME` имеет приоритет над `hal "NAME";` в query. `native` означает непривилегированный
+backend текущей платформы; `none` отключает аппаратные примитивы, но не метрики с native API.
+Неизвестный HAL — ошибка, не тихий переход на другой способ.
+
+Пример двух разных методов: `board.model` (native) и
+`smbios.legacy_mem.board.model` (legacy SMBIOS через HAL `read_mem`). Второй метод ограничен
+legacy-окном firmware и не является универсальным UEFI locator. [HAL](docs/HAL.md), [query](docs/QUERY.md).
 
 ## Дерево исходников
 
 ```text
-core/          публичный C API, приватное состояние и реализация ядра
-query/         parser и semantic validation (входят в quanta_core)
-sensors/       встроенный каталог и providers по предметным областям
-metrics/       декларации метрик .def, Linux / Windows
-hal/           типизированные hardware/system snapshots и сбор данных
-osal/          минимальные платформенные операции Linux / Windows
-frontends/     CLI, общие форматы, TUI, GUI
-examples/      готовые .q-запросы
-cmake/         compiler options, config header, optional ImGui
-tests/         C unit/fixture tests и Python integration
-docs/          дизайн, аудит, инструкции, метрики, отчёт и логи
-tools/         небольшие build/verification/documentation helpers
+core/        Публичный C API, private structures, registry/scheduler/history
+query/       Parser и валидация
+sensors/     Прямые реализации метрик и их native/platform acquisition
+metrics/     Дескрипторы .def и выбор набора на платформе
+hal/         Только низкоуровневые аппаратные примитивы
+osal/        Инфраструктура Linux, Windows, FreeRTOS/POSIX threads
+frontends/   CLI, форматы вывода, TUI, optional GUI
+firmware/    Активное ESP8266 SDK-приложение и SDK component
+cmake/       Явные списки, опции компиляции, единый ESP source/ABI manifest
+examples/    Query-примеры
+tests/       C/CLI/SDK-seam тесты, без опасных аппаратных записей
+docs/        Архитектура, миграция, метрики, аудит и результаты
 ```
+
+[Полное дерево](docs/SOURCE_TREE.txt), [карта переноса](docs/audit/SOURCE_MAP.json),
+[сравнение исходных архивов](docs/AUDIT.md).
 
 ## TODO
 
-- [x] Отделить переносимый core от встроенного каталога и frontend.
-- [x] Разделить registry/provider/discovery/scheduler/history/value/query.
-- [x] Исправить найденные Linux OS/NIC/parser ошибки и часть Windows acquisition-кода.
-- [x] Добавить core-only, HAL/OSAL, history и frontend regression tests.
-- [ ] Завершить нативную Windows-проверку и GUI smoke/визуальную проверку на обеих ОС.
-- [ ] Реализовать версионированный blob, `--record`, `--input`, offline replay и File/Pipe sources.
-- [ ] Добавить автоматический provider fallback и настоящий event-driven сбор.
-- [ ] Завершить набор метрик первой версии, включая `cpu.frequency_hz`.
-- [ ] Развить scheduler: budgets стоимости, таймауты, подписки от нескольких клиентов.
-- [ ] Добавить UART/JTAG/driver HAL и расширять платформы только с отдельными тестами.
+- [ ] Реальная сборка ESP8266 SDK + flash/serial/heap/stack приёмка; native Windows и GUI.
+- [ ] Windows driver HAL, Linux GPIO, прочие регистры и более полная карта физических диапазонов.
+- [ ] UEFI SMBIOS/ACPI locator и method-specific аппаратные метрики.
+- [ ] Blob record/replay, File/Pipe/UART/JTAG acquisition, event subscriptions, cost budget.
 
-Критерии готовности и приоритеты — в [полном TODO](docs/TODO.md).
+Разделение по приоритетам и критерии готовности — в [TODO](docs/TODO.md).
+Provider fallback не является TODO: его удаление — осознанное архитектурное решение.
 
-## Авторы и происхождение
+## Проверки и ограничения
 
-Исходная кодовая база: **INV contributors, 2026**, согласно неизменённому [LICENSE](LICENSE).
-Имена отдельных авторов, сопровождающих Quanta и URL исходного GitHub-репозитория в переданных
-материалах не указаны; они намеренно не выдуманы. Перед публикацией этот раздел следует дополнить
-подтверждёнными именами и профилями.
+[TEST_REPORT](docs/TEST_REPORT.md) разделяет выполненные Linux/ASan/SDK-seam проверки и
+непроведённые аппаратные испытания. В архиве есть исходные логи. Host SDK stubs не входят в
+firmware и не доказывают линковку с настоящим SDK. Физический HAL тестируется на собственных
+RAM/file fixtures, не на реальных `/dev/mem`, MSR или PCI устройствах.
 
-Логотип, схема и дизайн-документ предоставлены вместе с задачей. Исходный дизайн сохранён без
-переписывания. Чистая копия входных исходников и исторических документов, включая embedded-порт,
-доступна в [baseline archive](docs/baseline/inv-0.2.2-source.zip); build-output туда не включён.
+Версия 0.4.0 меняет C API и query с `provider()`. Это **полный архив для новой папки**, не overlay.
+[Миграция](docs/MIGRATION.md), [безопасность](docs/SECURITY.md), [стиль C](docs/CODING_STYLE.md).
 
-## Лицензия и зависимости
+## Авторы и лицензия
 
-Код — [MIT](LICENSE). В обычной CLI/TUI-сборке нет загружаемых сторонних зависимостей.
-Dear ImGui нужен только для GUI, не включён в архив и не скачивается автоматически по умолчанию.
-Системные шрифты не распространяются. См. [THIRD_PARTY.md](THIRD_PARTY.md).
+Исходная авторская атрибуция: **INV contributors**, сохранена в [MIT LICENSE](LICENSE).
+Проект Quanta развивается в Мастерской системного программирования. Имена индивидуальных
+авторов/maintainers в предоставленных исходниках не установлены; их следует добавить после
+подтверждения участниками. Не приписываем неподтверждённое авторство.
+
+Сторонние SDK/ImGui/toolchains имеют собственные условия — [THIRD_PARTY](THIRD_PARTY.md).
+SDK, драйверы, библиотеки ImGui и файлы шрифтов в архив не включены.

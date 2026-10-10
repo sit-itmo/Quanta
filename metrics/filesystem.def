@@ -7,7 +7,11 @@ QUANTA_METRIC(fs_root_total_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="total_bytes"
+ .init=quanta_filesystem_init,
+    .enumerate=quanta_filesystem_enumerate,
+    .collect=quanta_filesystem_collect,
+    .destroy=quanta_filesystem_destroy,
+    .read=quanta_filesystem_read, .arg="total_bytes"
 )
 QUANTA_METRIC(fs_root_available_bytes,
  .key="fs.root.available_bytes", .title="Root filesystem space available to this user",
@@ -17,7 +21,11 @@ QUANTA_METRIC(fs_root_available_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="available_bytes"
+ .init=quanta_filesystem_init,
+    .enumerate=quanta_filesystem_enumerate,
+    .collect=quanta_filesystem_collect,
+    .destroy=quanta_filesystem_destroy,
+    .read=quanta_filesystem_read, .arg="available_bytes"
 )
 QUANTA_METRIC(fs_root_used_bytes,
  .key="fs.root.used_bytes", .title="Root filesystem allocated space",
@@ -27,7 +35,11 @@ QUANTA_METRIC(fs_root_used_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="used_bytes"
+ .init=quanta_filesystem_init,
+    .enumerate=quanta_filesystem_enumerate,
+    .collect=quanta_filesystem_collect,
+    .destroy=quanta_filesystem_destroy,
+    .read=quanta_filesystem_read, .arg="used_bytes"
 )
 QUANTA_METRIC(fs_root_utilization,
  .key="fs.root.utilization", .title="Root filesystem allocated fraction",
@@ -37,5 +49,9 @@ QUANTA_METRIC(fs_root_utilization,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_filesystem_provider, .read=quanta_filesystem_read, .arg="utilization"
+ .init=quanta_filesystem_init,
+    .enumerate=quanta_filesystem_enumerate,
+    .collect=quanta_filesystem_collect,
+    .destroy=quanta_filesystem_destroy,
+    .read=quanta_filesystem_read, .arg="utilization"
 )

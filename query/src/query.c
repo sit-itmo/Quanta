@@ -379,7 +379,7 @@ static int widget(parser *p, quanta_view_spec *v)
 static int selection(parser *p, quanta_plan *q)
 {
     quanta_select *s;
-    int wrapped = 0, provider_wrapped = 0;
+    int wrapped = 0;
     if (q->select_count == QUANTA_MAX_SELECT)
     {
         return fail(p, "too many selections (max %d)", QUANTA_MAX_SELECT);
@@ -406,23 +406,7 @@ static int selection(parser *p, quanta_plan *q)
     }
     if (isword(p, "provider"))
     {
-        provider_wrapped = 1;
-        if (!next(p) || !expect(p, '('))
-        {
-            return 0;
-        }
-        if (p->kind != TOK_STRING)
-        {
-            return fail(p, "provider id must be quoted");
-        }
-        if (!copytok(p, s->provider, sizeof(s->provider)) || !expect(p, ','))
-        {
-            return 0;
-        }
-        if (!s->provider[0])
-        {
-            return fail(p, "provider id must not be empty");
-        }
+        return fail(p, "provider() was removed; select a distinct metric name and use hal \"name\"; for hardware access");
     }
     if (p->kind != TOK_WORD)
     {
@@ -470,10 +454,6 @@ static int selection(parser *p, quanta_plan *q)
         {
             return 0;
         }
-    }
-    if (provider_wrapped && !expect(p, ')'))
-    {
-        return 0;
     }
     if (wrapped && !expect(p, ')'))
     {
@@ -669,6 +649,12 @@ quanta_status quanta_query_parse(const char *src, quanta_plan *q, char *err, siz
             }
             next(&p);
         }
+        else if (!strcmp(directive, "hal"))
+        {
+            bit = 4096;
+            if (!copytok(&p, q->hal, sizeof(q->hal))) break;
+            if (!q->hal[0]) { fail(&p, "HAL name must not be empty"); break; }
+        }
         else if (!strcmp(directive, "layout"))
         {
             uint64_t n;
@@ -769,6 +755,12 @@ quanta_status quanta_plan_validate_with_catalog(quanta_plan *p, const quanta_cat
     {
         BAD("unterminated plan path");
     }
+    if (!memchr(p->hal, 0, sizeof(p->hal))) BAD("unterminated HAL name");
+    for (i = 0; p->hal[i]; ++i)
+    {
+        unsigned char ch = (unsigned char)p->hal[i];
+        if (!(isalnum(ch) || ch == '-' || ch == '_' || ch == '.')) BAD("invalid HAL name");
+    }
     if (!p->columns || p->columns > 8)
     {
         BAD("columns must be in 1..8");
@@ -819,7 +811,7 @@ quanta_status quanta_plan_validate_with_catalog(quanta_plan *p, const quanta_cat
         quanta_select *s = &p->selects[i];
         size_t matched = 0, compatible = 0;
         if (!memchr(s->pattern, 0, sizeof(s->pattern)) || !s->pattern[0] ||
-            !memchr(s->provider, 0, sizeof(s->provider)) || s->label_count > QUANTA_LABEL_CAP ||
+            s->label_count > QUANTA_LABEL_CAP ||
             (unsigned)s->transform > QUANTA_DELTA ||
             (unsigned)s->view.widget > QUANTA_WIDGET_TABLE ||
             !memchr(s->view.title, 0, sizeof(s->view.title)) ||

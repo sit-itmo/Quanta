@@ -7,7 +7,11 @@ QUANTA_METRIC(board_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_vendor"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="board_vendor"
 )
 QUANTA_METRIC(board_model,
  .key="board.model", .title="Board model",
@@ -17,7 +21,11 @@ QUANTA_METRIC(board_model,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_name"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="board_name"
 )
 QUANTA_METRIC(board_serial,
  .key="board.serial", .title="Board serial number",
@@ -27,7 +35,11 @@ QUANTA_METRIC(board_serial,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="board_serial"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="board_serial"
 )
 QUANTA_METRIC(bios_vendor,
  .key="bios.vendor", .title="BIOS vendor",
@@ -37,7 +49,11 @@ QUANTA_METRIC(bios_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_vendor"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="bios_vendor"
 )
 QUANTA_METRIC(bios_version,
  .key="bios.version", .title="BIOS version",
@@ -47,7 +63,11 @@ QUANTA_METRIC(bios_version,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_version"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="bios_version"
 )
 QUANTA_METRIC(bios_date,
  .key="bios.date", .title="BIOS release date",
@@ -57,7 +77,11 @@ QUANTA_METRIC(bios_date,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="bios_date"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="bios_date"
 )
 QUANTA_METRIC(win_system_vendor,
  .key="system.vendor", .title="System manufacturer",
@@ -68,7 +92,11 @@ QUANTA_METRIC(win_system_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="system_vendor"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="system_vendor"
 )
 QUANTA_METRIC(win_system_model,
  .key="system.model", .title="System product name",
@@ -79,7 +107,11 @@ QUANTA_METRIC(win_system_model,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="system_model"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="system_model"
 )
 QUANTA_METRIC(win_system_serial,
  .key="system.serial", .title="System serial number",
@@ -90,7 +122,11 @@ QUANTA_METRIC(win_system_serial,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="system_serial"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="system_serial"
 )
 QUANTA_METRIC(win_system_uuid,
  .key="system.uuid", .title="SMBIOS system UUID",
@@ -101,7 +137,11 @@ QUANTA_METRIC(win_system_uuid,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="system_uuid"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="system_uuid"
 )
 QUANTA_METRIC(win_device_memory_size_bytes,
  .key="device.memory.size_bytes", .title="Installed DIMM capacity",
@@ -112,7 +152,11 @@ QUANTA_METRIC(win_device_memory_size_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="dimm_size"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="dimm_size"
 )
 QUANTA_METRIC(win_device_memory_speed_mt_s,
  .key="device.memory.speed_mt_s", .title="DIMM rated data rate",
@@ -123,7 +167,11 @@ QUANTA_METRIC(win_device_memory_speed_mt_s,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="dimm_speed"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="dimm_speed"
 )
 QUANTA_METRIC(win_device_memory_vendor,
  .key="device.memory.vendor", .title="DIMM manufacturer",
@@ -134,7 +182,11 @@ QUANTA_METRIC(win_device_memory_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="dimm_vendor"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="dimm_vendor"
 )
 QUANTA_METRIC(win_device_memory_serial,
  .key="device.memory.serial", .title="DIMM serial number",
@@ -145,7 +197,11 @@ QUANTA_METRIC(win_device_memory_serial,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="dimm_serial"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="dimm_serial"
 )
 QUANTA_METRIC(win_device_memory_part_number,
  .key="device.memory.part_number", .title="DIMM part number",
@@ -156,5 +212,9 @@ QUANTA_METRIC(win_device_memory_part_number,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
- .provider=&quanta_dmi_provider, .read=quanta_dmi_read, .arg="dimm_part"
+ .init=quanta_dmi_init,
+    .enumerate=quanta_dmi_enumerate,
+    .collect=quanta_dmi_collect,
+    .destroy=quanta_dmi_destroy,
+    .read=quanta_dmi_read, .arg="dimm_part"
 )

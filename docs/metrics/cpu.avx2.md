@@ -1,6 +1,6 @@
 # cpu.avx2
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 AVX2 hardware capability — semantic version 1.
 

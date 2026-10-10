@@ -1,6 +1,6 @@
 # fs.root.utilization
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Root filesystem allocated fraction — semantic version 1.
 

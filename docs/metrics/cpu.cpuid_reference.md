@@ -1,6 +1,6 @@
 # cpu.cpuid_reference
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Logical CPU used for CPUID — semantic version 1.
 
@@ -14,7 +14,7 @@ Logical CPU used for CPUID — semantic version 1.
 
 ## Meaning
 
-The allowed logical CPU chosen by the CPUID provider. The calling thread is temporarily pinned there and its original affinity restored. Other CPUID fields apply to this reference only; there is no all-core intersection/union.
+The allowed logical CPU chosen by the CPUID implementation. The calling thread is temporarily pinned there and its original affinity restored. Other CPUID fields apply to this reference only; there is no all-core intersection/union.
 
 ## Errors and unavailable values
 

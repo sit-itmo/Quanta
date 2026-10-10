@@ -7,7 +7,11 @@ QUANTA_METRIC(os_memory_total_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="total"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="total"
 )
 QUANTA_METRIC(os_memory_available_bytes,
  .key="os.memory.available_bytes", .title="Available memory estimate",
@@ -17,7 +21,11 @@ QUANTA_METRIC(os_memory_available_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="available"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="available"
 )
 QUANTA_METRIC(os_memory_used_bytes,
  .key="os.memory.used_bytes", .title="Memory: total minus available",
@@ -27,7 +35,11 @@ QUANTA_METRIC(os_memory_used_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="used"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="used"
 )
 QUANTA_METRIC(os_memory_utilization,
  .key="os.memory.utilization", .title="Memory utilization",
@@ -37,7 +49,11 @@ QUANTA_METRIC(os_memory_utilization,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="utilization"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="utilization"
 )
 QUANTA_METRIC(win_windows_memory_commit_used_bytes,
  .key="windows.memory.commit.used_bytes", .title="System committed memory, not pagefile occupancy",
@@ -48,7 +64,11 @@ QUANTA_METRIC(win_windows_memory_commit_used_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="commit_used"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="commit_used"
 )
 QUANTA_METRIC(win_windows_memory_commit_limit_bytes,
  .key="windows.memory.commit.limit_bytes", .title="System commit limit",
@@ -59,7 +79,11 @@ QUANTA_METRIC(win_windows_memory_commit_limit_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="commit_limit"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="commit_limit"
 )
 QUANTA_METRIC(win_windows_memory_commit_peak_bytes,
  .key="windows.memory.commit.peak_bytes", .title="Peak system commit since boot",
@@ -70,7 +94,11 @@ QUANTA_METRIC(win_windows_memory_commit_peak_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="commit_peak"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="commit_peak"
 )
 QUANTA_METRIC(win_windows_memory_cache_bytes,
  .key="windows.memory.cache_bytes", .title="System cache physical pages",
@@ -81,7 +109,11 @@ QUANTA_METRIC(win_windows_memory_cache_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="cache"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="cache"
 )
 QUANTA_METRIC(win_windows_memory_kernel_paged_bytes,
  .key="windows.memory.kernel_paged_bytes", .title="Paged kernel memory",
@@ -92,7 +124,11 @@ QUANTA_METRIC(win_windows_memory_kernel_paged_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="kernel_paged"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="kernel_paged"
 )
 QUANTA_METRIC(win_windows_memory_kernel_nonpaged_bytes,
  .key="windows.memory.kernel_nonpaged_bytes", .title="Nonpaged kernel memory",
@@ -103,7 +139,11 @@ QUANTA_METRIC(win_windows_memory_kernel_nonpaged_bytes,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="kernel_nonpaged"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="kernel_nonpaged"
 )
 QUANTA_METRIC(win_os_process_count,
  .key="os.process.count", .title="System process count",
@@ -114,7 +154,11 @@ QUANTA_METRIC(win_os_process_count,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="process_count"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="process_count"
 )
 QUANTA_METRIC(win_os_thread_count,
  .key="os.thread.count", .title="System thread count",
@@ -125,7 +169,11 @@ QUANTA_METRIC(win_os_thread_count,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="thread_count"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="thread_count"
 )
 QUANTA_METRIC(win_windows_handle_count,
  .key="windows.handle.count", .title="System handle count",
@@ -136,5 +184,9 @@ QUANTA_METRIC(win_windows_handle_count,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .provider=&quanta_memory_provider, .read=quanta_memory_read, .arg="handle_count"
+ .init=quanta_memory_init,
+    .enumerate=quanta_memory_enumerate,
+    .collect=quanta_memory_collect,
+    .destroy=quanta_memory_destroy,
+    .read=quanta_memory_read, .arg="handle_count"
 )

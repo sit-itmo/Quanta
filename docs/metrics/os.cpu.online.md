@@ -1,6 +1,6 @@
 # os.cpu.online
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Online logical processors — semantic version 1.
 

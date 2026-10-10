@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-10",
+  "inputs": [
+    {
+      "file": "inv-0.2.2.zip",
+      "size": 23090588,
+      "sha256": "b4a304ec7aaea2ac5b86edc4dc99efed4455ae3cbdde1fa2e6c83bac7aeae6ca"
+    },
+    {
+      "file": "Quanta_Design(1).md",
+      "size": 13830,
+      "sha256": "afc2f3ae98fdaea3eea8d2334f55c80cb426543d731479380867893e90359b4e"
+    },
+    {
+      "file": "photo_5323614403393429285_y.jpg",
+      "size": 80851,
+      "sha256": "7358e21a3970e5acd047f63e8a291622dfd628ca38fef1284d523d4062b3cddf"
+    },
+    {
+      "file": "photo_5296708018126924311_y.jpg",
+      "size": 85343,
+      "sha256": "693438db09f7acc53ac5820fec835cc35f072e13307361696f7f5d05f147264b"
+    }
+  ],
+  "baseline_note": "Original non-build files retained under inv-0.2.2/ in docs/baseline/inv-0.2.2-source.zip. Input uploads were not modified."
+}

@@ -1,6 +1,6 @@
 # board.serial
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Board serial number — semantic version 1.
 

@@ -1,0 +1,145 @@
+Internal ctest changing into directory: /mnt/data/work-quanta/build-clang-release
+UpdateCTestConfiguration  from :/mnt/data/work-quanta/build-clang-release/DartConfiguration.tcl
+Parse Config file:/mnt/data/work-quanta/build-clang-release/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/mnt/data/work-quanta/build-clang-release/DartConfiguration.tcl
+Parse Config file:/mnt/data/work-quanta/build-clang-release/DartConfiguration.tcl
+Test project /mnt/data/work-quanta/build-clang-release
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+      Start  1: quanta_hal_tests
+
+1: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_hal_tests
+1: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+1: Test timeout computed to be: 120
+1: HAL primitive contracts: 135 checks, 0 failures
+ 1/16 Test  #1: quanta_hal_tests .................   Passed    0.00 sec
+test 2
+      Start  2: quanta_unit_tests
+
+2: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_unit_tests
+2: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+2: Test timeout computed to be: 120
+2: 3289 checks, 0 failures
+ 2/16 Test  #2: quanta_unit_tests ................   Passed    0.03 sec
+test 3
+      Start  3: quanta_windows_data_tests
+
+3: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_windows_data_tests
+3: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+3: Test timeout computed to be: 120
+3: Windows data (portable): 10606 checks, 0 failures
+ 3/16 Test  #3: quanta_windows_data_tests ........   Passed    0.05 sec
+test 4
+      Start  4: quanta_device_tests
+
+4: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_device_tests
+4: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+4: Test timeout computed to be: 120
+4: device fixtures: 111 checks, 0 failures
+ 4/16 Test  #4: quanta_device_tests ..............   Passed    0.61 sec
+test 5
+      Start  5: quanta_linux_metrics_tests
+
+5: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_linux_metrics_tests
+5: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+5: Test timeout computed to be: 120
+5: Linux HAL fixtures: 87 checks, 0 failures
+ 5/16 Test  #5: quanta_linux_metrics_tests .......   Passed    0.01 sec
+test 6
+      Start  6: windows_schema
+
+6: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_windows_schema_tests "/mnt/data/Quanta-0.4.0/examples/queries/windows/01-inventory.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/02-memory.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/03-dashboard-tui.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/04-dashboard-gui.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/05-record-csv.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/06-thermal-zones.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/07-network-tui.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/08-cpu-cores.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/09-report-markdown.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/10-dimm-inventory.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/11-process.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/12-gui-table.q" "/mnt/data/Quanta-0.4.0/examples/queries/windows/13-filter-labels.q"
+6: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+6: Test timeout computed to be: 120
+6: Windows schema only: 72 metric descriptors; 13 query files validated (no WinAPI execution)
+ 6/16 Test  #6: windows_schema ...................   Passed    0.00 sec
+test 7
+      Start  7: hal_cli_architecture
+
+7: Test command: /opt/pyvenv/bin/python3 "/mnt/data/Quanta-0.4.0/tests/hal_cli.py" "/mnt/data/work-quanta/build-clang-release/bin/quanta" "/mnt/data/Quanta-0.4.0"
+7: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+7: Test timeout computed to be: 120
+7: 111 HAL selection/source-boundary checks passed
+ 7/16 Test  #7: hal_cli_architecture .............   Passed    1.55 sec
+test 8
+      Start  8: frontend_modes
+
+8: Test command: /opt/pyvenv/bin/python3 "/mnt/data/Quanta-0.4.0/tests/frontend_modes.py" "/mnt/data/work-quanta/build-clang-release/bin/quanta" "/mnt/data/work-quanta/build-clang-release/bin/quanta_cli" "/mnt/data/work-quanta/build-clang-release/bin/quanta_csv" "/mnt/data/work-quanta/build-clang-release/bin/quanta_txt"
+8: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+8: Test timeout computed to be: 120
+8: 9 frontend entrypoint/format cases passed
+ 8/16 Test  #8: frontend_modes ...................   Passed    1.16 sec
+test 9
+      Start  9: documentation
+
+9: Test command: /opt/pyvenv/bin/python3 "/mnt/data/Quanta-0.4.0/tools/embed_docs.py" "--check"
+9: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+9: Test timeout computed to be: 120
+9: Embedded docs match the metric registry and Markdown files
+ 9/16 Test  #9: documentation ....................   Passed    1.31 sec
+test 10
+      Start 10: integration
+
+10: Test command: /opt/pyvenv/bin/python3 "/mnt/data/Quanta-0.4.0/tests/integration.py" "/mnt/data/work-quanta/build-clang-release/bin/quanta"
+10: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+10: Test timeout computed to be: 120
+10: 29 CLI integration cases passed
+10/16 Test #10: integration ......................   Passed    3.16 sec
+test 11
+      Start 11: tui_pty
+
+11: Test command: /opt/pyvenv/bin/python3 "/mnt/data/Quanta-0.4.0/tests/tui_pty.py" "/mnt/data/work-quanta/build-clang-release/bin/quanta"
+11: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+11: Test timeout computed to be: 120
+11: TUI PTY: input, pause/resume, filter, scroll, resize and terminal restoration passed
+11: TUI PTY: SIGTERM cleanup and exit status passed
+11/16 Test #11: tui_pty ..........................   Passed    3.41 sec
+test 12
+      Start 12: quanta_catalog_tests
+
+12: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_catalog_tests
+12: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+12: Test timeout computed to be: 120
+12: Core/catalog contracts: 133 checks, 0 failures
+12/16 Test #12: quanta_catalog_tests .............   Passed    0.05 sec
+test 13
+      Start 13: quanta_history_tests
+
+13: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_history_tests
+13: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+13: Test timeout computed to be: 120
+13: History/value boundaries: 50 checks, 0 failures
+13/16 Test #13: quanta_history_tests .............   Passed    0.00 sec
+test 14
+      Start 14: quanta_osal_tests
+
+14: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_osal_tests
+14: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+14: Test timeout computed to be: 120
+14: Native OSAL: 23 checks, 0 failures
+14/16 Test #14: quanta_osal_tests ................   Passed    0.00 sec
+test 15
+      Start 15: quanta_esp8266_enabled_tests
+
+15: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_esp8266_enabled_tests
+15: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+15: Test timeout computed to be: 120
+15: ESP8266 SDK seam (NOT hardware): 122 checks, 0 failures; VDD enabled=1
+15/16 Test #15: quanta_esp8266_enabled_tests .....   Passed    0.00 sec
+test 16
+      Start 16: quanta_esp8266_disabled_tests
+
+16: Test command: /mnt/data/work-quanta/build-clang-release/tests/quanta_esp8266_disabled_tests
+16: Working Directory: /mnt/data/work-quanta/build-clang-release/tests
+16: Test timeout computed to be: 120
+16: ESP8266 SDK seam (NOT hardware): 115 checks, 0 failures; VDD enabled=0
+16/16 Test #16: quanta_esp8266_disabled_tests ....   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 16
+
+Total Test time (real) =  11.35 sec

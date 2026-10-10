@@ -1,6 +1,6 @@
 # device.net.rx_bytes_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Received bytes — semantic version 1.
 

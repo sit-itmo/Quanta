@@ -1,6 +1,6 @@
 # cpu.brand
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 CPU brand string — semantic version 1.
 

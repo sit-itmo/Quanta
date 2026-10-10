@@ -2,6 +2,8 @@
 #define QUANTA_CONFIG_H
 #cmakedefine01 QUANTA_ARCH_X86
 #cmakedefine01 QUANTA_OS_WINDOWS
+#cmakedefine01 QUANTA_PLATFORM_FREERTOS
+#cmakedefine01 QUANTA_WITH_MCU
 #cmakedefine01 QUANTA_OS_LINUX
 #cmakedefine01 QUANTA_WITH_GUI
 #cmakedefine01 QUANTA_WITH_TUI

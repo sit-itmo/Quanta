@@ -6,6 +6,7 @@
 typedef struct quanta_channel
 {
     quanta_instance in;
+    size_t acquisition_index;
     quanta_sample last;
     uint64_t period, next;
     uint64_t seen;
@@ -21,24 +22,34 @@ typedef struct quanta_binding
     int active, announced, dirty, has_last;
 } quanta_binding;
 
+/* Private batching only: no provider names, priorities, indexes or fallback. */
+typedef struct quanta_acquisition
+{
+    const quanta_metric_desc *representative;
+    const quanta_metric_desc **selected;
+    quanta_metric_context context;
+    quanta_status init_status, discovery_status;
+    uint64_t refresh_count;
+    int initialized;
+} quanta_acquisition;
+
 struct quanta_engine
 {
     quanta_plan plan;
     quanta_catalog catalog;
     int has_run;
-    unsigned char provider_opened[QUANTA_PROVIDER_COUNT];
     quanta_paths paths;
     char roots[3][QUANTA_PATH_CAP];
-    quanta_read_ctx ctx[QUANTA_PROVIDER_COUNT];
-    const quanta_provider_desc *providers[QUANTA_PROVIDER_COUNT];
-    quanta_status open_status[QUANTA_PROVIDER_COUNT], discovery_status[QUANTA_PROVIDER_COUNT];
-    uint64_t refresh_count[QUANTA_PROVIDER_COUNT];
+    quanta_hal *hal;
+    int owns_hal;
+    quanta_acquisition *acquisitions;
+    size_t acquisition_count;
     quanta_channel *channels;
     size_t channel_count, channel_cap;
     quanta_binding *bindings;
     size_t binding_count, binding_cap;
     uint64_t next_id, frame_id, discovery_epoch;
-    const quanta_provider_desc *discovering_provider;
+    size_t discovering_acquisition;
     quanta_mutex control_mutex;
     int stopped, force, has_errors;
     quanta_sink *sink;

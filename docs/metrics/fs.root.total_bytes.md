@@ -1,6 +1,6 @@
 # fs.root.total_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Root filesystem capacity — semantic version 1.
 

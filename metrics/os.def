@@ -7,7 +7,11 @@ QUANTA_METRIC(os_name,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="name"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="name"
 )
 QUANTA_METRIC(os_kernel_release,
  .key="os.kernel.release", .title="Kernel release",
@@ -17,7 +21,11 @@ QUANTA_METRIC(os_kernel_release,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="release"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="release"
 )
 QUANTA_METRIC(os_kernel_version,
  .key="os.kernel.version", .title="Kernel build",
@@ -27,7 +35,11 @@ QUANTA_METRIC(os_kernel_version,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="version"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="version"
 )
 QUANTA_METRIC(os_arch,
  .key="os.arch", .title="Machine architecture",
@@ -37,7 +49,11 @@ QUANTA_METRIC(os_arch,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="arch"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="arch"
 )
 QUANTA_METRIC(os_hostname,
  .key="os.hostname", .title="Host name",
@@ -47,7 +63,11 @@ QUANTA_METRIC(os_hostname,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=QUANTA_SENSITIVE, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="hostname"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="hostname"
 )
 QUANTA_METRIC(os_uptime,
  .key="os.uptime", .title="Time since boot",
@@ -57,7 +77,11 @@ QUANTA_METRIC(os_uptime,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="uptime"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="uptime"
 )
 QUANTA_METRIC(os_load_1m,
  .key="os.load.1m", .title="Load average (1 minute)",
@@ -67,7 +91,11 @@ QUANTA_METRIC(os_load_1m,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="load1"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="load1"
 )
 QUANTA_METRIC(os_load_5m,
  .key="os.load.5m", .title="Load average (5 minutes)",
@@ -77,7 +105,11 @@ QUANTA_METRIC(os_load_5m,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="load5"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="load5"
 )
 QUANTA_METRIC(os_cpu_online,
  .key="os.cpu.online", .title="Online logical processors",
@@ -87,5 +119,9 @@ QUANTA_METRIC(os_cpu_online,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_os_provider, .read=quanta_os_read, .arg="online"
+ .init=quanta_os_init,
+    .enumerate=quanta_os_enumerate,
+    .collect=quanta_os_collect,
+    .destroy=quanta_os_destroy,
+    .read=quanta_os_read, .arg="online"
 )

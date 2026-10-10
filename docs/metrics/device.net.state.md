@@ -1,6 +1,6 @@
 # device.net.state
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Operational state — semantic version 1.
 

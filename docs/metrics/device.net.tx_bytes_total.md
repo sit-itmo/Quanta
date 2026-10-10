@@ -1,6 +1,6 @@
 # device.net.tx_bytes_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Transmitted bytes — semantic version 1.
 

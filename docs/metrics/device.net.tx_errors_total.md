@@ -1,6 +1,6 @@
 # device.net.tx_errors_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Transmit errors — semantic version 1.
 

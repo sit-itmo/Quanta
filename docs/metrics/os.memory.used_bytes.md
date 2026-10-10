@@ -1,6 +1,6 @@
 # os.memory.used_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Memory: total minus available — semantic version 1.
 

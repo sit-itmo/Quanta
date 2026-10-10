@@ -1,6 +1,6 @@
 # os.hostname
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Host name — semantic version 1.
 

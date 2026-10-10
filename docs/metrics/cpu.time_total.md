@@ -1,6 +1,6 @@
 # cpu.time_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 CPU accounted ticks — semantic version 1.
 

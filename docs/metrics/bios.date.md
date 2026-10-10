@@ -1,6 +1,6 @@
 # bios.date
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 BIOS release date — semantic version 1.
 

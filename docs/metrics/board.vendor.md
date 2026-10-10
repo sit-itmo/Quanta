@@ -1,6 +1,6 @@
 # board.vendor
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Board manufacturer — semantic version 1.
 

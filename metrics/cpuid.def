@@ -7,7 +7,11 @@ QUANTA_METRIC(cpu_vendor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="vendor"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="vendor"
 )
 QUANTA_METRIC(cpu_brand,
  .key="cpu.brand", .title="CPU brand string",
@@ -17,7 +21,11 @@ QUANTA_METRIC(cpu_brand,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="brand"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="brand"
 )
 QUANTA_METRIC(cpu_cpuid_reference,
  .key="cpu.cpuid_reference", .title="Logical CPU used for CPUID",
@@ -27,7 +35,11 @@ QUANTA_METRIC(cpu_cpuid_reference,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="cpuid_reference"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="cpuid_reference"
 )
 QUANTA_METRIC(cpu_vmx,
  .key="cpu.vmx", .title="VMX hardware capability",
@@ -37,7 +49,11 @@ QUANTA_METRIC(cpu_vmx,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="vmx"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="vmx"
 )
 QUANTA_METRIC(cpu_svm,
  .key="cpu.svm", .title="SVM hardware capability",
@@ -47,7 +63,11 @@ QUANTA_METRIC(cpu_svm,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="svm"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="svm"
 )
 QUANTA_METRIC(cpu_sse2,
  .key="cpu.sse2", .title="SSE2 capability",
@@ -57,7 +77,11 @@ QUANTA_METRIC(cpu_sse2,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="sse2"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="sse2"
 )
 QUANTA_METRIC(cpu_avx,
  .key="cpu.avx", .title="AVX hardware capability",
@@ -67,7 +91,11 @@ QUANTA_METRIC(cpu_avx,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="avx"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="avx"
 )
 QUANTA_METRIC(cpu_avx2,
  .key="cpu.avx2", .title="AVX2 hardware capability",
@@ -77,7 +105,11 @@ QUANTA_METRIC(cpu_avx2,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="avx2"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="avx2"
 )
 QUANTA_METRIC(cpu_hypervisor,
  .key="cpu.hypervisor", .title="Hypervisor-present CPUID bit",
@@ -87,5 +119,9 @@ QUANTA_METRIC(cpu_hypervisor,
  .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
  .flags=0, .counter_bits=0,
  .label_schema="", .dependencies="",
- .provider=&quanta_cpuid_provider, .read=quanta_cpuid_read, .arg="hypervisor"
+ .init=quanta_cpuid_init,
+    .enumerate=quanta_cpuid_enumerate,
+    .collect=NULL,
+    .destroy=quanta_cpuid_destroy,
+    .read=quanta_cpuid_read, .arg="hypervisor"
 )

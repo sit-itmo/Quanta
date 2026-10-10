@@ -1,6 +1,6 @@
 # os.kernel.version
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Kernel build — semantic version 1.
 

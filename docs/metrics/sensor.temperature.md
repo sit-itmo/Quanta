@@ -1,6 +1,6 @@
 # sensor.temperature
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Temperature channel — semantic version 1.
 

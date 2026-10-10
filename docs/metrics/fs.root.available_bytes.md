@@ -1,6 +1,6 @@
 # fs.root.available_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Root filesystem space available to this user — semantic version 1.
 

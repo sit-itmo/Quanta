@@ -1,6 +1,6 @@
 # device.net.rx_errors_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Receive errors — semantic version 1.
 

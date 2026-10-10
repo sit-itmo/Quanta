@@ -1,31 +1,42 @@
 {
-  "note": "Paths show refactored destinations, not byte-for-byte identity. Every original non-build file is retained in the nested baseline archive.",
+  "note": "Reconciliation against MCU archive. Active paths exist. Historical copies are not evidence of active MCU support; active paths are listed explicitly. Source hashes identify input bytes. Noncompiled retired support files are labelled.",
   "files": {
-    "PATCH-0.2.0-to-0.2.1.diff": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/PATCH-0.2.0-to-0.2.1.diff"
-    },
-    "CMakePresets.json": {
-      "current": [
-        "CMakePresets.json"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CMakePresets.json"
-    },
-    "PATCH-0.2.1-to-0.2.2.diff": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/PATCH-0.2.1-to-0.2.2.diff"
-    },
-    "LICENSE": {
-      "current": [
-        "LICENSE"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/LICENSE"
-    },
     ".clang-format": {
+      "source_sha256": "79241fd056226684acb24437aa59aed0336eb07b874d145f2e34cbb252e90fe5",
+      "current": [
+        ".clang-format"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.clang-format",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    ".github/workflows/linux.yml": {
+      "source_sha256": "39205c3d1de78bf6eee60dd8807dfea109a6abf4ac27e384a6cd16eb3bf447c8",
       "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.clang-format"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.github/workflows/linux.yml",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    ".github/workflows/windows.yml": {
+      "source_sha256": "439963269505155c62120033a5a21b003770100e30eb55ce81dbd5ca2762ae59",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.github/workflows/windows.yml",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    ".gitignore": {
+      "source_sha256": "1d2bef32444afaafd8d17b613dd0968309cda41b769502851b199fe7ceb3cd39",
+      "current": [
+        ".gitignore"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.gitignore",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "CHANGELOG.md": {
+      "source_sha256": "e25bbd30d3bb0ff1c14f1656ddfff5f9450efe7b00fb53f396936e318eb2460a",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CHANGELOG.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
     },
     "CMakeLists.txt": {
+      "source_sha256": "8434950b67a3a577db6cfc9315ed9d08680d14d7d6f6b2a4cc468dd1336f6a67",
       "current": [
         "CMakeLists.txt",
         "core/CMakeLists.txt",
@@ -33,1595 +44,2226 @@
         "frontends/CMakeLists.txt",
         "tests/CMakeLists.txt"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CMakeLists.txt"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CMakeLists.txt",
+      "note": "Refactored active implementation, not byte identity"
     },
-    ".gitignore": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.gitignore"
-    },
-    "THIRD_PARTY.md": {
+    "CMakePresets.json": {
+      "source_sha256": "ab7bee88300ec871c5344fe46b8a890417621f26ab74ada98b6dd14c6fef5b4e",
       "current": [
-        "THIRD_PARTY.md"
+        "CMakePresets.json"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/THIRD_PARTY.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CMakePresets.json",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "README-LINUX.md": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/README-LINUX.md"
+    "LICENSE": {
+      "source_sha256": "eaa29a32f956f1be9973dc60901eae98ee647643a8fcac705d4dd7c1f82d9194",
+      "current": [
+        "LICENSE"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/LICENSE",
+      "note": "Refactored active implementation, not byte identity"
     },
     "MANIFEST.sha256": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/MANIFEST.sha256"
+      "source_sha256": "16f66cdc467d7ffb5890dd84292b8d47d334e56d3618952d011bfe391094ecce",
+      "current": [
+        "MANIFEST.sha256"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/MANIFEST.sha256",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "CHANGELOG.md": {
+    "PATCH-0.2.0-to-0.2.1.diff": {
+      "source_sha256": "3f5827a5f79ab5c3e3512c1891cda04bc1ecd81674c26389f285f3166a4f7b30",
       "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/CHANGELOG.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/PATCH-0.2.0-to-0.2.1.diff",
+      "note": "Historical reference/supporting material; not an active compiled source"
     },
-    "TEST_REPORT.md": {
+    "PATCH-0.2.1-to-0.2.2.diff": {
+      "source_sha256": "648a68cbca72b1accb3c174e7f136f489ae245e67cf37478901ed37dcecac17c",
       "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/TEST_REPORT.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/PATCH-0.2.1-to-0.2.2.diff",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "README-LINUX.md": {
+      "source_sha256": "f6e489dcfdf2c96870808c6284feeb7249d83d63231ec388402f808fffd8b5fc",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/README-LINUX.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
     },
     "README.md": {
+      "source_sha256": "a961e239663f0086e078552b8c75302faf4b23821c982abc98a29e60784a6be5",
       "current": [
         "README.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/README.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/README.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "docs/INVQ.md": {
-      "current": [
-        "docs/QUERY.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/INVQ.md"
-    },
-    "docs/BUILD.md": {
-      "current": [
-        "docs/BUILD.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/BUILD.md"
-    },
-    "docs/EXPORT.md": {
+    "TEST_REPORT.md": {
+      "source_sha256": "105266863417cbe951c5a75064cc9dc0003b13fd7bc80e0d25602514ce1a8d90",
       "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/EXPORT.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/TEST_REPORT.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
     },
-    "docs/WINDOWS.md": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/WINDOWS.md"
-    },
-    "docs/EXTENDING.md": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/EXTENDING.md"
-    },
-    "docs/WINDOWS_METRICS.md": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/WINDOWS_METRICS.md"
-    },
-    "docs/SECURITY.md": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/SECURITY.md"
-    },
-    "docs/ARCHITECTURE.md": {
+    "THIRD_PARTY.md": {
+      "source_sha256": "bf1a37b6ec59db97acb9682c0c6f68e1f5e66c581f5f7da76e80276f72740d95",
       "current": [
-        "docs/ARCHITECTURE.md"
+        "THIRD_PARTY.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/ARCHITECTURE.md"
-    },
-    "resources/inv.rc": {
-      "current": [
-        "resources/quanta.rc"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/resources/inv.rc"
-    },
-    "resources/inv.manifest": {
-      "current": [
-        "resources/quanta.manifest"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/resources/inv.manifest"
-    },
-    "cmake/inv_config.h.in": {
-      "current": [
-        "cmake/quanta_config.h.in"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/inv_config.h.in"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/THIRD_PARTY.md",
+      "note": "Refactored active implementation, not byte identity"
     },
     "cmake/ImGui.cmake": {
+      "source_sha256": "e87ea873dc3d401be4c8d21fd5a916d2c0b8e1abea618ab6c41972f2e4448380",
       "current": [
         "cmake/ImGui.cmake"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/ImGui.cmake"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/ImGui.cmake",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "tests/test_devices.c": {
+    "cmake/inv_config.h.in": {
+      "source_sha256": "d6dcb34e46ce06630e5b03b1b84200801942115600964b4043a75c8274f06a6b",
       "current": [
-        "tests/test_devices.c"
+        "cmake/quanta_config.h.in"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_devices.c"
-    },
-    "tests/windows_integration.py": {
-      "current": [
-        "tests/windows_integration.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_integration.py"
-    },
-    "tests/tui_pty.py": {
-      "current": [
-        "tests/tui_pty.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/tui_pty.py"
-    },
-    "tests/integration.py": {
-      "current": [
-        "tests/integration.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/integration.py"
-    },
-    "tests/gui_smoke.py": {
-      "current": [
-        "tests/gui_smoke.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/gui_smoke.py"
-    },
-    "tests/examples.py": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/examples.py"
-    },
-    "tests/test_windows_data.c": {
-      "current": [
-        "tests/test_windows_data.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows_data.c"
-    },
-    "tests/test_windows.c": {
-      "current": [
-        "tests/test_windows.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows.c"
-    },
-    "tests/windows_schema_stubs.c": {
-      "current": [
-        "tests/windows_schema_stubs.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_schema_stubs.c"
-    },
-    "tests/test_windows_schema.c": {
-      "current": [
-        "tests/test_windows_schema.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows_schema.c"
-    },
-    "tests/x11_smoke.py": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/x11_smoke.py"
-    },
-    "tests/test_core.c": {
-      "current": [
-        "tests/test_core.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_core.c"
-    },
-    "tests/xcb_smoke.c": {
-      "current": [
-        "tests/xcb_smoke.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/xcb_smoke.c"
-    },
-    "tests/windows_gui.py": {
-      "current": [
-        "tests/windows_gui.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_gui.py"
-    },
-    "metrics/filesystem.def": {
-      "current": [
-        "metrics/filesystem.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/filesystem.def"
-    },
-    "metrics/process.def": {
-      "current": [
-        "metrics/process.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/process.def"
-    },
-    "metrics/os.def": {
-      "current": [
-        "metrics/os.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/os.def"
-    },
-    "metrics/cpu.def": {
-      "current": [
-        "metrics/cpu.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/cpu.def"
-    },
-    "metrics/selected.def": {
-      "current": [
-        "metrics/selected.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/selected.def"
-    },
-    "metrics/mcu.def": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/mcu.def"
-    },
-    "metrics/dmi.def": {
-      "current": [
-        "metrics/dmi.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/dmi.def"
-    },
-    "metrics/hwmon.def": {
-      "current": [
-        "metrics/hwmon.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/hwmon.def"
-    },
-    "metrics/catalog.json": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/catalog.json"
-    },
-    "metrics/network.def": {
-      "current": [
-        "metrics/network.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/network.def"
-    },
-    "metrics/cpuid.def": {
-      "current": [
-        "metrics/cpuid.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/cpuid.def"
-    },
-    "metrics/memory.def": {
-      "current": [
-        "metrics/memory.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/memory.def"
-    },
-    "examples-output/windows-schema-validation.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/examples-output/windows-schema-validation.txt"
-    },
-    "examples-output/README.md": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/examples-output/README.md"
-    },
-    "test-logs/windows-schema-on-linux.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-schema-on-linux.txt"
-    },
-    "test-logs/linux-static.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-static.txt"
-    },
-    "test-logs/pe-reader-fixture.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/pe-reader-fixture.txt"
-    },
-    "test-logs/windows-data-on-linux.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-data-on-linux.txt"
-    },
-    "test-logs/linux-small-build.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-build.txt"
-    },
-    "test-logs/linux-0.2.1-hotfix-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-ctest.txt"
-    },
-    "test-logs/linux-0.2.1-hotfix-config.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-config.txt"
-    },
-    "test-logs/linux-gcc-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-gcc-ctest.txt"
-    },
-    "test-logs/imgui-dependency-unavailable.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/imgui-dependency-unavailable.txt"
-    },
-    "test-logs/windows-0.2.2-schema-on-linux.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-0.2.2-schema-on-linux.txt"
-    },
-    "test-logs/linux-asan-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-ctest.txt"
-    },
-    "test-logs/linux-small-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-ctest.txt"
-    },
-    "test-logs/linux-gcc-build.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-gcc-build.txt"
-    },
-    "test-logs/linux-0.2.2-examples.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-examples.txt"
-    },
-    "test-logs/linux-asan-config.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-config.txt"
-    },
-    "test-logs/linux-examples.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-examples.txt"
-    },
-    "test-logs/linux-xcb.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-xcb.txt"
-    },
-    "test-logs/linux-0.2.1-hotfix-build.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-build.txt"
-    },
-    "test-logs/linux-0.2.2-gcc-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-gcc-ctest.txt"
-    },
-    "test-logs/linux-0.2.2-clang-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-clang-ctest.txt"
-    },
-    "test-logs/linux-small-config.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-config.txt"
-    },
-    "test-logs/windows-toolchain-unavailable.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-toolchain-unavailable.txt"
-    },
-    "test-logs/linux-asan-build.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-build.txt"
-    },
-    "test-logs/archive-roundtrip-ctest.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/archive-roundtrip-ctest.txt"
-    },
-    "test-logs/linux-0.2.2-static.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-static.txt"
-    },
-    "queries/11-gui-table.invq": {
-      "current": [
-        "examples/queries/11-gui-table.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/11-gui-table.invq"
-    },
-    "queries/10-filter-labels.invq": {
-      "current": [
-        "examples/queries/10-filter-labels.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/10-filter-labels.invq"
-    },
-    "queries/03-dashboard-tui.invq": {
-      "current": [
-        "examples/queries/03-dashboard-tui.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/03-dashboard-tui.invq"
-    },
-    "queries/08-core-cpu.invq": {
-      "current": [
-        "examples/queries/08-core-cpu.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/08-core-cpu.invq"
-    },
-    "queries/01-inventory.invq": {
-      "current": [
-        "examples/queries/01-inventory.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/01-inventory.invq"
-    },
-    "queries/02-memory.invq": {
-      "current": [
-        "examples/queries/02-memory.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/02-memory.invq"
-    },
-    "queries/05-record-csv.invq": {
-      "current": [
-        "examples/queries/05-record-csv.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/05-record-csv.invq"
-    },
-    "queries/09-report-markdown.invq": {
-      "current": [
-        "examples/queries/09-report-markdown.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/09-report-markdown.invq"
-    },
-    "queries/07-network-tui.invq": {
-      "current": [
-        "examples/queries/07-network-tui.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/07-network-tui.invq"
-    },
-    "queries/06-sensors.invq": {
-      "current": [
-        "examples/queries/06-sensors.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/06-sensors.invq"
-    },
-    "queries/04-dashboard-gui.invq": {
-      "current": [
-        "examples/queries/04-dashboard-gui.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/04-dashboard-gui.invq"
-    },
-    "tools/build.sh": {
-      "current": [
-        "tools/build.sh"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build.sh"
-    },
-    "tools/embed_docs.py": {
-      "current": [
-        "tools/embed_docs.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/embed_docs.py"
-    },
-    "tools/build_windows.ps1": {
-      "current": [
-        "tools/build_windows.ps1"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build_windows.ps1"
-    },
-    "tools/fetch_imgui.py": {
-      "current": [
-        "tools/fetch_imgui.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/fetch_imgui.py"
-    },
-    "tools/verify_windows_imports.py": {
-      "current": [
-        "tools/verify_windows_imports.py"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/verify_windows_imports.py"
-    },
-    "tools/test_xcb.sh": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/test_xcb.sh"
-    },
-    "tools/verify_static.sh": {
-      "current": [
-        "tools/verify_static.sh"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/verify_static.sh"
-    },
-    "tools/build_windows.cmd": {
-      "current": [
-        "tools/build_windows.cmd"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build_windows.cmd"
-    },
-    "vendor/imgui/README.md": {
-      "current": [
-        "vendor/imgui/README.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/vendor/imgui/README.md"
-    },
-    "queries/windows/03-dashboard-tui.invq": {
-      "current": [
-        "examples/queries/windows/03-dashboard-tui.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/03-dashboard-tui.invq"
-    },
-    "queries/windows/08-cpu-cores.invq": {
-      "current": [
-        "examples/queries/windows/08-cpu-cores.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/08-cpu-cores.invq"
-    },
-    "queries/windows/12-gui-table.invq": {
-      "current": [
-        "examples/queries/windows/12-gui-table.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/12-gui-table.invq"
-    },
-    "queries/windows/01-inventory.invq": {
-      "current": [
-        "examples/queries/windows/01-inventory.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/01-inventory.invq"
-    },
-    "queries/windows/02-memory.invq": {
-      "current": [
-        "examples/queries/windows/02-memory.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/02-memory.invq"
-    },
-    "queries/windows/05-record-csv.invq": {
-      "current": [
-        "examples/queries/windows/05-record-csv.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/05-record-csv.invq"
-    },
-    "queries/windows/09-report-markdown.invq": {
-      "current": [
-        "examples/queries/windows/09-report-markdown.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/09-report-markdown.invq"
-    },
-    "queries/windows/06-thermal-zones.invq": {
-      "current": [
-        "examples/queries/windows/06-thermal-zones.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/06-thermal-zones.invq"
-    },
-    "queries/windows/07-network-tui.invq": {
-      "current": [
-        "examples/queries/windows/07-network-tui.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/07-network-tui.invq"
-    },
-    "queries/windows/13-filter-labels.invq": {
-      "current": [
-        "examples/queries/windows/13-filter-labels.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/13-filter-labels.invq"
-    },
-    "queries/windows/10-dimm-inventory.invq": {
-      "current": [
-        "examples/queries/windows/10-dimm-inventory.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/10-dimm-inventory.invq"
-    },
-    "queries/windows/04-dashboard-gui.invq": {
-      "current": [
-        "examples/queries/windows/04-dashboard-gui.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/04-dashboard-gui.invq"
-    },
-    "queries/windows/11-process.invq": {
-      "current": [
-        "examples/queries/windows/11-process.q"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/11-process.invq"
-    },
-    "include/inv/inv.h": {
-      "current": [
-        "core/include/quanta/quanta.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/include/inv/inv.h"
-    },
-    "include/inv/view.h": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/include/inv/view.h"
-    },
-    ".github/workflows/windows.yml": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.github/workflows/windows.yml"
-    },
-    ".github/workflows/linux.yml": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/.github/workflows/linux.yml"
-    },
-    "metrics/windows/filesystem.def": {
-      "current": [
-        "metrics/windows/filesystem.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/filesystem.def"
-    },
-    "metrics/windows/process.def": {
-      "current": [
-        "metrics/windows/process.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/process.def"
-    },
-    "metrics/windows/os.def": {
-      "current": [
-        "metrics/windows/os.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/os.def"
-    },
-    "metrics/windows/cpu.def": {
-      "current": [
-        "metrics/windows/cpu.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/cpu.def"
-    },
-    "metrics/windows/selected.def": {
-      "current": [
-        "metrics/windows/selected.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/selected.def"
-    },
-    "metrics/windows/dmi.def": {
-      "current": [
-        "metrics/windows/dmi.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/dmi.def"
-    },
-    "metrics/windows/hwmon.def": {
-      "current": [
-        "metrics/windows/hwmon.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/hwmon.def"
-    },
-    "metrics/windows/catalog.json": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/catalog.json"
-    },
-    "metrics/windows/network.def": {
-      "current": [
-        "metrics/windows/network.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/network.def"
-    },
-    "metrics/windows/cpuid.def": {
-      "current": [
-        "metrics/windows/cpuid.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/cpuid.def"
-    },
-    "metrics/windows/memory.def": {
-      "current": [
-        "metrics/windows/memory.def"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/memory.def"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/inv_config.h.in",
+      "note": "Refactored active implementation, not byte identity"
     },
     "cmake/toolchains/mingw64.cmake": {
+      "source_sha256": "1a23614b4c688c698c4cd27dcaaaebd9702a1b1d5dddd5d1139022e188872266",
       "current": [
         "cmake/toolchains/mingw64.cmake"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/toolchains/mingw64.cmake"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/cmake/toolchains/mingw64.cmake",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "docs/metrics/system.serial.md": {
+    "docs/ARCHITECTURE.md": {
+      "source_sha256": "93acbf545da6a912304550da347bfbb922081784ae9d52030043c6695e7860ad",
       "current": [
-        "docs/metrics/system.serial.md"
+        "docs/ARCHITECTURE.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.serial.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/ARCHITECTURE.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "docs/metrics/board.vendor.md": {
+    "docs/BUILD.md": {
+      "source_sha256": "92e38c40f920db88ce903dad570f0edf36f58a8fe780ec8afbc05e041ac76ed6",
       "current": [
-        "docs/metrics/board.vendor.md"
+        "docs/BUILD.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.vendor.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/BUILD.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "docs/metrics/windows.handle.count.md": {
-      "current": [
-        "docs/metrics/windows.handle.count.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.handle.count.md"
+    "docs/EXPORT.md": {
+      "source_sha256": "3a9e9c6f4b4f7cf0cb60275636347b889a552561df153a02026f9b22374f5c0f",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/EXPORT.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
     },
-    "docs/metrics/device.net.rx_link_bps.md": {
+    "docs/EXTENDING.md": {
+      "source_sha256": "3d0b788e1b94c8c02de6b06b01cfab09700b7ed92dbd15309220474bd2b700c9",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/EXTENDING.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "docs/INVQ.md": {
+      "source_sha256": "faa25fdda0c93f1145e1c7056b642341ba3b7e84322dd771ea3c54753c14fbf2",
       "current": [
-        "docs/metrics/device.net.rx_link_bps.md"
+        "docs/QUERY.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_link_bps.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/INVQ.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/SECURITY.md": {
+      "source_sha256": "f403f354ac4df9063bc4cfb14a8d899515d02965c416774c7ae2793b05b8f8c5",
+      "current": [
+        "docs/SECURITY.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/SECURITY.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/WINDOWS.md": {
+      "source_sha256": "a9555a102c366bc9cb0139a55c44c58c0362e3ee27debe8f9a09ea44edd4a7e9",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/WINDOWS.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "docs/WINDOWS_METRICS.md": {
+      "source_sha256": "5373b3d6e180ec36d5c483cbf644b314e7cb0efd278482c96f2f5fc943f68154",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/WINDOWS_METRICS.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
     },
     "docs/metrics/INDEX.md": {
+      "source_sha256": "244e217de872625e52ef77beffa209eb32d26049f0466206475a7eae3c9c50e7",
       "current": [
         "docs/metrics/INDEX.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/INDEX.md"
-    },
-    "docs/metrics/system.vendor.md": {
-      "current": [
-        "docs/metrics/system.vendor.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.vendor.md"
-    },
-    "docs/metrics/cpu.core.time_total.md": {
-      "current": [
-        "docs/metrics/cpu.core.time_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.time_total.md"
-    },
-    "docs/metrics/os.memory.available_bytes.md": {
-      "current": [
-        "docs/metrics/os.memory.available_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.available_bytes.md"
-    },
-    "docs/metrics/windows.cpu.tick_frequency_hz.md": {
-      "current": [
-        "docs/metrics/windows.cpu.tick_frequency_hz.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.cpu.tick_frequency_hz.md"
-    },
-    "docs/metrics/process.self.io.read_bytes_total.md": {
-      "current": [
-        "docs/metrics/process.self.io.read_bytes_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.io.read_bytes_total.md"
-    },
-    "docs/metrics/bios.version.md": {
-      "current": [
-        "docs/metrics/bios.version.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.version.md"
-    },
-    "docs/metrics/process.self.io.write_bytes_total.md": {
-      "current": [
-        "docs/metrics/process.self.io.write_bytes_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.io.write_bytes_total.md"
-    },
-    "docs/metrics/device.memory.vendor.md": {
-      "current": [
-        "docs/metrics/device.memory.vendor.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.vendor.md"
-    },
-    "docs/metrics/os.swap.used_bytes.md": {
-      "current": [
-        "docs/metrics/os.swap.used_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.swap.used_bytes.md"
-    },
-    "docs/metrics/fs.root.total_bytes.md": {
-      "current": [
-        "docs/metrics/fs.root.total_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.total_bytes.md"
-    },
-    "docs/metrics/device.net.tx_errors_total.md": {
-      "current": [
-        "docs/metrics/device.net.tx_errors_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_errors_total.md"
-    },
-    "docs/metrics/device.net.rx_packets_total.md": {
-      "current": [
-        "docs/metrics/device.net.rx_packets_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_packets_total.md"
-    },
-    "docs/metrics/system.model.md": {
-      "current": [
-        "docs/metrics/system.model.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.model.md"
-    },
-    "docs/metrics/process.self.private_bytes.md": {
-      "current": [
-        "docs/metrics/process.self.private_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.private_bytes.md"
-    },
-    "docs/metrics/cpu.avx.md": {
-      "current": [
-        "docs/metrics/cpu.avx.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.avx.md"
-    },
-    "docs/metrics/cpu.sse2.md": {
-      "current": [
-        "docs/metrics/cpu.sse2.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.sse2.md"
-    },
-    "docs/metrics/cpu.core.utilization.md": {
-      "current": [
-        "docs/metrics/cpu.core.utilization.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.utilization.md"
-    },
-    "docs/metrics/windows.memory.commit.used_bytes.md": {
-      "current": [
-        "docs/metrics/windows.memory.commit.used_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.used_bytes.md"
-    },
-    "docs/metrics/process.self.rss_bytes.md": {
-      "current": [
-        "docs/metrics/process.self.rss_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.rss_bytes.md"
-    },
-    "docs/metrics/system.uuid.md": {
-      "current": [
-        "docs/metrics/system.uuid.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.uuid.md"
-    },
-    "docs/metrics/windows.memory.commit.peak_bytes.md": {
-      "current": [
-        "docs/metrics/windows.memory.commit.peak_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.peak_bytes.md"
-    },
-    "docs/metrics/device.net.mac.md": {
-      "current": [
-        "docs/metrics/device.net.mac.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.mac.md"
-    },
-    "docs/metrics/device.memory.speed_mt_s.md": {
-      "current": [
-        "docs/metrics/device.memory.speed_mt_s.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.speed_mt_s.md"
-    },
-    "docs/metrics/sensor.fan_rpm.md": {
-      "current": [
-        "docs/metrics/sensor.fan_rpm.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/sensor.fan_rpm.md"
-    },
-    "docs/metrics/device.memory.part_number.md": {
-      "current": [
-        "docs/metrics/device.memory.part_number.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.part_number.md"
-    },
-    "docs/metrics/os.cpu.online.md": {
-      "current": [
-        "docs/metrics/os.cpu.online.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.cpu.online.md"
-    },
-    "docs/metrics/sensor.temperature.md": {
-      "current": [
-        "docs/metrics/sensor.temperature.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/sensor.temperature.md"
-    },
-    "docs/metrics/board.model.md": {
-      "current": [
-        "docs/metrics/board.model.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.model.md"
-    },
-    "docs/metrics/process.self.pid.md": {
-      "current": [
-        "docs/metrics/process.self.pid.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.pid.md"
-    },
-    "docs/metrics/cpu.vendor.md": {
-      "current": [
-        "docs/metrics/cpu.vendor.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.vendor.md"
-    },
-    "docs/metrics/device.net.rx_bytes_total.md": {
-      "current": [
-        "docs/metrics/device.net.rx_bytes_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_bytes_total.md"
-    },
-    "docs/metrics/device.memory.serial.md": {
-      "current": [
-        "docs/metrics/device.memory.serial.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.serial.md"
-    },
-    "docs/metrics/os.name.md": {
-      "current": [
-        "docs/metrics/os.name.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.name.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/INDEX.md",
+      "note": "Refactored active implementation, not byte identity"
     },
     "docs/metrics/bios.date.md": {
+      "source_sha256": "4f6835629b6b77be9f22038a58dbcd41b5c486f2949f313ce41eff11da3a9f01",
       "current": [
         "docs/metrics/bios.date.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.date.md"
-    },
-    "docs/metrics/device.net.tx_bytes_total.md": {
-      "current": [
-        "docs/metrics/device.net.tx_bytes_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_bytes_total.md"
-    },
-    "docs/metrics/windows.memory.cache_bytes.md": {
-      "current": [
-        "docs/metrics/windows.memory.cache_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.cache_bytes.md"
-    },
-    "docs/metrics/device.net.tx_link_bps.md": {
-      "current": [
-        "docs/metrics/device.net.tx_link_bps.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_link_bps.md"
-    },
-    "docs/metrics/windows.memory.kernel_nonpaged_bytes.md": {
-      "current": [
-        "docs/metrics/windows.memory.kernel_nonpaged_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.kernel_nonpaged_bytes.md"
-    },
-    "docs/metrics/os.hostname.md": {
-      "current": [
-        "docs/metrics/os.hostname.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.hostname.md"
-    },
-    "docs/metrics/cpu.vmx.md": {
-      "current": [
-        "docs/metrics/cpu.vmx.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.vmx.md"
-    },
-    "docs/metrics/device.net.tx_packets_total.md": {
-      "current": [
-        "docs/metrics/device.net.tx_packets_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_packets_total.md"
-    },
-    "docs/metrics/os.arch.md": {
-      "current": [
-        "docs/metrics/os.arch.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.arch.md"
-    },
-    "docs/metrics/device.net.rx_errors_total.md": {
-      "current": [
-        "docs/metrics/device.net.rx_errors_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_errors_total.md"
-    },
-    "docs/metrics/os.memory.used_bytes.md": {
-      "current": [
-        "docs/metrics/os.memory.used_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.used_bytes.md"
-    },
-    "docs/metrics/fs.root.utilization.md": {
-      "current": [
-        "docs/metrics/fs.root.utilization.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.utilization.md"
-    },
-    "docs/metrics/cpu.brand.md": {
-      "current": [
-        "docs/metrics/cpu.brand.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.brand.md"
-    },
-    "docs/metrics/os.uptime.md": {
-      "current": [
-        "docs/metrics/os.uptime.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.uptime.md"
-    },
-    "docs/metrics/os.load.5m.md": {
-      "current": [
-        "docs/metrics/os.load.5m.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.load.5m.md"
-    },
-    "docs/metrics/windows.memory.kernel_paged_bytes.md": {
-      "current": [
-        "docs/metrics/windows.memory.kernel_paged_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.kernel_paged_bytes.md"
-    },
-    "docs/metrics/device.memory.size_bytes.md": {
-      "current": [
-        "docs/metrics/device.memory.size_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.size_bytes.md"
-    },
-    "docs/metrics/os.process.count.md": {
-      "current": [
-        "docs/metrics/os.process.count.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.process.count.md"
-    },
-    "docs/metrics/os.swap.total_bytes.md": {
-      "current": [
-        "docs/metrics/os.swap.total_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.swap.total_bytes.md"
-    },
-    "docs/metrics/cpu.cpuid_reference.md": {
-      "current": [
-        "docs/metrics/cpu.cpuid_reference.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.cpuid_reference.md"
-    },
-    "docs/metrics/process.self.handles.md": {
-      "current": [
-        "docs/metrics/process.self.handles.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.handles.md"
-    },
-    "docs/metrics/os.memory.utilization.md": {
-      "current": [
-        "docs/metrics/os.memory.utilization.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.utilization.md"
-    },
-    "docs/metrics/cpu.utilization.md": {
-      "current": [
-        "docs/metrics/cpu.utilization.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.utilization.md"
-    },
-    "docs/metrics/fs.root.used_bytes.md": {
-      "current": [
-        "docs/metrics/fs.root.used_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.used_bytes.md"
-    },
-    "docs/metrics/os.memory.total_bytes.md": {
-      "current": [
-        "docs/metrics/os.memory.total_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.total_bytes.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.date.md",
+      "note": "Refactored active implementation, not byte identity"
     },
     "docs/metrics/bios.vendor.md": {
+      "source_sha256": "f9ac769a94e80d9a7a2fd57c9cbfbe9fbfb55706ab435c9566d9414a8b3e002f",
       "current": [
         "docs/metrics/bios.vendor.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.vendor.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.vendor.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "docs/metrics/cpu.hypervisor.md": {
+    "docs/metrics/bios.version.md": {
+      "source_sha256": "0af831efb3518e2a8c142c7cd02d82c5274e64bd20cd3cfb474a77692cc05a19",
       "current": [
-        "docs/metrics/cpu.hypervisor.md"
+        "docs/metrics/bios.version.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.hypervisor.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/bios.version.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "docs/metrics/os.thread.count.md": {
+    "docs/metrics/board.model.md": {
+      "source_sha256": "b86bad97f7c7cc0fe45102947d22d2ac847602ae1eda6cd91d78100828934979",
       "current": [
-        "docs/metrics/os.thread.count.md"
+        "docs/metrics/board.model.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.thread.count.md"
-    },
-    "docs/metrics/windows.memory.commit.limit_bytes.md": {
-      "current": [
-        "docs/metrics/windows.memory.commit.limit_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.limit_bytes.md"
-    },
-    "docs/metrics/device.net.state.md": {
-      "current": [
-        "docs/metrics/device.net.state.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.state.md"
-    },
-    "docs/metrics/os.kernel.release.md": {
-      "current": [
-        "docs/metrics/os.kernel.release.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.kernel.release.md"
-    },
-    "docs/metrics/cpu.idle_total.md": {
-      "current": [
-        "docs/metrics/cpu.idle_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.idle_total.md"
-    },
-    "docs/metrics/os.load.1m.md": {
-      "current": [
-        "docs/metrics/os.load.1m.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.load.1m.md"
-    },
-    "docs/metrics/cpu.svm.md": {
-      "current": [
-        "docs/metrics/cpu.svm.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.svm.md"
-    },
-    "docs/metrics/os.memory.free_bytes.md": {
-      "current": [
-        "docs/metrics/os.memory.free_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.free_bytes.md"
-    },
-    "docs/metrics/cpu.core.idle_total.md": {
-      "current": [
-        "docs/metrics/cpu.core.idle_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.idle_total.md"
-    },
-    "docs/metrics/cpu.avx2.md": {
-      "current": [
-        "docs/metrics/cpu.avx2.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.avx2.md"
-    },
-    "docs/metrics/os.kernel.version.md": {
-      "current": [
-        "docs/metrics/os.kernel.version.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.kernel.version.md"
-    },
-    "docs/metrics/fs.root.available_bytes.md": {
-      "current": [
-        "docs/metrics/fs.root.available_bytes.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.available_bytes.md"
-    },
-    "docs/metrics/cpu.time_total.md": {
-      "current": [
-        "docs/metrics/cpu.time_total.md"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.time_total.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.model.md",
+      "note": "Refactored active implementation, not byte identity"
     },
     "docs/metrics/board.serial.md": {
+      "source_sha256": "02e8b3bf7792c30e91b077a159eb21859eaa1a4fd7233ecba79ed83317660213",
       "current": [
         "docs/metrics/board.serial.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.serial.md"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.serial.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/hwmon.c": {
+    "docs/metrics/board.vendor.md": {
+      "source_sha256": "2c079f9daccc8f09a8754d35282a5c90d8f3fceafa594e8f24eb1883503961e6",
       "current": [
-        "sensors/temperature/provider.c"
+        "docs/metrics/board.vendor.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/hwmon.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/board.vendor.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/process.c": {
+    "docs/metrics/cpu.avx.md": {
+      "source_sha256": "58b2ba55caf6fde6642bbcfd6cd912652dd72257f4cea60f3631f4bab9e7cc8b",
       "current": [
-        "sensors/process/provider.c"
+        "docs/metrics/cpu.avx.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/process.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.avx.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/cpuid.c": {
+    "docs/metrics/cpu.avx2.md": {
+      "source_sha256": "6fd2d7e6855ddeab253853e1fe26cd519baeeb92528c10738f422cb264893bf8",
       "current": [
-        "sensors/cpuid/provider.c"
+        "docs/metrics/cpu.avx2.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/cpuid.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.avx2.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/cpu.c": {
+    "docs/metrics/cpu.brand.md": {
+      "source_sha256": "0ca9913dff68ae31d40fce7e7652590d7b45dfa880aeff3918f50be1dea890a1",
       "current": [
-        "sensors/cpu/provider.c"
+        "docs/metrics/cpu.brand.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/cpu.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.brand.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/network.c": {
+    "docs/metrics/cpu.core.idle_total.md": {
+      "source_sha256": "841330e7f1ddedcd3dae2a5a53e29db1e1f138af05b5449de810d4bf2ad2c85c",
       "current": [
-        "sensors/network/provider.c"
+        "docs/metrics/cpu.core.idle_total.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/network.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.idle_total.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/memory.c": {
+    "docs/metrics/cpu.core.time_total.md": {
+      "source_sha256": "bbb5cfc70fdad2ae9ab0c9b55639243c4100b679c2d36564be6f03685f41e2fd",
       "current": [
-        "sensors/memory/provider.c"
+        "docs/metrics/cpu.core.time_total.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/memory.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.time_total.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/dmi.c": {
+    "docs/metrics/cpu.core.utilization.md": {
+      "source_sha256": "2f7a4a670e87d23767dcbc6d94a6b8874a23f9cabc6140da2957ccffbbb40d82",
       "current": [
-        "sensors/board/provider.c"
+        "docs/metrics/cpu.core.utilization.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/dmi.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.core.utilization.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/os.c": {
+    "docs/metrics/cpu.cpuid_reference.md": {
+      "source_sha256": "8fe3b9a00815c7687a0be6a92e7c739d36a82e7b8ee4d4e93f2f67ced291d300",
       "current": [
-        "sensors/os/provider.c"
+        "docs/metrics/cpu.cpuid_reference.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/os.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.cpuid_reference.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/filesystem.c": {
+    "docs/metrics/cpu.hypervisor.md": {
+      "source_sha256": "5a2f681ae812d2a114548d074c8f25bd48e3f13b0800b46be2fecaabf52cb573",
       "current": [
-        "sensors/filesystem/provider.c"
+        "docs/metrics/cpu.hypervisor.md"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/filesystem.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.hypervisor.md",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/mcu.c": {
+    "docs/metrics/cpu.idle_total.md": {
+      "source_sha256": "7b3c59851f7f03f7afac21ad7b567816360f190d118b3e0effb2d0b0db2e2eed",
+      "current": [
+        "docs/metrics/cpu.idle_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.idle_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/cpu.sse2.md": {
+      "source_sha256": "627c6aa9596e343dc0a499a44afce45d83f12b245fccd1765229a5d1d86ddfab",
+      "current": [
+        "docs/metrics/cpu.sse2.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.sse2.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/cpu.svm.md": {
+      "source_sha256": "2f48119a4c38bfce9f9c9e6f4183d709eded450c915bd74fe771ad85d914a0fd",
+      "current": [
+        "docs/metrics/cpu.svm.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.svm.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/cpu.time_total.md": {
+      "source_sha256": "51e5297288f610a1fcb75c1f59d428d3a72e14116b177d4e45443fe35e67a9ab",
+      "current": [
+        "docs/metrics/cpu.time_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.time_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/cpu.utilization.md": {
+      "source_sha256": "14065035cee607bc6b9b5753417e60ad9a08ae1861ee0c1aa9f99afdade371e9",
+      "current": [
+        "docs/metrics/cpu.utilization.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.utilization.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/cpu.vendor.md": {
+      "source_sha256": "ed7dfb63888a819cdb471356503bf062fbcfc8d3256da63060a9c2b9ea1fc433",
+      "current": [
+        "docs/metrics/cpu.vendor.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.vendor.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/cpu.vmx.md": {
+      "source_sha256": "5b2489466f0be382227677bb7eaebff1bd89c62d40be0d5a5947d05d7ef46902",
+      "current": [
+        "docs/metrics/cpu.vmx.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/cpu.vmx.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.memory.part_number.md": {
+      "source_sha256": "75f6bbd0fce2df86d38e80ed43fa053e13fe61c51c081805bda084c929ccc434",
+      "current": [
+        "docs/metrics/device.memory.part_number.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.part_number.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.memory.serial.md": {
+      "source_sha256": "84e720e3a4ae86a53da8d3e508ae82413ba85b58642d077f03c871f3616d4bfc",
+      "current": [
+        "docs/metrics/device.memory.serial.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.serial.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.memory.size_bytes.md": {
+      "source_sha256": "dc6e597e77063426c86113d733b9569d22833d14957161cee529485c16c06860",
+      "current": [
+        "docs/metrics/device.memory.size_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.size_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.memory.speed_mt_s.md": {
+      "source_sha256": "666ebe56bb20dbbbd6429309019e6ebdad64affafb65bc5c23d86cb7bbdb5ecd",
+      "current": [
+        "docs/metrics/device.memory.speed_mt_s.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.speed_mt_s.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.memory.vendor.md": {
+      "source_sha256": "33cc460b82bae096e78a7d65ce939bc6158e6d65ed55cb8c81bb1d9d3eae2652",
+      "current": [
+        "docs/metrics/device.memory.vendor.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.memory.vendor.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.mac.md": {
+      "source_sha256": "5e372a321b0c4e6ce37f57d9def092a053bbc60c110acf614a90df42656b601e",
+      "current": [
+        "docs/metrics/device.net.mac.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.mac.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.rx_bytes_total.md": {
+      "source_sha256": "9e906215016f39449718d99606328a7834310a38faa91fb882ef46be3cd1a765",
+      "current": [
+        "docs/metrics/device.net.rx_bytes_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_bytes_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.rx_errors_total.md": {
+      "source_sha256": "34f05106ddd3226472f114879acfb1d9bc8f1ed45930688a7864b15e50ee3f50",
+      "current": [
+        "docs/metrics/device.net.rx_errors_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_errors_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.rx_link_bps.md": {
+      "source_sha256": "8a66a6c9082b9a44cd71a76a4d435548e554ae118a2154c52b0a154942e767be",
+      "current": [
+        "docs/metrics/device.net.rx_link_bps.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_link_bps.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.rx_packets_total.md": {
+      "source_sha256": "31c1c4483fcc843e292da7703ad96a360eaf0a3bec963b13a602785bd14727b1",
+      "current": [
+        "docs/metrics/device.net.rx_packets_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.rx_packets_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.state.md": {
+      "source_sha256": "e5cc2aa6c59081a50bb182b190f2c0be67ce09eb28acac253d88a4d0d77e71e4",
+      "current": [
+        "docs/metrics/device.net.state.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.state.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.tx_bytes_total.md": {
+      "source_sha256": "4101b904968f6305293a876a1138a500ff83360ceb2ff4886e51e8c4eb4144d2",
+      "current": [
+        "docs/metrics/device.net.tx_bytes_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_bytes_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.tx_errors_total.md": {
+      "source_sha256": "35b610abba64168e9cf202269b94174b85735b6f29294a0cf0081d28406b3457",
+      "current": [
+        "docs/metrics/device.net.tx_errors_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_errors_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.tx_link_bps.md": {
+      "source_sha256": "e94c15ff0d832828a5836660a7e6dd178c42c5b60ccbc74f71609dbf1f6f3a42",
+      "current": [
+        "docs/metrics/device.net.tx_link_bps.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_link_bps.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/device.net.tx_packets_total.md": {
+      "source_sha256": "b2e4c59eefb43fa505eb0ea87ead8fa0d84e4868cc12fee1095420e41ac12bf4",
+      "current": [
+        "docs/metrics/device.net.tx_packets_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/device.net.tx_packets_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/fs.root.available_bytes.md": {
+      "source_sha256": "5c1ea3660c6c910601fef2ffaa4f1bff5fc72defa74e6d7c4bfa3a5204ebe131",
+      "current": [
+        "docs/metrics/fs.root.available_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.available_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/fs.root.total_bytes.md": {
+      "source_sha256": "fbeb0e34fa08530c4cfb6da9d7258ab3619abf963c0fdd7003df1bfc34e2359f",
+      "current": [
+        "docs/metrics/fs.root.total_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.total_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/fs.root.used_bytes.md": {
+      "source_sha256": "4fe8ce1c175964fa1d92b0807c8758db1f3f85541c6af0832dd2c54ceeca99e0",
+      "current": [
+        "docs/metrics/fs.root.used_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.used_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/fs.root.utilization.md": {
+      "source_sha256": "e0d5192822fcfb07a95a93e84550dcf1ae9bdfacc38612917ad52297d9542a27",
+      "current": [
+        "docs/metrics/fs.root.utilization.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/fs.root.utilization.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.arch.md": {
+      "source_sha256": "c1cff1451973b745d39f781a460e3ab59e4b628a2104ae9385d1577f9f57c35d",
+      "current": [
+        "docs/metrics/os.arch.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.arch.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.cpu.online.md": {
+      "source_sha256": "2044169b6b25f1372affe7f00431fb9effdfd236cb4e9e5ddb140ccee9548848",
+      "current": [
+        "docs/metrics/os.cpu.online.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.cpu.online.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.hostname.md": {
+      "source_sha256": "32651763d8a813b2c667921d8f689502a0f55db33601c15e60034cd80b9eb4df",
+      "current": [
+        "docs/metrics/os.hostname.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.hostname.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.kernel.release.md": {
+      "source_sha256": "eac5273ef7a893c99f3470a33e11084ffb5e0fd3169fab390027262ce76edd9b",
+      "current": [
+        "docs/metrics/os.kernel.release.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.kernel.release.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.kernel.version.md": {
+      "source_sha256": "0f490864edc94d15c10a5d56f5e89463fb9aa55454ba048e73a7bdca3c6a6644",
+      "current": [
+        "docs/metrics/os.kernel.version.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.kernel.version.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.load.1m.md": {
+      "source_sha256": "a014c7893bce74b68ab2108f48ee8ee376dd228ccae7266a797e5cbf50f792d0",
+      "current": [
+        "docs/metrics/os.load.1m.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.load.1m.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.load.5m.md": {
+      "source_sha256": "b26bc3b8f052ff08089523b0572f5471f18e76650e16877ee5759e35971cd773",
+      "current": [
+        "docs/metrics/os.load.5m.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.load.5m.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.memory.available_bytes.md": {
+      "source_sha256": "39f2015520b233d9eadd7b627eeeb587b8e385ce9115b029cc89bd889cab8f0f",
+      "current": [
+        "docs/metrics/os.memory.available_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.available_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.memory.free_bytes.md": {
+      "source_sha256": "4def156b93803ede132835255260cde6e047e84fd3252782e9b121aa4de5d40d",
+      "current": [
+        "docs/metrics/os.memory.free_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.free_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.memory.total_bytes.md": {
+      "source_sha256": "5d9ece9cb88f02b3616b0a992129f8bf7e95a8821311bb16847863a5a150ba84",
+      "current": [
+        "docs/metrics/os.memory.total_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.total_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.memory.used_bytes.md": {
+      "source_sha256": "f1c28e0ee1fdd39c17a9d7faf49ab85aaddeccade17114e7a4a71381b859c57e",
+      "current": [
+        "docs/metrics/os.memory.used_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.used_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.memory.utilization.md": {
+      "source_sha256": "a84668d97bc217dac44c5b2a55b5abdf0c6bacec39b45137901e0860c2849bd6",
+      "current": [
+        "docs/metrics/os.memory.utilization.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.memory.utilization.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.name.md": {
+      "source_sha256": "6246a575fbfe3fc195ffb5360e39460cbf2fcb15bc3e9ed72b959784c7c3c979",
+      "current": [
+        "docs/metrics/os.name.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.name.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.process.count.md": {
+      "source_sha256": "478c355d911110404d9065bcb01b156bb79bdaca5b739e37b70ee4086863d111",
+      "current": [
+        "docs/metrics/os.process.count.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.process.count.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.swap.total_bytes.md": {
+      "source_sha256": "537d166f2b7dcef3da306a0599a91ace4b24c0ce853adc5dde8175ffbd09c789",
+      "current": [
+        "docs/metrics/os.swap.total_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.swap.total_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.swap.used_bytes.md": {
+      "source_sha256": "ea4acf98003738054a54090aeaef5537313a80c521f002a3ef2cc0047c388574",
+      "current": [
+        "docs/metrics/os.swap.used_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.swap.used_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.thread.count.md": {
+      "source_sha256": "cef3137401aa1d6f74c66fa46aed9083904ec4b3d116d9d4d6971acccb486a69",
+      "current": [
+        "docs/metrics/os.thread.count.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.thread.count.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/os.uptime.md": {
+      "source_sha256": "ec1bec7eb6340a968329f802e63bb94430b619e58592f70e9ead6ffd2e3332ff",
+      "current": [
+        "docs/metrics/os.uptime.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/os.uptime.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/process.self.handles.md": {
+      "source_sha256": "23ba22bb9cd4da11543ce7a7b0cb33b005cc53a92519b3f287e50bc02d1d3435",
+      "current": [
+        "docs/metrics/process.self.handles.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.handles.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/process.self.io.read_bytes_total.md": {
+      "source_sha256": "0c3f7aa0ab90c11d3c5983dacb3ee8e597912566effb687e7d13d053022b67c3",
+      "current": [
+        "docs/metrics/process.self.io.read_bytes_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.io.read_bytes_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/process.self.io.write_bytes_total.md": {
+      "source_sha256": "b57ddd14df9ca3722dbba45ae18d74968ef4fe6ccdf20574c261c249680ad3ce",
+      "current": [
+        "docs/metrics/process.self.io.write_bytes_total.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.io.write_bytes_total.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/process.self.pid.md": {
+      "source_sha256": "ec3d6a4688de90f24b7e7f0414a4a9491b907b8d6606a858fd62256cc5ccab30",
+      "current": [
+        "docs/metrics/process.self.pid.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.pid.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/process.self.private_bytes.md": {
+      "source_sha256": "861056d6bd342e4bf6f17633479062ef5655b32e5e536d2498fe0afab3905323",
+      "current": [
+        "docs/metrics/process.self.private_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.private_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/process.self.rss_bytes.md": {
+      "source_sha256": "1a13eab4dbe05c41202a2174489ea71c1c84008cfece72dc17f194ceffe4401a",
+      "current": [
+        "docs/metrics/process.self.rss_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/process.self.rss_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/sensor.fan_rpm.md": {
+      "source_sha256": "dc05b22e9bbafc3a72f38a48133a6172b21f01ff4ac92b868bf2e28394984afc",
+      "current": [
+        "docs/metrics/sensor.fan_rpm.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/sensor.fan_rpm.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/sensor.temperature.md": {
+      "source_sha256": "2061705cdf55b23a07fe3c04b447ca1e2ca64897e88100fcb3259c7df8a4bcdb",
+      "current": [
+        "docs/metrics/sensor.temperature.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/sensor.temperature.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/system.model.md": {
+      "source_sha256": "4552bd7ee46da29eaca0295a5a3c5dc595c3d0c39b76da306457d690f887f527",
+      "current": [
+        "docs/metrics/system.model.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.model.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/system.serial.md": {
+      "source_sha256": "7ae5691620939696d5f83bbe797d1f7dbdf8d7d9cee7418445fd050f6e553176",
+      "current": [
+        "docs/metrics/system.serial.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.serial.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/system.uuid.md": {
+      "source_sha256": "ca17957a99d82d845dfae22d29e447684255041d2b8caf6eaa8c65606c4cffc3",
+      "current": [
+        "docs/metrics/system.uuid.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.uuid.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/system.vendor.md": {
+      "source_sha256": "8e389d37e9a9d1e6b3811c4dc43bd4591df182d0f7029f6dc100301751d8f9f7",
+      "current": [
+        "docs/metrics/system.vendor.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/system.vendor.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.cpu.tick_frequency_hz.md": {
+      "source_sha256": "bf04db1c3d3e57a2c31499d4b7cf8e22a0ccdca7cf58b8d8e9aed1583b7690c0",
+      "current": [
+        "docs/metrics/windows.cpu.tick_frequency_hz.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.cpu.tick_frequency_hz.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.handle.count.md": {
+      "source_sha256": "4c5bfdeca5dc83856c4e7b4200c42f6317529b4236ac166929840a19d94cdd19",
+      "current": [
+        "docs/metrics/windows.handle.count.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.handle.count.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.memory.cache_bytes.md": {
+      "source_sha256": "8575405a4baa28d11d93e962fd90276c583e0316fa8353ed0b48feb85fbfbb9b",
+      "current": [
+        "docs/metrics/windows.memory.cache_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.cache_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.memory.commit.limit_bytes.md": {
+      "source_sha256": "c13e668c4b1fa74147c8b20387543ae81c77a70740d307a4d1d44638e1970705",
+      "current": [
+        "docs/metrics/windows.memory.commit.limit_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.limit_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.memory.commit.peak_bytes.md": {
+      "source_sha256": "7225295e8e3531aa9a3ae1ae001cd485203b3eecfb17adaec135bc19e8b4a80e",
+      "current": [
+        "docs/metrics/windows.memory.commit.peak_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.peak_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.memory.commit.used_bytes.md": {
+      "source_sha256": "dcdd560ec86feae196cba673ecb53e9221f470d7884b50ee3e7f5ce438419765",
+      "current": [
+        "docs/metrics/windows.memory.commit.used_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.commit.used_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.memory.kernel_nonpaged_bytes.md": {
+      "source_sha256": "ef9eeefc51ef7c3a7e970696c688502987cc301e6a664af8f2af3005b39ad9db",
+      "current": [
+        "docs/metrics/windows.memory.kernel_nonpaged_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.kernel_nonpaged_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "docs/metrics/windows.memory.kernel_paged_bytes.md": {
+      "source_sha256": "4ca3df5c7cd3a46b1d505e6b1bea45d8745d675a51d901546f48f30bfb8fd793",
+      "current": [
+        "docs/metrics/windows.memory.kernel_paged_bytes.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/docs/metrics/windows.memory.kernel_paged_bytes.md",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "examples-output/README.md": {
+      "source_sha256": "520a6a2ffd5e126424f5f4a590647405547d143b658503aab93e3041d6940abe",
       "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/mcu.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/examples-output/README.md",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "examples-output/windows-schema-validation.txt": {
+      "source_sha256": "4942d8dc0cd4db1d663d5420aa9fd285dcb1499c4179d5eaf1a1da87fa5947e8",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/examples-output/windows-schema-validation.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "include/inv/inv.h": {
+      "source_sha256": "34d57f89835887a9541c1eb37358c82149b7e9ce24e7586acb2e3e047f18f9dc",
+      "current": [
+        "core/include/quanta/quanta.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/include/inv/inv.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "include/inv/view.h": {
+      "source_sha256": "a3c8da1463ad4cea64dab1a1139e6a52b90a36437291998d7a8ecdc36146458c",
+      "current": [
+        "core/include/quanta/history.h",
+        "core/include/quanta/live.h",
+        "frontends/include/quanta/view.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/include/inv/view.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/catalog.json": {
+      "source_sha256": "9a1b52edb777f3632d4588a2bae4bb41f909e8f558d64954538bfa0632c19cbc",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/catalog.json",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "metrics/cpu.def": {
+      "source_sha256": "8031db498b6a41605be053e326a883ea8bac4e8c163a51a2d86ec7e0da8bd8db",
+      "current": [
+        "metrics/cpu.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/cpu.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/cpuid.def": {
+      "source_sha256": "a47a18e20184a20decbff9972ac21412a218e37ceee47cbcd72ec1852c956a9d",
+      "current": [
+        "metrics/cpuid.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/cpuid.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/dmi.def": {
+      "source_sha256": "7f04d54789f8427db9a22141468e20336971c874dc215b8ee5be75fb32089cfe",
+      "current": [
+        "metrics/dmi.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/dmi.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/filesystem.def": {
+      "source_sha256": "21ea35e7f301d76db2d4aa4fef64023e35cf38ccf04f34358d242b9c08bae6ab",
+      "current": [
+        "metrics/filesystem.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/filesystem.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/hwmon.def": {
+      "source_sha256": "46f2fe4752e98de39d224b45962ae552ccd487b51608bd1c02a5acc889804ec4",
+      "current": [
+        "metrics/hwmon.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/hwmon.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/mcu.def": {
+      "source_sha256": "a93a9f922204b9616389352d759215ece3d4abdd14fa7f6a5869ec7e3ce84568",
+      "current": [
+        "metrics/mcu.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/mcu.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/memory.def": {
+      "source_sha256": "0e02d3d6a1efc879029172099e761cf575913894141b2f9fab8b8f6da2fb4534",
+      "current": [
+        "metrics/memory.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/memory.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/network.def": {
+      "source_sha256": "9b7b762d3cffd8ddd8716102bc3400406ffaa234ffc83a7b99a0026e8daa3a06",
+      "current": [
+        "metrics/network.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/network.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/os.def": {
+      "source_sha256": "4255f557b4f442a275a4f4a934966e73358e3cc0ced7cdde0f40a2825fe0acd3",
+      "current": [
+        "metrics/os.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/os.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/process.def": {
+      "source_sha256": "c1d1689e2ea2306952f6ae58182bc680fbfd59b561ec393b2482f1c9e02ff08d",
+      "current": [
+        "metrics/process.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/process.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/selected.def": {
+      "source_sha256": "edc5cbf403863df19c3c68ebb4688de9eb97d947dc7e0e8f9a51aca9d686127b",
+      "current": [
+        "metrics/selected.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/selected.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/catalog.json": {
+      "source_sha256": "e1842a0d5200e1c9ed5069456cf4fb41f66d898a6e5b545157ff8351af544e1e",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/catalog.json",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "metrics/windows/cpu.def": {
+      "source_sha256": "22932cf3a52e4ea14839c5153307cd4b71bbeddb5cf893b447b41c1cb4080a41",
+      "current": [
+        "metrics/windows/cpu.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/cpu.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/cpuid.def": {
+      "source_sha256": "e2490c4048895bb21979beb254f4118a8bf91905d40c378dd6bced55c86f52db",
+      "current": [
+        "metrics/windows/cpuid.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/cpuid.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/dmi.def": {
+      "source_sha256": "49c5d518caa5d4c597af21cc52a867caaff10c9397bd7a87f78f98c13a3c345d",
+      "current": [
+        "metrics/windows/dmi.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/dmi.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/filesystem.def": {
+      "source_sha256": "6664a597f4d4c8123f76294ddc4d4ea8af9f5cf14ddfbec901388aca4a8f66da",
+      "current": [
+        "metrics/windows/filesystem.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/filesystem.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/hwmon.def": {
+      "source_sha256": "d85fc2c01abbc0285d2aba3f0d157b5281abd531377dc429077c26fcea6ba28d",
+      "current": [
+        "metrics/windows/hwmon.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/hwmon.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/memory.def": {
+      "source_sha256": "f22b6c9fece941cd95352ee55ee4330a34bf5e8e22e132132c29026876ba28c0",
+      "current": [
+        "metrics/windows/memory.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/memory.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/network.def": {
+      "source_sha256": "f006d411843d0a4643d740696c28777d155bf76279b55361145bc2bcd3f99d9e",
+      "current": [
+        "metrics/windows/network.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/network.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/os.def": {
+      "source_sha256": "d7a77489cc4c7951a115a9052ce311179963d15b1cba91c20a0dcf0a8540c394",
+      "current": [
+        "metrics/windows/os.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/os.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/process.def": {
+      "source_sha256": "c93620d6f17c721cf60611f8c24d389c807c03923929737f210d7e34df0c8942",
+      "current": [
+        "metrics/windows/process.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/process.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "metrics/windows/selected.def": {
+      "source_sha256": "250c794bf35c52e5beb023de6f65ef597da8ec81bce9a1f5f253f618436430cc",
+      "current": [
+        "metrics/windows/selected.def"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/metrics/windows/selected.def",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/01-inventory.invq": {
+      "source_sha256": "a26cbb3e99ffe75b702b09eee608a4369094bce6322854fc42dcbf0692d4e382",
+      "current": [
+        "examples/queries/01-inventory.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/01-inventory.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/02-memory.invq": {
+      "source_sha256": "0df47291b5b33f1ea4901da18678cf60b6caa3c81db9d6194420b4967d6940d4",
+      "current": [
+        "examples/queries/02-memory.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/02-memory.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/03-dashboard-tui.invq": {
+      "source_sha256": "f3fa6e2d028f8a9016b16a0b43053826dca48e363fba0ae5103521c24b6c75a7",
+      "current": [
+        "examples/queries/03-dashboard-tui.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/03-dashboard-tui.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/04-dashboard-gui.invq": {
+      "source_sha256": "8d3d29a79b8cf8e8dff5772df642ffb779a3b325e3a175004003ca4d1ab8923b",
+      "current": [
+        "examples/queries/04-dashboard-gui.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/04-dashboard-gui.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/05-record-csv.invq": {
+      "source_sha256": "41e8f334404bd3b262008b90c181bf70bc05b7b64c7b8b594e56f732425bb70f",
+      "current": [
+        "examples/queries/05-record-csv.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/05-record-csv.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/06-sensors.invq": {
+      "source_sha256": "ae2cecd534d5b7a19e57ab10099ec777a5039c09df7e5e8de3b2619f6d8f6510",
+      "current": [
+        "examples/queries/06-sensors.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/06-sensors.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/07-network-tui.invq": {
+      "source_sha256": "91d450ebe0bea149a386eaa18818736fff5d8cdbb56b627d50a669b2795eaf28",
+      "current": [
+        "examples/queries/07-network-tui.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/07-network-tui.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/08-core-cpu.invq": {
+      "source_sha256": "a15163382490f7ae1052a70e384eff4da8d64458c0295da7f2f9aeb6c7b10ba1",
+      "current": [
+        "examples/queries/08-core-cpu.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/08-core-cpu.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/09-report-markdown.invq": {
+      "source_sha256": "b0382378a34afaf0e2a12a91e53a6b135406dfb6b516f88794794e00d54595b8",
+      "current": [
+        "examples/queries/09-report-markdown.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/09-report-markdown.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/10-filter-labels.invq": {
+      "source_sha256": "bfa4f0fa7e51ecccbcbe6ca8388a03cf373dced4539e93586f67c52f9ff4bee1",
+      "current": [
+        "examples/queries/10-filter-labels.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/10-filter-labels.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/11-gui-table.invq": {
+      "source_sha256": "ec0683dc50eb612370833dd63489661638237c7864d644c1ede0f1cfc14952bf",
+      "current": [
+        "examples/queries/11-gui-table.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/11-gui-table.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/01-inventory.invq": {
+      "source_sha256": "d38901ba305fd13a424b1991a4963550b65e6735684289ef6ffbd13dcfb634e5",
+      "current": [
+        "examples/queries/windows/01-inventory.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/01-inventory.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/02-memory.invq": {
+      "source_sha256": "8fc78425346d58be5be3d285d8087b04a52b53f007f1045ecc730d48539acda7",
+      "current": [
+        "examples/queries/windows/02-memory.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/02-memory.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/03-dashboard-tui.invq": {
+      "source_sha256": "24f2f0fddfd81e71b15eeee21c37a98ecb30c274d47287970b036095883edf7e",
+      "current": [
+        "examples/queries/windows/03-dashboard-tui.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/03-dashboard-tui.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/04-dashboard-gui.invq": {
+      "source_sha256": "cf6b47b5b880daa41aba33aadb417525940ae269b1c49fa2d68b6d5598c9ebe4",
+      "current": [
+        "examples/queries/windows/04-dashboard-gui.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/04-dashboard-gui.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/05-record-csv.invq": {
+      "source_sha256": "e25096f2ee7db7d4d955c343877525719f65a3cf568214694bc825850bad0865",
+      "current": [
+        "examples/queries/windows/05-record-csv.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/05-record-csv.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/06-thermal-zones.invq": {
+      "source_sha256": "49c3cc7f5a3ca2673c9368510879733fece2dfa7aca259d16388a009c8909d05",
+      "current": [
+        "examples/queries/windows/06-thermal-zones.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/06-thermal-zones.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/07-network-tui.invq": {
+      "source_sha256": "917e8335a032edad990e4437816cf5d503ba0fa642a9e07257b1581b1a3e9f0a",
+      "current": [
+        "examples/queries/windows/07-network-tui.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/07-network-tui.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/08-cpu-cores.invq": {
+      "source_sha256": "276a74c1204e416f95be95120ed5f6dcd4a4e3e15ad50caf0cd736d344f81c0d",
+      "current": [
+        "examples/queries/windows/08-cpu-cores.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/08-cpu-cores.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/09-report-markdown.invq": {
+      "source_sha256": "643fc2c97a33c0d57e41b4ff21c035a7b243a7d4c34cdd7a1e0818e7aeda50cc",
+      "current": [
+        "examples/queries/windows/09-report-markdown.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/09-report-markdown.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/10-dimm-inventory.invq": {
+      "source_sha256": "61866d3fe7d3617c790da3c3188c1c816fd4b5b7eed57b8c951d9da6f203d3f3",
+      "current": [
+        "examples/queries/windows/10-dimm-inventory.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/10-dimm-inventory.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/11-process.invq": {
+      "source_sha256": "e1be2705ae84e4b71b440e5e46035ead4e19c6f580d4e99be01917a979c54ee8",
+      "current": [
+        "examples/queries/windows/11-process.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/11-process.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/12-gui-table.invq": {
+      "source_sha256": "b4408b5b19dfc5b0ba1a73ba7c71516a784fb85fce3a581337268f13e1a35a3d",
+      "current": [
+        "examples/queries/windows/12-gui-table.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/12-gui-table.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "queries/windows/13-filter-labels.invq": {
+      "source_sha256": "58ddf389e67d0040547cd8177ad230ba6cc31975d0252f6b7073844b17cc1dd7",
+      "current": [
+        "examples/queries/windows/13-filter-labels.q"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/queries/windows/13-filter-labels.invq",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "resources/inv.manifest": {
+      "source_sha256": "75e8f9856fcd12f2b6a2aadae6fdffb05d355fe523670fc5d3120cdef7081432",
+      "current": [
+        "resources/quanta.manifest"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/resources/inv.manifest",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "resources/inv.rc": {
+      "source_sha256": "2cfa94baed5dc0d7df9e919c3bbdfe278b559a3dfe709121c41768ad41a14481",
+      "current": [
+        "resources/quanta.rc"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/resources/inv.rc",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/core/common.c": {
+      "source_sha256": "1451600f21bc70e4730d2b3717d441c815949da43699394912b352aa924dc345",
+      "current": [
+        "core/src/status.c",
+        "core/src/text.c",
+        "core/src/value.c",
+        "osal/common.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/common.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/core/docs.c": {
+      "source_sha256": "460d146557ca047f7ca0bcdb31fb57a04d7c96b9a8b1c0cf579e2ba490635af4",
+      "current": [
+        "sensors/metric_docs.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/docs.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/core/engine.c": {
+      "source_sha256": "34d59d292ca464f75a160fb03eb48ba3e6c039e50d689c4b9832693ad64cbc65",
       "current": [
         "core/src/engine.c",
         "core/src/discovery.c",
         "core/src/scheduler.c",
         "core/private/engine_internal.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/engine.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/engine.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/core/common.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/common.c"
-    },
-    "src/core/docs.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/docs.c"
+    "src/core/internal.h": {
+      "source_sha256": "434525c419e66aa4b5d151e93673f423529b6466f436c8f17418fa9d2165b5d9",
+      "current": [
+        "core/private/core_internal.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/internal.h",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/core/registry.c": {
+      "source_sha256": "790f5b6740c8a99be07dc6a19c900722fdd2a03e0b56ac6d619ebb0bd885da4e",
       "current": [
         "core/src/registry.c",
         "sensors/registry.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/registry.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/registry.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/core/internal.h": {
+    "src/firmware/esp8266/CMakeLists.txt": {
+      "source_sha256": "b23b743eb1080973748857d3849ab203b6d9db490668a24cb74f9c289a6b62b0",
       "current": [
-        "core/private/core_internal.h"
+        "firmware/esp8266/CMakeLists.txt"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/core/internal.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/CMakeLists.txt",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/query/query.c": {
+    "src/firmware/esp8266/components/inv/CMakeLists.txt": {
+      "source_sha256": "5f1e58b3578a372f61f0cc809ec034115b6a6a75f5dde4f81447da53d691b544",
       "current": [
-        "query/src/query.c"
+        "firmware/esp8266/components/quanta/CMakeLists.txt",
+        "cmake/esp8266_sources.cmake"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/query/query.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/components/inv/CMakeLists.txt",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/view/live.c": {
+    "src/firmware/esp8266/components/inv/config/inv_config.h": {
+      "source_sha256": "95980a2c791417cc4967161424036f58eec0358e92bb511df8ff4f4bf8732e53",
       "current": [
-        "core/src/live.c"
+        "firmware/esp8266/components/quanta/config/quanta_config.h",
+        "cmake/esp8266_sources.cmake"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/view/live.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/components/inv/config/inv_config.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/view/model.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/view/model.c"
-    },
-    "src/frontends/imgui/window.h": {
+    "src/firmware/esp8266/main/CMakeLists.txt": {
+      "source_sha256": "1b143f16dc4361c731895f64336167ebe4efca2832959fd112897cd4b002b27b",
       "current": [
-        "frontends/gui/window.h"
+        "firmware/esp8266/main/CMakeLists.txt"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/window.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/main/CMakeLists.txt",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/frontends/imgui/gui.cpp": {
+    "src/firmware/esp8266/main/app_main.c": {
+      "source_sha256": "2ce607680e7dcba1c5165ea0363c3df167e880a46316c5d19a226d101d5d8bb0",
       "current": [
-        "frontends/gui/gui.cpp"
+        "firmware/esp8266/main/app_main.c",
+        "firmware/esp8266/main/serial_format.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/gui.cpp"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/main/app_main.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/frontends/imgui/raster.h": {
+    "src/firmware/esp8266/sdkconfig": {
+      "source_sha256": "c2711fa532290f2c816334b163ad5dc818d3c98237d95d831682d198edfd77af",
       "current": [
-        "frontends/gui/raster.h"
+        "firmware/esp8266/reference/sdkconfig.original",
+        "firmware/esp8266/profiles/original-lab.defaults"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/raster.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/sdkconfig",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/frontends/imgui/raster.c": {
+    "src/firmware/esp8266/sdkconfig.defaults": {
+      "source_sha256": "bd9e2fcb028c772c1fc0955128fdcc3162829f6c0df637a3fc6b7eba08c22f94",
       "current": [
-        "frontends/gui/raster.c"
+        "firmware/esp8266/reference/sdkconfig.defaults.original",
+        "firmware/esp8266/sdkconfig.defaults"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/raster.c"
-    },
-    "src/frontends/imgui/win32_platform.c": {
-      "current": [
-        "frontends/gui/win32_platform.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/win32_platform.c"
-    },
-    "src/frontends/imgui/xcb_platform.c": {
-      "current": [
-        "frontends/gui/xcb_platform.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/xcb_platform.c"
-    },
-    "src/frontends/tui/terminal_posix.c": {
-      "current": [
-        "frontends/tui/terminal_posix.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal_posix.c"
-    },
-    "src/frontends/tui/tui.c": {
-      "current": [
-        "frontends/tui/tui.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/tui.c"
-    },
-    "src/frontends/tui/terminal.h": {
-      "current": [
-        "frontends/tui/terminal.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal.h"
-    },
-    "src/frontends/tui/terminal_windows.c": {
-      "current": [
-        "frontends/tui/terminal_windows.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal_windows.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/sdkconfig.defaults",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/frontends/cli/main.c": {
+      "source_sha256": "934a2cadb0531e3e37ac081618a987e60800209257b7fa63d5566acfd48b068e",
       "current": [
         "frontends/cli/main.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/cli/main.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/cli/main.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/frontends/cli/windows_entry.c": {
+      "source_sha256": "a36cd96a1dfbcc7fe4d1777075c1997b75984a8ac203df1156fc4b092fdaee87",
       "current": [
         "frontends/cli/windows_entry.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/cli/windows_entry.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/cli/windows_entry.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/frontends/file/file.c": {
+      "source_sha256": "65aaf01845a5e1f28f8953c4c82fa857563453fa954a29ac1b724c3beefeae6e",
       "current": [
         "frontends/common/file.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/file/file.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/file/file.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/hwmon.c": {
+    "src/frontends/imgui/gui.cpp": {
+      "source_sha256": "4e03039e77d7e418c664a47bc99751c24d70fd2d58a059e30f32d2f62075afde",
       "current": [
-        "hal/linux/hwmon.c"
+        "frontends/gui/gui.cpp"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/hwmon.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/gui.cpp",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/process.c": {
+    "src/frontends/imgui/raster.c": {
+      "source_sha256": "7ef8554bb1f55ff03cb49804f8cb5b7c54f6cb7e51f89911f54c19b2533bf51f",
       "current": [
-        "hal/linux/process.c"
+        "frontends/gui/raster.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/process.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/raster.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/cpuid.c": {
+    "src/frontends/imgui/raster.h": {
+      "source_sha256": "f0cf07911c735acbf0635c1f2a783d4a5b1107ee78e52ff7b419285723f8a215",
       "current": [
-        "hal/linux/cpuid.c"
+        "frontends/gui/raster.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/cpuid.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/raster.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/cpu.c": {
+    "src/frontends/imgui/win32_platform.c": {
+      "source_sha256": "a9500c5e88da6671085edd9c06ce1847f5305c5bd00896fd6b985adb0ab487ba",
       "current": [
-        "hal/linux/cpu.c"
+        "frontends/gui/win32_platform.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/cpu.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/win32_platform.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/network.c": {
+    "src/frontends/imgui/window.h": {
+      "source_sha256": "98c55715596dd9e44c982365d0168e5149ec2d02381c9babcb3908f7b8972f67",
       "current": [
-        "hal/linux/network.c"
+        "frontends/gui/window.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/network.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/window.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/memory.c": {
+    "src/frontends/imgui/xcb_platform.c": {
+      "source_sha256": "6ccb23709293c558457f1add9acc3a87df0bc14d808efc87e1e945ecd5bda91b",
       "current": [
-        "hal/linux/memory.c"
+        "frontends/gui/xcb_platform.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/memory.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/imgui/xcb_platform.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/dmi.c": {
+    "src/frontends/tui/terminal.h": {
+      "source_sha256": "a9975b3b8074bf05cb9413777a0aabbbc8a4fa79c05b30f994b4da0903a492de",
       "current": [
-        "hal/linux/dmi.c"
+        "frontends/tui/terminal.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/dmi.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/os.c": {
+    "src/frontends/tui/terminal_posix.c": {
+      "source_sha256": "bf01d43217dcf3ea75d4ad82ffab922b86a7bc5282e725ceccde6fb49a1d6999",
       "current": [
-        "hal/linux/os.c"
+        "frontends/tui/terminal_posix.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/os.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal_posix.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/linux/filesystem.c": {
+    "src/frontends/tui/terminal_windows.c": {
+      "source_sha256": "0abff3335990c117411e4d9b481c531caaedfc92a9780eb3aa1b7c6a08305919",
       "current": [
-        "hal/linux/filesystem.c"
+        "frontends/tui/terminal_windows.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/filesystem.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/terminal_windows.c",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/windows/hwmon.c": {
+    "src/frontends/tui/tui.c": {
+      "source_sha256": "e1d6e3ff9f37dad952496fe44ff0738b885101d4704df192f59700402058dd1d",
       "current": [
-        "hal/windows/hwmon.c"
+        "frontends/tui/tui.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/hwmon.c"
-    },
-    "src/hal/windows/process.c": {
-      "current": [
-        "hal/windows/process.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/process.c"
-    },
-    "src/hal/windows/cpuid.c": {
-      "current": [
-        "hal/windows/cpuid.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/cpuid.c"
-    },
-    "src/hal/windows/cpu.c": {
-      "current": [
-        "hal/windows/cpu.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/cpu.c"
-    },
-    "src/hal/windows/network.c": {
-      "current": [
-        "hal/windows/network.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/network.c"
-    },
-    "src/hal/windows/memory.c": {
-      "current": [
-        "hal/windows/memory.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/memory.c"
-    },
-    "src/hal/windows/dmi.c": {
-      "current": [
-        "hal/windows/dmi.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/dmi.c"
-    },
-    "src/hal/windows/os.c": {
-      "current": [
-        "hal/windows/os.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/os.c"
-    },
-    "src/hal/windows/pdh_set.c": {
-      "current": [
-        "hal/windows/pdh_set.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/pdh_set.c"
-    },
-    "src/hal/windows/filesystem.c": {
-      "current": [
-        "hal/windows/filesystem.c"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/filesystem.c"
-    },
-    "src/hal/esp8266/os.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/esp8266/os.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/frontends/tui/tui.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/hal/esp8266/mcu.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/esp8266/mcu.c"
+      "source_sha256": "0278c5430130a52ea63f25c3999605240930cbc5ed2b46898f128829513b13f7",
+      "current": [
+        "sensors/mcu/esp8266.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/esp8266/mcu.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/esp8266/os.c": {
+      "source_sha256": "af895841e260fb6ab05754d49a43a9e84c58737e1e8c4f6cfcfe21d0f93b383a",
+      "current": [
+        "sensors/os/esp8266.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/esp8266/os.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/hal/include/cpu.h": {
+      "source_sha256": "6bceac6e45149ebfd5b2f328f8c6f22ae79e930abc77e4e7a596b4a607999075",
       "current": [
-        "hal/include/cpu.h"
+        "sensors/private/cpu.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/cpu.h"
-    },
-    "src/hal/include/process.h": {
-      "current": [
-        "hal/include/process.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/process.h"
-    },
-    "src/hal/include/os.h": {
-      "current": [
-        "hal/include/os.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/os.h"
-    },
-    "src/hal/include/filesystem.h": {
-      "current": [
-        "hal/include/filesystem.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/filesystem.h"
-    },
-    "src/hal/include/network.h": {
-      "current": [
-        "hal/include/network.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/network.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/cpu.h",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/hal/include/dmi.h": {
+      "source_sha256": "943226d849d6132d43899750cc52f86bc83677086250f0294e602150b311dea2",
       "current": [
-        "hal/include/dmi.h"
+        "sensors/private/dmi.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/dmi.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/dmi.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/hal/include/mcu.h": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/mcu.h"
-    },
-    "src/hal/include/hwmon.h": {
+    "src/hal/include/filesystem.h": {
+      "source_sha256": "a88cf14a31af5e7a054c6da1349eb433f0c4ff1e98d70a6432eb0fd5a0645ad1",
       "current": [
-        "hal/include/hwmon.h"
+        "sensors/private/filesystem.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/hwmon.h"
-    },
-    "src/hal/include/memory.h": {
-      "current": [
-        "hal/include/memory.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/memory.h"
-    },
-    "src/hal/include/pdh_set.h": {
-      "current": [
-        "hal/include/pdh_set.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/pdh_set.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/filesystem.h",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/hal/include/hal_cpuid.h": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/hal_cpuid.h"
-    },
-    "src/firmware/esp8266/sdkconfig": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/sdkconfig"
-    },
-    "src/firmware/esp8266/CMakeLists.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/CMakeLists.txt"
-    },
-    "src/firmware/esp8266/sdkconfig.defaults": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/sdkconfig.defaults"
-    },
-    "src/firmware/esp8266/main/app_main.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/main/app_main.c"
-    },
-    "src/firmware/esp8266/main/CMakeLists.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/main/CMakeLists.txt"
-    },
-    "src/firmware/esp8266/components/inv/CMakeLists.txt": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/components/inv/CMakeLists.txt"
-    },
-    "src/firmware/esp8266/components/inv/config/inv_config.h": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/firmware/esp8266/components/inv/config/inv_config.h"
-    },
-    "src/platform/linux/affinity.c": {
+      "source_sha256": "f5411798ece1e55647df70242b376195b9c73a6bec7dc5d494e20e43a957238e",
       "current": [
-        "osal/linux/affinity.c"
+        "sensors/private/cpuid_snapshot.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/affinity.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/hal_cpuid.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/platform/linux/thread.c": {
+    "src/hal/include/hwmon.h": {
+      "source_sha256": "33594b36b5ce5d3cfc46c6ee59d594fd79c85a37cfde54ce3960305d5485228d",
       "current": [
-        "osal/linux/thread.c"
+        "sensors/private/hwmon.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/thread.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/hwmon.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/platform/linux/linux.c": {
+    "src/hal/include/mcu.h": {
+      "source_sha256": "e41e38e21d6d21db816ee849769c3b1c545a4b8fc0e641101a1d9f8b1a0beb65",
       "current": [
-        "osal/linux/linux.c"
+        "sensors/private/mcu.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/linux.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/mcu.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/platform/windows/windows.c": {
+    "src/hal/include/memory.h": {
+      "source_sha256": "e0aef95872d9f9b7382991d116611280c8e5e27ccc74294f1f58b1550fc04a73",
       "current": [
-        "osal/windows/windows.c"
+        "sensors/private/memory.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/windows.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/memory.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/platform/windows/affinity.c": {
+    "src/hal/include/network.h": {
+      "source_sha256": "4b257d45d1d95aa5969174ebe34798498cc755d7dea2dd155e0ec67fa35d2fea",
       "current": [
-        "osal/windows/affinity.c"
+        "sensors/private/network.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/affinity.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/network.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/platform/windows/thread.c": {
+    "src/hal/include/os.h": {
+      "source_sha256": "5c5c82b1a3f117a326c916d22530ac69343882ac125782cd4a87485cc98f5c9d",
       "current": [
-        "osal/windows/thread.c"
+        "sensors/private/os.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/thread.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/os.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/include/pdh_set.h": {
+      "source_sha256": "84b29bb507b265cbde8f6f91832716ab1731dfa47873566e30981658f34d513d",
+      "current": [
+        "sensors/private/pdh_set.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/pdh_set.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/include/process.h": {
+      "source_sha256": "91f4c6c299a7bf367fb812de0608720a22aff04afee76e6dc08d213f0649f908",
+      "current": [
+        "sensors/private/process.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/include/process.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/cpu.c": {
+      "source_sha256": "3c1186e3a694a85a911c8bee4dec5fa91c6e5407ab66364bf5b1bf182325b5e9",
+      "current": [
+        "sensors/cpu/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/cpu.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/cpuid.c": {
+      "source_sha256": "12bddd3a2656d86679e139a9db26aa813b2558eec5d6cdc09b991d9483e72909",
+      "current": [
+        "sensors/cpuid/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/cpuid.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/dmi.c": {
+      "source_sha256": "7e7912d88949d8879845b1044da80dfa8ee8c390f3f3263a74520088c3834c58",
+      "current": [
+        "sensors/board/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/dmi.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/filesystem.c": {
+      "source_sha256": "d7c202ad5b2599fe4e545fb9ebb609ea32cd7f9f3a8553da34125ae8ca5d622a",
+      "current": [
+        "sensors/filesystem/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/filesystem.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/hwmon.c": {
+      "source_sha256": "bedcd1acd348d35982b6b4f90066129ed70159b3511f604aa46c2445757fe562",
+      "current": [
+        "sensors/temperature/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/hwmon.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/memory.c": {
+      "source_sha256": "2cad4a6e6260aad13357e07f03dd4e4dbcac4e2a7902b023e22ec97b392e1505",
+      "current": [
+        "sensors/memory/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/memory.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/network.c": {
+      "source_sha256": "47a724c04ae4a200d68add70f646b48d9bf3314ef42e026204405c3e7b713b01",
+      "current": [
+        "sensors/network/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/network.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/os.c": {
+      "source_sha256": "aa0d4a2267a6f5f22ac52a9d867614305aea9b0aa87f59d7aa0952492ebf9544",
+      "current": [
+        "sensors/os/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/os.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/linux/process.c": {
+      "source_sha256": "e3c8bae5bc10909d589b07dac67721f9a805367e441e3139e8a64223e4cd4743",
+      "current": [
+        "sensors/process/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/linux/process.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/cpu.c": {
+      "source_sha256": "cd3dd94c98c6a25d8b811c0f556e77d7f020527e8991e730bbf0679292794ae5",
+      "current": [
+        "sensors/cpu/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/cpu.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/cpuid.c": {
+      "source_sha256": "b7d6b27f1d3c992379e75cb78ab3166c1a6cf8df17ffb36c3d4ac858672dc77b",
+      "current": [
+        "sensors/cpuid/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/cpuid.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/dmi.c": {
+      "source_sha256": "fae095d56e7f0a3e7db8b5a061f15f1f0e36d259b3a78b8b84dba3007dfc202a",
+      "current": [
+        "sensors/board/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/dmi.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/filesystem.c": {
+      "source_sha256": "68f1ade707503ccbbe1c1bb03a163486e4d550ce07f9b0c53436834c31865e56",
+      "current": [
+        "sensors/filesystem/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/filesystem.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/hwmon.c": {
+      "source_sha256": "5551b9997928ecf591cfa7db6d16b11dcbe2eb10475fbbb992b62c693ff1e713",
+      "current": [
+        "sensors/temperature/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/hwmon.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/memory.c": {
+      "source_sha256": "57b07130239c69c8f3e46a6f2f9819ca667c5a6de4139c81ce783cf9865210c9",
+      "current": [
+        "sensors/memory/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/memory.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/network.c": {
+      "source_sha256": "c2ceacf894148567a7db93bdfd1f546b3a893551eefe8b41e02cb23eb2faf942",
+      "current": [
+        "sensors/network/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/network.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/os.c": {
+      "source_sha256": "084d3ee5b43262e9b60e4554a6fff0ad25a0a75cff5fc0913274beefac1157eb",
+      "current": [
+        "sensors/os/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/os.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/pdh_set.c": {
+      "source_sha256": "c69ff6a07b0a511915c04a69194207337de9486c1cb584297505a7fd8f7ec851",
+      "current": [
+        "sensors/pdh_set.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/pdh_set.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/hal/windows/process.c": {
+      "source_sha256": "c13575519c467e064966004d765956128e1e5622ea8bf782640ee6e7bf0262cc",
+      "current": [
+        "sensors/process/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/hal/windows/process.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/platform/freertos/freertos.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/freertos/freertos.c"
+      "source_sha256": "61eda635ed5af996898ad3b2280e0450dbf0be91961562010c08010846c840a2",
+      "current": [
+        "osal/freertos/freertos.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/freertos/freertos.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/platform/freertos/thread.c": {
-      "current": [],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/freertos/thread.c"
+      "source_sha256": "21b1f87c08c5c17b5a15b2cd8d836f9224661ac2bbb344091f7eb3a35b244c20",
+      "current": [
+        "osal/posix/thread.c",
+        "osal/private/thread.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/freertos/thread.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/platform/include/affinity.h": {
+      "source_sha256": "67e491b61b90eab9f703e5ac31250b918a3a1eab847d969b26300033fb1676df",
       "current": [
-        "osal/private/affinity.h"
+        "sensors/private/affinity.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/affinity.h"
-    },
-    "src/platform/include/windows_internal.h": {
-      "current": [
-        "osal/private/windows_internal.h"
-      ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/windows_internal.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/affinity.h",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/platform/include/thread.h": {
+      "source_sha256": "664979a9b8a28a36135c7c4509f424edbfab1902f5b9bd85c42276d4afcfeb60",
       "current": [
         "osal/private/thread.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/thread.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/thread.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/common/smbios.h": {
+    "src/platform/include/windows_internal.h": {
+      "source_sha256": "97534e4dc4715ff47fe421bd4849cfec2e816b78f0d963dfff4611ca2d7288b9",
       "current": [
-        "hal/common/smbios.h"
+        "osal/private/windows_internal.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/smbios.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/include/windows_internal.h",
+      "note": "Refactored active implementation, not byte identity"
     },
-    "src/providers/common/windows_math.c": {
+    "src/platform/linux/affinity.c": {
+      "source_sha256": "3ca98a80db98c73bafc0d61526a86ee68e2df8595e8a33f286e42101cb730222",
       "current": [
-        "hal/common/windows_math.c"
+        "sensors/cpuid/affinity_linux.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/windows_math.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/affinity.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/platform/linux/linux.c": {
+      "source_sha256": "94be32add13770383c434bad7df503f85343e65cf41ef0319b8ecb4a5bb61094",
+      "current": [
+        "osal/linux/linux.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/linux.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/platform/linux/thread.c": {
+      "source_sha256": "b47f289ad2ccfc57af2897f7d9ab99c4ba480a53a078d8aa87912a7c182b6a07",
+      "current": [
+        "osal/posix/thread.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/linux/thread.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/platform/windows/affinity.c": {
+      "source_sha256": "d3b22d6812775684b8b299090fa86fd666b9b7dc3c25dac894b3b2be3bf1c9d6",
+      "current": [
+        "sensors/cpuid/affinity_windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/affinity.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/platform/windows/thread.c": {
+      "source_sha256": "9cdebbb1bcd016d134eb7bd046dd57339fcc69028742311360bf0d49c2238bd4",
+      "current": [
+        "osal/windows/thread.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/thread.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/platform/windows/windows.c": {
+      "source_sha256": "ec3f9e5270cb9e222399932a0ceffcfdc35a6fc0dc985037090e8f4599878adb",
+      "current": [
+        "osal/windows/windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/platform/windows/windows.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/providers/common/smbios.c": {
+      "source_sha256": "c8fca71ee60649d79ac1b105d21506a3da81b826fff4c0bf2333bab2b37da951",
       "current": [
-        "hal/common/smbios.c"
+        "sensors/board/smbios.c"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/smbios.c"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/smbios.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/common/smbios.h": {
+      "source_sha256": "a078fc56597cbb8d328824e372f5badbe0707b64207c727a62fe7cf2cbf6a90b",
+      "current": [
+        "sensors/private/smbios.h"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/smbios.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/common/windows_math.c": {
+      "source_sha256": "ac7760227337f489d0ea62dfdc81f483e1005d53c21a85b7a6fd0a76d8d806ae",
+      "current": [
+        "sensors/windows_math.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/windows_math.c",
+      "note": "Refactored active implementation, not byte identity"
     },
     "src/providers/common/windows_math.h": {
+      "source_sha256": "5803a114ee075ff1d1f887ebd672b19335351e567ff38b28882ca51e00de3ce0",
       "current": [
-        "hal/common/windows_math.h"
+        "sensors/private/windows_math.h"
       ],
-      "original": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/windows_math.h"
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/common/windows_math.h",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/cpu.c": {
+      "source_sha256": "fbc7a870497d350e6a4d5ad63666416614904097fd61d1501875a9c11e381824",
+      "current": [
+        "sensors/cpu/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/cpu.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/cpuid.c": {
+      "source_sha256": "5328d75a5f279757e0c01dbce51d9bc5ab22aca76fdfed90a800a75b7f5fee8c",
+      "current": [
+        "sensors/cpuid/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/cpuid.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/dmi.c": {
+      "source_sha256": "fe7c4837a8cef663e12773c1c66b5975a2a611d6c1ca2b9e8a9dc8e42a02453a",
+      "current": [
+        "sensors/board/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/dmi.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/filesystem.c": {
+      "source_sha256": "0d9511b968163e02c542e2ce8584e474ec9dc224d514bb86eba84b5c0073c6d3",
+      "current": [
+        "sensors/filesystem/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/filesystem.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/hwmon.c": {
+      "source_sha256": "1bafa2d40efa7f2327bb15bdbd3178201ae4fff2de17dcb6d8095032e471d3f9",
+      "current": [
+        "sensors/temperature/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/hwmon.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/mcu.c": {
+      "source_sha256": "b2c5a024d253faf18e6ae7c0291af2add2eb048fe9971f45def8eb79789549b4",
+      "current": [
+        "sensors/mcu/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/mcu.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/memory.c": {
+      "source_sha256": "9e8a6bfe280bc1b1a32de36c0bb4a234593d7a2aeb353f319bb2bca246d72230",
+      "current": [
+        "sensors/memory/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/memory.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/network.c": {
+      "source_sha256": "75d0808b71f71469f40ef5a0c506ff96e8bc1cd8e3fa323af74892edded417da",
+      "current": [
+        "sensors/network/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/network.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/os.c": {
+      "source_sha256": "9ce559feb5630fed22359227d67baec5ab35574851bbfcbea016cc16b7fbf740",
+      "current": [
+        "sensors/os/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/os.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/providers/process.c": {
+      "source_sha256": "bcad935debb66bb321eda752e75d64a27196bd05f8955b9774902a0f2691d4d5",
+      "current": [
+        "sensors/process/metrics.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/providers/process.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/query/query.c": {
+      "source_sha256": "e168595d41a9558b30e2d9626028cefcf8f292dc7cd46c12e389f786686db0f1",
+      "current": [
+        "query/src/query.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/query/query.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/view/live.c": {
+      "source_sha256": "550a5663ba1cedceeb37ee19253ffe6e6d752fdabee1a57b2e3e6d4f051a1cbe",
+      "current": [
+        "core/src/live.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/view/live.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "src/view/model.c": {
+      "source_sha256": "46b4f5308dc325dfa07795e98866171baf8a19bbeba7d2d5412fd1c82516e20a",
+      "current": [
+        "core/src/history.c",
+        "core/src/registry.c",
+        "frontends/common/view.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/src/view/model.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "test-logs/archive-roundtrip-ctest.txt": {
+      "source_sha256": "3256c3469c3635317d5a77516758c9ae24024517fbe15f16e09568ba59063ac7",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/archive-roundtrip-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/imgui-dependency-unavailable.txt": {
+      "source_sha256": "b310b95179035b674b06468c424891cf1886ec91bb1cc3c9681eb43e68873ab0",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/imgui-dependency-unavailable.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.1-hotfix-build.txt": {
+      "source_sha256": "fd93aa217cb7e70599893e8a0dd25be8b5b0c2b66713ab5b480af14895439093",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-build.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.1-hotfix-config.txt": {
+      "source_sha256": "2eea8a5a4fc3e566ac1ca27c19cdaf3b2baa06f671433ad1bc5df8dc8c5d8b97",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-config.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.1-hotfix-ctest.txt": {
+      "source_sha256": "18b11e4222cf859fab04f2406ca9fe22d0427370ca492d5d9c8dab2100bfa46a",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.1-hotfix-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.2-clang-ctest.txt": {
+      "source_sha256": "ee5586eac46c3c47d6d20646c4a84c2001517a8b0783aaae557ea8b778db69a5",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-clang-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.2-examples.txt": {
+      "source_sha256": "d991ae6aa1acd4eb2ab10a078898ef7028f3676ea9e441d0cc2803a7abd061cc",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-examples.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.2-gcc-ctest.txt": {
+      "source_sha256": "ac7c07319f6d29a64b033b933e717c4ead84ce778930904662509490ee00205a",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-gcc-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-0.2.2-static.txt": {
+      "source_sha256": "366202acb3833d7b36e46d75d5d9fa20422e867bb9e7e433a42b4ea5262cdf55",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-0.2.2-static.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-asan-build.txt": {
+      "source_sha256": "e3c87a19ba87577f6d268ea210a73fb3c8f6f03efbafb348e0d67b1fc699f140",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-build.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-asan-config.txt": {
+      "source_sha256": "977eaa1d9565b5cfd634ba6a7d166613348df9ee28c0a3bbae35be010418f929",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-config.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-asan-ctest.txt": {
+      "source_sha256": "554842347c380b8a38faa2c0b888b4c458fcecdddfa7dd9647ca862153fc1e57",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-asan-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-examples.txt": {
+      "source_sha256": "d991ae6aa1acd4eb2ab10a078898ef7028f3676ea9e441d0cc2803a7abd061cc",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-examples.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-gcc-build.txt": {
+      "source_sha256": "dcc5582b33bc182dba20af2b12028286f75bc1f0a7440dc14aa7bd58f2778c4a",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-gcc-build.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-gcc-ctest.txt": {
+      "source_sha256": "4ad76ce865fdf6202063ade804c0454884af08dc10ea02c94043e8201e2cd172",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-gcc-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-small-build.txt": {
+      "source_sha256": "f63dc03927e6c4903036aadea0e7efc4569b024ebb0c44d78efe745f30e91fe8",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-build.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-small-config.txt": {
+      "source_sha256": "445e5753191d5a34ef6eb5de0a80f3c829bf03945f87ee2b1a5b3f9790b3fc0c",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-config.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-small-ctest.txt": {
+      "source_sha256": "6154ca5ca17d84cd9c511ea7500c3cf149ecaff7230f33a2ea73fc865c5b3d25",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-small-ctest.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-static.txt": {
+      "source_sha256": "5607972ff43a0f2659023915632970ea5268005dfdfdb0f897f04a6a42b0b056",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-static.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/linux-xcb.txt": {
+      "source_sha256": "e5d7e22c4ab14dc6422893f7f4f58b3b0f981d92d34807536225d83fb06c13a4",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/linux-xcb.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/pe-reader-fixture.txt": {
+      "source_sha256": "be2fb074343aa31f1c298e85445ceb37215559183f488a5770ed8f2c11f5d082",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/pe-reader-fixture.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/windows-0.2.2-schema-on-linux.txt": {
+      "source_sha256": "a6a6484c89b6a30ce70d27a31a3a6361b74b4b47cf3f3439c9fa6e15b3311baf",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-0.2.2-schema-on-linux.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/windows-data-on-linux.txt": {
+      "source_sha256": "c5dc5676450b80bda057665136f41df32ac5bda755f5c7daf30ca30905a2b2b5",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-data-on-linux.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/windows-schema-on-linux.txt": {
+      "source_sha256": "4942d8dc0cd4db1d663d5420aa9fd285dcb1499c4179d5eaf1a1da87fa5947e8",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-schema-on-linux.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "test-logs/windows-toolchain-unavailable.txt": {
+      "source_sha256": "a8974a53ba4b5c406489243837b4e533ce1be85f62410dc075c3a13d3019f51f",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/test-logs/windows-toolchain-unavailable.txt",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "tests/examples.py": {
+      "source_sha256": "2e4c29afb24e59ef94ecddc93a5a2c96248c1294707c53d28f03fb2eff2f476c",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/examples.py",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "tests/gui_smoke.py": {
+      "source_sha256": "76a3caccb3ac8c063e49896184af3038883db1b23e7ba7c9e17a5dcb88859244",
+      "current": [
+        "tests/gui_smoke.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/gui_smoke.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/integration.py": {
+      "source_sha256": "565ae29d4a28b1ade6af9ae9c2310fbe5975cdce543165271fbfef81c48151fd",
+      "current": [
+        "tests/integration.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/integration.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/test_core.c": {
+      "source_sha256": "079ee503b24ef26b4de1004ea57de937246efcbe1205531afba83e57a67c230e",
+      "current": [
+        "tests/test_core.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_core.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/test_devices.c": {
+      "source_sha256": "e2053328febc4eef56c0476ba4a56aa27fe0287fe75d0c245b18233c86536daf",
+      "current": [
+        "tests/test_devices.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_devices.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/test_windows.c": {
+      "source_sha256": "b9b0318aba432349c0eb5f7300c826b2f88e20cf15f6d9d3ef89aa98874f060a",
+      "current": [
+        "tests/test_windows.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/test_windows_data.c": {
+      "source_sha256": "863cb2c1868bc212ebff154dd8e83fbb0ab564ec2a99354487ac3f32523f8ac9",
+      "current": [
+        "tests/test_windows_data.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows_data.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/test_windows_schema.c": {
+      "source_sha256": "e050a62de53246c0fe363f8b2f684f044a1792a3e918146afe70362e7d9831c0",
+      "current": [
+        "tests/test_windows_schema.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/test_windows_schema.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/tui_pty.py": {
+      "source_sha256": "7d8a3e5cff09c35dabff285fea24484e59078120af687f6ebcf33c603f87dea1",
+      "current": [
+        "tests/tui_pty.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/tui_pty.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/windows_gui.py": {
+      "source_sha256": "5cf1e3ca0706d320e263667958cbfc0a77b6f77158d94bc85fd0ac91123808b0",
+      "current": [
+        "tests/windows_gui.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_gui.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/windows_integration.py": {
+      "source_sha256": "50090b5d872bcad957ed3162e3f238bae6f239a28d0f99940c5e4141bb133ff3",
+      "current": [
+        "tests/windows_integration.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_integration.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/windows_schema_stubs.c": {
+      "source_sha256": "33b4f958131e5d1b4f5739f65e68e41d7367adc8f49cb9636ab51b018845e24c",
+      "current": [
+        "tests/windows_schema_stubs.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/windows_schema_stubs.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tests/x11_smoke.py": {
+      "source_sha256": "d209517d8c7f48e5280c11195d5f28543177d848b3ad5a86847441f6e85ee808",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/x11_smoke.py",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "tests/xcb_smoke.c": {
+      "source_sha256": "64bfa2171b65bb7eed2373eb4d19b2cf39b1a284d4c65fec37fb24dcb4c89415",
+      "current": [
+        "tests/xcb_smoke.c"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tests/xcb_smoke.c",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/build.sh": {
+      "source_sha256": "23d3627642ed1704e4cf39aef856eafaa4cda952363f2b12ae71107df309b984",
+      "current": [
+        "tools/build.sh"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build.sh",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/build_windows.cmd": {
+      "source_sha256": "c5f4f0f8e29129131022a2e15a28c9ac742701acc529c340da4f41c1eca1b108",
+      "current": [
+        "tools/build_windows.cmd"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build_windows.cmd",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/build_windows.ps1": {
+      "source_sha256": "fe046a37d353bc5d2246bfbd612d851435bc9b517842fdcd06b3fec28ce4f544",
+      "current": [
+        "tools/build_windows.ps1"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/build_windows.ps1",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/embed_docs.py": {
+      "source_sha256": "1526c9a4a13de41805c550491aceb566f90caffa0e911c22317912849394d4da",
+      "current": [
+        "tools/embed_docs.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/embed_docs.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/fetch_imgui.py": {
+      "source_sha256": "f5b663e19c70646686615d31b1fb5f1ac5132f3448db5d01059d138ad5e948ed",
+      "current": [
+        "tools/fetch_imgui.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/fetch_imgui.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/test_xcb.sh": {
+      "source_sha256": "b488081dc878b41e785c6d3f3eba37d4b97db9e5cdf6e31f7c81316d3322368f",
+      "current": [],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/test_xcb.sh",
+      "note": "Historical reference/supporting material; not an active compiled source"
+    },
+    "tools/verify_static.sh": {
+      "source_sha256": "132fc9ae7475bab5809ec95d456c03ec2a489d6b62d6ead2d5553cd4576e7750",
+      "current": [
+        "tools/verify_static.sh"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/verify_static.sh",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "tools/verify_windows_imports.py": {
+      "source_sha256": "6b97169e911a16ec5057e641e156a92a398b92c3528618fb85a8de2bb9d19958",
+      "current": [
+        "tools/verify_windows_imports.py"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/tools/verify_windows_imports.py",
+      "note": "Refactored active implementation, not byte identity"
+    },
+    "vendor/imgui/README.md": {
+      "source_sha256": "7303c59f5f0f88ded8c941b212626a76b6e3752d624a2c422f0a6e85b3cf3e9d",
+      "current": [
+        "vendor/imgui/README.md"
+      ],
+      "historical_source": "docs/baseline/inv-0.2.2-source.zip!/inv-0.2.2/vendor/imgui/README.md",
+      "note": "Refactored active implementation, not byte identity"
     }
-  }
+  },
+  "non_active_c_h_def_cmake": []
 }

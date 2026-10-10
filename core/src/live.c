@@ -4,7 +4,10 @@
  */
 #include "quanta/live.h"
 #include "core_internal.h"
-#define QUEUE_CAP 256
+#ifndef QUANTA_LIVE_QUEUE_CAP
+#define QUANTA_LIVE_QUEUE_CAP 256
+#endif
+#define QUEUE_CAP QUANTA_LIVE_QUEUE_CAP
 
 typedef enum event_kind
 {

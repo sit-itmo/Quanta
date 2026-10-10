@@ -1,6 +1,6 @@
 # device.net.tx_packets_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Transmitted packets — semantic version 1.
 

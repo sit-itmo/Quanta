@@ -4,5 +4,11 @@
 #include "quanta/quanta.h"
 #include "support.h"
 #include "thread.h"
-#define QUANTA_PROVIDER_COUNT QUANTA_MAX_PROVIDERS
+#include "quanta/hal.h"
+#ifndef QUANTA_INITIAL_CAPACITY
+#define QUANTA_INITIAL_CAPACITY 32u
+#endif
+#ifndef QUANTA_MAX_ACQUISITIONS
+#define QUANTA_MAX_ACQUISITIONS 32u
+#endif
 #endif

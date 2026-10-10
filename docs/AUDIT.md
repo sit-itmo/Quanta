@@ -1,106 +1,74 @@
-# Аудит inv-0.2.2 → Quanta 0.3.0
+# Аудит и сверка исходников: Quanta 0.4.0
 
-Дата: 2026-10-10. Основание: переданный `inv-0.2.2.zip`, неизменённый
-[дизайн-документ](Quanta_Design.md), логотип и схема. Внешняя документация использована
-для сверки отдельных Windows API, а не вместо чтения пользовательских исходников.
+## Входные материалы
 
-## Резюме
+Сопоставлены три source archive: исходный `inv-0.2.2-windows-src(1).zip`, пользовательский
+`inv-0.2.2.zip` с MCU и предыдущий результат `Quanta-0.3.0.zip`.
+Точные SHA256/размеры — [INPUTS.json](audit/INPUTS.json). Входные архивы не менялись.
 
-Входной проект уже содержал значительную реализацию: parser, collectors, engine, CLI,
-TUI, optional ImGui frontend, windows data helpers и тесты. Это не пустой каркас.
-Главная проблема — смешанные границы core/builtin providers/model/rendering и
-несоответствие части объявленных метрик реальным provider callbacks.
+Между pre-MCU и MCU деревьями без build/cache файлов: **52 добавленных, 17 удалённых,
+15 изменённых путей**. Значительная часть этой дельты — перемещение Windows/native acquisition
+между папками, а не новые аппаратные возможности. Полный список: [ORIGINAL_VS_MCU.json](audit/ORIGINAL_VS_MCU.json).
 
-Новая поставка сохраняет и перерабатывает эту основу. Добавлены независимый catalog,
-явный provider selection, отдельные core modules, typed HAL boundary, исправления acquisition,
-дополнительные тесты и CMake-проверка при build. Полный целевой дизайн **не завершён**:
-blob/offline/Pipe/fallback/events/frequency/external HAL остаются открытыми задачами.
+## Исправление предыдущей поставки
 
-## Воспроизведённые проблемы исходной версии
+В 0.3.0 MCU/ESP оставались только историческими исходниками, без активного маршрута сборки.
+Это не выполняло требование сохранения embedded-функциональности. В 0.4.0 возвращены SDK
+component, firmware app/config, MCU/OS acquisition, FreeRTOS OSAL и полноценная связь с новым core.
+Историческая копия дополнительно сохранена, но больше не заменяет active implementation.
 
-Исходники собраны GCC Debug/Ninja, GUI=OFF, INV_STRICT_STATIC=OFF, warnings-as-errors.
-Компиляция завершилась успешно. Из 7 CTest suites прошли 4, не прошли 3.
-См. [исходный CTest log](audit/logs/original-ctest.log).
+По literal `.key` во всех платформенных `.def`: pre-MCU 78, MCU 87, 0.3.0 78,
+**0.4.0 89**. Ни одного из 87 ключей MCU-архива не потеряно; два новых — legacy physical SMBIOS.
+Это объединение имён разных платформ, не число метрик отдельного executable и не утверждение
+об успешном чтении каждого аппаратного поля. [METRIC_KEYS.json](audit/METRIC_KEYS.json).
 
-| Проблема | Evidence / причина | Изменение |
+## Применение уточнённой архитектуры
+
+| Требование | Изменение | Проверка |
 |---|---|---|
-| devices: 2 assertions | новая NIC identity не создавала новую series: `added==2`, `first_id!=last_id` не выполнялись | Linux NIC entity теперь ifindex, rate baseline отделён при замене; старый regression сохранён |
-| integration: OS CSV | descriptors `os.name`/`os.arch` и фактический mapper не согласованы | восстановлены snapshot/mapping uname/os-release/arch/release/load/online |
-| documentation | генератор требует отсутствующий `docs/metrics/mcu.chip_id.md` | desktop definitions отделены от исторического embedded; генератор следует выбранным native `.def` |
+| Удалить providers, не переименовать их | Убраны provider descriptor/context/selector; direct callbacks, global unique keys | Registry/parser/source-boundary tests |
+| Не удваивать системные чтения | Private batching по одинаковому lifecycle tuple | Scheduler/shared-field/view tests |
+| Минимальный HAL | Hardware-only API и backend files, no high-level metric functions | HAL contract/mock tests, source boundary checks |
+| OSAL только инфраструктура | CPU/memory/process/PDH/SMBIOS/CPUID acquisition в sensors | Active paths / include boundary |
+| Метрики могут не использовать HAL | Existing native API/SDK collectors обходят HAL | OS query с `hal none`, ESP seam |
+| Выбор HAL | Query statement, CLI override, info/list, injectable borrowed handle | CLI, parse, ownership/conflict tests |
+| Сохранить MCU | 9 keys, SDK component/app, common ABI manifest | 2 host SDK-seam targets |
+| Другой метод — другое имя | Отдельные `smbios.legacy_mem.*` | RAM SMBIOS2/3 fixtures, no fallback |
 
-Исторические «passed» отчёты внутри входного ZIP не использованы как доказательство:
-входной код был собран и тесты запущены заново.
+Private acquisition в scheduler не выбирается пользователем и не имеет provider ID/priority.
+Объяснение этого решения и API lifecycle — [ARCHITECTURE](ARCHITECTURE.md).
 
-## Найдено при просмотре кода и исправлено
+## Дополнительные исправления
 
-| Область | Изменение | Проверка / ограничение |
-|---|---|---|
-| Core dependency | builtin registration вынесен из core, public API отделён от internal/native/UI | core-only catalog/history/OSAL executables линкуются без sensors/output |
-| Monolithic engine | lifecycle, discovery, scheduler разделены; channels отдельно от views | shared reads, разные bindings/rate, ONCE, cancellation fixtures |
-| Providers | catalog принимает совместимые альтернативы; явный quoted provider selector | default/explicit/missing/duplicate/incompatible tests |
-| Lifecycle | plan/paths копируются; close только после попытки open; NULL/partial-safe cleanup | partial-open и повторный run regression |
-| Discovery/value | проверка принадлежности catalog/provider, labels, terminated fields, enum/type/finite values | malformed mock provider output tests |
-| History | numeric ring, cap/budget, resize с откатом, deep clone, monotonic/sequence checks | отдельный history suite |
-| Live | guarded start/pump/finish, backpressure и корректный stop/join | core mock worker tests; это не stress proof всех interleavings |
-| Linux CPU | строгий parse /proc/stat, checked counters, guest не суммируется повторно, sysconf ticks | HAL fixtures: valid/duplicate/overflow/malformed |
-| Linux memory | строгие line boundaries, kB suffix, overflow, duplicate и relations | parser/negative fixtures |
-| Linux network | строгие 16 полей counters, статусы вместо фиктивных нулей, ifindex identity | device hotplug regression; reuse ifindex остаётся ограничением |
-| Linux process | RSS в байтах через sysconf pagesize, malformed/overflow checks | отдельный statm fixture |
-| Windows process | отдельный process snapshot без зависимости от memory-provider allocation | исходники пересмотрены; нативный запуск не выполнен |
-| Windows network | MIB_IF_ROW2 InOctets/OutOctets и остальные реальные поля вместо CounterData | сверка Microsoft API; нативная компиляция не выполнена |
-| Windows CPU | прямой PDH fraction отделён от накопленных raw accounting ticks; учёт processor groups | portable math tests/API review; нативная PDH-проверка нужна |
-| DIMM | provider mapping фактических SMBIOS slots/handle/locator/bank | portable SMBIOS fixtures; native firmware path не проверен |
-| Frontend | 4 executable entrypoints, --format value, .q shorthand, layer-neutral model | integration + frontend_modes + TUI PTY |
-| CMake | explicit source lists, target-local options, selected providers, auto CTest | GCC/Clang/ASan/minimal matrix |
+Восстановление ESP выявило malformed defaults (две config строки склеены), неверные единицы
+VDD33, зависимость chip ID от runtime Wi-Fi MAC, небезопасные крайние значения serial integer
+formatter и ограничение прежнего condition/broadcast adapter. Исправления и изменения semantics
+описаны в [ESP8266](ESP8266.md). VDD=off по умолчанию — намеренная защита для неизвестной платы;
+исходный lab profile сохранён для сознательного включения после проверки проводки.
 
-## Соответствие 17 разделам дизайна
+Linux HAL не выдаёт чтение нескольких соседних `/dev/port` bytes за одну inw/inl операцию:
+этому backend разрешён только width=1; остальные допустимые API widths возвращают UNSUPPORTED.
+MSR и PCI работают через собственные bounded file paths; physical offsets 64-bit.
+Write policy, перенос allowlist во владение handle, overflow/status/cleanup покрыты fixtures.
+Никакие реальные memory/MSR/PCI записи при тестировании не выполнялись.
 
-«Частично» означает, что механизм/интерфейс существует, но весь объём раздела не реализован.
+Проверка распакованного release также выявила забытый `provider()` в `00-baseline.q`.
+Пример исправлен, а тест теперь запускает оба базовых query-файла и проверяет отсутствие
+устаревшего selector во всех поставляемых `.q`. Затем итоговый архив проверен заново.
 
-| § дизайна | Статус | Реализация / открытый остаток |
-|---|---|---|
-| 1. Назначение | Частично | Linux collection/processing/display; Windows код, внешние/сохранённые sources ещё не завершены |
-| 2. Принципы | В основном | C11 core, optional C++ GUI, data/presentation separation, query naming; полная safety/cost политика TODO |
-| 3. Архитектура | Базовое разделение реализовано | core/query/sensors/HAL/OSAL/frontends; см. target graph; driver HAL ещё нет |
-| 4. Метрики | Частично | descriptors/types/units/docs/labels/refresh/flags; naming и string ABI отличаются от примеров |
-| 5. Value | Частично, различие ABI | bounded owned values; status/quality в sample, не value; string без explicit length |
-| 6. Provider | Частично | default/explicit alternatives, mock coverage; автоматического fallback нет |
-| 7. Scheduler | Частично | grouped refresh на engine, period floors, ONCE, numeric history; events/cost budgets/multi-client TODO |
-| 8. Query | Рабочий поднабор | select/optional/rate/provider/labels/every/history/mode/layout; не полный PromQL |
-| 9. Live/Offline/Record | Только Live | CSV file sink есть; qblob input/record/replay отсутствуют |
-| 10. Внешние устройства | Нет реализации | UART/JTAG/transport registration TODO |
-| 11. Регистрация | Реализована для native baseline | `.def`, builtin catalog, QUANTA_WITH_* и presets; fictitious driver presets не добавлены |
-| 12. Сборка | Реализована | простой CMake, C11, CTest, documented Linux/Windows paths; Windows ещё требует запуска |
-| 13. Тесты | Частично по полному дизайну | registry/query/scheduler/history/units/providers/HAL/OSAL/formats; blob tests после blob implementation |
-| 14. Документация | Базовый набор есть | descriptor/key/md + generated embedded docs; согласование RU/EN/полнота metadata ещё нужна |
-| 15. Безопасность | Базовые ограничения | read-only default, no implicit elevation, bounded parsing; hard timeouts отдельных API TODO |
-| 16. Первая версия | Не полностью | CLI/TXT/CSV и больше collectors уже есть; cpu.frequency_hz отсутствует, native Windows приёмка нужна |
-| 17. Концепция | Сохранена | общий core/API и независимые способы acquisition/presentation |
+## Источники и сохранённые материалы
 
-## Соответствие исходной картинке
+[Source map](audit/SOURCE_MAP.json) сопоставляет каждый non-build файл MCU-архива с активными
+путями либо явно помечает historical-only вспомогательные материалы. Карта не означает
+побайтную идентичность refactored файлов. Exact исходные MCU configs сохранены отдельно в
+`firmware/esp8266/reference`; исходный дизайн и обе картинки не перерисовывались.
 
-CLI/just values — `frontends/cli` + value format. CSV/TXT/MD — file sink.
-TUI и ImGui — самостоятельные frontends. Query — часть core; metric registration — sensors/metrics.
-HAL и OSAL — отдельные исходные слои. **Binary serialization и Sources File/Pipe не реализованы.**
-На рисунке HAL содержит потенциально опасные read/write операции; они не добавлены в read-only
-baseline без отдельного requirements/security/driver проекта. Это явно сохраняется в TODO,
-а не заменяется фиктивными API, возвращающими OK.
+Предыдущие отчёты/логи перемещены в `docs/history/0.3.0/`: они **не являются результатами 0.4.0**.
+Старые relative links внутри этих historical copies могут отражать прежнюю структуру.
+Текущие результаты находятся в [TEST_REPORT](TEST_REPORT.md), актуальные ограничения — [TODO](TODO.md).
 
-## Что изменено в интерфейсах сознательно
+## Граница подтверждения
 
-Префикс `quanta_` вместо `inv_`; исходная совместимость ABI не обещается. Core public catalog
-имеет caller-owned lifetime. Type enum содержит U64 и BOOL сверх дизайн-примера; string —
-terminated fixed buffer, bytes — explicit length. Core numeric model выделяет history только
-для plot, поэтому это не полный универсальный архив всех типов. Preset names описывают только
-реально выбранные source sets. Детали — [MIGRATION](MIGRATION.md), [ARCHITECTURE](ARCHITECTURE.md).
-
-## Проверка внешних API: первичные источники
-
-- Microsoft MIB_IF_ROW2: https://learn.microsoft.com/en-us/windows/win32/api/netioapi/ns-netioapi-mib_if_row2
-- Microsoft GetSystemTimes (processor-group caveat): https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes
-- Microsoft GetProcessMemoryInfo: https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessmemoryinfo
-- CMake presets schema 3 / CMake 3.21: https://cmake.org/cmake/help/v3.21/manual/cmake-presets.7.html
-- Pinned ImGui commit 1.91.9b: https://github.com/ocornut/imgui/commit/f5befd2d29e66809cd1110a152e375a7f1981f06
-
-Эти ссылки подтверждают API/формат/зависимость, не свидетельствуют о запуске проекта на Windows
-или прохождении GUI теста. Подробные выполненные проверки — [TEST_REPORT](TEST_REPORT.md).
+Code-path restoration, host builds и SDK seam tests выполнены; настоящий ESP SDK link/flash,
+работа платы, native Windows и GUI window здесь не подтверждены. Проверки имен/компиляции
+не объявляются доказательством аппаратной совместимости. Эти этапы включены в P0 приёмки.

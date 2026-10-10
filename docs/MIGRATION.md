@@ -1,52 +1,57 @@
-# Миграция с inv-0.2.2
+# Миграция INV / Quanta 0.3.0 → 0.4.0
 
-Эта ревизия — новый полный source baseline, **не overlay поверх старого дерева**.
-Распакуйте в новый каталог: иначе останутся старые `src/`, generated files и build cache.
+## Рабочая папка
 
-## Совместимость
+Распакуйте полный архив в новую папку, перенесите только собственные правки после сравнения.
+Не копируйте generated CMake files, sdkconfig или старые provider headers в новый source tree.
+Имена `quanta_*` из 0.3.0 сохранены там, где контракт не менялся. Совместимость ABI не обещается.
 
-Product/version: INV 0.2.2 → Quanta 0.3.0. `inv_*`/`INV_*` заменены на `quanta_*`/`QUANTA_*`;
-это осознанное source/ABI breaking change, compatibility aliases не поставляются.
-CLI executable: `inv` → `quanta`/`quanta_cli`. Примеры `.invq` перенесены в `.q`;
-`--query-file` читает текст независимо от расширения, shorthand распознаёт `.q`.
+## Providers удалены
 
-Публичные API core теперь в `core/include/quanta/`. Convenience API builtin catalog — в
-`sensors/include/quanta/sensors.h`; внешнему provider core-only достаточно `<quanta/quanta.h>`
-и `quanta_engine_create_with_catalog`. Структуры plan/series/value изменены; требуется пересборка
-всех потребителей, нельзя смешивать старые объекты/headers.
+Удалены `provider.h`, `quanta_provider_desc`, `quanta_provider_context`, `.provider` в descriptors
+и `.provider` в selectors. Новый context — `quanta_metric_context`, private state — `private_data`.
+Descriptor содержит прямые `init/enumerate/collect/destroy/read` callbacks. Catalogue допускает
+только уникальные metric keys. Альтернативный способ требует нового имени метрики.
 
-## Карта модулей
+```text
+# Больше не принимается:
+select provider("os", os.arch);
 
-| Было | Стало |
-|---|---|
-| `src/core` и общий internal header | `core/src`, `core/private`, `core/include/quanta` |
-| monolithic engine | `engine.c`, `discovery.c`, `scheduler.c` |
-| registry вместе с core | generic `core/src/registry.c` + builtin `sensors/registry.c` |
-| `src/query` | `query/src` как часть target core |
-| `src/providers` | `sensors/<domain>/provider.c` |
-| `src/hal` | `hal/<platform>` и typed headers |
-| `src/osal` | `osal/<platform>` и public/private API |
-| frontend model/history/worker | neutral `core/history.c`, `core/live.c`; rendering остаётся frontend |
-| `queries` | `examples/queries` |
-| старые docs/logs/patches/embedded | исторический source archive `docs/baseline` |
+# Теперь:
+hal "none";
+select os.arch;
+```
 
-Подробная файл-к-файлу карта: [audit/SOURCE_MAP.json](audit/SOURCE_MAP.json).
-Она указывает назначение/историческое сохранение, а не обещает побайтовое совпадение новых файлов.
+Нельзя механически заменить provider на HAL: это **разные оси**. Старый provider "os" —
+реализация метрики; новый HAL "none" — отключённые hardware primitives. `os.arch` работает
+напрямую через native acquisition. Fallback и providers не возвращаются как hidden aliases.
 
-## Что не потеряно и что не является текущим портом
+`quanta_catalog_find(catalog, key)` теперь имеет два аргумента.
+`quanta_engine_metric_acquisitions(engine, key)` заменяет статистику опроса по provider ID:
+счётчик общего snapshot доступен через выбранное имя метрики.
 
-В `docs/baseline/inv-0.2.2-source.zip` сохранены все файлы входного дерева, кроме каталогов `build`.
-В частности, там остаются прежние docs, patches, reports и FreeRTOS/ESP32 исходники.
-Старые отчёты в baseline — исторические, не evidence новых тестов. ESP-IDF generated binaries,
-cache и object files удалены из distribution; оригинальный пользовательский ZIP не изменялся.
+## HAL/OSAL/native code
 
-Новый CMake поддерживает Linux/Windows. Старый embedded порт не был перенесён на новый ABI и
-не объявлен работоспособным. Его возвращение требует отдельной адаптации и test matrix.
+Все высокоуровневые acquisition files перенесены из hal в `sensors/<group>/<platform>.c`.
+`quanta_native_*` — private функции метрик. Типы снимков — `sensors/private/`.
+SMBIOS decoder — `sensors/board/`, Windows PDH/math — sensors, CPUID affinity helpers — cpuid.
+Настоящий минимальный HAL теперь находится в `hal/` и использует отдельный `quanta_hal *`.
 
-## Изменившееся поведение
+Метрика может обходиться без HAL. `void *private_data` используется только для её собственного
+платформенного состояния; HAL handle не заменяется произвольным `void *`.
 
-Default CMake больше не принуждает к полностью статическому EXE и не скачивает ImGui.
-CTest выполняется при обычном build. Удалены stale `metrics/catalog.json`: authoritative catalog
-задаётся `.def` и параметрами сборки, просмотр — `quanta list --compiled`.
-NIC с новым ifindex — новая серия/rate baseline; ошибки malformed источников больше не маскируются
-под успешные значения. `value` — новый формат. `provider("id", ...)` — явный выбор, не fallback.
+## ESP8266
+
+Активный путь `firmware/esp8266`, SDK component называется quanta. Нет зависимости от
+исторического baseline ZIP. Все 9 ключей MCU сохранены, но VDD units и factory chip ID получили
+semantic_version=2. VDD выключен по умолчанию ради неизвестной схемы TOUT; исходный lab профиль
+сохранён отдельно для сознательного включения. [Полная инструкция](ESP8266.md).
+
+Serial app печатает больше MCU полей, сохраняет 6 decimal digits для float и обрабатывает
+крайние int64/uint64. Прежний source полностью доступен в read-only historical ZIP для merge.
+
+## Что не изменялось намеренно
+
+Исторический `Quanta_Design.md`, логотип, исходная архитектурная картинка и лицензия сохранены.
+Основные существующие metric keys, CLI CSV/TXT/TUI/GUI и обычные query без provider() сохраняются.
+Два новых legacy physical SMBIOS ключа добавлены отдельно, не вместо native board/bios.

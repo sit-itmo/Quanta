@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT
- * One synchronous scheduler per engine. A provider refresh is shared by every
+ * One synchronous scheduler per engine. An acquisition is shared by every
  * due channel in a collection pass; bindings maintain independent transform
  * baselines.
  */
@@ -13,8 +13,8 @@ uint64_t quanta_deadline_after(uint64_t now, uint64_t delay)
 
 static quanta_status collect(quanta_engine *e, uint64_t now, int force, int *changed)
 {
-    unsigned refreshed[QUANTA_PROVIDER_COUNT] = {0};
-    quanta_status status[QUANTA_PROVIDER_COUNT];
+    unsigned refreshed[QUANTA_MAX_ACQUISITIONS] = {0};
+    quanta_status status[QUANTA_MAX_ACQUISITIONS];
     size_t i, j;
     *changed = 0;
     memset(status, 0, sizeof(status));
@@ -22,9 +22,10 @@ static quanta_status collect(quanta_engine *e, uint64_t now, int force, int *cha
     {
         quanta_channel *c = &e->channels[i];
         const quanta_metric_desc *m = c->in.metric;
-        quanta_read_ctx *ctx;
+        quanta_metric_context *ctx;
         quanta_sample sample;
-        unsigned p;
+        size_t p;
+        quanta_acquisition *a;
         uint64_t start;
         c->updated = 0;
         if (!c->active)
@@ -39,19 +40,20 @@ static quanta_status collect(quanta_engine *e, uint64_t now, int force, int *cha
         {
             continue;
         }
-        p = m->provider->index;
-        ctx = &e->ctx[p];
+        p = c->acquisition_index;
+        a = &e->acquisitions[p];
+        ctx = &a->context;
         if (!refreshed[p])
         {
             ctx->now_ns = quanta_now_ns();
             ctx->error[0] = 0;
-            status[p] = e->open_status[p] != QUANTA_OK ? e->open_status[p]
-                        : m->provider->refresh         ? m->provider->refresh(ctx)
+            status[p] = a->init_status != QUANTA_OK ? a->init_status
+                        : m->collect         ? m->collect(ctx)
                                                        : QUANTA_OK;
             ctx->acquisition_ns = quanta_now_ns() - ctx->now_ns;
             ctx->now_ns += ctx->acquisition_ns;
             refreshed[p] = 1;
-            e->refresh_count[p]++;
+            a->refresh_count++;
         }
         memset(&sample, 0, sizeof(sample));
         sample.series_id = c->in.series_id;
@@ -67,9 +69,9 @@ static quanta_status collect(quanta_engine *e, uint64_t now, int force, int *cha
         }
         sample.measured_at_ns = quanta_now_ns();
         sample.read_duration_ns =
-            sample.measured_at_ns - start + (m->provider->refresh ? ctx->acquisition_ns : 0);
+            sample.measured_at_ns - start + (m->collect ? ctx->acquisition_ns : 0);
         /* Group-backed fields use the same acquisition time. */
-        if (m->provider->refresh)
+        if (m->collect)
         {
             sample.measured_at_ns = ctx->now_ns;
         }

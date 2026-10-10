@@ -1,6 +1,6 @@
 # process.self.rss_bytes
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Collector resident memory — semantic version 1.
 

@@ -1,0 +1,25 @@
+/* SPDX-License-Identifier: MIT */
+QUANTA_METRIC(smbios_mem_board,
+ .key="smbios.legacy_mem.board.model", .title="Board model via legacy physical SMBIOS",
+ .description="Board model via legacy physical SMBIOS", .doc_path="docs/metrics/smbios.legacy_mem.board.model.md",
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
+ .unit="", .min_poll_ns=0, .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=0,
+ .flags=QUANTA_EXPENSIVE, .counter_bits=0, .label_schema="", .dependencies="HAL read_mem; legacy firmware window",
+ .init=quanta_smbios_mem_init,
+    .enumerate=quanta_smbios_mem_enumerate,
+ .collect=quanta_smbios_mem_collect,
+    .destroy=quanta_smbios_mem_destroy,
+ .read=quanta_smbios_mem_read, .arg="board_model"
+)
+QUANTA_METRIC(smbios_mem_bios,
+ .key="smbios.legacy_mem.bios.vendor", .title="BIOS vendor via legacy physical SMBIOS",
+ .description="BIOS vendor via legacy physical SMBIOS", .doc_path="docs/metrics/smbios.legacy_mem.bios.vendor.md",
+ .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
+ .unit="", .min_poll_ns=0, .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=0,
+ .flags=QUANTA_EXPENSIVE, .counter_bits=0, .label_schema="", .dependencies="HAL read_mem; legacy firmware window",
+ .init=quanta_smbios_mem_init,
+    .enumerate=quanta_smbios_mem_enumerate,
+ .collect=quanta_smbios_mem_collect,
+    .destroy=quanta_smbios_mem_destroy,
+ .read=quanta_smbios_mem_read, .arg="bios_vendor"
+)

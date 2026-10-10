@@ -1,6 +1,6 @@
 # bios.vendor
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 BIOS vendor — semantic version 1.
 

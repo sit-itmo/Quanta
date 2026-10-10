@@ -1,0 +1,8 @@
+menu "Quanta firmware"
+config QUANTA_MEASURE_VDD33
+    bool "Enable SDK VDD33 measurement (TOUT must be unconnected)"
+    default n
+    help
+        Requires ESP PHY init vdd33_const=255 and a board with TOUT unconnected.
+        Leave disabled if ADC is connected. Does not initialize Wi-Fi itself.
+endmenu

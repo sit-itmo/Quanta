@@ -5,7 +5,6 @@
 #include "history.h"
 #include "live.h"
 #include "metric.h"
-#include "provider.h"
 #include "query.h"
 #include "registry.h"
 #include "text.h"
@@ -17,8 +16,8 @@ extern "C"
 {
 #endif
 
-/* Aggregate public, portable C API. No HAL, Windows, pthread or frontend types.
- */
+/* Aggregate public, portable C API. Native Windows/pthread types stay private.
+ * Low-level HAL functions are available separately in quanta/hal.h. */
 #ifdef __cplusplus
 }
 #endif

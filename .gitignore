@@ -8,3 +8,8 @@ __pycache__/
 !/vendor/imgui/README.md
 CMakeUserPresets.json
 *.qblob
+
+/firmware/esp8266/build/
+/firmware/esp8266/sdkconfig
+/firmware/esp8266/sdkconfig.old
+/firmware/esp8266/sdkconfig.lab.defaults

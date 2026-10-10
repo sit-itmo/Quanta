@@ -1,6 +1,6 @@
 # os.uptime
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Time since boot — semantic version 1.
 

@@ -35,21 +35,23 @@ quanta explain --query 'select os.uptime; select os.uptime as plot;'
 В Windows используйте `quanta.exe` или полный путь. Для PowerShell в примере `--query` подходит
 одинарно-кавычная строка. Shorthand без `run --query-file` распознаёт путь с расширением `.q`.
 
-## Providers и labels
+## HAL и labels
 
 ```text
+hal "none";
 once;
-select provider("os", os.arch);
-select optional rate(provider("network", device.net.rx_bytes_total{ifname="eth*"}));
+select os.arch;
+select optional device.net.rx_bytes_total{ifname="eth*"};
 ```
 
-ID provider обязательно строка в кавычках. Selector внутри provider может иметь labels;
-rate/delta находятся снаружи provider. Default provider — первый совместимый descriptor
-имени в каталоге. Неуспешное чтение не переключает provider автоматически.
+Для периодической скорости: `every 1s; count 5; select rate(device.net.rx_bytes_total);`.
+`hal "name";` допускается один раз. `--hal name` переопределяет query HAL; повторный/пустой CLI
+аргумент — ошибка. По умолчанию native. Список: `quanta --list-hals`, сведения:
+`quanta hal-info --hal native`. Неизвестное имя не приводит к fallback.
 
-Имена встроенных sources смотрите через `list --compiled`/`describe` и descriptors:
-`os`, `cpu`, `memory`, `network`, `dmi`, `hwmon`, `cpuid`, `filesystem`, `process`.
-Семантическое имя provider — это не имя системной библиотеки или динамического plugin.
+`provider(...)` удалён и отклоняется с migration diagnostic. Одно имя — одна реализация.
+Другой способ аппаратного измерения выбирается другим metric key, не параметром provider.
+HAL none отключает hardware primitives, но прямые native OS/CPUID/SDK метрики продолжают работать.
 
 ## Частота, ошибки, rate
 

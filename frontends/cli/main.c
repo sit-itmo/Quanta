@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "frontend_internal.h"
 #include "quanta/view.h"
+#include "quanta/hal.h"
 #include "quanta_config.h"
 #include <locale.h>
 
@@ -13,7 +14,10 @@ static void usage(FILE *f)
           "  quanta run --query 'Quanta Query...' [options]\n"
           "  quanta run --query-file dashboard.q [options]\n"
           "  quanta explain --query-file dashboard.q\n\n"
+          "  quanta hal-info [--hal NAME]\n"
+          "  quanta --list-hals\n\n"
           "Options:\n"
+          "  --hal NAME           Override the query HAL (default native)\n"
           "  -q, --query TEXT      Inline Quanta Query query\n"
           "  --query-file PATH     Read Quanta Query, '-' reads standard input\n"
           "  --mode file|tui|gui   Override the query frontend\n"
@@ -172,7 +176,7 @@ static int describe(const char *key)
         return 2;
     }
     printf("%s -- %s\n\n%s\n\nType: %s\nKind: %s\nUnit: %s\nSemantic version: "
-           "%u\nProvider: "
+           "%u\nAcquisition: "
            "%s\nLabels: %s\nMinimum poll interval: %.3fs\nSensitive: "
            "%s\nDocumentation: %s\n",
            m->key, m->title, m->description, quanta_type_name(m->type), quanta_kind_name(m->kind),
@@ -193,7 +197,7 @@ int quanta_cli_main(int argc, char **argv)
     char *query;
     char err[512];
     const char *command = "run", *pattern = "*", *key = NULL, *query_arg = NULL, *query_file = NULL,
-               *output = NULL, *font = NULL;
+               *output = NULL, *font = NULL, *hal_name = NULL;
     int i = 1, mode_set = 0, format_set = 0, probe = 0, get_count = 0, once = 0, redact = 0,
         strict = 0, fail_error = 0, csv_safe = 1, rc = 0;
     quanta_mode mode = QUANTA_MODE_FILE;
@@ -218,6 +222,13 @@ int quanta_cli_main(int argc, char **argv)
         usage(stdout);
         return 0;
     }
+    if (!strcmp(argv[1], "--list-hals"))
+    {
+        size_t h, n;
+        const char *const *names = quanta_hal_names(&n);
+        for (h = 0; h < n; ++h) puts(names[h]);
+        return 0;
+    }
     if (!strcmp(argv[1], "--version"))
     {
         size_t n;
@@ -238,7 +249,7 @@ int quanta_cli_main(int argc, char **argv)
         i++;
     }
     if (strcmp(command, "run") && strcmp(command, "get") && strcmp(command, "explain") &&
-        strcmp(command, "list") && strcmp(command, "describe"))
+        strcmp(command, "list") && strcmp(command, "describe") && strcmp(command, "hal-info"))
     {
         size_t length = strlen(command);
         if (length > 2 && !strcmp(command + length - 2, ".q"))
@@ -364,6 +375,15 @@ int quanta_cli_main(int argc, char **argv)
             }
             query_file = v;
         }
+        else if (!strcmp(a, "--hal"))
+        {
+            if (hal_name || !v[0])
+            {
+                snprintf(err, sizeof(err), "--hal requires one nonempty name");
+                goto bad;
+            }
+            hal_name = v;
+        }
         else if (!strcmp(a, "--mode"))
         {
             if (!parse_mode(v, &mode))
@@ -427,6 +447,32 @@ int quanta_cli_main(int argc, char **argv)
             snprintf(err, sizeof(err), "unknown option: %s", a);
             goto bad;
         }
+    }
+    if (!strcmp(command, "hal-info"))
+    {
+        quanta_hal *hal = NULL;
+        quanta_hal_info info;
+        quanta_hal_options options = {0};
+        options.name = hal_name;
+        st = quanta_hal_open(&options, &hal);
+        if (st != QUANTA_OK)
+        {
+            snprintf(err, sizeof(err), "cannot open HAL '%s': %s", hal_name ? hal_name : "native", quanta_status_name(st));
+            goto bad;
+        }
+        quanta_hal_get_info(hal, &info);
+        printf("HAL: %s\nImplemented operations: 0x%08x\nRegister kinds: 0x%08x\n"
+               "Hardware writes: %s\nLogical CPUs: %u (%s)\n"
+               "OS-reported physical memory: %" PRIu64 " bytes (%s)\n"
+               "Maximum transfer: %u bytes\n"
+               "Capabilities describe implementation, not permission or safe address ranges.\n",
+               info.name, info.capabilities, info.register_kinds,
+               info.writes_enabled ? "enabled" : "disabled",
+               info.logical_cpus, info.known & QUANTA_HAL_CPU_COUNT_KNOWN ? "known" : "unknown",
+               info.physical_memory_bytes, info.known & QUANTA_HAL_MEMORY_SIZE_KNOWN ? "known" : "unknown",
+               info.maximum_transfer);
+        quanta_hal_close(hal);
+        goto done;
     }
     st = quanta_registry_validate(err, sizeof(err));
     if (st != QUANTA_OK)
@@ -496,6 +542,11 @@ int quanta_cli_main(int argc, char **argv)
     st = quanta_query_parse(query, plan, err, sizeof(err));
     if (st != QUANTA_OK)
     {
+        goto bad;
+    }
+    if (hal_name && !quanta_copy(plan->hal, sizeof(plan->hal), hal_name))
+    {
+        snprintf(err, sizeof(err), "HAL name is too long");
         goto bad;
     }
     if (mode_set)

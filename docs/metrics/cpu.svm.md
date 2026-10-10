@@ -1,6 +1,6 @@
 # cpu.svm
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 SVM hardware capability — semantic version 1.
 

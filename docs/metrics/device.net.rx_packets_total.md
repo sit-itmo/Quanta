@@ -1,6 +1,6 @@
 # device.net.rx_packets_total
 
-## Linux / исходный провайдер
+## Linux / способ получения
 
 Received packets — semantic version 1.
 
