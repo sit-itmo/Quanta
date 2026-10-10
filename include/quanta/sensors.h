@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/sensors.h
+ *
+ * Application entry points for the built-in metric catalog and its documentation.
+ *
+ * Catalog: an immutable set of metric descriptors with unique names. It neither stores
+ * measurement results nor selects providers.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_SENSORS_H
 #define QUANTA_SENSORS_H

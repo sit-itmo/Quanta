@@ -1,12 +1,12 @@
 # process.self.private_bytes
 
-INV private committed memory.
+Частная подтверждённая память процесса Quanta.
 
 Единица: `B`. Источник: `GetProcessMemoryInfo / GetProcessIoCounters`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe process.self.private_bytes` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Измеряется только сам процесс INV, не любой произвольный PID.
 rss_bytes = WorkingSetSize, private_bytes = PrivateUsage (private committed bytes),

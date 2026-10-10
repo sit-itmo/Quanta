@@ -1,3 +1,17 @@
+/**
+ * @file core/src/live.c
+ *
+ * Engine worker thread and bounded, synchronized notification queue for the UI thread.
+ *
+ * Event: an internal queue record delivered from the worker to a consumer: a series change,
+ * sample, frame or diagnostic. This is not an OS event subscription.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT
  * Bounded, lossless event queue. Backpressure delays acquisition rather than
  * inventing samples or dropping metadata. Only the UI thread calls its sink.

@@ -1,3 +1,15 @@
+/**
+ * @file include/quanta/metric_def.h
+ *
+ * Compile-time helpers for common properties, gauges, counters and callbacks in .def files; no
+ * extra runtime entities.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * A .def file is a declaration list included repeatedly through macros. It is compile-time
+ * source, not runtime configuration or a separate provider.
+ */
 /* SPDX-License-Identifier: MIT
  * C11 descriptor initializer helpers, not a second registration/runtime layer.
  * Each helper owns a disjoint set of fields: do not override the same field

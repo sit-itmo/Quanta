@@ -1,3 +1,14 @@
+/**
+ * @file sensors/registry.c
+ *
+ * Build the built-in catalog from the groups enabled for the target platform.
+ *
+ * Catalog: an immutable set of metric descriptors with unique names. It neither stores
+ * measurement results nor selects providers.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "collector_internal.h"
 #include "quanta/metric_def.h"

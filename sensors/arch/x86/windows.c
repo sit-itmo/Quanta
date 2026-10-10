@@ -1,3 +1,15 @@
+/**
+ * @file sensors/arch/x86/windows.c
+ *
+ * Windows/x86 CPUID: read architectural properties with processor-group support and restore
+ * affinity.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 // hal/windows/cpuid.c
 #include "quanta/osal.h"
 #include "affinity.h"

@@ -1,3 +1,15 @@
+/**
+ * @file frontends/gui/backend/windows.c
+ *
+ * Win32 framebuffer window: messages, keyboard/mouse input, DPI and CPU-buffer presentation
+ * through GDI.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ *
+ * Framebuffer: an in-memory pixel array. Pixels use 0x00RRGGBB and stride is measured in pixels;
+ * presentation on a display is a separate operation.
+ */
 /* SPDX-License-Identifier: MIT
  * Native Win32 event transport + GDI presentation. No OpenGL, DirectX,
  * dynamically loaded vendor renderer or third-party platform library.

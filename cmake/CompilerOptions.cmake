@@ -1,3 +1,5 @@
+# cmake/CompilerOptions.cmake
+# Source list and settings for this module/platform; no runtime logic.
 # Apply options to our own targets, without exporting private headers or flags.
 function(quanta_target target)
     target_include_directories(${target} PRIVATE

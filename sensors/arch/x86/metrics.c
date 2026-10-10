@@ -1,3 +1,14 @@
+/**
+ * @file sensors/arch/x86/metrics.c
+ *
+ * x86 CPUID metric callbacks and descriptors backed by a CPU architectural-property snapshot.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 #include "quanta/osal.h"
 #include "collector_internal.h"
 #include "cpuid_snapshot.h"
@@ -11,7 +22,7 @@ quanta_status quanta_cpuid_init(quanta_metric_context *c)
     }
     c->private_data = p;
     return quanta_native_cpuid_probe(
-        p, quanta_sensor_snapshot_context(c)); /* свойство ONCE: пробуем один раз при open */
+        p, quanta_sensor_snapshot_context(c)); /* ONCE property: attempt collection once during open. */
 }
 
 quanta_status quanta_cpuid_enumerate(quanta_metric_context *c, quanta_discovery_sink *s)

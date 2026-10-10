@@ -1,0 +1,9 @@
+# Keep first-party source and Markdown consistent across Linux/Windows checkouts.
+* text=auto eol=lf
+# Preserve exact upstream bytes used by the dependency integrity checks.
+vendor/glfw/** -text
+vendor/imgui/** -text
+vendor/portable_gui_reference/** -text
+*.png binary
+*.jpg binary
+*.ico binary

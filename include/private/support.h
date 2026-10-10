@@ -1,3 +1,11 @@
+/**
+ * @file include/private/support.h
+ *
+ * Small internal helpers for shared code; not a separate OSAL or an additional public layer.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_SUPPORT_H
 #define QUANTA_SUPPORT_H

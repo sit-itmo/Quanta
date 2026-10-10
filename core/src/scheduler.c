@@ -1,3 +1,18 @@
+/**
+ * @file core/src/scheduler.c
+ *
+ * Polling loop: deadlines, shared snapshot refresh and delivery of completed frames and samples
+ * to a sink.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ */
 /* SPDX-License-Identifier: MIT
  * One synchronous scheduler per engine. An acquisition is shared by every
  * due channel in a collection pass; bindings maintain independent transform

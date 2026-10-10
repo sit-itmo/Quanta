@@ -1,3 +1,14 @@
+/**
+ * @file sensors/os/linux/filesystem.c
+ *
+ * Linux filesystem collector: use statvfs and populate shared-snapshot data and statuses.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 #include "quanta/osal.h"
 #include "filesystem.h"
 #include "snapshot_internal.h"

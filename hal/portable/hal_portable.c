@@ -1,3 +1,11 @@
+/**
+ * @file hal/portable/hal_portable.c
+ *
+ * Minimal portable HAL without hardware access; reports its capability limits explicitly.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT -- no invented hardware capabilities */
 #include "hal_internal.h"
 #include "quanta/osal.h"

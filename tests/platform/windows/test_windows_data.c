@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/windows/test_windows_data.c
+ *
+ * Regression tests for portable Windows parsers, normalization and data structures.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- platform-neutral Windows data tests.
  * These tests exercise our parser/math, NOT execution of Windows APIs.
  */

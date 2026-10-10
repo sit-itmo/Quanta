@@ -1,3 +1,18 @@
+/**
+ * @file core/private/engine_internal.h
+ *
+ * Internal engine state: acquisition groups, channels, presentation bindings and polling
+ * deadlines.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ */
 /* SPDX-License-Identifier: MIT -- private scheduler state, never installed */
 #ifndef QUANTA_ENGINE_INTERNAL_H
 #define QUANTA_ENGINE_INTERNAL_H

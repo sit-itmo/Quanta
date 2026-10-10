@@ -1,3 +1,12 @@
+/**
+ * @file hal/esp8266/hal_esp8266.c
+ *
+ * ESP8266 HAL: platform information and limited GPIO operations; not general access to arbitrary
+ * registers.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "hal_internal.h"

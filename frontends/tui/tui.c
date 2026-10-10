@@ -1,3 +1,17 @@
+/**
+ * @file frontends/tui/tui.c
+ *
+ * Terminal panels, history and user commands built on the shared live model.
+ *
+ * Event: an internal queue record delivered from the worker to a consumer: a series change,
+ * sample, frame or diagnostic. This is not an OS event subscription.
+ *
+ * History: bounded storage for a series of samples. The latest sample and the latest successful
+ * sample may differ.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "frontend_internal.h"

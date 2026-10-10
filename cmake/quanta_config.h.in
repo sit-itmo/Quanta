@@ -1,3 +1,5 @@
+/* Build-time configuration: CMake selects the platform and available metric/frontend groups.
+ * This header is not a runtime query and does not contain collected metric values. */
 #ifndef QUANTA_CONFIG_H
 #define QUANTA_CONFIG_H
 #cmakedefine01 QUANTA_ARCH_X86

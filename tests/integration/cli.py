@@ -24,7 +24,7 @@ def run(*args, status=0, **kwargs):
 
 
 expected_version = re.search(r'#define QUANTA_VERSION "([^"]+)"',
-                             (ROOT / "include/quanta/types.h").read_text()).group(1)
+                             (ROOT / "include/quanta/types.h").read_text(encoding="utf-8")).group(1)
 version = run("--version").stdout
 assert "quanta " + expected_version in version
 modes = run("--list-modes").stdout.splitlines()
@@ -69,8 +69,8 @@ run("run", "-q", 'hal "none"; hal "native"; select quanta.version;', status=2)
 run("run", "-q", 'select provider("os", quanta.version);', status=2)
 
 with tempfile.TemporaryDirectory(prefix="quanta cli ") as directory:
-    query = Path(directory) / "запрос с пробелами.q"
-    output = Path(directory) / "результат.csv"
+    query = Path(directory) / "\u0437\u0430\u043f\u0440\u043e\u0441 \u0441 \u043f\u0440\u043e\u0431\u0435\u043b\u0430\u043c\u0438.q"
+    output = Path(directory) / "\u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442.csv"
     query.write_text('version 1; mode cli; once; hal "none"; select quanta.version;', encoding="utf-8")
     assert run(str(query), "--format", "value").stdout == value
     # A CLI mode overrides the query before validation; no GUI dependency is used.
@@ -88,6 +88,20 @@ with tempfile.TemporaryDirectory(prefix="quanta cli ") as directory:
     run(str(query), status=2)
     query.write_bytes(b"x" * 65537)
     run(str(query), status=2)
+
+# Every compiled embedded document must preserve its Russian Markdown bytes.
+# Minimal builds may intentionally omit documentation, but never silently truncate it.
+for line in run("list", "--compiled").stdout.splitlines():
+    fields = line.split()
+    if not fields:
+        continue
+    doc_path = ROOT / "docs/metrics" / (fields[0] + ".md")
+    if not doc_path.is_file():
+        continue
+    description = run("describe", fields[0]).stdout
+    if "\n---\n" in description:
+        embedded = description.split("\n---\n", 1)[1]
+        assert embedded == doc_path.read_text(encoding="utf-8") + "\n", fields[0]
 
 run(str(ROOT / "examples/queries/00-portable.q"))
 # Product copies are not an implementation of runtime modes.

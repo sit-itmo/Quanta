@@ -1,3 +1,15 @@
+/**
+ * @file sensors/os/linux/temperature.c
+ *
+ * Linux temperature/fan collector: discover hwmon/thermal sysfs channels and populate shared-
+ * snapshot data and statuses.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 // hal/linux/hwmon.c
 #include "quanta/osal.h"
 #include "hwmon.h"

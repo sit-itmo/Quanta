@@ -1,3 +1,11 @@
+/**
+ * @file tests/unit/test_osal.c
+ *
+ * Regression tests for wrappers, clocks, files, threads and synchronization.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- exercise the real native OSAL behind its
  * abstraction. */
 #include "quanta/osal.h"

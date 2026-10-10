@@ -1,3 +1,15 @@
+/**
+ * @file metrics/selected.def
+ *
+ * Select .def groups for the current configuration through conditional inclusion; no runtime
+ * logic.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * A .def file is a declaration list included repeatedly through macros. It is compile-time
+ * source, not runtime configuration or a separate provider.
+ */
 /* SPDX-License-Identifier: MIT -- intentionally no include guard */
 #include "runtime.def"
 #if !QUANTA_PORTABLE

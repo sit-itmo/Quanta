@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/linux/test_linux_metrics.c
+ *
+ * Regression tests for Linux native-data parsing and value normalization.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- deterministic native parsers, no hardware
  * writes */
 #include "quanta/osal.h"

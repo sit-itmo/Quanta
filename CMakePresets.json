@@ -8,7 +8,7 @@
   "configurePresets": [
     {
       "name": "linux-default",
-      "generator": "Ninja",
+      "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "condition": {
         "type": "equals",
@@ -122,6 +122,22 @@
       "cacheVariables": {
         "QUANTA_WITH_GUI": "OFF"
       }
+    },
+    {
+      "name": "linux-framebuffer",
+      "inherits": "linux-default",
+      "cacheVariables": {
+        "QUANTA_GUI_BACKEND": "FRAMEBUFFER",
+        "QUANTA_WITH_GUI": "ON"
+      }
+    },
+    {
+      "name": "windows-framebuffer",
+      "inherits": "windows-native",
+      "cacheVariables": {
+        "QUANTA_GUI_BACKEND": "FRAMEBUFFER",
+        "QUANTA_WITH_GUI": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -162,6 +178,15 @@
     {
       "name": "windows-no-gui",
       "configurePreset": "windows-no-gui",
+      "configuration": "Release"
+    },
+    {
+      "name": "linux-framebuffer",
+      "configurePreset": "linux-framebuffer"
+    },
+    {
+      "name": "windows-framebuffer",
+      "configurePreset": "windows-framebuffer",
       "configuration": "Release"
     }
   ],
@@ -256,6 +281,21 @@
       },
       "execution": {
         "noTestsAction": "error"
+      },
+      "configuration": "Release"
+    },
+    {
+      "name": "linux-framebuffer",
+      "configurePreset": "linux-framebuffer",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "windows-framebuffer",
+      "configurePreset": "windows-framebuffer",
+      "output": {
+        "outputOnFailure": true
       },
       "configuration": "Release"
     }

@@ -1,3 +1,14 @@
+/**
+ * @file frontends/gui/backend/raster.c
+ *
+ * Software triangle rasterization: clipping, texture sampling, interpolation and alpha blending.
+ *
+ * Framebuffer: an in-memory pixel array. Pixels use 0x00RRGGBB and stride is measured in pixels;
+ * presentation on a display is a separate operation.
+ *
+ * Texture: a registered Alpha8 or RGBA32 image with a validated identifier. Creation, updates
+ * and destruction follow the ImGui 1.92 protocol.
+ */
 /* SPDX-License-Identifier: MIT
  * CPU rasterizer for Dear ImGui indexed, clipped, Alpha8/RGBA32-textured triangles.
  * Surface pixels are 0x00RRGGBB. Vertex color is ImGui's default 0xAABBGGRR.
@@ -33,7 +44,7 @@ static unsigned component(uint32_t c, unsigned shift)
     return (c >> shift) & 255u;
 }
 
-static float texel(const quanta_texture *t, float u, float v, int channel)
+float quanta_raster_texel(const quanta_texture *t, float u, float v, int channel)
 {
     float x, y, fx, fy;
     int ix, iy, x1, y1;
@@ -187,11 +198,11 @@ void quanta_raster_triangle(quanta_surface *s, const quanta_clip *clip, const qu
             }
             if (tex && tex->pixels && tex->channels == 4)
             {
-                r = (unsigned)(r * texel(tex, u, v, 0) / 255.0f + 0.5f);
-                g = (unsigned)(g * texel(tex, u, v, 1) / 255.0f + 0.5f);
-                blue = (unsigned)(blue * texel(tex, u, v, 2) / 255.0f + 0.5f);
+                r = (unsigned)(r * quanta_raster_texel(tex, u, v, 0) / 255.0f + 0.5f);
+                g = (unsigned)(g * quanta_raster_texel(tex, u, v, 1) / 255.0f + 0.5f);
+                blue = (unsigned)(blue * quanta_raster_texel(tex, u, v, 2) / 255.0f + 0.5f);
             }
-            ai = (unsigned)(alpha * texel(tex, u, v, 3) / 255.0f + 0.5f);
+            ai = (unsigned)(alpha * quanta_raster_texel(tex, u, v, 3) / 255.0f + 0.5f);
             if (ai > 255)
             {
                 ai = 255;

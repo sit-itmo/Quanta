@@ -1,11 +1,23 @@
+/**
+ * @file frontends/gui/gui.cpp
+ *
+ * Quanta ImGui widgets: panels, values, plots and live-session controls. The concrete window and
+ * renderer are hidden behind backend.h.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ *
+ * Event: an internal queue record delivered from the worker to a consumer: a series change,
+ * sample, frame or diagnostic. This is not an OS event subscription.
+ *
+ * History: bounded storage for a series of samples. The latest sample and the latest successful
+ * sample may differ.
+ */
 // SPDX-License-Identifier: MIT
-// The only C++ application layer: Dear ImGui view + software/native window
-// adapter.
 #include "imgui.h"
 #include "quanta/osal.h"
 #include "quanta/view.h"
-#include "imgui_renderer.h"
-#include "window.h"
+#include "backend.h"
 #include <algorithm>
 #include <cctype>
 #include <cfloat>
@@ -23,13 +35,11 @@ namespace
 {
 struct App
 {
-    quanta_window *window = nullptr;
+    quanta_gui_backend *backend = nullptr;
     ImGuiContext *imgui = nullptr;
     quanta_live *live = nullptr;
     quanta_model model{}, frozen{};
-    std::vector<uint32_t> pixels;
     bool paused = false;
-    int width = 1200, height = 800;
 
     ~App()
     {
@@ -42,143 +52,12 @@ struct App
         if (imgui)
         {
             ImGui::SetCurrentContext(imgui);
-            quanta_imgui_renderer_shutdown();
+            quanta_gui_close(backend);
+            backend = nullptr;
             ImGui::DestroyContext(imgui);
-        }
-        if (window)
-        {
-            quanta_window_close(window);
         }
     }
 };
-
-ImGuiKey key(uint32_t k)
-{
-    if (k >= 'a' && k <= 'z')
-    {
-        return (ImGuiKey)(ImGuiKey_A + (k - 'a'));
-    }
-    if (k >= 'A' && k <= 'Z')
-    {
-        return (ImGuiKey)(ImGuiKey_A + (k - 'A'));
-    }
-    if (k >= '0' && k <= '9')
-    {
-        return (ImGuiKey)(ImGuiKey_0 + (k - '0'));
-    }
-    switch (k)
-    {
-        case 0xff09:
-            return ImGuiKey_Tab;
-        case 0xff0d:
-            return ImGuiKey_Enter;
-        case 0xff1b:
-            return ImGuiKey_Escape;
-        case 0xff08:
-            return ImGuiKey_Backspace;
-        case 0xffff:
-            return ImGuiKey_Delete;
-        case 0xff63:
-            return ImGuiKey_Insert;
-        case 0xff50:
-            return ImGuiKey_Home;
-        case 0xff57:
-            return ImGuiKey_End;
-        case 0xff55:
-            return ImGuiKey_PageUp;
-        case 0xff56:
-            return ImGuiKey_PageDown;
-        case 0xff51:
-            return ImGuiKey_LeftArrow;
-        case 0xff52:
-            return ImGuiKey_UpArrow;
-        case 0xff53:
-            return ImGuiKey_RightArrow;
-        case 0xff54:
-            return ImGuiKey_DownArrow;
-        case 0xffe1:
-            return ImGuiKey_LeftShift;
-        case 0xffe2:
-            return ImGuiKey_RightShift;
-        case 0xffe3:
-            return ImGuiKey_LeftCtrl;
-        case 0xffe4:
-            return ImGuiKey_RightCtrl;
-        case 0xffe9:
-            return ImGuiKey_LeftAlt;
-        case 0xffea:
-            return ImGuiKey_RightAlt;
-        case 0xffeb:
-            return ImGuiKey_LeftSuper;
-        case 0xffec:
-            return ImGuiKey_RightSuper;
-        case ' ':
-            return ImGuiKey_Space;
-        case '-':
-            return ImGuiKey_Minus;
-        case '=':
-            return ImGuiKey_Equal;
-        case ',':
-            return ImGuiKey_Comma;
-        case '.':
-            return ImGuiKey_Period;
-        case '/':
-            return ImGuiKey_Slash;
-        case ';':
-            return ImGuiKey_Semicolon;
-        case '\'':
-            return ImGuiKey_Apostrophe;
-        case '[':
-            return ImGuiKey_LeftBracket;
-        case ']':
-            return ImGuiKey_RightBracket;
-        case '\\':
-            return ImGuiKey_Backslash;
-        case '`':
-            return ImGuiKey_GraveAccent;
-        default:
-            return ImGuiKey_None;
-    }
-}
-
-void input(ImGuiIO &io, const quanta_window_event &e)
-{
-    switch (e.kind)
-    {
-        case QUANTA_X_MOTION:
-            io.AddMousePosEvent((float)e.x, (float)e.y);
-            break;
-        case QUANTA_X_BUTTON:
-            io.AddMousePosEvent((float)e.x, (float)e.y);
-            io.AddMouseButtonEvent(e.button, e.pressed != 0);
-            break;
-        case QUANTA_X_WHEEL:
-            io.AddMouseWheelEvent((float)e.x, (float)e.y);
-            break;
-        case QUANTA_X_FOCUS:
-            io.AddFocusEvent(e.pressed != 0);
-            break;
-        case QUANTA_X_KEY:
-        {
-            io.AddKeyEvent(ImGuiMod_Shift, (e.mods & QUANTA_X_SHIFT) != 0);
-            io.AddKeyEvent(ImGuiMod_Ctrl, (e.mods & QUANTA_X_CTRL) != 0);
-            io.AddKeyEvent(ImGuiMod_Alt, (e.mods & QUANTA_X_ALT) != 0);
-            io.AddKeyEvent(ImGuiMod_Super, (e.mods & QUANTA_X_SUPER) != 0);
-            ImGuiKey k = key(e.keysym);
-            if (k != ImGuiKey_None)
-            {
-                io.AddKeyEvent(k, e.pressed != 0);
-            }
-            if (e.codepoint)
-            {
-                io.AddInputCharacter(e.codepoint);
-            }
-            break;
-        }
-        default:
-            break;
-    }
-}
 
 bool contains(const char *s, const char *find)
 {
@@ -550,26 +429,23 @@ int run(quanta_engine *engine, const quanta_plan *plan)
 {
     App app;
     char error[512];
-    if (!quanta_window_open("Quanta | System Observatory", app.width, app.height, &app.window,
-                            error, sizeof(error)))
+    IMGUI_CHECKVERSION();
+    app.imgui = ImGui::CreateContext();
+    if (!app.imgui)
+    {
+        quanta_fputs("quanta: cannot create ImGui context\n", quanta_stderr);
+        return 1;
+    }
+    ImGuiIO &io = ImGui::GetIO();
+    io.IniFilename = nullptr;
+    io.LogFilename = nullptr;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    if (!quanta_gui_open("Quanta | System Observatory", 1200, 800, &app.backend,
+                         error, sizeof(error)))
     {
         quanta_fprintf(quanta_stderr, "quanta: %s\n", error);
         return 1;
     }
-    IMGUI_CHECKVERSION();
-    app.imgui = ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    io.IniFilename = nullptr;
-    io.LogFilename = nullptr;
-    io.BackendPlatformName = "quanta_native_window";
-    if (!quanta_imgui_renderer_init())
-    {
-        quanta_fprintf(quanta_stderr, "quanta: cannot initialize ImGui renderer\n");
-        return 1;
-    }
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    const float dpi = quanta_window_scale(app.window);
-    ImGui::GetMainViewport()->PlatformHandleRaw = quanta_window_native(app.window);
     if (plan->font_path[0])
     {
         quanta_file *font = quanta_fopen(plan->font_path, "rb");
@@ -649,42 +525,15 @@ int run(quanta_engine *engine, const quanta_plan *plan)
     while (running && !quanta_interrupted())
     {
         uint64_t frame_start = quanta_now_ns();
-        quanta_window_event ev;
-        int available;
-        while ((available = quanta_window_poll(app.window, &ev)) > 0)
+        const int available = quanta_gui_poll(app.backend);
+        if (available <= 0)
         {
-            if (ev.kind == QUANTA_X_CLOSE)
+            if (available < 0)
             {
-                running = false;
+                quanta_fputs("quanta: GUI event transport failed\n", quanta_stderr);
+                return 1;
             }
-            else if (ev.kind == QUANTA_X_RESIZE)
-            {
-                app.width = ev.width;
-                app.height = ev.height;
-            }
-            else
-            {
-                if (ev.kind == QUANTA_X_MOTION || ev.kind == QUANTA_X_BUTTON)
-                {
-                    ev.x = (int)(ev.x / dpi);
-                    ev.y = (int)(ev.y / dpi);
-                }
-                input(io, ev);
-            }
-        }
-        if (available < 0)
-        {
-            quanta_fprintf(quanta_stderr, "quanta: window event transport failed\n");
-            return 1;
-        }
-        if (!running)
-        {
             break;
-        }
-        if (app.width <= 0 || app.height <= 0 || app.width > 4096 || app.height > 4096)
-        {
-            quanta_fprintf(quanta_stderr, "quanta: GUI surface limit is 4096x4096\n");
-            return 1;
         }
         result = quanta_live_pump(app.live, &sink);
         if (result != QUANTA_OK)
@@ -697,10 +546,14 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         {
             break;
         }
-        io.DisplaySize = ImVec2((float)app.width / dpi, (float)app.height / dpi);
-        io.DisplayFramebufferScale = ImVec2(dpi, dpi);
-        io.DeltaTime = std::max(0.001f, (float)((double)(frame_start - last) / 1e9));
+        const float delta = std::max(0.001f, (float)((double)(frame_start - last) / 1e9));
         last = frame_start;
+        if (!quanta_gui_new_frame(app.backend, delta))
+        {
+            // Minimized surfaces do not have drawable pixels. Collection still runs.
+            quanta_sleep_ns(33333333u);
+            continue;
+        }
         ImGui::NewFrame();
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(io.DisplaySize);
@@ -709,7 +562,8 @@ int run(quanta_engine *engine, const quanta_plan *plan)
                          ImGuiWindowFlags_NoSavedSettings);
         ImGui::TextUnformatted("Quanta / SYSTEM OBSERVATORY");
         ImGui::SameLine();
-        ImGui::TextDisabled("v%s  |  C11 collectors  |  software renderer", QUANTA_VERSION);
+        ImGui::TextDisabled("v%s  |  C11 collectors  |  %s", QUANTA_VERSION,
+                            quanta_gui_backend_name());
         ImGui::Separator();
         ImGui::SetNextItemWidth(std::max(180.0f, io.DisplaySize.x * .30f));
         ImGui::InputTextWithHint("##filter", "Filter metric, label or title", filter,
@@ -786,20 +640,9 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         }
         ImGui::End();
         ImGui::Render();
-        size_t count = (size_t)app.width * (size_t)app.height;
-        if (app.pixels.size() != count)
+        if (!quanta_gui_render(app.backend, ImGui::GetDrawData()))
         {
-            app.pixels.resize(count);
-        }
-        quanta_surface surface{app.pixels.data(), app.width, app.height, app.width};
-        if (!quanta_imgui_renderer_render(ImGui::GetDrawData(), &surface))
-        {
-            quanta_fprintf(quanta_stderr, "quanta: ImGui texture or draw-data validation failed\n");
-            return 1;
-        }
-        if (!quanta_window_present(app.window, app.pixels.data(), app.width, app.height))
-        {
-            quanta_fprintf(quanta_stderr, "quanta: window presentation failed\n");
+            quanta_fputs("quanta: GUI rendering or presentation failed\n", quanta_stderr);
             return 1;
         }
         uint64_t elapsed = quanta_now_ns() - frame_start;

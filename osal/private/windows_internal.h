@@ -1,3 +1,12 @@
+/**
+ * @file osal/private/windows_internal.h
+ *
+ * Private Windows helpers for string conversion, FILETIME and error mapping; native types do not
+ * escape into the public API.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_WINDOWS_INTERNAL_H
 #define QUANTA_WINDOWS_INTERNAL_H

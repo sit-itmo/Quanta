@@ -1,3 +1,5 @@
+# core/CMakeLists.txt
+# Source list and settings for this module/platform; no runtime logic.
 # One portable C library: query, scheduler, HAL and the small OSAL contract.
 # No built-in metrics, frontend implementation, C++ or GUI library is linked here.
 if(WIN32)

@@ -1,3 +1,5 @@
+# cmake/ImGui.cmake
+# Source list and settings for this module/platform; no runtime logic.
 # Sources are detected before targets are created. CMake never downloads code.
 add_library(imgui_vendor STATIC
   ${QUANTA_IMGUI_DIR}/imgui.cpp ${QUANTA_IMGUI_DIR}/imgui_draw.cpp

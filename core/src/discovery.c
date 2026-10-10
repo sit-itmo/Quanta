@@ -1,3 +1,18 @@
+/**
+ * @file core/src/discovery.c
+ *
+ * Discover instances, add or remove bindings and notify consumers when the set of series
+ * changes.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ *
+ * Labels: key/value pairs selecting an instance, such as cpu="0". They describe the source, not
+ * a widget caption.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ */
 /* SPDX-License-Identifier: MIT
  * Reconcile metric instances into deduplicated acquisition channels and query
  * bindings. */

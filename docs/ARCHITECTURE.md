@@ -1,4 +1,4 @@
-# Архитектура Quanta 0.6.0
+# Архитектура Quanta 0.8.0
 
 Этот документ описывает действующее решение. `Quanta_Design.md` — неизменённый исходный
 дизайн; положения о providers, отдельных программах и прежнем дереве каталогов заменены
@@ -133,24 +133,37 @@ OS acquisition. Неизвестное число CPU даёт UNSUPPORTED, а �
 переносимости, но не предоставляет OS-specific метрик там, где нет соответствующего OS API.
 
 GUI/TUI выбираются в единой программе; native-сборка по умолчанию требует оба (`ON`).
-`AUTO` явно разрешает сокращённый набор при отсутствии зависимостей, `ON` требует зависимость,
-`OFF` исключает её. ImGui имеет собственные view, software renderer и Win32/XCB window backend;
-TUI имеет общий код и POSIX/Windows terminal backend. Core не требует C++ и не открывает окна.
-Сборка без UI не требует их headers/libraries. Если GUI включён при сборке, его link-time
-зависимости остаются у executable и при запуске с `--cli`; это не динамические плагины. `--list-modes` показывает результат конфигурации.
+`AUTO` явно разрешает сокращённый набор, `OFF` исключает frontend. GUI-backend выбирает
+CMake: `QUANTA_GUI_BACKEND=OPENGL` (default) либо `FRAMEBUFFER`.
 
-Dear ImGui **1.92.9b** встроен как неизменённые исходники в `vendor/imgui`. C++ включается
-в верхнем CMake scope при GUI, а не только внутри `frontends`: так C++ runtime доходит
-до sibling app/tests. `imgui_vendor` — дополнительная STATIC зависимость GUI, не часть core.
-Renderer владеет копиями Alpha8/RGBA32 текстур и обслуживает create/update/destroy протокол
-1.92; рост атласа не оставляет dangling pointer. Renderer shutdown выполняется до
-уничтожения ImGui context. Стандартные sampler/reset callbacks и VtxOffset обрабатываются
-программно. Native backends передают события ввода и показывают framebuffer.
+`frontends/gui/gui.cpp` строит общие ImGui-виджеты и обслуживает live/model. Приватный
+`backend.h` отделяет создание окна, ввод, начало кадра и рисование. `opengl.cpp` использует
+GLFW + официальные ImGui GLFW/OpenGL3 adapters. `framebuffer.cpp` использует CPU-растеризатор
+и X11/Xlib либо Win32/GDI presentation. Их lifecycle единый, ImGui context принадлежит
+frontend; backend закрывается до уничтожения context. Core не открывает окна и не требует C++.
+
+Dear ImGui **1.92.9b** и пять официальных backend-файлов включены неизменёнными.
+GLFW в Linux используется из системного пакета, а в Windows — из включённого
+полного дерева `vendor/glfw` версии 3.4.
+[Происхождение и контрольные суммы](../vendor/GLFW.md). CMake не скачивает код.
+C++ включается в root scope, поэтому runtime доходит до sibling app/tests.
+`imgui_vendor` и выбранная backend-library не входят в `quanta_core`.
+
+В FRAMEBUFFER протокол ImGui 1.92 ведёт копии Alpha8/RGBA32 текстур, create/update/destroy,
+filtering и VtxOffset. Алгоритмы quads/заливки строк из portable_gui адаптированы в
+`portable_quad.cpp`; неподходящие пары идут в triangle fallback. Поверхность — RGB32 RAM,
+не готовый framebuffer device driver. [Происхождение и ограничения](../vendor/PORTABLE_GUI.md).
+
+TUI имеет POSIX/Windows terminal backend. При GUI=OFF его headers/libraries не нужны.
+Если GUI включён, link-time зависимости остаются у executable даже при `--cli`:
+это не динамические плагины. `--list-modes` показывает доступные runtime-режимы.
 
 ESP SDK-компонент берёт файлы и публичные размеры из одного `cmake/esp8266_sources.cmake`.
 Host SDK-stubs находятся только в тестах. На плате используются настоящие SDK headers/calls.
 Serial app использует `quanta_metric_read_once`, не создавая большой UI engine; полный core
 и query остаются доступными. [ESP8266](ESP8266.md).
+
+Словарь терминов и порядок чтения: [CODE_GUIDE](CODE_GUIDE.md).
 
 ## Правила изменений
 

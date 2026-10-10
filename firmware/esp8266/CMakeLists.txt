@@ -1,3 +1,5 @@
+# firmware/esp8266/CMakeLists.txt
+# Source list and settings for this module/platform; no runtime logic.
 cmake_minimum_required(VERSION 3.16)
 if(NOT DEFINED ENV{IDF_PATH})
     message(FATAL_ERROR "Set IDF_PATH to ESP8266_RTOS_SDK (not ESP32 ESP-IDF). See docs/ESP8266.md.")

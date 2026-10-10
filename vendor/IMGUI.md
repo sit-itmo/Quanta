@@ -1,19 +1,27 @@
 # Dear ImGui 1.92.9b
 
-Bundled from the user-supplied `imgui-1.92.9b.zip`. The library sources and
-headers are unmodified; see `imgui/LICENSE.txt`. CMake builds the four core
-translation units. `imgui_demo.cpp` is retained as an upstream reference,
-not linked into Quanta. No network access, fetch script, submodule,
-OpenGL/DirectX SDK, SDL, or GLFW is needed.
+Библиотечные исходники и пять файлов GLFW/OpenGL3 backend взяты из переданного
+`imgui-1.92.9b.zip` **без изменений**. Лицензия: `imgui/LICENSE.txt`.
+Четыре core `.cpp` собираются в `imgui_vendor`; `imgui_demo.cpp` оставлен как reference.
 
-Quanta owns its native Win32/GDI and XCB window backends and a CPU renderer
-with the 1.92 dynamic texture protocol. Unused upstream backend/example
-projects, CI scripts and external font files are not part of this subset.
+При `QUANTA_GUI_BACKEND=OPENGL` дополнительно компилируются
+`imgui_impl_glfw.cpp` и `imgui_impl_opengl3.cpp`. Встроенный
+`imgui_impl_opengl3_loader.h` не требует отдельного GLAD/GLEW.
+При `FRAMEBUFFER` эти upstream backends не компилируются: используется CPU-адаптер
+из `frontends/gui/`, поддерживающий динамические текстуры ImGui 1.92.
 
-## Upstream file hashes
+GLFW — **другая библиотека**, не часть ImGui: [GLFW.md](GLFW.md).
+Внешние файлы шрифтов и готовые `.lib/.dll` не включены.
+
+## Контрольные суммы исходных файлов
 
 ```text
 173506a2d6f7fb67990d257fb2507f188690eca39060c39469ae7bef43aae2a3  LICENSE.txt
+41b11f71c17e05a748d4eaf8905a5fe6924d3ac42f69230feec4e585fd84900f  backends/imgui_impl_glfw.cpp
+ec95fe696c025dbf5fe6d24b958d7531d8cfbac0cb306a5435899d3526f64c4e  backends/imgui_impl_glfw.h
+415001ebde1124337de5ded44aa42dc0ab458531049b7ca5b8b358514555af5d  backends/imgui_impl_opengl3.cpp
+f8b452e0af80969e7d2a5c55c5bef42055f0686404e92bbd9d7ccc8a20754e7a  backends/imgui_impl_opengl3.h
+d3aa3e1f3d23c8c88817832e17d8dd0f2d0b599ae28430067c3fad563b8b7cd5  backends/imgui_impl_opengl3_loader.h
 cce505252477d754005f7c8931b26589db50fea2e24011294f19c1bd9f21accf  docs/BACKENDS.md
 0c9c57f9a59256ed6f5c8d8f43596d63747f6c9c96c92c617482cf43c832409b  docs/CHANGELOG.txt
 7f6c6e61ac8d4d70ffabe3357ddceba57a449abd2fd279073224ec97a2357918  docs/FONTS.md

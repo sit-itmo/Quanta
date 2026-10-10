@@ -1,3 +1,14 @@
+/**
+ * @file sensors/arch/x86/linux.c
+ *
+ * Linux/x86 CPUID: read architectural properties on a selected CPU and restore affinity.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 // hal/linux/cpuid.c
 #include "quanta/osal.h"
 #include "affinity.h"

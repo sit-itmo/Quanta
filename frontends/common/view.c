@@ -1,3 +1,14 @@
+/**
+ * @file frontends/common/view.c
+ *
+ * Shared presentation calculations: units, scales, bounds and display values.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ *
+ * History: bounded storage for a series of samples. The latest sample and the latest successful
+ * sample may differ.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "frontend_internal.h"

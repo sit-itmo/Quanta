@@ -1,3 +1,12 @@
+/**
+ * @file include/quanta/osal.h
+ *
+ * The complete required Quanta runtime contract: C library wrappers, clocks, threads and
+ * synchronization.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_OSAL_H
 #define QUANTA_OSAL_H

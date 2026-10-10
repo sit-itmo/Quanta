@@ -1,3 +1,15 @@
+/**
+ * @file sensors/common/smbios.c
+ *
+ * Parse a bounded SMBIOS table and its strings: BIOS, board, system and memory. This parser does
+ * not access HAL itself.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 #include "quanta/osal.h"
 #include "quanta/text.h"
 /* SPDX-License-Identifier: MIT */

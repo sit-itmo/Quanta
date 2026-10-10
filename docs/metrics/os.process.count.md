@@ -1,12 +1,12 @@
 # os.process.count
 
-System process count.
+Количество процессов в системе.
 
 Единица: `без единицы`. Источник: `GlobalMemoryStatusEx / GetPerformanceInfo`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe os.process.count` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Физические total/available получены одним GlobalMemoryStatusEx; used = total − available,
 utilization = used / total. Available включает страницы, которые Windows считает доступными,

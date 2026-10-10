@@ -1,3 +1,5 @@
+# tests/CMakeLists.txt
+# Native suites and optional Python checks; CTest remains the sole test runner.
 # Small independent C suites + black-box Python tests. No third-party framework.
 # Every suite uses a normal exit code; CTest is the sole test runner.
 function(quanta_test name)
@@ -35,14 +37,17 @@ if(NOT QUANTA_PORTABLE)
         include(platform/windows/schema.cmake)
     endif()
 endif()
-if(QUANTA_WITH_GUI)
+if(QUANTA_WITH_GUI AND QUANTA_GUI_BACKEND STREQUAL "FRAMEBUFFER")
     quanta_test(imgui_renderer unit/test_imgui_renderer.cpp)
-    target_link_libraries(quanta_test_imgui_renderer PRIVATE imgui_vendor)
+    target_link_libraries(quanta_test_imgui_renderer PRIVATE quanta_framebuffer)
 endif()
 
 include(esp8266.cmake)
 
-find_package(Python3 COMPONENTS Interpreter REQUIRED)
+if(QUANTA_PYTHON_TESTS)
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+endif()
+if(QUANTA_PYTHON_TESTS AND Python3_Interpreter_FOUND)
 function(quanta_python_test name script)
     add_test(NAME ${name} COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/integration/${script}
         $<TARGET_FILE:quanta> ${ARGN})
@@ -69,6 +74,9 @@ if(NOT QUANTA_PORTABLE)
             endif()
         endif()
     endif()
+endif()
+else()
+    message(STATUS "Python integration/documentation checks skipped; native C/C++ tests remain enabled")
 endif()
 get_property(all_tests DIRECTORY PROPERTY TESTS)
 set_tests_properties(${all_tests} PROPERTIES TIMEOUT 120)

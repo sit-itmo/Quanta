@@ -1,3 +1,15 @@
+/**
+ * @file sensors/platform/esp8266/mcu_metrics.c
+ *
+ * Callbacks and registration for nine ESP8266 MCU metrics; extract SDK fields from a shared
+ * snapshot.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "collector_internal.h"

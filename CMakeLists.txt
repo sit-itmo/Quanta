@@ -1,5 +1,7 @@
+# CMakeLists.txt
+# Root configuration: one executable, platform features, frontends and native tests.
 cmake_minimum_required(VERSION 3.21)
-project(Quanta VERSION 0.6.0 LANGUAGES C)
+project(Quanta VERSION 0.8.0 LANGUAGES C)
 
 # A plain single-configuration build is usable without selecting a preset.
 if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
@@ -43,6 +45,7 @@ option(QUANTA_STRICT_STATIC "Static executable/CRT (Windows system DLLs remain)"
 option(QUANTA_SANITIZE "AddressSanitizer and UndefinedBehaviorSanitizer" OFF)
 option(QUANTA_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 option(QUANTA_TESTS_ON_BUILD "Run CTest on every ordinary native build" ON)
+option(QUANTA_PYTHON_TESTS "Enable additional Python checks when an interpreter is available" ON)
 include(CTest)
 if(QUANTA_SANITIZE AND (WIN32 OR QUANTA_STRICT_STATIC))
     message(FATAL_ERROR "Sanitizers require a non-static Linux/POSIX build.")
@@ -86,8 +89,20 @@ install(TARGETS quanta_core quanta_sensors quanta_frontends ARCHIVE DESTINATION 
 if(TARGET imgui_vendor)
     install(TARGETS imgui_vendor ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif()
+foreach(extra quanta_framebuffer quanta_imgui_opengl glfw)
+    if(TARGET ${extra})
+        get_target_property(imported ${extra} IMPORTED)
+        if(NOT imported)
+            install(TARGETS ${extra} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+        endif()
+    endif()
+endforeach()
 install(DIRECTORY include/quanta DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY examples/ DESTINATION ${CMAKE_INSTALL_DATADIR}/quanta/examples)
 install(DIRECTORY docs/ DESTINATION ${CMAKE_INSTALL_DOCDIR})
 message(STATUS "Quanta ${PROJECT_VERSION}: ${QUANTA_PLATFORM}; one executable: quanta")
 message(STATUS "Frontends: file=ON, TUI=${QUANTA_WITH_TUI}, GUI=${QUANTA_WITH_GUI}")
+
+if(QUANTA_WITH_GUI)
+    message(STATUS "GUI backend: ${QUANTA_GUI_BACKEND}; no network downloads")
+endif()

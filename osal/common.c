@@ -1,3 +1,11 @@
+/**
+ * @file osal/common.c
+ *
+ * Shared file/text helpers built on the stdio contract and platform wrappers.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "support.h"
 quanta_status quanta_errno_status(int e)

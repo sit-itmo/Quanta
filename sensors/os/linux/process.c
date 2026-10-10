@@ -1,3 +1,15 @@
+/**
+ * @file sensors/os/linux/process.c
+ *
+ * Linux current-Quanta-process collector: use /proc/self and system page sizes to populate
+ * shared-snapshot data and statuses.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "process.h"

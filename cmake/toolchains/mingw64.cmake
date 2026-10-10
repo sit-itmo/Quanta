@@ -1,3 +1,5 @@
+# cmake/toolchains/mingw64.cmake
+# Source list and settings for this module/platform; no runtime logic.
 # Requires an installed, real MinGW-w64 x86_64 cross-toolchain.
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_SYSTEM_PROCESSOR AMD64)

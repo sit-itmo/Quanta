@@ -1,3 +1,17 @@
+/**
+ * @file core/src/query.c
+ *
+ * Tokenize, parse and validate queries; build execution plans with error diagnostics.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "core_internal.h"

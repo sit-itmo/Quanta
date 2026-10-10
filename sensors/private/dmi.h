@@ -1,3 +1,14 @@
+/**
+ * @file sensors/private/dmi.h
+ *
+ * Board collector state and ownership of SMBIOS data. This header is private, not public API.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 #ifndef QUANTA_SENSOR_DMI_H
 #define QUANTA_SENSOR_DMI_H
 

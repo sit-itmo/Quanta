@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/types.h
+ *
+ * Fundamental types and statuses, version, buffer capacities, typed values and contract units.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_TYPES_H
 #define QUANTA_TYPES_H
@@ -9,7 +20,7 @@ extern "C"
 
 #include <stddef.h>
 #include <stdint.h>
-#define QUANTA_VERSION "0.6.0"
+#define QUANTA_VERSION "0.8.0"
 #ifndef QUANTA_TEXT_CAP
 #define QUANTA_TEXT_CAP 512
 #endif

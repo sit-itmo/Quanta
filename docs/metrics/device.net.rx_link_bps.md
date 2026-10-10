@@ -1,12 +1,12 @@
 # device.net.rx_link_bps
 
-Receive link speed.
+Скорость канала приёма.
 
 Единица: `bit/s`. Источник: `GetIfTable2 (64-bit counters; GUID+LUID identity)`.
 Метки: `ifname,ifindex,guid`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe device.net.rx_link_bps` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
 строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие

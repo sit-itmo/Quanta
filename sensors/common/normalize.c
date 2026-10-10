@@ -1,3 +1,14 @@
+/**
+ * @file sensors/common/normalize.c
+ *
+ * Shared checked calculations for memory, CPU and temperature values, without native I/O.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "normalize.h"

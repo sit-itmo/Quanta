@@ -1,3 +1,15 @@
+/**
+ * @file osal/windows/thread.c
+ *
+ * Hidden Windows implementation of threads, locks and condition variables with resource
+ * ownership management.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ *
+ * Event: an internal queue record delivered from the worker to a consumer: a series change,
+ * sample, frame or diagnostic. This is not an OS event subscription.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include <windows.h>

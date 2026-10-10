@@ -8,10 +8,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [default, linux-no-gui, linux-minimal, portable-posix, linux-asan]
+        profile: [default, linux-no-gui, linux-minimal, portable-posix, linux-asan, linux-framebuffer]
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 clang libxcb1-dev xvfb
+      - run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 clang libglfw3-dev libx11-dev xvfb
       - name: Configure without preset (all native features)
         if: matrix.profile == 'default'
         run: cmake -S . -B build/default -DQUANTA_WARNINGS_AS_ERRORS=ON
@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [default, windows-no-gui, windows-minimal]
+        profile: [default, windows-no-gui, windows-minimal, windows-framebuffer]
         configuration: [Debug, Release]
     steps:
       - uses: actions/checkout@v4

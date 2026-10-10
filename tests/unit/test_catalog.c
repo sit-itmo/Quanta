@@ -1,3 +1,11 @@
+/**
+ * @file tests/unit/test_catalog.c
+ *
+ * Regression tests for catalog validation, unique names, callbacks and malformed descriptors.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT
  * A core-only client: no builtin sensor or renderer is linked.
  * Core links only the minimal HAL and OSAL infrastructure.

@@ -2,44 +2,45 @@
 
 ## Linux / способ получения
 
-Received bytes — semantic version 1.
+Принятые байты — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `u64`; kind: `counter`.
-- Canonical unit: `B`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `ifname,ifindex`.
-- Source: /sys/class/net identity and attributes; one /proc/net/dev counters snapshot.
+- Тип: `u64`; вид: `counter`.
+- Базовая единица: `B`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 100 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `ifname,ifindex`.
+- Источник: идентичность и атрибуты /sys/class/net; один снимок счётчиков /proc/net/dev.
 
-## Meaning
+## Значение
 
-Cumulative receive bytes from /proc/net/dev for this interface. These are kernel link statistics, not application payload throughput. Counters may reset when the interface is recreated. Use rate(device.net.rx_bytes_total) for per-second values or delta(device.net.rx_bytes_total) for changes.
+Накопленное число принятых байтов из /proc/net/dev для данного интерфейса. Это канальная статистика ядра, а не скорость полезных данных приложения. При пересоздании интерфейса счётчик может сброситься. Используйте rate(device.net.rx_bytes_total) для значения в секунду или delta(device.net.rx_bytes_total) для приращения.
 
-Identity is ifindex within the current network namespace; display name is not used alone. Reuse of the same ifindex is not guaranteed to be detected. Rediscovery is approximately every 5 s or explicit refresh. Very fast remove/recreate cycles can be missed by any periodic enumeration.
+Идентичность задаётся ifindex в текущем сетевом пространстве имён; одного отображаемого имени недостаточно. Повторное использование того же ifindex не гарантированно обнаруживается. Повторное обнаружение выполняется примерно каждые 5 с либо по явному обновлению. Очень быстрый цикл удаления и создания может быть пропущен при любом периодическом перечислении.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional device.net.rx_bytes_total;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/networking/statistics.html
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
 строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие

@@ -1,12 +1,12 @@
 # system.uuid
 
-SMBIOS system UUID.
+UUID системы из SMBIOS.
 
 Единица: `без единицы`. Источник: `GetSystemFirmwareTable RSMB / bounded SMBIOS parser`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe system.uuid` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Данные приходят из GetSystemFirmwareTable(RSMB), без dmidecode, WMI, PowerShell и драйвера.
 Парсер ограничивает длины и проверяет структуру, строки и двойные NUL. SMBIOS types 0/1/2/17

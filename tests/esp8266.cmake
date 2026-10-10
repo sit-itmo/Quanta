@@ -1,3 +1,5 @@
+# tests/esp8266.cmake
+# Source list and settings for this module/platform; no runtime logic.
 if(NOT WIN32)
     find_package(Threads REQUIRED)
     set(QUANTA_ROOT ${PROJECT_SOURCE_DIR})

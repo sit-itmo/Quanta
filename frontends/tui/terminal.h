@@ -1,3 +1,11 @@
+/**
+ * @file frontends/tui/terminal.h
+ *
+ * Private terminal contract: dimensions, input mode, keys and state restoration.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_TERMINAL_H
 #define QUANTA_TERMINAL_H

@@ -1,3 +1,17 @@
+/**
+ * @file core/src/history.c
+ *
+ * Consumer data model: update series, track the latest value and maintain bounded history.
+ *
+ * History: bounded storage for a series of samples. The latest sample and the latest successful
+ * sample may differ.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "quanta/history.h"

@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/quanta.h
+ *
+ * Umbrella header for the public Quanta API; consumers use a single include directory.
+ *
+ * Catalog: an immutable set of metric descriptors with unique names. It neither stores
+ * measurement results nor selects providers.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_QUANTA_H
 #define QUANTA_QUANTA_H

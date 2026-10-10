@@ -1,3 +1,14 @@
+/**
+ * @file frontends/tui/terminal_windows.c
+ *
+ * Windows console: native input, dimensions and state restoration for the TUI.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT -- native screen buffer; no VT sequences or
  * curses */
 #include "quanta/osal.h"

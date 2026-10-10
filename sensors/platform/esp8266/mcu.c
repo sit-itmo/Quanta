@@ -1,3 +1,15 @@
+/**
+ * @file sensors/platform/esp8266/mcu.c
+ *
+ * SDK MCU-snapshot collector: heap, frequency, chip properties, SDK version and conditional
+ * VDD33 measurement.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT
  * SDK metrics deliberately bypass HAL. No high-level MCU API belongs in HAL. */
 #include "quanta/osal.h"

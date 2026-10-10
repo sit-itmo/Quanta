@@ -1,3 +1,11 @@
+/**
+ * @file tests/unit/test_metric_def.c
+ *
+ * Regression tests for common .def helpers and equivalence of the generated descriptors.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- the helpers generate ordinary C descriptors. */
 #include "quanta/osal.h"
 #include "quanta/metric_def.h"

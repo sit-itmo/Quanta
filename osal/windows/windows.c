@@ -1,3 +1,11 @@
+/**
+ * @file osal/windows/windows.c
+ *
+ * Windows runtime: clocks, sleep, UTF-8/UTF-16 paths, output files, signals and error statuses.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #include <locale.h>
 #include "windows_internal.h"

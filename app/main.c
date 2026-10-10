@@ -1,3 +1,18 @@
+/**
+ * @file app/main.c
+ *
+ * Entry point of the single quanta utility: arguments, query loading, mode selection and engine
+ * startup.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ *
+ * Catalog: an immutable set of metric descriptors with unique names. It neither stores
+ * measurement results nor selects providers.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "frontend_internal.h"

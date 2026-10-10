@@ -1,3 +1,15 @@
+/**
+ * @file sensors/os/windows/network.c
+ *
+ * Windows network-interface collector: use GetIfTable2/MIB_IF_ROW2 and populate shared-snapshot
+ * data and statuses.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "network.h"

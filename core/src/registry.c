@@ -1,3 +1,17 @@
+/**
+ * @file core/src/registry.c
+ *
+ * Validate catalogs, look up metrics by name and match descriptors to select statements.
+ *
+ * Catalog: an immutable set of metric descriptors with unique names. It neither stores
+ * measurement results nor selects providers.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "core_internal.h"

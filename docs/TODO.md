@@ -1,6 +1,11 @@
-# TODO 0.6.0
+# TODO 0.8.0
 
 ## P0 — приёмка на целевых платформах
+
+- [x] Включить полное исходное дерево GLFW 3.4 в vendor/glfw и проверять его контрольные суммы.
+- [ ] Полная native-сборка и запуск OPENGL на Linux и Windows, error paths и driver/context support.
+  Здесь пройдена только syntax-проверка OpenGL-кода; framebuffer build/run — отдельный результат.
+- [ ] Уточнить лицензию переданного portable_gui до публичного распространения производного кода.
 
 - [ ] ESP8266 SDK v3.4: clean cross-build/link, size/map, flash, serial log со всеми 9 MCU keys.
   Проверить длительный heap/min-heap, stack high-water mark, cold reboot, SDK threading.
@@ -32,7 +37,7 @@
 
 ## Не TODO: намеренно удалённое
 
-Providers, provider fallback/priority, several runtime implementations under one metric key
-не должны возвращаться скрыто. Выбор low-level HAL — другая задача и уже реализован.
+Providers, их приоритеты/резервный выбор и несколько выбираемых реализаций под одним
+именем метрики не должны возвращаться скрыто. Выбор low-level HAL — другая задача и уже реализован.
 NoOS и ESP32 не объявляются готовыми портами из-за наличия ESP8266/FreeRTOS или
 portable POSIX-примера. Отдельные quanta_cli/csv/txt также намеренно удалены.

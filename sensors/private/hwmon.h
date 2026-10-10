@@ -1,3 +1,15 @@
+/**
+ * @file sensors/private/hwmon.h
+ *
+ * Discovered temperature/fan channels with units and identity. This header is private, not
+ * public API.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 #ifndef QUANTA_SENSOR_HWMON_H
 #define QUANTA_SENSOR_HWMON_H
 

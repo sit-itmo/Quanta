@@ -1,3 +1,15 @@
+/**
+ * @file include/quanta/live.h
+ *
+ * Public interface for starting a worker and delivering notifications to a consumer through
+ * pump.
+ *
+ * Event: an internal queue record delivered from the worker to a consumer: a series change,
+ * sample, frame or diagnostic. This is not an OS event subscription.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_LIVE_H
 #define QUANTA_LIVE_H

@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/view.h
+ *
+ * Value/scale presentation structures and functions, not measurement acquisition.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ *
+ * History: bounded storage for a series of samples. The latest sample and the latest successful
+ * sample may differ.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_VIEW_H
 #define QUANTA_VIEW_H

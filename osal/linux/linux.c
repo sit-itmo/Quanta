@@ -1,3 +1,11 @@
+/**
+ * @file osal/linux/linux.c
+ *
+ * Linux runtime: monotonic/calendar clocks, sleep, signals, files and numeric locale.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #include <locale.h>
 #include "support.h"

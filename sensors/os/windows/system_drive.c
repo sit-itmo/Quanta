@@ -1,3 +1,11 @@
+/**
+ * @file sensors/os/windows/system_drive.c
+ *
+ * Find the system drive for Windows filesystem metrics with path-capacity validation.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "windows_native.h"
 int quanta_win_system_drive(wchar_t *out, size_t cap)

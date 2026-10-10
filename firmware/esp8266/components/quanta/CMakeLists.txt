@@ -1,3 +1,5 @@
+# firmware/esp8266/components/quanta/CMakeLists.txt
+# Source list and settings for this module/platform; no runtime logic.
 get_filename_component(QUANTA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../../.." ABSOLUTE)
 include("${QUANTA_ROOT}/cmake/esp8266_sources.cmake")
 idf_component_register(SRCS ${QUANTA_ESP_SOURCES}

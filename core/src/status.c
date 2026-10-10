@@ -1,3 +1,14 @@
+/**
+ * @file core/src/status.c
+ *
+ * Readable names for statuses, value types and metric kinds used in diagnostics and output.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "core_internal.h"
 

@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/windows/test_windows.c
+ *
+ * Regression tests for native Windows metrics and their statuses.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- native Windows tests, not a mock WinAPI. */
 #include "quanta/sensors.h"
 #include "quanta/view.h"

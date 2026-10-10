@@ -1,74 +1,87 @@
-# Third-party components and source provenance
+# Сторонние компоненты и происхождение исходников
 
-The application/core/collectors/TUI/software rasterizer/XCB and Win32 adapters are provided
-under the root MIT license. No external monitor executable is called at runtime.
+Исходный код Quanta распространяется по корневой лицензии MIT.
+Отдельные условия адаптированного пользовательского portable_gui указаны ниже:
+корневая лицензия не меняет его правовой статус. Внешняя программа мониторинга
+при работе Quanta не запускается.
 
-## Dear ImGui (bundled library sources)
+## Dear ImGui
 
-- Upstream: https://github.com/ocornut/imgui
-- Version: **1.92.9b**, from the user-supplied archive, not a network fetch.
-- Library sources/headers are unmodified; license: `vendor/imgui/LICENSE.txt` (MIT).
-- Four core .cpp translation units are built as STATIC `imgui_vendor` by default.
-- `imgui_demo.cpp` is retained for reference, not compiled into Quanta.
-- Unused upstream backends/examples/build scripts and external font files are excluded.
-- Exact included files and source SHA256: [vendor/IMGUI.md](vendor/IMGUI.md).
-- `--font` reads a local font supplied by the user. No external font files are distributed.
+Включена версия **1.92.9b** из переданного пользователем архива, без сетевой загрузки.
+Исходники библиотеки и пять файлов официальных GLFW/OpenGL3-адаптеров сохранены
+без изменений; лицензия — `vendor/imgui/LICENSE.txt` (MIT).
 
-## XCB (Linux-only optional GUI)
+Четыре основных `.cpp` собираются в статическую `imgui_vendor`.
+`imgui_demo.cpp` оставлен для справки и не компилируется в Quanta.
+Неиспользуемые адаптеры и примеры не включены.
+[Точный состав и контрольные суммы](vendor/IMGUI.md).
+Параметр `--font` читает локальный файл пользователя; внешние файлы шрифтов
+в этом архиве не распространяются.
 
-- Upstream: https://xcb.freedesktop.org/
-- Ubuntu development package: libxcb1-dev. Default GUI links the selected system XCB library; strict static additionally requires static archives.
-- XCB sources/license files are not bundled; retain applicable upstream notices
-  when distributing the linked library or binary. The platform uses the local
-  socket connection path, avoiding DNS/NSS and vendor GPU libraries.
+## GLFW, OpenGL и X11
 
-## Toolchain C/C++ libraries
+**Полные исходники GLFW 3.4 включены** в `vendor/glfw`, непосредственно из
+переданного `glfw-3.4.zip`. Все 167 файлов сохранены побайтно.
+[Происхождение и интеграция](vendor/GLFW.md),
+[исходная лицензия](vendor/glfw/LICENSE.md), [контрольные суммы](vendor/GLFW.sha256).
 
-A static build also incorporates the toolchain C library, libm, pthread support
-and, for GUI, C++ runtime support. Their terms are not replaced by this project's
-MIT license. This archive intentionally contains source, not a prebuilt glibc
-executable. Arrange all required licenses, source/relink materials, and applicable
-exceptions before distributing your own statically linked binaries.
+GUI по умолчанию использует официальные GLFW/OpenGL3-адаптеры ImGui.
+На Linux GLFW и файлы разработки OpenGL устанавливаются системными пакетами;
+на Windows GLFW собирается из локального дерева. Драйверы OpenGL, Windows SDK
+и готовые двоичные файлы GLFW в архив не добавляются.
 
-## Primary semantic references
+CPU/framebuffer-вариант использует X11/Xlib в Linux и GDI в Windows, а не OpenGL.
+Прямого XCB-адаптера Quanta нет; Xlib сам может зависеть от XCB.
 
-- Linux procfs: https://docs.kernel.org/filesystems/proc.html
-- Linux hwmon ABI: https://docs.kernel.org/hwmon/sysfs-interface.html
-- Linux network statistics: https://docs.kernel.org/networking/statistics.html
-- DMI sysfs implementation: https://github.com/torvalds/linux/blob/master/drivers/firmware/dmi-id.c
-- Dear ImGui backend contract (pinned): vendor/imgui/docs/BACKENDS.md (bundled version 1.92.9b)
-- XCB core API: https://xcb.freedesktop.org/manual/group__XCB____API.html
+## Пользовательский portable_gui
 
-## Windows toolchain and system API
+Выбранные алгоритмы обработки прямоугольников и строк адаптированы в
+`frontends/gui/backend/portable_quad.cpp`. В переданном архиве лицензия не указана;
+MIT из корня Quanta **не перелицензирует** этот материал. Перед публикацией нужно
+уточнить право распространения. Два исходных файла сохранены без изменений для
+проверки происхождения и не компилируются.
+[Подробности и контрольные суммы](vendor/PORTABLE_GUI.md).
 
-No Windows SDK, runtime binary or font is distributed in this archive. The user
-provides a licensed SDK/toolchain. Application libraries and bundled ImGui are
-STATIC; MSVC uses /MT for release and /MTd for debug in the strict profile.
-System import libraries refer to Windows DLLs; these DLLs are not bundled or
-incorporated into the EXE. MinGW may depend on the system MSVCRT/UCRT even with
--static. Consult toolchain redistribution terms before distributing binaries.
+## Библиотеки компилятора и системные зависимости
 
-Primary API/semantics references are listed in docs/HAL.md, docs/ESP8266.md and per-metric
-Markdown. SMBIOS parser is original bounded C code, not code copied from dmidecode.
-Windows PDH localization follows Microsoft's documented English-counter sequence.
+Статическая сборка может включать библиотеку C, libm, поддержку потоков, а для GUI —
+среду C++. Их условия не заменяются лицензией MIT проекта. Здесь распространяются
+исходники, а не готовый статический исполняемый файл с glibc. При распространении
+собственных двоичных сборок необходимо учитывать условия используемых библиотек.
 
-## ESP8266 SDK (not bundled)
+Windows SDK, системные DLL и файлы шрифтов не включены. Пользователь предоставляет
+собственный SDK и компилятор. Библиотеки Quanta и ImGui статические; строгий профиль
+MSVC использует `/MT` для Release и `/MTd` для Debug. Библиотеки импорта ссылаются
+на системные DLL, но не включают их код в EXE. MinGW может зависеть от системной
+MSVCRT/UCRT даже с `-static`; условия распространения определяются выбранным инструментарием.
 
-The active firmware component targets ESP8266_RTOS_SDK v3.4 APIs and its Xtensa LX106 toolchain.
-SDK source, prebuilt radio libraries and toolchain are NOT in this archive. Follow Espressif's
-individual source/binary licenses; the root MIT license does not relicense them.
-`tests/platform/esp8266/stubs` is original minimal test fixture code, not an SDK redistribution.
+## ESP8266 SDK
 
-- https://github.com/espressif/ESP8266_RTOS_SDK/tree/v3.4
-- https://github.com/espressif/ESP8266_RTOS_SDK/blob/v3.4/README.md
+Активный компонент рассчитан на API ESP8266_RTOS_SDK v3.4 и Xtensa LX106.
+SDK, готовые радиобиблиотеки и компилятор **не включены**. Их условия распространения
+не меняются лицензией Quanta. `tests/platform/esp8266/stubs` — собственные минимальные
+тестовые подмены, а не переупакованный SDK.
 
-The original SDK configuration supplied by the user is retained only under firmware/esp8266/reference;
-it is not asserted to fit a different board.
+Исходная пользовательская конфигурация SDK сохранена в
+`firmware/esp8266/reference`; её пригодность для другой платы не предполагается.
 
-## Build-fix references
+## Справочные источники
 
-- CMake language scope: https://cmake.org/cmake/help/latest/command/enable_language.html
-- RegOpenKeyExW: https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyexw
-- Alternate registry views: https://learn.microsoft.com/en-us/windows/win32/winprog64/accessing-an-alternate-registry-view
+Исходники и лицензии сторонних библиотек, а также их собственная документация
+остаются в оригинале. Документы интеграции и все проектные Markdown-описания Quanta —
+на русском, комментарии собственного кода — на английском.
 
-Source references explain contracts; they do not constitute execution tests of this archive.
+- Linux: [procfs](https://docs.kernel.org/filesystems/proc.html),
+  [hwmon](https://docs.kernel.org/hwmon/sysfs-interface.html),
+  [сетевая статистика](https://docs.kernel.org/networking/statistics.html),
+  [реализация DMI sysfs](https://github.com/torvalds/linux/blob/master/drivers/firmware/dmi-id.c).
+- ImGui: включённые оригиналы `vendor/imgui/docs/BACKENDS.md` и `FONTS.md`.
+  GLFW: [руководство по сборке](https://www.glfw.org/docs/3.3/build_guide.html).
+- ESP8266: [SDK v3.4](https://github.com/espressif/ESP8266_RTOS_SDK/tree/v3.4).
+- CMake: [область включения языка](https://cmake.org/cmake/help/latest/command/enable_language.html).
+  Windows: [RegOpenKeyExW](https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyexw),
+  [представления реестра](https://learn.microsoft.com/en-us/windows/win32/winprog64/accessing-an-alternate-registry-view).
+
+Эти ссылки поясняют контракты, но не являются результатами выполнения программы.
+Остальные источники семантики перечислены в документах HAL, ESP8266 и отдельных метрик.
+Парсер SMBIOS — собственный ограниченный по размерам C-код, не копия dmidecode.

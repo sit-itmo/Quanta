@@ -1,3 +1,11 @@
+/**
+ * @file tests/unit/test_hal.c
+ *
+ * Regression tests for HAL capabilities, permissions, memory ranges and errors.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT
  * Hardware primitives are tested only against owned RAM or temporary files.
  * No test reads /dev/mem, MSRs, real PCI config, or writes hardware. */

@@ -1,3 +1,14 @@
+/**
+ * @file core/src/text.c
+ *
+ * Bounded text copying, labels, glob matching, numeric parsing and series names.
+ *
+ * Labels: key/value pairs selecting an instance, such as cpu="0". They describe the source, not
+ * a widget caption.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "core_internal.h"

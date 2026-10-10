@@ -1,38 +1,39 @@
 # sensor.fan_rpm
 
-Fan speed channel — semantic version 1.
+Канал скорости вентилятора — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `u64`; kind: `gauge`.
-- Canonical unit: `rpm`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `chip,channel,label,device`.
-- Source: /sys/class/hwmon/hwmon*/tempN_input or fanN_input.
+- Тип: `u64`; вид: `gauge`.
+- Базовая единица: `rpm`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 1000 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `chip,channel,label,device`.
+- Источник: /sys/class/hwmon/hwmon*/tempN_input или fanN_input.
 
-## Meaning
+## Значение
 
-Standard fanN_input integer RPM. Zero can legitimately mean stopped. Nonzero optional fanN_fault yields NO_DATA. Missing label is replaced by the channel name, not a guessed physical fan identity.
+Стандартное целочисленное fanN_input в оборотах в минуту. Ноль может корректно означать остановку. Ненулевое необязательное поле fanN_fault даёт NO_DATA. При отсутствии label используется имя канала, а не предполагаемая идентичность физического вентилятора.
 
-Runtime update_interval, when present and valid, raises the polling minimum. Device labels are descriptive, not universally unique IDs. There is no privileged MSR/NVML fallback.
+Поле update_interval во время работы, если присутствует и корректно, повышает минимальный интервал опроса. Метки устройств описательные и не являются универсально уникальными идентификаторами. Привилегированного резервного метода через MSR/NVML нет.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional sensor.fan_rpm;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/hwmon/sysfs-interface.html

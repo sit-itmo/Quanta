@@ -1,12 +1,12 @@
 # windows.memory.commit.peak_bytes
 
-Peak system commit since boot.
+Пиковый объём подтверждённой памяти после загрузки.
 
 Единица: `B`. Источник: `GlobalMemoryStatusEx / GetPerformanceInfo`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe windows.memory.commit.peak_bytes` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Физические total/available получены одним GlobalMemoryStatusEx; used = total − available,
 utilization = used / total. Available включает страницы, которые Windows считает доступными,

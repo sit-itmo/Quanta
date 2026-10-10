@@ -1,3 +1,15 @@
+/**
+ * @file frontends/common/file.c
+ *
+ * File frontend: consume engine events, write CSV/TXT/Markdown/value output and report
+ * diagnostics.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "frontend_internal.h"

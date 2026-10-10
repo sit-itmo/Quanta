@@ -1,3 +1,18 @@
+/**
+ * @file core/src/metric.c
+ *
+ * Match selects and labels, discover a singleton instance and perform a lightweight single-
+ * metric read.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Labels: key/value pairs selecting an instance, such as cpu="0". They describe the source, not
+ * a widget caption.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "core_internal.h"

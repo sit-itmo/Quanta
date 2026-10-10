@@ -1,3 +1,14 @@
+/**
+ * @file core/src/value.c
+ *
+ * Value validation, unit conversion and counter-derived delta/rate values.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "core_internal.h"

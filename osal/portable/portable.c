@@ -1,3 +1,12 @@
+/**
+ * @file osal/portable/portable.c
+ *
+ * Minimal POSIX runtime without native collectors or UI; unsupported conveniences are reported
+ * explicitly.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT
  * Reference minimum POSIX port. No Linux syscalls, signals, process enumeration,
  * procfs/sysfs, file descriptors or desktop facilities. */

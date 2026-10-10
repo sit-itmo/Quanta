@@ -34,7 +34,20 @@ with tempfile.TemporaryFile(mode='w+b') as number, tempfile.TemporaryFile(mode='
         result = subprocess.run([exe, 'run', '-q', query], env=environment,
                                 capture_output=True, text=True, timeout=20)
         assert result.returncode == 0, (result.returncode, result.stdout, result.stderr)
-        print('GUI: actual ImGui frontend ran on private Xvfb and exited at query deadline')
+        bad_font = subprocess.run([exe, 'run', '-q', query, '--font',
+                                   '/nonexistent/quanta-test-font.ttf'], env=environment,
+                                  capture_output=True, text=True, timeout=20)
+        assert bad_font.returncode == 1, (bad_font.returncode, bad_font.stderr)
+        assert 'cannot read GUI font' in bad_font.stderr, bad_font.stderr
+        no_display = dict(environment, DISPLAY='')
+        unavailable = subprocess.run([exe, 'run', '-q', query], env=no_display,
+                                     capture_output=True, text=True, timeout=20)
+        assert unavailable.returncode == 1, (unavailable.returncode, unavailable.stderr)
+        assert unavailable.stderr.strip(), 'missing GUI dependency must be diagnosed'
+        for failure in (bad_font, unavailable):
+            assert 'AddressSanitizer' not in failure.stderr, failure.stderr
+            assert 'runtime error:' not in failure.stderr, failure.stderr
+        print('GUI: actual window/deadline, missing-font cleanup and absent-display error passed')
     finally:
         server.terminate()
         try:

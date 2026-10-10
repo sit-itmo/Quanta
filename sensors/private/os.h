@@ -1,3 +1,15 @@
+/**
+ * @file sensors/private/os.h
+ *
+ * Name/version/architecture, uptime and available OS indicators. This header is private, not
+ * public API.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_SENSOR_OS_H
 #define QUANTA_SENSOR_OS_H

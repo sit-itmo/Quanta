@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/windows/test_windows_schema.c
+ *
+ * Regression tests for Windows-catalog contents and contracts without native polling.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- validates the REAL Windows
  * descriptors/queries, NOT the native acquisition implementation. No acquisition
  * is attempted.

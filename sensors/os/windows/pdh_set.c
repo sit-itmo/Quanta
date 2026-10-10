@@ -1,3 +1,14 @@
+/**
+ * @file sensors/os/windows/pdh_set.c
+ *
+ * Own PDH queries/counters, discover instances, collect values and translate PDH statuses.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "pdh_set.h"

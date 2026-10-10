@@ -1,3 +1,11 @@
+/**
+ * @file sensors/arch/x86/affinity_windows.c
+ *
+ * Internal Windows helpers to select a CPU/group for CPUID and restore the previous state.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "affinity.h"

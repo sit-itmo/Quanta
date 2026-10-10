@@ -1,3 +1,11 @@
+/**
+ * @file sensors/arch/x86/affinity_linux.c
+ *
+ * Internal Linux helpers to pin the CPUID collector to a CPU and restore the previous mask.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "affinity.h"

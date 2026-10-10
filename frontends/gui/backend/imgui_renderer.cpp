@@ -1,7 +1,20 @@
+/**
+ * @file frontends/gui/backend/imgui_renderer.cpp
+ *
+ * ImGui 1.92 texture protocol, draw-command validation and dispatch to the fast quad or general
+ * triangle rasterizer.
+ *
+ * Texture: a registered Alpha8 or RGBA32 image with a validated identifier. Creation, updates
+ * and destruction follow the ImGui 1.92 protocol.
+ *
+ * Framebuffer: an in-memory pixel array. Pixels use 0x00RRGGBB and stride is measured in pixels;
+ * presentation on a display is a separate operation.
+ */
 // SPDX-License-Identifier: MIT
 // Dear ImGui 1.92 texture protocol + indexed software drawing. Textures are
 // copied, so atlas growth/pixel reallocation cannot leave a dangling pointer.
 #include "imgui_renderer.h"
+#include "portable_quad.h"
 #include "quanta/osal.h"
 #include <algorithm>
 #include <cmath>
@@ -22,6 +35,7 @@ struct Renderer
 {
     Texture *textures;
     bool nearest;
+    size_t quads;
 };
 
 Renderer *renderer()
@@ -96,7 +110,7 @@ bool quanta_imgui_renderer_init()
         return false;
     }
     io.BackendRendererUserData = new (memory) Renderer{};
-    io.BackendRendererName = "quanta_software_1.92";
+    io.BackendRendererName = "quanta_portable_gui_1.92";
     io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset | ImGuiBackendFlags_RendererHasTextures;
     ImGui::GetPlatformIO().Renderer_TextureMaxWidth = texture_limit;
     ImGui::GetPlatformIO().Renderer_TextureMaxHeight = texture_limit;
@@ -217,6 +231,12 @@ bool quanta_imgui_renderer_update_texture(ImTextureData *tex)
     return true;
 }
 
+size_t quanta_imgui_renderer_quad_count()
+{
+    Renderer *state = renderer();
+    return state ? state->quads : 0;
+}
+
 bool quanta_imgui_renderer_render(ImDrawData *data, quanta_surface *surface)
 {
     if (!renderer() || !data || !surface || !surface->pixels || surface->width <= 0 ||
@@ -235,6 +255,7 @@ bool quanta_imgui_renderer_render(ImDrawData *data, quanta_surface *surface)
         }
     }
     renderer()->nearest = false;
+    renderer()->quads = 0;
     quanta_raster_clear(surface, 0x101721);
     const ImVec2 pos = data->DisplayPos, scale = data->FramebufferScale;
     if (!quanta_isfinite(pos.x) || !quanta_isfinite(pos.y) || !quanta_isfinite(scale.x) ||
@@ -262,6 +283,11 @@ bool quanta_imgui_renderer_render(ImDrawData *data, quanta_surface *surface)
             {
                 return false;
             }
+            if (!quanta_isfinite(cmd.ClipRect.x) || !quanta_isfinite(cmd.ClipRect.y) ||
+                !quanta_isfinite(cmd.ClipRect.z) || !quanta_isfinite(cmd.ClipRect.w))
+            {
+                return false;
+            }
             quanta_texture view = texture->view;
             view.nearest = renderer()->nearest ? 1 : 0;
             quanta_clip clip = {
@@ -269,8 +295,14 @@ bool quanta_imgui_renderer_render(ImDrawData *data, quanta_surface *surface)
                 clip_coordinate((cmd.ClipRect.y - pos.y) * scale.y, surface->height, false),
                 clip_coordinate((cmd.ClipRect.z - pos.x) * scale.x, surface->width, true),
                 clip_coordinate((cmd.ClipRect.w - pos.y) * scale.y, surface->height, true)};
-            for (unsigned k = 0; k < cmd.ElemCount; k += 3)
+            for (unsigned k = 0; k < cmd.ElemCount;)
             {
+                if (quanta_portable_quad(surface, clip, list, cmd, k, pos, scale, view))
+                {
+                    ++renderer()->quads;
+                    k += 6;
+                    continue;
+                }
                 quanta_vertex vertices[3];
                 for (unsigned v = 0; v < 3; ++v)
                 {
@@ -285,6 +317,7 @@ bool quanta_imgui_renderer_render(ImDrawData *data, quanta_surface *surface)
                                    src.uv.x, src.uv.y, src.col};
                 }
                 quanta_raster_triangle(surface, &clip, vertices, &view);
+                k += 3;
             }
         }
     }

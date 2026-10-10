@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/linux/test_devices.c
+ *
+ * Regression tests for device discovery and identity changes using fixture data.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "collector_internal.h"

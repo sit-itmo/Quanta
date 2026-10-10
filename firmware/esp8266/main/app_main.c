@@ -1,3 +1,15 @@
+/**
+ * @file firmware/esp8266/main/app_main.c
+ *
+ * ESP8266 application: periodic MCU/OS metric reads and serial output through the lightweight
+ * read_once API.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/sensors.h"
 #include "quanta/osal.h"

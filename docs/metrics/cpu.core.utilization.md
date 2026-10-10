@@ -2,46 +2,47 @@
 
 ## Linux / способ получения
 
-CPU busy fraction — semantic version 1.
+Доля занятого процессорного времени — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `f64`; kind: `gauge`.
-- Canonical unit: `1`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `cpu`.
-- Source: one /proc/stat snapshot, first eight CPU time fields only.
+- Тип: `f64`; вид: `gauge`.
+- Базовая единица: `1`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 100 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `cpu`.
+- Источник: один снимок /proc/stat, только первые восемь полей учёта времени CPU.
 
-## Meaning
+## Значение
 
-Same utilization formula as cpu.utilization, separately for each cpuN row. Label cpu is the logical CPU number. First observation and decreasing accounting fields yield WARMUP.
+Формула та же, что у cpu.utilization, но применяется отдельно к каждой строке cpuN. Метка cpu — номер логического CPU. Первое наблюдение и уменьшение полей учёта дают WARMUP.
 
-First utilization sample is WARMUP. A decreasing field (including iowait), no delta, or a new instance resets the baseline; impossible negative utilization is never emitted.
+Первый отсчёт загрузки имеет статус WARMUP. Уменьшение любого поля, включая iowait, отсутствие приращения или появление нового экземпляра сбрасывают начальный снимок; невозможная отрицательная загрузка не выдаётся.
 
-The procfs view may describe the host rather than this process cgroup. Container limits/quota normalization are outside v0.1.
+Представление procfs может описывать хост, а не cgroup данного процесса. Нормализация по ограничениям и квотам контейнера не реализована.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional cpu.core.utilization;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/filesystems/proc.html
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 На системе с одной процессорной группой GetSystemTimes даёт aggregate kernel + user;
 idle уже входит в kernel и второй раз не добавляется. Загрузка вычисляется по двум снимкам:

@@ -1,3 +1,14 @@
+/**
+ * @file frontends/tui/terminal_posix.c
+ *
+ * POSIX terminal: termios, input, dimensions and terminal restoration after TUI exit.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "frontend_internal.h"

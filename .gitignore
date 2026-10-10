@@ -4,8 +4,6 @@
 /.cache/
 __pycache__/
 *.pyc
-/vendor/imgui/*
-!/vendor/imgui/README.md
 CMakeUserPresets.json
 *.qblob
 

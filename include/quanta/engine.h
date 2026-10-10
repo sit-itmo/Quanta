@@ -1,3 +1,18 @@
+/**
+ * @file include/quanta/engine.h
+ *
+ * Public engine API, series descriptions and sink callbacks. The core is independent of built-in
+ * collectors.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_ENGINE_H
 #define QUANTA_ENGINE_H

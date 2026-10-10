@@ -2,42 +2,43 @@
 
 ## Linux / способ получения
 
-CPU vendor — semantic version 1.
+Производитель CPU — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `string`; kind: `property`.
-- Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `QUANTA_REFRESH_ONCE`. Read once and cache until refresh/reappearance.
-- Labels: `(none)`.
-- Source: CPUID instruction on one affinity-pinned allowed logical CPU.
+- Тип: `string`; вид: `property`.
+- Базовая единица: `(безразмерное значение)`.
+- Политика обновления: `QUANTA_REFRESH_ONCE`. Прочитать один раз и кэшировать до обновления или повторного появления.
+- Метки: `(нет)`.
+- Источник: инструкция CPUID на одном разрешённом логическом CPU с временной привязкой потока.
 
-## Meaning
+## Значение
 
-CPUID vendor string on cpu.cpuid_reference.
+Строка производителя из CPUID на cpu.cpuid_reference.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional cpu.vendor;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Используется прямой CPUID на одном допустимом reference CPU с временной group affinity,
 которая восстанавливается после чтения. cpu.cpuid_reference = (group << 16) | processor_number.

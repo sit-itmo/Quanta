@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/esp8266/test_esp8266.c
+ *
+ * Regression tests for MCU/OS metrics, serial output and HAL using substituted SDK calls.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT
  * Executes the REAL Quanta ESP/FreeRTOS source files against SDK seam fixtures.
  * No emulated sensor result can be mistaken for a measurement on real ESP8266. */

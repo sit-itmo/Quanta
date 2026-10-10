@@ -1,3 +1,5 @@
+# sensors/CMakeLists.txt
+# Source list and settings for this module/platform; no runtime logic.
 # Common algorithms/HAL metrics are separate from OS snapshots and SDK code.
 add_library(quanta_sensors STATIC registry.c metric_docs.c common/runtime.c)
 quanta_target(quanta_sensors)

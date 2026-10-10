@@ -1,12 +1,12 @@
 # process.self.handles
 
-INV handle count.
+Количество дескрипторов процесса Quanta.
 
 Единица: `без единицы`. Источник: `GetProcessMemoryInfo / GetProcessIoCounters`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe process.self.handles` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Измеряется только сам процесс INV, не любой произвольный PID.
 rss_bytes = WorkingSetSize, private_bytes = PrivateUsage (private committed bytes),

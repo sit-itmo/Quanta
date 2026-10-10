@@ -1,3 +1,15 @@
+/**
+ * @file sensors/os/windows/board.c
+ *
+ * Windows BIOS/board/SMBIOS collector: use the native firmware-table API and populate shared-
+ * snapshot data and statuses.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 // hal/windows/dmi.c
 #include "quanta/osal.h"
 #include "dmi.h"

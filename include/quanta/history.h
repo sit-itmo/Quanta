@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/history.h
+ *
+ * Public latest-value and history model populated through sink callbacks.
+ *
+ * History: bounded storage for a series of samples. The latest sample and the latest successful
+ * sample may differ.
+ *
+ * Sink: a set of engine notification callbacks that decouples data collection from file output,
+ * TUI and GUI.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_HISTORY_H
 #define QUANTA_HISTORY_H

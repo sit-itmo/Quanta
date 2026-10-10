@@ -1,3 +1,14 @@
+/**
+ * @file frontends/dispatch.c
+ *
+ * Dispatch available frontends and return an explicit error for an unavailable mode.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ *
+ * Backend: the windowing/graphics implementation of an interface. The frontend builds widgets
+ * without changing how a metric is measured.
+ */
 /* SPDX-License-Identifier: MIT -- runtime selection stays outside the core */
 #include "quanta/view.h"
 #include "quanta/osal.h"

@@ -1,36 +1,37 @@
 # os.load.5m
 
-Load average (5 minutes) — semantic version 1.
+Средняя нагрузка за 5 минут — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `f64`; kind: `gauge`.
-- Canonical unit: `(unitless string/boolean)`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `(none)`.
-- Source: uname(), sysconf(), /etc/os-release, /proc/uptime and /proc/loadavg.
+- Тип: `f64`; вид: `gauge`.
+- Базовая единица: `(безразмерное значение)`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 1000 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `(нет)`.
+- Источник: uname(), sysconf(), /etc/os-release, /proc/uptime и /proc/loadavg.
 
-## Meaning
+## Значение
 
-Second field of /proc/loadavg: five-minute load average, not CPU utilization.
+Второе поле /proc/loadavg: средняя нагрузка за пять минут, а не загрузка CPU.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional os.load.5m;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/filesystems/proc.html

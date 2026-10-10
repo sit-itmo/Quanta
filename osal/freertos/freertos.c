@@ -1,3 +1,12 @@
+/**
+ * @file osal/freertos/freertos.c
+ *
+ * ESP8266/FreeRTOS runtime: SDK monotonic clock and sleep. File and calendar support are limited
+ * by the port.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "support.h"
 #include <esp_timer.h>

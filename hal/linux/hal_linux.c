@@ -1,3 +1,12 @@
+/**
+ * @file hal/linux/hal_linux.c
+ *
+ * Linux HAL: native affinity/info plus a separate device-file backend for physical memory, MSR,
+ * PCI and port I/O.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT
  * Linux-native: topology/affinity only. Linux-dev: bounded device-file primitives.
  * No elevation, module loading, SMBIOS parsing or metric collection occurs here.

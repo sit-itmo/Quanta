@@ -2,44 +2,45 @@
 
 ## Linux / способ получения
 
-Temperature channel — semantic version 1.
+Температурный канал — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `f64`; kind: `gauge`.
-- Canonical unit: `degC`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 1000 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `chip,channel,label,device`.
-- Source: /sys/class/hwmon/hwmon*/tempN_input or fanN_input.
+- Тип: `f64`; вид: `gauge`.
+- Базовая единица: `degC`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 1000 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `chip,channel,label,device`.
+- Источник: /sys/class/hwmon/hwmon*/tempN_input или fanN_input.
 
-## Meaning
+## Значение
 
-Raw standard tempN_input divided by 1000 into degrees Celsius. Check chip/channel/label/device. A temp1 channel is not automatically a CPU temperature. Driver-specific voltage-scaled or board-calibrated sensors may require configuration not implemented here. Nonzero optional tempN_fault yields NO_DATA.
+Стандартное сырое tempN_input делится на 1000 для получения градусов Цельсия. Проверяйте chip/channel/label/device: канал temp1 не означает автоматически температуру CPU. Датчики с зависящим от драйвера масштабированием напряжения или калибровкой платы могут требовать не реализованной здесь настройки. Ненулевое необязательное tempN_fault даёт NO_DATA.
 
-Runtime update_interval, when present and valid, raises the polling minimum. Device labels are descriptive, not universally unique IDs. There is no privileged MSR/NVML fallback.
+Поле update_interval во время работы, если присутствует и корректно, повышает минимальный интервал опроса. Метки устройств описательные и не являются универсально уникальными идентификаторами. Привилегированного резервного метода через MSR/NVML нет.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional sensor.temperature;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/hwmon/sysfs-interface.html
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Windows-провайдер использует PDH Thermal Zone Information / Temperature только при наличии
 этих счётчиков. Документированная единица Temperature — kelvin; INV возвращает kelvin − 273.15

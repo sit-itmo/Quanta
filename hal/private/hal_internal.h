@@ -1,3 +1,12 @@
+/**
+ * @file hal/private/hal_internal.h
+ *
+ * Private HAL operation table and implementation state. Unsupported operations return explicit
+ * statuses.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_HAL_INTERNAL_H
 #define QUANTA_HAL_INTERNAL_H

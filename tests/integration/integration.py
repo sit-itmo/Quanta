@@ -70,7 +70,7 @@ if 'device.net.rx_bytes_total' in keys:
 with tempfile.TemporaryDirectory(prefix='quanta-integration-') as tmp:
     path = pathlib.Path(tmp)/'result.csv'
     run('get', 'os.name', '--format', 'csv', '--output', str(path))
-    assert rows(path.read_text())
+    assert rows(path.read_text(encoding="utf-8"))
     before = path.read_bytes()
     run('get', 'os.name', '--format', 'csv', '--output', str(path), code=1)
     assert path.read_bytes() == before

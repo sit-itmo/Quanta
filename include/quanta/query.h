@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/query.h
+ *
+ * Public query/plan structures, select statements, layouts, intervals and parsing functions.
+ *
+ * Plan: a parsed query containing selected metrics, polling intervals, history, HAL and
+ * presentation settings. Parsing does not access hardware.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_QUERY_H
 #define QUANTA_QUERY_H

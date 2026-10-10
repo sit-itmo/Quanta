@@ -1,3 +1,11 @@
+/**
+ * @file include/quanta/hal.h
+ *
+ * Public contract for hardware primitives, capabilities, backend selection and access policy.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT
  * Hardware primitives only. No metric, SMBIOS, ACPI, query or frontend types.
  */

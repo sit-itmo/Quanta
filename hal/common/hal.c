@@ -1,3 +1,12 @@
+/**
+ * @file hal/common/hal.c
+ *
+ * HAL selection, hardware-operation dispatch, capability checks and allowed-range/write policy
+ * enforcement.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "hal_internal.h"

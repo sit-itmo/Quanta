@@ -1,3 +1,18 @@
+/**
+ * @file sensors/os/process_metrics.c
+ *
+ * Current-Quanta-process group callbacks: shared-snapshot lifetime and extraction of metric
+ * fields.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 #include "quanta/osal.h"
 #include "collector_internal.h"
 #include "process.h"

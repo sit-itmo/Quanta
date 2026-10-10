@@ -1,3 +1,5 @@
+# tests/platform/windows/schema.cmake
+# Source list and settings for this module/platform; no runtime logic.
 # Compile only the Windows catalog on another OS; this is NOT a WinAPI emulator.
 file(READ ${PROJECT_BINARY_DIR}/generated/quanta_config.h schema_config)
 string(REPLACE "#define QUANTA_OS_LINUX 1" "#define QUANTA_OS_LINUX 0" schema_config "${schema_config}")

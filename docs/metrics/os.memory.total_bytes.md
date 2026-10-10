@@ -2,44 +2,45 @@
 
 ## Linux / способ получения
 
-Physical memory — semantic version 1.
+Физическая память — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `u64`; kind: `gauge`.
-- Canonical unit: `B`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 250 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `(none)`.
-- Source: one /proc/meminfo snapshot.
+- Тип: `u64`; вид: `gauge`.
+- Базовая единица: `B`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 250 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `(нет)`.
+- Источник: один снимок /proc/meminfo.
 
-## Meaning
+## Значение
 
-MemTotal × 1024. The kernel reports kB; INV stores bytes. It is not necessarily installed DIMM capacity.
+MemTotal × 1024. Ядро сообщает kB, Quanta хранит байты. Значение не обязательно равно суммарной установленной ёмкости DIMM.
 
-The procfs view may describe the host rather than this process cgroup. Container limits/quota normalization are outside v0.1.
+Представление procfs может описывать хост, а не cgroup данного процесса. Нормализация по ограничениям и квотам контейнера не реализована.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional os.memory.total_bytes;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/filesystems/proc.html
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Физические total/available получены одним GlobalMemoryStatusEx; used = total − available,
 utilization = used / total. Available включает страницы, которые Windows считает доступными,

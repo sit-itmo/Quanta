@@ -1,3 +1,15 @@
+/**
+ * @file sensors/os/windows/cpu_instance.c
+ *
+ * Parse PDH CPU instance names into group/number pairs; do not treat the aggregate _Total as an
+ * individual core.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ *
+ * Labels: key/value pairs selecting an instance, such as cpu="0". They describe the source, not
+ * a widget caption.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "windows_cpu.h"

@@ -1,3 +1,12 @@
+/**
+ * @file app/windows_entry.c
+ *
+ * Windows entry point: convert wide-character arguments to UTF-8 and pass them to the shared
+ * CLI.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT -- Unicode command line and UTF-8 byte streams
  */
 #include "quanta/osal.h"

@@ -1,3 +1,15 @@
+/**
+ * @file sensors/private/normalize.h
+ *
+ * Checked arithmetic conversions from native fields to metric values. This header is private,
+ * not public API.
+ *
+ * Snapshot: the result of a single collection operation shared by several fields. Batched
+ * collection is an internal optimization, not a selectable provider.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT -- OS-independent arithmetic and unit normalization */
 #ifndef QUANTA_NORMALIZE_H
 #define QUANTA_NORMALIZE_H

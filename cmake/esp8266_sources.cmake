@@ -1,3 +1,5 @@
+# cmake/esp8266_sources.cmake
+# Source list and settings for this module/platform; no runtime logic.
 # One explicit source/ABI manifest for the SDK component AND its host contract tests.
 # Caller sets QUANTA_ROOT. No filesystem search, downloading, or desktop build recursion.
 set(QUANTA_ESP_SOURCES

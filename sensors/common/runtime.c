@@ -1,3 +1,14 @@
+/**
+ * @file sensors/common/runtime.c
+ *
+ * Direct common metrics for the Quanta version and selected HAL; no OS snapshot reads.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT -- common metadata, no OS-specific acquisition */
 #include "quanta/hal.h"
 #include "quanta/osal.h"

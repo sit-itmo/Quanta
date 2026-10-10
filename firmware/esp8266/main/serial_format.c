@@ -1,3 +1,11 @@
+/**
+ * @file firmware/esp8266/main/serial_format.c
+ *
+ * Compact formatter for MCU serial values, including numeric boundaries and error statuses.
+ *
+ * Sample: the value of a particular series together with its timestamp, status and quality
+ * flags. An error must not be presented as a valid zero.
+ */
 /* SPDX-License-Identifier: MIT
  * No printf 64-bit/float format support is required from embedded newlib. */
 #include "quanta/osal.h"

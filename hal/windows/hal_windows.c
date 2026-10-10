@@ -1,3 +1,12 @@
+/**
+ * @file hal/windows/hal_windows.c
+ *
+ * Driverless Windows HAL: information, processor-group affinity and explicit refusal of
+ * unavailable hardware operations.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ */
 /* SPDX-License-Identifier: MIT -- no driver and no ring-0 emulation. */
 #include "quanta/osal.h"
 #include "hal_internal.h"

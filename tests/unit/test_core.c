@@ -1,3 +1,11 @@
+/**
+ * @file tests/unit/test_core.c
+ *
+ * Regression tests for queries, engine, snapshot groups, values and error handling.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT */
 #include "quanta/osal.h"
 #include "collector_internal.h"

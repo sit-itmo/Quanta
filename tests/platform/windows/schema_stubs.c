@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/windows/schema_stubs.c
+ *
+ * Regression callback stubs for validating the Windows catalog on another OS.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT
  * Descriptor-only Windows catalogue check on Linux; not a WinAPI emulation.
  * This file is never linked into a production executable. */

@@ -1,3 +1,11 @@
+/**
+ * @file tests/unit/test_history.c
+ *
+ * Regression tests for series updates, history and memory limits.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- bounded history and value tests; no
  * sensor/HAL link. */
 #include "quanta/osal.h"

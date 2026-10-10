@@ -1,3 +1,15 @@
+/**
+ * @file firmware/esp8266/components/quanta/config/quanta_config.h
+ *
+ * Quanta feature and capacity settings for the ESP8266 SDK component, not the desktop GUI
+ * configuration.
+ *
+ * Catalog: an immutable set of metric descriptors with unique names. It neither stores
+ * measurement results nor selects providers.
+ *
+ * OSAL: the minimal runtime contract for memory, files, clocks, threads and synchronization. OS
+ * metrics belong to sensors, not OSAL.
+ */
 /* SPDX-License-Identifier: MIT -- platform selection; ABI capacities are PUBLIC CMake definitions. */
 #ifndef QUANTA_CONFIG_H
 #define QUANTA_CONFIG_H

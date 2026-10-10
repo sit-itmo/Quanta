@@ -1,3 +1,15 @@
+/**
+ * @file sensors/common/smbios_memory.c
+ *
+ * Separate legacy SMBIOS metrics: locate the entry point and read physical tables through HAL
+ * read_mem.
+ *
+ * HAL: hardware primitives and information about their availability. Metrics and SMBIOS/ACPI
+ * parsing are not HAL operations.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ */
 /* SPDX-License-Identifier: MIT
  * A distinct metric method: legacy firmware-window scan + HAL physical reads.
  * Not a HAL service. Never falls back to sysfs/WinAPI metric values.

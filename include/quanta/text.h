@@ -1,3 +1,14 @@
+/**
+ * @file include/quanta/text.h
+ *
+ * Shared operations on bounded strings, labels, name patterns and numeric input.
+ *
+ * Labels: key/value pairs selecting an instance, such as cpu="0". They describe the source, not
+ * a widget caption.
+ *
+ * Series: a particular metric instance with labels and an identity. Replacing a device may start
+ * a new series even when its name is unchanged.
+ */
 /* SPDX-License-Identifier: MIT */
 #ifndef QUANTA_TEXT_H
 #define QUANTA_TEXT_H

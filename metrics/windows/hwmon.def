@@ -1,3 +1,14 @@
+/**
+ * @file metrics/windows/hwmon.def
+ *
+ * Windows temperature/fan metric declarations: names, units, policies, sources and callbacks.
+ *
+ * Metric: a measurement descriptor with a stable name, type, unit and callbacks. The descriptor
+ * itself is not a measured value.
+ *
+ * A .def file is a declaration list included repeatedly through macros. It is compile-time
+ * source, not runtime configuration or a separate provider.
+ */
 /* SPDX-License-Identifier: MIT -- intentionally no include guard.
  * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(sensor_temperature,

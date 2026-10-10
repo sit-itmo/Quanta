@@ -1,12 +1,12 @@
 # windows.memory.commit.limit_bytes
 
-System commit limit.
+Предел подтверждённой памяти системы.
 
 Единица: `B`. Источник: `GlobalMemoryStatusEx / GetPerformanceInfo`.
 Метки: `нет`. Тип и расписание берутся из скомпилированного реестра;
 команда `quanta describe windows.memory.commit.limit_bytes` показывает актуальные метаданные сборки.
 
-## Windows backend (требует нативной проверки)
+## Способ получения в Windows (требует нативной проверки)
 
 Физические total/available получены одним GlobalMemoryStatusEx; used = total − available,
 utilization = used / total. Available включает страницы, которые Windows считает доступными,

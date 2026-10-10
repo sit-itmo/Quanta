@@ -1,40 +1,41 @@
 # cpu.core.time_total
 
-CPU accounted ticks — semantic version 1.
+Учтённое процессорное время — семантическая версия 1.
 
-## Contract
+## Контракт
 
-- Type: `u64`; kind: `counter`.
-- Canonical unit: `ticks`.
-- Refresh policy: `QUANTA_REFRESH_POLL`. Descriptor minimum: 100 ms. Requested period is clamped or rejected in strict mode.
-- Labels: `cpu`.
-- Source: one /proc/stat snapshot, first eight CPU time fields only.
+- Тип: `u64`; вид: `counter`.
+- Базовая единица: `ticks`.
+- Политика обновления: `QUANTA_REFRESH_POLL`. Минимум дескриптора: 100 мс. Запрошенный период ограничивается снизу либо отклоняется в строгом режиме.
+- Метки: `cpu`.
+- Источник: один снимок /proc/stat, только первые восемь полей учёта времени CPU.
 
-## Meaning
+## Значение
 
-Sum of the first eight cpuN accounting fields in USER_HZ ticks. Series identity is the observed logical CPU row, not a physical core serial.
+Сумма первых восьми полей учёта cpuN в тактах USER_HZ. Идентичность серии относится к наблюдаемой строке логического CPU, а не к серийному номеру физического ядра.
 
-First utilization sample is WARMUP. A decreasing field (including iowait), no delta, or a new instance resets the baseline; impossible negative utilization is never emitted.
+Первый отсчёт загрузки имеет статус WARMUP. Уменьшение любого поля, включая iowait, отсутствие приращения или появление нового экземпляра сбрасывают начальный снимок; невозможная отрицательная загрузка не выдаётся.
 
-The procfs view may describe the host rather than this process cgroup. Container limits/quota normalization are outside v0.1.
+Представление procfs может описывать хост, а не cgroup данного процесса. Нормализация по ограничениям и квотам контейнера не реализована.
 
-## Errors and unavailable values
+## Ошибки и недоступные значения
 
-A successful zero/false/empty string is distinct from an unsuccessful read.
-PERMISSION_DENIED reports access restrictions; NOT_PRESENT/GONE report missing
-resources; INVALID_DATA reports malformed/range-invalid input; NO_DATA reports
-missing required source fields. The last successful sample may be displayed
-with its original age, never as a newly successful measurement.
+Успешно полученные ноль, false и пустая строка отличаются от неудачного чтения.
+PERMISSION_DENIED означает ограничение доступа; NOT_PRESENT/GONE — отсутствие ресурса;
+INVALID_DATA — неверный формат или выход за допустимый диапазон; NO_DATA — отсутствие
+обязательных полей источника. Последний успешный отсчёт можно показывать с исходным
+возрастом, но нельзя выдавать за новое успешное измерение.
 
-## Query
+## Запрос
 
 ```text
 mode file; format table; once; select optional cpu.core.time_total;
 ```
 
-For a derived rate or CPU utilization, allow a baseline with `--warmup 1200ms`
-or run a periodic query. Actual minimums can require a longer interval.
+Для производной скорости или загрузки CPU требуется начальный снимок: используйте
+`--warmup 1200ms` либо периодический запрос. Фактические минимальные интервалы
+конкретных метрик могут потребовать большего ожидания.
 
-## Reference
+## Источник
 
 https://docs.kernel.org/filesystems/proc.html

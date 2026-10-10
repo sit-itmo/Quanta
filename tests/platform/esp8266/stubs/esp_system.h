@@ -1,3 +1,11 @@
+/**
+ * @file tests/platform/esp8266/stubs/esp_system.h
+ *
+ * Minimal esp_system.h SDK test stub; declares only functions/constants used by host tests.
+ *
+ * A mock/stub test validates the program contract but does not replace execution on real
+ * hardware or the target OS.
+ */
 /* SPDX-License-Identifier: MIT -- test-only SDK seam, never firmware headers. */
 #ifndef TEST_ESP_SYSTEM_H
 #define TEST_ESP_SYSTEM_H

@@ -1,3 +1,5 @@
+# app/CMakeLists.txt
+# Source list and settings for this module/platform; no runtime logic.
 # Only one product executable. CSV/TXT/value and GUI/TUI are runtime modes.
 add_executable(quanta main.c)
 quanta_target(quanta)
