@@ -1,0 +1,160 @@
+/* SPDX-License-Identifier: MIT -- Windows descriptors */
+INV_METRIC(board_vendor,
+ .key="board.vendor", .title="Board manufacturer",
+ .description="Board manufacturer", .doc_path="docs/metrics/board.vendor.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="board_vendor"
+)
+INV_METRIC(board_model,
+ .key="board.model", .title="Board model",
+ .description="Board model", .doc_path="docs/metrics/board.model.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="board_name"
+)
+INV_METRIC(board_serial,
+ .key="board.serial", .title="Board serial number",
+ .description="Board serial number", .doc_path="docs/metrics/board.serial.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=INV_SENSITIVE, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="board_serial"
+)
+INV_METRIC(bios_vendor,
+ .key="bios.vendor", .title="BIOS vendor",
+ .description="BIOS vendor", .doc_path="docs/metrics/bios.vendor.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="bios_vendor"
+)
+INV_METRIC(bios_version,
+ .key="bios.version", .title="BIOS version",
+ .description="BIOS version", .doc_path="docs/metrics/bios.version.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="bios_version"
+)
+INV_METRIC(bios_date,
+ .key="bios.date", .title="BIOS release date",
+ .description="BIOS release date", .doc_path="docs/metrics/bios.date.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="bios_date"
+)
+INV_METRIC(win_system_vendor,
+ .key="system.vendor", .title="System manufacturer",
+ .description="System manufacturer", .doc_path="docs/metrics/system.vendor.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="system_vendor"
+)
+INV_METRIC(win_system_model,
+ .key="system.model", .title="System product name",
+ .description="System product name", .doc_path="docs/metrics/system.model.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="system_model"
+)
+INV_METRIC(win_system_serial,
+ .key="system.serial", .title="System serial number",
+ .description="System serial number", .doc_path="docs/metrics/system.serial.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=INV_SENSITIVE, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="system_serial"
+)
+INV_METRIC(win_system_uuid,
+ .key="system.uuid", .title="SMBIOS system UUID",
+ .description="SMBIOS system UUID", .doc_path="docs/metrics/system.uuid.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=INV_SENSITIVE, .counter_bits=0,
+ .label_schema="", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="system_uuid"
+)
+INV_METRIC(win_device_memory_size_bytes,
+ .key="device.memory.size_bytes", .title="Installed DIMM capacity",
+ .description="Installed DIMM capacity", .doc_path="docs/metrics/device.memory.size_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="B", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="dimm_size"
+)
+INV_METRIC(win_device_memory_speed_mt_s,
+ .key="device.memory.speed_mt_s", .title="DIMM rated data rate",
+ .description="DIMM rated data rate", .doc_path="docs/metrics/device.memory.speed_mt_s.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="MT/s", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="dimm_speed"
+)
+INV_METRIC(win_device_memory_vendor,
+ .key="device.memory.vendor", .title="DIMM manufacturer",
+ .description="DIMM manufacturer", .doc_path="docs/metrics/device.memory.vendor.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="dimm_vendor"
+)
+INV_METRIC(win_device_memory_serial,
+ .key="device.memory.serial", .title="DIMM serial number",
+ .description="DIMM serial number", .doc_path="docs/metrics/device.memory.serial.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=INV_SENSITIVE, .counter_bits=0,
+ .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="dimm_serial"
+)
+INV_METRIC(win_device_memory_part_number,
+ .key="device.memory.part_number", .title="DIMM part number",
+ .description="DIMM part number", .doc_path="docs/metrics/device.memory.part_number.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY,
+ .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="handle,locator,bank", .dependencies="GetSystemFirmwareTable RSMB / bounded SMBIOS parser",
+ .provider=&inv_dmi_provider, .read=inv_dmi_read, .arg="dimm_part"
+)

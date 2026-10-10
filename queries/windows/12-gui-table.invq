@@ -1,0 +1,11 @@
+version 1;
+mode gui;
+every 1s;
+select os.* as table;
+select optional windows.memory.* as table;
+select optional cpu.* as table;
+select optional board.* as table;
+select optional bios.* as table;
+select optional system.* as table;
+select optional device.net.* as table;
+select optional sensor.temperature as table;

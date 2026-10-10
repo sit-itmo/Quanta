@@ -1,0 +1,25 @@
+Internal ctest changing into directory: /mnt/data/inv-0.2.2/build-check
+UpdateCTestConfiguration  from :/mnt/data/inv-0.2.2/build-check/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/mnt/data/inv-0.2.2/build-check/DartConfiguration.tcl
+Test project /mnt/data/inv-0.2.2/build-check
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 4
+    Start 4: windows_schema
+
+4: Test command: /mnt/data/inv-0.2.2/build-check/inv_windows_schema_tests "/mnt/data/inv-0.2.2/queries/windows/01-inventory.invq" "/mnt/data/inv-0.2.2/queries/windows/02-memory.invq" "/mnt/data/inv-0.2.2/queries/windows/03-dashboard-tui.invq" "/mnt/data/inv-0.2.2/queries/windows/04-dashboard-gui.invq" "/mnt/data/inv-0.2.2/queries/windows/05-record-csv.invq" "/mnt/data/inv-0.2.2/queries/windows/06-thermal-zones.invq" "/mnt/data/inv-0.2.2/queries/windows/07-network-tui.invq" "/mnt/data/inv-0.2.2/queries/windows/08-cpu-cores.invq" "/mnt/data/inv-0.2.2/queries/windows/09-report-markdown.invq" "/mnt/data/inv-0.2.2/queries/windows/10-dimm-inventory.invq" "/mnt/data/inv-0.2.2/queries/windows/11-process.invq" "/mnt/data/inv-0.2.2/queries/windows/12-gui-table.invq" "/mnt/data/inv-0.2.2/queries/windows/13-filter-labels.invq"
+4: Working Directory: /mnt/data/inv-0.2.2/build-check
+4: Test timeout computed to be: 10000000
+4: Windows schema only: 70 metric descriptors; 13 query files validated (no WinAPI execution)
+1/1 Test #4: windows_schema ...................   Passed    0.01 sec
+
+The following tests passed:
+	windows_schema
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.02 sec

@@ -1,0 +1,15 @@
+version 1;
+mode file;
+format md;
+once;
+select os.name;
+select os.kernel.release;
+select os.arch;
+select os.cpu.online;
+select optional cpu.brand;
+select optional board.*;
+select optional bios.*;
+select optional system.*;
+select os.memory.total_bytes;
+select optional device.memory.*;
+select optional fs.root.*;

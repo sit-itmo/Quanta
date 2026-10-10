@@ -1,0 +1,10 @@
+# Replace the alias below with one printed by: inv get device.net.mac --format table
+# Quotes preserve Unicode names and spaces. Windows paths inside INVQ need \\.
+version 1;
+mode file;
+format table;
+every 1s;
+count 5;
+select optional rate(device.net.rx_bytes_total{ifname="Ethernet*"});
+select optional rate(device.net.tx_bytes_total{ifname="Ethernet*"});
+select optional cpu.core.utilization{group="0",number="0"} as value(unit="%");

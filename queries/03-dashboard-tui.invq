@@ -1,0 +1,12 @@
+version 1;
+mode tui;
+every 1s;
+redraw 200ms;
+history 5m;
+select cpu.utilization as plot(min=0, max=1, title="CPU busy");
+select os.memory.utilization as bar(min=0, max=1, title="RAM");
+select os.memory.available_bytes as value(unit="GiB", title="Available RAM");
+select os.uptime as value(title="Uptime");
+select optional sensor.temperature as plot(title="Temperature") every 2s;
+select optional rate(device.net.rx_bytes_total) as plot(unit="KiB/s", title="Network receive");
+select optional rate(device.net.tx_bytes_total) as value(unit="KiB/s", title="Network transmit");

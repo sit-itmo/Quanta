@@ -1,0 +1,18 @@
+version 1;
+mode file;
+format human;
+once;
+select os.name;
+select os.kernel.*;
+select os.arch;
+select os.hostname;
+select os.cpu.online;
+select optional cpu.vendor;
+select optional cpu.brand;
+select optional cpu.vmx;
+select optional cpu.svm;
+select optional cpu.hypervisor;
+select optional system.*;
+select optional board.*;
+select optional bios.*;
+select optional device.net.mac;

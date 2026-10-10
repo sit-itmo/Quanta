@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: MIT -- Windows descriptors */
+INV_METRIC(sensor_temperature,
+ .key="sensor.temperature", .title="Temperature channel",
+ .description="ACPI thermal-zone reading exposed by Windows PDH; not necessarily a CPU package sensor.", .doc_path="docs/metrics/sensor.temperature.md",
+ .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="degC", .min_poll_ns=UINT64_C(1000000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="device,chip,channel,label", .dependencies="PDH Thermal Zone Information / Temperature",
+ .provider=&inv_hwmon_provider, .read=inv_hwmon_read, .arg="temp"
+)

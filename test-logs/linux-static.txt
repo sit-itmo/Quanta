@@ -1,0 +1,1 @@
+PASS: /mnt/data/work/build-linux/inv has no PT_INTERP and no DT_NEEDED

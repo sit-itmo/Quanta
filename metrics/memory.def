@@ -1,0 +1,71 @@
+/* SPDX-License-Identifier: MIT -- intentionally no include guard */
+INV_METRIC(os_memory_total_bytes,
+ .key="os.memory.total_bytes", .title="Physical memory",
+ .description="Physical memory", .doc_path="docs/metrics/os.memory.total_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="B", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="/proc/meminfo",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="total"
+)
+INV_METRIC(os_memory_available_bytes,
+ .key="os.memory.available_bytes", .title="Available memory estimate",
+ .description="Available memory estimate", .doc_path="docs/metrics/os.memory.available_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="B", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="/proc/meminfo",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="available"
+)
+INV_METRIC(os_memory_free_bytes,
+ .key="os.memory.free_bytes", .title="Completely free memory",
+ .description="Completely free memory", .doc_path="docs/metrics/os.memory.free_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="B", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="/proc/meminfo",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="free"
+)
+INV_METRIC(os_memory_used_bytes,
+ .key="os.memory.used_bytes", .title="Memory: total minus available",
+ .description="Memory: total minus available", .doc_path="docs/metrics/os.memory.used_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="B", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="/proc/meminfo",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="used"
+)
+INV_METRIC(os_memory_utilization,
+ .key="os.memory.utilization", .title="Memory utilization",
+ .description="Memory utilization", .doc_path="docs/metrics/os.memory.utilization.md",
+ .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="1", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="MemTotal,MemAvailable",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="utilization"
+)
+INV_METRIC(os_swap_total_bytes,
+ .key="os.swap.total_bytes", .title="Swap capacity",
+ .description="Swap capacity", .doc_path="docs/metrics/os.swap.total_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="B", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="swap_total"
+)
+INV_METRIC(os_swap_used_bytes,
+ .key="os.swap.used_bytes", .title="Used swap",
+ .description="Used swap", .doc_path="docs/metrics/os.swap.used_bytes.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="B", .min_poll_ns=UINT64_C(250000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="",
+ .provider=&inv_memory_provider, .read=inv_memory_read, .arg="swap_used"
+)

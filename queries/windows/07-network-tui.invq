@@ -1,0 +1,11 @@
+version 1;
+mode tui;
+every 1s;
+history 5m;
+select optional device.net.mac as text;
+select optional device.net.state as text;
+select optional device.net.rx_link_bps as value;
+select optional device.net.tx_link_bps as value;
+select optional rate(device.net.rx_bytes_total) as plot(unit="KiB/s");
+select optional rate(device.net.tx_bytes_total) as plot(unit="KiB/s");
+select optional delta(device.net.rx_errors_total) as value;

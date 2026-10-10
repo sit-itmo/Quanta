@@ -1,0 +1,9 @@
+[ 43%] Built target inv_core
+[ 61%] Built target inv_windows_schema_tests
+[ 68%] Built target inv_view
+[ 75%] Built target inv_windows_data_tests
+[ 77%] Built target inv_device_tests
+[ 88%] Built target inv_tests
+[ 88%] Built target inv_file
+[ 95%] Built target inv_tui
+[100%] Built target inv

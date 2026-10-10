@@ -1,0 +1,45 @@
+name: windows-source-validation
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  msvc:
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, Win32]
+        gui: [OFF, ON]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Configure
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A ${{ matrix.arch }} -DINV_WITH_GUI=${{ matrix.gui }} -DINV_STRICT_STATIC=ON
+      - name: Build
+        run: cmake --build build --config Release --parallel
+      - name: Native tests
+        run: ctest --test-dir build -C Release --output-on-failure
+      - name: PE import audit
+        run: python tools/verify_windows_imports.py build/Release/inv.exe --profile msvc
+      - name: Upload executable and test log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: inv-windows-${{ matrix.arch }}-gui-${{ matrix.gui }}
+          path: |
+            build/Release/inv.exe
+            build/Testing/Temporary/LastTest.log
+  msvc-minimal:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Configure OS-only
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DINV_WITH_GUI=OFF -DINV_WITH_TUI=OFF -DINV_WITH_MEMORY=OFF -DINV_WITH_CPU=OFF -DINV_WITH_DMI=OFF -DINV_WITH_NETWORK=OFF -DINV_WITH_HWMON=OFF -DINV_WITH_CPUID=OFF -DINV_WITH_FILESYSTEM=OFF -DINV_WITH_PROCESS=OFF -DINV_EMBED_DOCS=OFF
+      - run: cmake --build build --config Release --parallel
+      - run: ctest --test-dir build -C Release --output-on-failure
+      - run: python tools/verify_windows_imports.py build/Release/inv.exe --profile msvc

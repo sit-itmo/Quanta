@@ -1,0 +1,11 @@
+version 1;
+mode tui;
+every 1s;
+redraw 200ms;
+history 5m;
+select cpu.utilization as plot(min=0,max=1,title="CPU busy",unit="%");
+select os.memory.utilization as bar(min=0,max=1,title="Physical memory",unit="%");
+select windows.memory.commit.used_bytes as value(unit="GiB",title="System commit");
+select optional sensor.temperature as value(unit="degC",title="Thermal zone (not necessarily CPU)") every 2s;
+select optional rate(device.net.rx_bytes_total) as plot(unit="KiB/s",title="Network receive");
+select optional rate(device.net.tx_bytes_total) as plot(unit="KiB/s",title="Network transmit");

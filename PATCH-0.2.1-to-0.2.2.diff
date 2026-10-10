@@ -1,0 +1,978 @@
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/CHANGELOG.md inv-0.2.2/CHANGELOG.md
+--- inv-0.2.1/CHANGELOG.md	2026-09-14 13:11:40.000000000 +0000
++++ inv-0.2.2/CHANGELOG.md	2026-09-14 13:36:43.416581674 +0000
+@@ -1,5 +1,14 @@
+ # Changelog
+ 
++## 0.2.2 — Native Windows validation follow-up
++
++- Исправлен native Windows live-session test: `count` ограничивает output frames, а не число samples; heartbeat frame может не содержать нового sample, если метрика имеет больший `min_poll_ns`.
++- Windows network discovery теперь исключает `MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface`, чтобы WFP/Npcap/VirtualBox filter modules не выдавались как отдельные пользовательские NIC.
++- Для `INV_REFRESH_ON_EVENT` больше не печатается вводящая в заблуждение диагностика `polling clamped`; 5-секундная rediscovery cadence остаётся внутренней политикой.
++- Исправлен Windows Markdown example selector `filesystem.root.*` → `fs.root.*`; соответствующая integration prerequisite также исправлена.
++- Compile-time GUI/TUI validation использует `#if`, устраняя MSVC C4127 в GUI build и позволяя проверять проект с warnings-as-errors.
++- Подтверждено пользователем: 0.2.1 собирается нативно MSVC 19.51 / VS 18 без GUI и MSVC 19.44 / VS 2022 с Dear ImGui; `windows_gui` проходит.
++
+ ## 0.2.1 — Windows SDK networking header fix
+ 
+ - Fixed native MSVC compilation of the Windows network provider.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/CMakeLists.txt inv-0.2.2/CMakeLists.txt
+--- inv-0.2.1/CMakeLists.txt	2026-09-14 13:11:38.000000000 +0000
++++ inv-0.2.2/CMakeLists.txt	2026-09-14 13:30:21.369922604 +0000
+@@ -1,6 +1,6 @@
+ cmake_minimum_required(VERSION 3.21)
+ cmake_policy(SET CMP0091 NEW)
+-project(inv VERSION 0.2.1 LANGUAGES C)
++project(inv VERSION 0.2.2 LANGUAGES C)
+ if(WIN32)
+   set(INV_OS_WINDOWS ON)
+   set(INV_OS_LINUX OFF)
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/README-LINUX.md inv-0.2.2/README-LINUX.md
+--- inv-0.2.1/README-LINUX.md	2026-09-14 13:11:38.000000000 +0000
++++ inv-0.2.2/README-LINUX.md	2026-09-14 13:34:45.085929313 +0000
+@@ -1,4 +1,4 @@
+-# INV 0.2.1 — инвентаризация и мониторинг Linux
++# INV 0.2.2 — инвентаризация и мониторинг Linux
+ 
+ C99-ядро, реестр из **52 семейств метрик**, язык запросов INVQ, CLI, TUI,
+ CSV/Markdown и опциональный Dear ImGui GUI. Несколько представлений одной
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/README.md inv-0.2.2/README.md
+--- inv-0.2.1/README.md	2026-09-14 13:12:44.000000000 +0000
++++ inv-0.2.2/README.md	2026-09-14 13:35:56.224512231 +0000
+@@ -1,4 +1,4 @@
+-# INV 0.2.1 — Windows + Linux: инвентаризация и мониторинг
++# INV 0.2.2 — Windows + Linux: инвентаризация и мониторинг
+ 
+ Windows-порт на общей кодовой базе INV 0.1: **70 семейств метрик Windows**, C99-ядро,
+ CLI, native Unicode TUI, human/table/CSV/Markdown и опциональный Dear ImGui GUI
+@@ -8,16 +8,20 @@
+ 
+ > **0.2.1 hotfix:** исправлен порядок Windows networking headers для современных Windows SDK (`winsock2.h` → `ws2ipdef.h` → `iphlpapi.h`). Это устраняет ошибку `MIB_IF_TABLE2`/`MIB_IF_ROW2` undeclared, наблюдавшуюся в нативной MSVC-сборке 0.2.0.
+ 
+-**Это архив исходников, не проверенный готовый Windows EXE.** В среде подготовки
+-нет Windows SDK, MSVC/MinGW и Windows/Wine: нативная Windows-сборка и Win32 GUI/TUI
+-здесь НЕ выполнены. Общий код собран и протестирован на Linux; отдельно проверены
+-чистый C-парсер SMBIOS, формулы Windows и настоящий Windows-реестр/13 INVQ-примеров.
+-Последняя проверка не исполняет провайдеры. Полный GUI также не собран: исходники
+-ImGui не удалось получить в этой среде. Подробный статус — [TEST_REPORT.md](TEST_REPORT.md).
++> **0.2.2 native-Windows validation fixes:** исправлен тест live-session (`count` считает output frames, а не число samples), из сетевого discovery исключаются NDIS filter interfaces по `MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface`, и исправлен Windows Markdown-пример `fs.root.*`.
++
++**Это архив исходников, а не поставка готового EXE.** INV 0.2.1 уже был нативно
++собран пользователем на Windows двумя MSVC toolchain: CLI/TUI-профиль дал рабочий
++`inv.exe`, а GUI-профиль действительно скомпилировал Dear ImGui и прошёл `windows_gui`.
++Лог также подтвердил работу inventory, памяти, SMBIOS DIMM, CPU utilization и файловых
++экспортов. INV 0.2.2 содержит точечные исправления по этому native run; именно 0.2.2
++ещё нужно повторно прогнать на Windows. В среде подготовки Windows SDK/MSVC по-прежнему
++нет, поэтому Linux-regression и Windows schema/data checks не подменяются заявлением о
++нативной 0.2.2 валидации. Подробный статус — [TEST_REPORT.md](TEST_REPORT.md).
+ 
+ ## 1. Сборка Windows: CLI + TUI, без внешних библиотек
+ 
+-Для первой сборки используйте Windows 10/11, **Visual Studio 2022, toolset v143**
++Для первой сборки используйте Windows 10/11, **Visual Studio 2022 или новее**
+ с компонентом «Разработка классических приложений на C++» и Windows SDK, CMake 3.21+.
+ Python 3.8+ необязателен для сборки/запуска: он добавляет интеграционные тесты и
+ инструменты документации. Ядро использует подмножество C99; MSVC получает /std:c11
+@@ -167,7 +171,7 @@
+ | CPU | GetSystemTimes и PDH Processor Information; учтены processor groups |
+ | CPUID | Аппаратные bits одного закреплённого reference CPU, не разрешение ОС |
+ | Плата/BIOS/система/DIMM | Bounded C parser raw SMBIOS types 0/1/2/17 |
+-| Сеть | GetIfTable2, GUID/LUID, 64-bit counters и link speed |
++| Сеть | GetIfTable2, GUID/LUID, 64-bit counters и link speed; NDIS filter-module interfaces скрыты из пользовательского discovery |
+ | Температуры | Только доступные Windows thermal zones через PDH |
+ | Диск | Квотное представление тома установки Windows, не все тома |
+ | Процесс | Working set/private commit, handles и process I/O текущего INV |
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/TEST_REPORT.md inv-0.2.2/TEST_REPORT.md
+--- inv-0.2.1/TEST_REPORT.md	2026-09-14 13:12:44.000000000 +0000
++++ inv-0.2.2/TEST_REPORT.md	2026-09-14 13:38:48.223873887 +0000
+@@ -1,110 +1,164 @@
+-# INV 0.2.1 — фактически выполненные проверки
++# INV 0.2.2 — фактически выполненные проверки
+ 
+-## 0.2.1: исправление по результату нативной MSVC-сборки
++Дата: 14 сентября 2026 года.
+ 
+-Пользовательский запуск CMake под Visual Studio 18 / MSVC 19.51 и Windows SDK
+-10.0.26100 успешно прошёл configure, но INV 0.2.0 остановился в
+-`src/providers/windows/network.c`: SDK не объявил `MIB_IF_TABLE2`, `MIB_IF_ROW2`
+-и `GetIfTable2`. Остальные сообщения в этом translation unit были каскадными.
++Поставка содержит исходники Windows/Linux. В среде подготовки нет Windows SDK/MSVC/Wine,
++поэтому **сам INV 0.2.2 нативно на Windows здесь не пересобирался**. Однако пользователь
++предоставил полный лог реальной нативной проверки INV 0.2.1, и именно по нему подготовлен
++0.2.2.
+ 
+-Причина локализована в include contract: определения MIB_IF_*2 в `netioapi.h`
+-публикуются после подключения `ws2ipdef.h`; пользовательский `netioapi.h`
+-напрямую подключать не следует. В 0.2.1 `windows_internal.h` подключает
+-`winsock2.h`, затем `ws2ipdef.h`; `network.c` подключает только `iphlpapi.h`.
++## Что подтверждено реальной Windows-сборкой 0.2.1
+ 
+-После исправления повторена Linux Release strict-static сборка с warnings-as-errors:
+-CTest 7/7. Нативную Windows 0.2.1 сборку в среде подготовки выполнить по-прежнему
+-невозможно из-за отсутствия Windows SDK/MSVC/Wine; пользовательская повторная
+-Windows-сборка требуется для подтверждения следующего этапа компиляции.
++На пользовательской Windows-машине:
+ 
+-Дата подготовки: 14 сентября 2026 года. Поставка содержит исходники Windows/Linux,
+-не готовый проверенный Windows EXE.
++- CLI/TUI профиль сконфигурирован Visual Studio 18 2026, MSVC 19.51.36257.0 и Windows SDK
++  10.0.26100.0; `inv_core.lib`, тесты и `Release/inv.exe` успешно собраны.
++- CTest: `unit`, `windows_data`, `documentation`, `integration` прошли. Единственный fail —
++  `windows_platform`, assertion `model.samples>=2`.
++- `inv.exe --version`, `list --compiled`, `describe`, inventory, memory, SMBIOS DIMM inventory,
++  CPU utilization, CSV/Markdown output и `explain` реально запускались.
++- GUI профиль отдельно сконфигурирован Visual Studio 2022 / MSVC 19.44 с `INV_WITH_GUI=ON`;
++  настоящие `imgui.cpp`, `imgui_draw.cpp`, `imgui_tables.cpp`, `imgui_widgets.cpp` были
++  скомпилированы, `inv_gui.lib` и `Release/inv.exe` успешно собраны.
++- В GUI CTest `windows_gui` прошёл. Единственный fail снова был тот же
++  `windows_platform:model.samples>=2`.
+ 
+-## Граница подтверждённого
++Таким образом, прежнее ограничение отчёта 0.2.1 «Windows build не подтверждён» больше не
++актуально **для 0.2.1**: пользовательский лог подтверждает native MSVC build и существенную
++часть runtime-тестов. Это не автоматически подтверждает 0.2.2 — его следует повторно
++собрать тем же способом после этих точечных изменений.
+ 
+-**Нативная Windows-сборка и исполнение не выполнены.** В среде нет MSVC/Windows SDK,
+-MinGW-w64 cross-toolchain или Windows/Wine. Исходники Windows-провайдеров, Unicode CLI,
+-Console TUI и Win32/GDI GUI включены, но их сборку/запуск нельзя считать пройденными.
+-Предоставлены native C/Python tests и Windows CI workflow для воспроизведения.
+-Workflow не запускался в этой сессии.
++## Что обнаружено по native runtime 0.2.1 и исправлено в 0.2.2
+ 
+-**Полная интеграция Dear ImGui также не собрана.** В среде недоступно получение
+-закреплённой ревизии ImGui; исходники зависимости не включены в архив. GUI adapter
+-не подменён самодельным UI или заглушкой библиотеки. Ни успешная Linux-регрессия,
+-ни отдельно проверенный raster/XCB не доказывают работоспособность полного GUI.
++### 1. `windows_platform` был неверным тестом, а не ошибкой scheduler/live
+ 
+-## Среда проверок
++Тест запускал:
+ 
+-Debian GNU/Linux 13, x86-64; GCC 14.2.0, Clang 17.0.0, CMake 3.31.6, Python 3.
+-Это не Ubuntu VM, не Windows VM, не физическая материнская плата пользователя.
++```text
++mode file; every 250ms; count 3; select os.uptime;
++```
++
++`count` по контракту INVQ ограничивает **output frames**, включая heartbeat frames.
++`os.uptime` имеет минимальный poll interval 1 s. На быстрой Windows-машине engine успевал
++сформировать три frame за ~0.75 s, но новое значение `os.uptime` к этому моменту ещё не было
++положено собирать. Поэтому `model.frames == 3` при `model.samples == 1` — допустимый и ожидаемый
++результат.
++
++В 0.2.2 native test проверяет фактический контракт:
++
++- session завершилась `INV_OK`;
++- model получил end-session;
++- `model.frames == 3`;
++- `1 <= model.samples <= model.frames`.
++
++Engine для обхода теста не менялся.
++
++### 2. Windows network discovery выдавал NDIS filter modules как отдельные NIC
++
++Native inventory показал WFP, Npcap, VirtualBox и Hyper-V filter-layer interfaces как
++отдельные `device.net.*` series. Это объясняется семантикой `GetIfTable2`: таблица содержит
++в том числе NDIS filter interfaces.
++
++В 0.2.2 discovery пропускает строки, у которых
++`MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface != 0`. Физические и обычные
++логические/виртуальные/VPN/loopback interfaces не отбрасываются этим правилом. Источник
++counters по-прежнему один `GetIfTable2` snapshot, идентичность серии остаётся GUID + NET_LUID.
++
++### 3. Ложный шум `polling clamped` для event-driven MAC property
++
++`device.net.mac` имеет `INV_REFRESH_ON_EVENT`; внутренняя 5-секундная rediscovery cadence не
++является пользовательским polling period. 0.2.1 печатал десятки диагностик вида
++`polling clamped from 1.000s to 5.000s` — по одной на найденный interface.
++
++В 0.2.2 clamp diagnostic печатается только для `INV_REFRESH_POLL`. Семантика сбора не
++ослаблена; убрана вводящая в заблуждение диагностика для event-driven property.
++
++### 4. Windows Markdown example содержал неверный key
++
++`queries/windows/09-report-markdown.invq` выбирал `filesystem.root.*`, тогда как реальный
++catalog key — `fs.root.*`. Поэтому native run корректно сообщал, что optional selector не
++имеет instances. Исправлено на `fs.root.*`.
++
++Дополнительно `tests/windows_integration.py` проверял prerequisite
++`filesystem.root.total_bytes`; из-за этого блок полного прогона всех 13 Windows examples
++никогда не включался. Исправлено на `fs.root.total_bytes`.
+ 
+-## Результаты
++### 5. Убран MSVC C4127 в feature checks
++
++Нативный GUI build 0.2.1 показал C4127 на константных выражениях `!INV_WITH_GUI` /
++`!INV_WITH_TUI`. В 0.2.2 эти compile-time ветви оформлены через `#if`, поэтому сам
++query validator не должен генерировать эти предупреждения при MSVC warnings-as-errors.
++
++## Проверки INV 0.2.2 в среде подготовки
++
++Среда: Debian GNU/Linux 13 x86-64; GCC 14.2.0, Clang 17.0.0, CMake 3.31.6, Python 3.
++Это не Windows VM и не замена повторной native Windows-сборке.
+ 
+ | Проверка | Фактический результат |
+ |---|---|
+-| GCC, Linux, C99, strict static, GUI OFF, TUI ON, -Werror | Сборка успешна, CTest 7/7 |
+-| Clang Debug, Linux, ASan+UBSan, GUI OFF, -Werror | Сборка успешна, CTest 7/7; в этих тестах сообщений санитайзеров нет |
+-| GCC Release, OS-only, TUI/GUI/docs и опциональные провайдеры OFF | Сборка успешна, CTest 6/6 |
+-| Pure C Windows data tests | 10 606 checks, 0 failures |
+-| Настоящие Windows .def + query parser, на Linux | 70 описателей; все 13 Windows INVQ примеров проходят проверку |
+-| Linux CLI integration | Реальные subprocess-проверки форматов/статусов/ошибок/файлов |
+-| Linux TUI | Реальный PTY: управление, resize, pause, выход и восстановление терминала |
+-| Software rasterizer | В составе unit-тестов: clipping, alpha, shared edges, invalid coordinates |
+-| Переименованный общий window API + XCB backend | Реальный static executable в Xvfb, вывод пикселей и cookie authorization; отсутствие cookie отклонено |
+-| Linux static audit | Отсутствуют PT_INTERP и DT_NEEDED у inv и XCB smoke executable |
+-| Все 11 прежних Linux примеров | Выполнены с FILE sink и короткими ограничениями времени |
+-| Python tools/tests + CMakePresets.json | Синтаксический разбор успешен; это не исполнение Windows Python-тестов |
+-| PE import reader | Разобрал реальную x64 MinGW PE fixture из Go toolchain; это НЕ inv.exe |
+-| MSVC x64/Win32, MinGW, Windows runtime | НЕ выполнены |
+-| Windows TUI/Win32 GUI/реальные Windows sensor drivers | НЕ выполнены |
+-| Полный GUI с ImGui, обе ОС | НЕ выполнен |
+-
+-Логи находятся в test-logs/. В одном объединённом вызове build+CTest санитайзерная
+-сборка завершилась, но общий лимит времени остановил CTest посреди набора. CTest был
+-запущен повторно отдельно и завершился 7/7; финальный лог сохранён. Это не обход
+-падения теста и не отключение санитайзеров.
+-
+-## Что проверяют Windows data / schema
+-
+-SMBIOS: bounded table walk, Windows 8-byte prefix, строковые индексы, отсутствующие/
+-слишком длинные поля, UUID до/после 2.6, DIMM sizes/speed/handle uniqueness, повреждённые
+-и усечённые структуры, очистка частично разобранных данных. 5000 детерминированных
+-псевдослучайных входов — smoke fuzzing, не длительный аудит безопасности.
+-
+-Математика: checked page-byte multiplication, physical-memory identity, CPU deltas
+-с учётом idle-in-kernel, counter reset/warmup, uint64 precision, thermal Kelvin conversion,
+-разбор processor-group instance names. Они не проверяют ответы GetSystemTimes/PDH.
+-
+-`inv_windows_schema_tests` — отдельный неустанавливаемый test target. Он компилирует
+-реальные Windows-описатели и документацию с parser/validator. Адреса провайдеров
+-связаны с test-only функциями, которые возвращают UNSUPPORTED и никогда не собирают
+-данные; они не включаются в inv. Это структурная проверка реестра, не WinAPI emulator.
++| GCC Release, C99, strict static, GUI OFF, TUI ON, warnings-as-errors | Build OK; CTest **7/7** |
++| Clang Release, GUI OFF, TUI ON, warnings-as-errors | Build OK; CTest **7/7** |
++| Windows data tests (host-portable parser/math tests) | Passed |
++| Windows schema target | **70 metric descriptors; 13 Windows INVQ files validated** |
++| Embedded documentation consistency | Passed |
++| Linux CLI integration | Passed |
++| Linux PTY TUI integration | Passed |
++| Strict-static audit | `inv` has no `PT_INTERP` and no `DT_NEEDED` |
++| 11 Linux examples through FILE sink | Passed |
++| Native Windows 0.2.2 build/runtime | **Not yet rerun** |
++| Native Windows 0.2.2 GUI | **Not yet rerun** |
++
++`windows_schema` compiles the real Windows descriptors and validates all Windows query files,
++but uses test-only provider stubs and does **not** execute WinAPI. It therefore validates the
++registry/query contract, not `MIB_IF_ROW2.FilterInterface` runtime behaviour.
++
++## Recommended native 0.2.2 verification
+ 
+-## Как проверить на Windows
++CLI/TUI:
+ 
+ ```powershell
+-cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DINV_WITH_GUI=OFF -DINV_STRICT_STATIC=ON
++cmake -S . -B build -A x64 -DINV_WITH_GUI=OFF -DINV_STRICT_STATIC=ON
+ cmake --build build --config Release --parallel
+ ctest --test-dir build -C Release --output-on-failure
+ python tools/verify_windows_imports.py build/Release/inv.exe --profile msvc
+ ```
+ 
+-Повторить в отдельном каталоге с GUI ON (нужен pinned ImGui) и с -A Win32.
+-Ручной UI-checklist и ограничения: docs/WINDOWS.md. Отдельно проверить кириллические
+-пути/имена NIC, обычный conhost и Windows Terminal, многогрупповые CPU, отсутствие
+-PDH/thermal zones, права на firmware и статическую CRT-зависимость полученного EXE.
+-
+-Windows API floor 0x0601 не доказывает запуска на Windows 7: toolchain/CRT может
+-добавлять свои требования. XP/v141_xp не поддерживаются. Истинную совместимость
+-конкретного бинарника устанавливает только его проверка на целевой системе.
+-
+-Ни один результат выше не является доказательством отсутствия всех ошибок.
+-
+-## Проверка упаковки
+-
+-ZIP распакован в новый каталог; все исходные файлы сверены с MANIFEST.sha256.
+-Из распакованной копии заново выполнена GCC Release Linux-сборка (GUI OFF,
+-strict static, -Werror): CTest 7/7. В финальную упаковку после этого добавлены
+-этот абзац и соответствующий лог; исходный код не менялся. Целостность итоговых
+-ZIP/tar.gz и совпадение исходных файлов проверены повторно. Эта проверка упаковки
+-не является Windows build validation.
++Expected change: `windows_platform` should now pass. The inventory should no longer be flooded
++with names ending in WFP/Npcap/VirtualBox filter layers, and `01-inventory.invq` should no longer
++print one `device.net.mac: polling clamped ...` message per interface.
++
++Then:
++
++```powershell
++$Inv = ".\build\Release\inv.exe"
++& $Inv run --query-file queries/windows/01-inventory.invq --redact
++& $Inv run --query-file queries/windows/02-memory.invq
++& $Inv run --query-file queries/windows/09-report-markdown.invq --redact --output report-022.md
++& $Inv explain --query-file queries/windows/03-dashboard-tui.invq
++```
++
++GUI:
++
++```powershell
++cmake -S . -B build-gui -G "Visual Studio 17 2022" -A x64 -DINV_WITH_GUI=ON -DINV_STRICT_STATIC=ON
++cmake --build build-gui --config Release --parallel
++ctest --test-dir build-gui -C Release --output-on-failure
++.\build-gui\Release\inv.exe run --query-file queries/windows/04-dashboard-gui.invq
++```
++
++## Remaining scope limits
++
++- `sensor.temperature` is Windows ACPI/PDH thermal-zone data; it is not presented as a guaranteed
++  CPU package/core sensor.
++- No kernel driver/MSR/SMBus/EC/SMART/GPU vendor backend is part of this release.
++- Windows API floor macros alone do not prove compatibility with older Windows/CRT combinations.
++- XP/v141_xp is not supported by this branch.
++- Passing tests do not prove absence of all defects or driver-specific edge cases.
++
++## Проверка финальной упаковки
++
++Финальный ZIP формируется только из исходного дерева без build-каталогов. После упаковки
++он распаковывается в новый каталог, `MANIFEST.sha256` проверяется для каждого вложенного
++файла, затем из распакованной копии повторяются GCC Release strict-static configure/build
++и CTest. Архивы дополнительно имеют внешние SHA-256 checksums. Если эта процедура не
++проходит, пакет не считается финальным.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/WINDOWS.md inv-0.2.2/docs/WINDOWS.md
+--- inv-0.2.1/docs/WINDOWS.md	2026-09-14 12:25:06.000000000 +0000
++++ inv-0.2.2/docs/WINDOWS.md	2026-09-14 13:35:56.224753519 +0000
+@@ -1,18 +1,20 @@
+ # Windows: устройство порта, воспроизведение и ограничения
+ 
+ Основные команды сборки и запуска находятся в [README](../README.md). Эта страница
+-дополняет их техническими деталями. Наличие исходников не означает, что сборка
+-MSVC, Win32 UI или реальные датчики уже проверены: фактические запуски перечислены
++дополняет их техническими деталями. INV 0.2.1 уже был нативно собран пользователем
++MSVC как в CLI/TUI, так и в GUI-конфигурации с настоящим Dear ImGui; существенная часть
++Windows runtime-тестов прошла. INV 0.2.2 содержит исправления по этому прогону и требует
++повторной native проверки. Фактические результаты и границы подтверждённого перечислены
+ в [TEST_REPORT](../TEST_REPORT.md).
+ 
+ ## Сборочная матрица для воспроизведения на Windows
+ 
+-Базовые конфигурации: Visual Studio 2022 v143, x64 и Win32, Release, GUI OFF/ON.
++Базовые конфигурации: Visual Studio 2022 v143 или более новый MSVC, x64 и Win32, Release, GUI OFF/ON.
+ Сначала CLI+TUI без сети; затем GUI с pinned ImGui. CMake `INV_BUILD_TESTS=ON` добавляет
+ C-тесты; найденный Python добавляет файловые black-box-тесты и GUI smoke.
+ Для Debug повторите `--config Debug` / `ctest -C Debug`, не перемешивая CRT библиотек.
+ Для строгого тестирования предупреждений можно включить `INV_WARNINGS_AS_ERRORS=ON`;
+-в этой среде предупреждения самого MSVC не проверены.
++MSVC 19.51/19.44 уже использовался в пользовательском native прогоне; `INV_WARNINGS_AS_ERRORS=ON` следует проверить отдельно для 0.2.2.
+ 
+ Минимальная конфигурация:
+ 
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.mac.md inv-0.2.2/docs/metrics/device.net.mac.md
+--- inv-0.2.1/docs/metrics/device.net.mac.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.mac.md	2026-09-14 13:31:09.838461832 +0000
+@@ -43,8 +43,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.rx_bytes_total.md inv-0.2.2/docs/metrics/device.net.rx_bytes_total.md
+--- inv-0.2.1/docs/metrics/device.net.rx_bytes_total.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.rx_bytes_total.md	2026-09-14 13:31:09.837827062 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.rx_errors_total.md inv-0.2.2/docs/metrics/device.net.rx_errors_total.md
+--- inv-0.2.1/docs/metrics/device.net.rx_errors_total.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.rx_errors_total.md	2026-09-14 13:31:09.838735423 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.rx_link_bps.md inv-0.2.2/docs/metrics/device.net.rx_link_bps.md
+--- inv-0.2.1/docs/metrics/device.net.rx_link_bps.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.rx_link_bps.md	2026-09-14 13:31:09.838113473 +0000
+@@ -8,8 +8,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.rx_packets_total.md inv-0.2.2/docs/metrics/device.net.rx_packets_total.md
+--- inv-0.2.1/docs/metrics/device.net.rx_packets_total.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.rx_packets_total.md	2026-09-14 13:31:09.838322908 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.state.md inv-0.2.2/docs/metrics/device.net.state.md
+--- inv-0.2.1/docs/metrics/device.net.state.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.state.md	2026-09-14 13:31:09.838631350 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.tx_bytes_total.md inv-0.2.2/docs/metrics/device.net.tx_bytes_total.md
+--- inv-0.2.1/docs/metrics/device.net.tx_bytes_total.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.tx_bytes_total.md	2026-09-14 13:31:09.838803321 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.tx_errors_total.md inv-0.2.2/docs/metrics/device.net.tx_errors_total.md
+--- inv-0.2.1/docs/metrics/device.net.tx_errors_total.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.tx_errors_total.md	2026-09-14 13:31:09.838399014 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.tx_link_bps.md inv-0.2.2/docs/metrics/device.net.tx_link_bps.md
+--- inv-0.2.1/docs/metrics/device.net.tx_link_bps.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.tx_link_bps.md	2026-09-14 13:31:09.837958077 +0000
+@@ -8,8 +8,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/docs/metrics/device.net.tx_packets_total.md inv-0.2.2/docs/metrics/device.net.tx_packets_total.md
+--- inv-0.2.1/docs/metrics/device.net.tx_packets_total.md	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/docs/metrics/device.net.tx_packets_total.md	2026-09-14 13:31:09.838046372 +0000
+@@ -41,8 +41,10 @@
+ 
+ ## Windows (0.2)
+ 
+-Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и
+-логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,
++Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются
++строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие
++NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая
++виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,
+ guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.
+ Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование
+ той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/include/inv/inv.h inv-0.2.2/include/inv/inv.h
+--- inv-0.2.1/include/inv/inv.h	2026-09-14 13:11:38.000000000 +0000
++++ inv-0.2.2/include/inv/inv.h	2026-09-14 13:30:21.370342055 +0000
+@@ -10,7 +10,7 @@
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+-#define INV_VERSION "0.2.1"
++#define INV_VERSION "0.2.2"
+ #define INV_TEXT_CAP 512
+ #define INV_KEY_CAP 128
+ #define INV_LABEL_CAP 6
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/metrics/windows/catalog.json inv-0.2.2/metrics/windows/catalog.json
+--- inv-0.2.1/metrics/windows/catalog.json	2026-09-14 12:30:22.000000000 +0000
++++ inv-0.2.2/metrics/windows/catalog.json	2026-09-14 13:31:09.837057781 +0000
+@@ -664,7 +664,7 @@
+     "doc_path": "docs/metrics/device.net.mac.md",
+     "unit": "",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "address",
+     "provider_group": "network",
+     "type": "INV_STRING",
+@@ -678,7 +678,7 @@
+     "doc_path": "docs/metrics/device.net.state.md",
+     "unit": "",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "operstate",
+     "provider_group": "network",
+     "type": "INV_STRING",
+@@ -692,7 +692,7 @@
+     "doc_path": "docs/metrics/device.net.rx_bytes_total.md",
+     "unit": "B",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "rx_bytes",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -706,7 +706,7 @@
+     "doc_path": "docs/metrics/device.net.tx_bytes_total.md",
+     "unit": "B",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "tx_bytes",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -720,7 +720,7 @@
+     "doc_path": "docs/metrics/device.net.rx_packets_total.md",
+     "unit": "packets",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "rx_packets",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -734,7 +734,7 @@
+     "doc_path": "docs/metrics/device.net.tx_packets_total.md",
+     "unit": "packets",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "tx_packets",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -748,7 +748,7 @@
+     "doc_path": "docs/metrics/device.net.rx_errors_total.md",
+     "unit": "errors",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "rx_errors",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -762,7 +762,7 @@
+     "doc_path": "docs/metrics/device.net.tx_errors_total.md",
+     "unit": "errors",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "tx_errors",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -776,7 +776,7 @@
+     "doc_path": "docs/metrics/device.net.rx_link_bps.md",
+     "unit": "bit/s",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "rx_link",
+     "provider_group": "network",
+     "type": "INV_U64",
+@@ -790,7 +790,7 @@
+     "doc_path": "docs/metrics/device.net.tx_link_bps.md",
+     "unit": "bit/s",
+     "label_schema": "ifname,ifindex,guid",
+-    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity)",
++    "dependencies": "GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+     "arg": "tx_link",
+     "provider_group": "network",
+     "type": "INV_U64",
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/metrics/windows/network.def inv-0.2.2/metrics/windows/network.def
+--- inv-0.2.1/metrics/windows/network.def	2026-09-14 11:57:22.000000000 +0000
++++ inv-0.2.2/metrics/windows/network.def	2026-09-14 13:31:09.836791728 +0000
+@@ -6,7 +6,7 @@
+  .unit="", .min_poll_ns=UINT64_C(250000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=INV_SENSITIVE, .counter_bits=0,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="address"
+ )
+ INV_METRIC(device_net_state,
+@@ -16,7 +16,7 @@
+  .unit="", .min_poll_ns=UINT64_C(250000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=0,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="operstate"
+ )
+ INV_METRIC(device_net_rx_bytes_total,
+@@ -26,7 +26,7 @@
+  .unit="B", .min_poll_ns=UINT64_C(100000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=64,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="rx_bytes"
+ )
+ INV_METRIC(device_net_tx_bytes_total,
+@@ -36,7 +36,7 @@
+  .unit="B", .min_poll_ns=UINT64_C(100000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=64,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="tx_bytes"
+ )
+ INV_METRIC(device_net_rx_packets_total,
+@@ -46,7 +46,7 @@
+  .unit="packets", .min_poll_ns=UINT64_C(100000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=64,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="rx_packets"
+ )
+ INV_METRIC(device_net_tx_packets_total,
+@@ -56,7 +56,7 @@
+  .unit="packets", .min_poll_ns=UINT64_C(100000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=64,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="tx_packets"
+ )
+ INV_METRIC(device_net_rx_errors_total,
+@@ -66,7 +66,7 @@
+  .unit="errors", .min_poll_ns=UINT64_C(100000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=64,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="rx_errors"
+ )
+ INV_METRIC(device_net_tx_errors_total,
+@@ -76,7 +76,7 @@
+  .unit="errors", .min_poll_ns=UINT64_C(100000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=64,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="tx_errors"
+ )
+ INV_METRIC(win_device_net_rx_link_bps,
+@@ -87,7 +87,7 @@
+  .unit="bit/s", .min_poll_ns=UINT64_C(1000000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=0,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="rx_link"
+ )
+ INV_METRIC(win_device_net_tx_link_bps,
+@@ -98,6 +98,6 @@
+  .unit="bit/s", .min_poll_ns=UINT64_C(1000000000),
+  .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+  .flags=0, .counter_bits=0,
+- .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity)",
++ .label_schema="ifname,ifindex,guid", .dependencies="GetIfTable2 (64-bit counters; GUID+LUID identity; NDIS filter interfaces excluded)",
+  .provider=&inv_network_provider, .read=inv_network_read, .arg="tx_link"
+ )
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/queries/windows/09-report-markdown.invq inv-0.2.2/queries/windows/09-report-markdown.invq
+--- inv-0.2.1/queries/windows/09-report-markdown.invq	2026-09-14 12:16:06.000000000 +0000
++++ inv-0.2.2/queries/windows/09-report-markdown.invq	2026-09-14 13:30:21.371155155 +0000
+@@ -12,4 +12,4 @@
+ select optional system.*;
+ select os.memory.total_bytes;
+ select optional device.memory.*;
+-select optional filesystem.root.*;
++select optional fs.root.*;
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/resources/inv.manifest inv-0.2.2/resources/inv.manifest
+--- inv-0.2.1/resources/inv.manifest	2026-09-14 13:11:38.000000000 +0000
++++ inv-0.2.2/resources/inv.manifest	2026-09-14 13:34:30.309898579 +0000
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+-  <assemblyIdentity version="0.2.1.0" processorArchitecture="*" name="INV.SystemObservatory" type="win32"/>
++  <assemblyIdentity version="0.2.2.0" processorArchitecture="*" name="INV.SystemObservatory" type="win32"/>
+   <description>INV - read-only system inventory and monitoring</description>
+   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3"><security><requestedPrivileges>
+     <requestedExecutionLevel level="asInvoker" uiAccess="false"/>
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/resources/inv.rc inv-0.2.2/resources/inv.rc
+--- inv-0.2.1/resources/inv.rc	2026-09-14 13:12:44.000000000 +0000
++++ inv-0.2.2/resources/inv.rc	2026-09-14 13:38:24.086354560 +0000
+@@ -1,8 +1,8 @@
+ #include <windows.h>
+ 1 RT_MANIFEST "inv.manifest"
+ 1 VERSIONINFO
+- FILEVERSION 0,2,1,0
+- PRODUCTVERSION 0,2,1,0
++ FILEVERSION 0,2,2,0
++ PRODUCTVERSION 0,2,2,0
+  FILEFLAGSMASK 0x3fL
+  FILEFLAGS 0x0L
+  FILEOS VOS_NT_WINDOWS32
+@@ -13,9 +13,9 @@
+     BLOCK "040904b0"
+     BEGIN
+       VALUE "FileDescription", "INV System Inventory and Monitor\0"
+-      VALUE "FileVersion", "0.2.1\0"
++      VALUE "FileVersion", "0.2.2\0"
+       VALUE "ProductName", "INV\0"
+-      VALUE "ProductVersion", "0.2.1\0"
++      VALUE "ProductVersion", "0.2.2\0"
+       VALUE "OriginalFilename", "inv.exe\0"
+     END
+   END
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/src/core/docs.c inv-0.2.2/src/core/docs.c
+--- inv-0.2.1/src/core/docs.c	2026-09-14 12:16:10.000000000 +0000
++++ inv-0.2.2/src/core/docs.c	2026-09-14 13:31:11.267525277 +0000
+@@ -1353,8 +1353,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1412,8 +1414,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1471,8 +1475,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1497,8 +1503,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1556,8 +1564,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1615,8 +1625,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1674,8 +1686,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1733,8 +1747,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1759,8 +1775,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+@@ -1818,8 +1836,10 @@
+     "\n"
+     "## Windows (0.2)\n"
+     "\n"
+-    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Источник содержит физические и\n"
+-    "логические интерфейсы, включая виртуальные/VPN/loopback. Метки: ifname (Alias, UTF-8), ifindex,\n"
++    "Один GetIfTable2 обслуживает все выбранные интерфейсы. Из user-facing discovery исключаются\n"
++    "строки с MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface: WFP/Npcap/VirtualBox и другие\n"
++    "NDIS filter modules не выдаются как отдельные NIC. Физические и логические интерфейсы, включая\n"
++    "виртуальные/VPN/loopback, остаются видимыми. Метки: ifname (Alias, UTF-8), ifindex,\n"
+     "guid. История привязана к GUID + NET_LUID, а не к имени или позиции перечисления.\n"
+     "Переименование меняет метки; изменение LUID создаёт новую серию. Повторное использование\n"
+     "той же идентичности драйвером нельзя безусловно обнаружить: уменьшение счётчика сбрасывает rate.\n"
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/src/core/engine.c inv-0.2.2/src/core/engine.c
+--- inv-0.2.1/src/core/engine.c	2026-09-14 11:52:06.000000000 +0000
++++ inv-0.2.2/src/core/engine.c	2026-09-14 13:30:21.371480706 +0000
+@@ -408,7 +408,7 @@
+     for(i=0; i<e->binding_count; i++)if(e->bindings[i].active) {
+         binding *b=&e->bindings[i];
+         uint64_t requested=e->plan.selects[b->meta.selection_index].period_ns;
+-        if(b->meta.metric->refresh!=INV_REFRESH_ONCE&&b->meta.effective_period_ns>requested) {
++        if(b->meta.metric->refresh==INV_REFRESH_POLL&&b->meta.effective_period_ns>requested) {
+             char msg[256];
+             snprintf(msg,sizeof(msg),"%s: polling clamped from %.3fs to %.3fs",b->meta.key,(double)requested/1e9,(double)b->meta.effective_period_ns/1e9);
+             if((result=diagnostic(e,INV_OK,msg))!=INV_OK)goto end;
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/src/providers/windows/network.c inv-0.2.2/src/providers/windows/network.c
+--- inv-0.2.1/src/providers/windows/network.c	2026-09-14 13:11:36.000000000 +0000
++++ inv-0.2.2/src/providers/windows/network.c	2026-09-14 13:30:21.371392939 +0000
+@@ -29,6 +29,10 @@
+     registry=inv_registry(&count);
+     for(j=0;j<p->table->NumEntries;j++) {
+         const MIB_IF_ROW2 *row=&p->table->Table[j];
++        /* GetIfTable2 also reports NDIS filter-module interfaces (WFP, Npcap,
++         * VirtualBox filters, etc.). They are implementation layers, not
++         * user-facing adapters, and would duplicate the same NIC many times. */
++        if(row->InterfaceAndOperStatusFlags.FilterInterface)continue;
+         char guid[64],name[INV_TEXT_CAP],index[32];
+         guid_text(guid,sizeof(guid),&row->InterfaceGuid);
+         if(!inv_win_utf8(name,sizeof(name),row->Alias))return INV_LIMIT;
+@@ -100,4 +104,4 @@
+     else return INV_UNSUPPORTED;
+     return INV_OK;
+ }
+-const inv_provider_desc inv_network_provider={4,"windows.network","One GetIfTable2 snapshot for all selected interfaces and 64-bit counters",open_provider,discover,refresh,close_provider};
++const inv_provider_desc inv_network_provider={4,"windows.network","One GetIfTable2 snapshot for user-facing interfaces; NDIS filter-module interfaces are excluded; 64-bit counters",open_provider,discover,refresh,close_provider};
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/src/query/query.c inv-0.2.2/src/query/query.c
+--- inv-0.2.1/src/query/query.c	2026-09-14 08:00:02.000000000 +0000
++++ inv-0.2.2/src/query/query.c	2026-09-14 13:36:43.416296905 +0000
+@@ -386,8 +386,12 @@
+     if(p->mode!=INV_MODE_FILE)p->once=0;
+     if(p->mode!=INV_MODE_FILE&&p->output[0])BAD("output is only valid in file mode");
+     if(p->mode!=INV_MODE_GUI&&p->font_path[0])BAD("--font is only valid in GUI mode");
+-    if(!INV_WITH_GUI&&p->mode==INV_MODE_GUI)BAD("GUI was disabled at compile time (INV_WITH_GUI=OFF)");
+-    if(!INV_WITH_TUI&&p->mode==INV_MODE_TUI)BAD("TUI was disabled at compile time (INV_WITH_TUI=OFF)");
++#if !INV_WITH_GUI
++    if(p->mode==INV_MODE_GUI)BAD("GUI was disabled at compile time (INV_WITH_GUI=OFF)");
++#endif
++#if !INV_WITH_TUI
++    if(p->mode==INV_MODE_TUI)BAD("TUI was disabled at compile time (INV_WITH_TUI=OFF)");
++#endif
+     for(i=0; i<p->select_count; i++) {
+         inv_select *s=&p->selects[i];
+         size_t matched=0,compatible=0;
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/tests/test_windows.c inv-0.2.2/tests/test_windows.c
+--- inv-0.2.1/tests/test_windows.c	2026-09-14 12:12:12.000000000 +0000
++++ inv-0.2.2/tests/test_windows.c	2026-09-14 13:30:21.370992805 +0000
+@@ -39,7 +39,7 @@
+         limit=inv_now_ns()+10*INV_NS_S;
+         while(!inv_live_done(live)&&inv_now_ns()<limit){CHECK(inv_live_pump(live,&sink)==INV_OK);inv_sleep_ns(10*INV_NS_MS);}
+         CHECK(inv_live_done(live));CHECK(inv_live_pump(live,&sink)==INV_OK);
+-        st=inv_live_finish(live,1);CHECK(st==INV_OK);CHECK(model.samples>=2);
++        st=inv_live_finish(live,1);CHECK(st==INV_OK);CHECK(model.done);CHECK(model.end_status==INV_OK);CHECK(model.frames==3);CHECK(model.samples>=1&&model.samples<=model.frames);
+     }
+     inv_model_destroy(&model);inv_engine_destroy(engine);free(p);
+ }
+diff -ruN '--exclude=build-*' '--exclude=test-logs' '--exclude=MANIFEST.sha256' '--exclude=PATCH-0.2.1-to-0.2.2.diff' inv-0.2.1/tests/windows_integration.py inv-0.2.2/tests/windows_integration.py
+--- inv-0.2.1/tests/windows_integration.py	2026-09-14 12:20:22.000000000 +0000
++++ inv-0.2.2/tests/windows_integration.py	2026-09-14 13:30:21.371266906 +0000
+@@ -75,7 +75,7 @@
+     run('run','--query-file',str(query),code=2)
+ # Complete example plans validate in a full build. GUI/TUI are switched to FILE
+ # for this test ONLY; this does not test those frontends.
+-if {'windows.memory.commit.used_bytes','cpu.utilization','process.self.pid','filesystem.root.total_bytes'} <= keys:
++if {'windows.memory.commit.used_bytes','cpu.utilization','process.self.pid','fs.root.total_bytes'} <= keys:
+     for query in sorted((ROOT/'queries/windows').glob('*.invq')):
+         run('explain','--query-file',str(query),'--mode','file')
+         args = ['run','--query-file',str(query),'--mode','file']

@@ -1,0 +1,13 @@
+version 1;
+mode file;
+format md;
+once;
+select os.name;
+select os.kernel.release;
+select os.arch;
+select optional cpu.brand;
+select optional cpu.cpuid_reference;
+select optional os.memory.*;
+select optional board.*;
+select optional bios.*;
+select optional sensor.temperature;

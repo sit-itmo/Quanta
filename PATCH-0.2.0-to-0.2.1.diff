@@ -1,0 +1,135 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ cmake_minimum_required(VERSION 3.21)
+ cmake_policy(SET CMP0091 NEW)
+-project(inv VERSION 0.2.0 LANGUAGES C)
++project(inv VERSION 0.2.1 LANGUAGES C)
+ if(WIN32)
+   set(INV_OS_WINDOWS ON)
+   set(INV_OS_LINUX OFF)
+--- a/include/inv/inv.h
++++ b/include/inv/inv.h
+@@ -10,7 +10,7 @@
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+-#define INV_VERSION "0.2.0"
++#define INV_VERSION "0.2.1"
+ #define INV_TEXT_CAP 512
+ #define INV_KEY_CAP 128
+ #define INV_LABEL_CAP 6
+--- a/src/platform/windows_internal.h
++++ b/src/platform/windows_internal.h
+@@ -3,6 +3,7 @@
+ #define INV_WINDOWS_INTERNAL_H
+ /* winsock2.h must precede windows.h (Win32 lean is also set by CMake). */
+ #include <winsock2.h>
++#include <ws2ipdef.h> /* Required before iphlpapi.h exposes MIB_IF_ROW2/TABLE2. */
+ #include "internal.h"
+ #include <wchar.h>
+ inv_status inv_win_status(DWORD);
+--- a/src/providers/windows/network.c
++++ b/src/providers/windows/network.c
+@@ -1,7 +1,6 @@
+ /* SPDX-License-Identifier: MIT */
+ #include "windows_internal.h"
+-#include <iphlpapi.h>
+-#include <netioapi.h>
++#include <iphlpapi.h> /* Includes netioapi.h; do not include netioapi.h directly. */
+ typedef struct network_data { MIB_IF_TABLE2 *table; inv_status status; } network_data;
+ static void guid_text(char *out,size_t cap,const GUID *g) {
+     snprintf(out,cap,"%08lx-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+--- a/resources/inv.rc
++++ b/resources/inv.rc
+@@ -1,8 +1,8 @@
+ #include <windows.h>
+ 1 RT_MANIFEST "inv.manifest"
+ 1 VERSIONINFO
+- FILEVERSION 0,2,0,0
+- PRODUCTVERSION 0,2,0,0
++ FILEVERSION 0,2,1,0
++ PRODUCTVERSION 0,2,1,0
+  FILEFLAGSMASK 0x3fL
+  FILEFLAGS 0x0L
+  FILEOS VOS_NT_WINDOWS32
+@@ -13,9 +13,9 @@
+     BLOCK "040904b0"
+     BEGIN
+       VALUE "FileDescription", "INV System Inventory and Monitor\0"
+-      VALUE "FileVersion", "0.2.0\0"
++      VALUE "FileVersion", "0.2.1\0"
+       VALUE "ProductName", "INV\0"
+-      VALUE "ProductVersion", "0.2.0\0"
++      VALUE "ProductVersion", "0.2.1\0"
+       VALUE "OriginalFilename", "inv.exe\0"
+     END
+   END
+--- a/resources/inv.manifest
++++ b/resources/inv.manifest
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+-  <assemblyIdentity version="0.2.0.0" processorArchitecture="*" name="INV.SystemObservatory" type="win32"/>
++  <assemblyIdentity version="0.2.1.0" processorArchitecture="*" name="INV.SystemObservatory" type="win32"/>
+   <description>INV - read-only system inventory and monitoring</description>
+   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3"><security><requestedPrivileges>
+     <requestedExecutionLevel level="asInvoker" uiAccess="false"/>
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,5 +1,13 @@
+ # Changelog
+ 
++## 0.2.1 — Windows SDK networking header fix
++
++- Fixed native MSVC compilation of the Windows network provider.
++- `ws2ipdef.h` is now included before IP Helper headers, as required for
++  `MIB_IF_ROW2`/`MIB_IF_TABLE2` declarations in current Windows SDKs.
++- Removed direct inclusion of `netioapi.h`; `iphlpapi.h` owns that include path.
++- No metric/query ABI or runtime behavior changes are intended.
++
+ ## 0.2.0 — Windows source port
+ 
+ - Shared core platform layer: threads, clocks, cancellation, UTF-8 paths.
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-# INV 0.2.0 — Windows + Linux: инвентаризация и мониторинг
++# INV 0.2.1 — Windows + Linux: инвентаризация и мониторинг
+ 
+ Windows-порт на общей кодовой базе INV 0.1: **70 семейств метрик Windows**, C99-ядро,
+ CLI, native Unicode TUI, human/table/CSV/Markdown и опциональный Dear ImGui GUI
+@@ -6,6 +6,8 @@
+ Реестр формируется при компиляции; исполняемая программа не загружает плагины и не
+ запускает PowerShell, WMI-скрипты или сторонние утилиты для сбора данных.
+ 
++> **0.2.1 hotfix:** исправлен порядок Windows networking headers для современных Windows SDK (`winsock2.h` → `ws2ipdef.h` → `iphlpapi.h`). Это устраняет ошибку `MIB_IF_TABLE2`/`MIB_IF_ROW2` undeclared, наблюдавшуюся в нативной MSVC-сборке 0.2.0.
++
+ **Это архив исходников, не проверенный готовый Windows EXE.** В среде подготовки
+ нет Windows SDK, MSVC/MinGW и Windows/Wine: нативная Windows-сборка и Win32 GUI/TUI
+ здесь НЕ выполнены. Общий код собран и протестирован на Linux; отдельно проверены
+--- a/TEST_REPORT.md
++++ b/TEST_REPORT.md
+@@ -1,4 +1,21 @@
+-# INV 0.2.0 — фактически выполненные проверки
++# INV 0.2.1 — фактически выполненные проверки
++
++## 0.2.1: исправление по результату нативной MSVC-сборки
++
++Пользовательский запуск CMake под Visual Studio 18 / MSVC 19.51 и Windows SDK
++10.0.26100 успешно прошёл configure, но INV 0.2.0 остановился в
++`src/providers/windows/network.c`: SDK не объявил `MIB_IF_TABLE2`, `MIB_IF_ROW2`
++и `GetIfTable2`. Остальные сообщения в этом translation unit были каскадными.
++
++Причина локализована в include contract: определения MIB_IF_*2 в `netioapi.h`
++публикуются после подключения `ws2ipdef.h`; пользовательский `netioapi.h`
++напрямую подключать не следует. В 0.2.1 `windows_internal.h` подключает
++`winsock2.h`, затем `ws2ipdef.h`; `network.c` подключает только `iphlpapi.h`.
++
++После исправления повторена Linux Release strict-static сборка с warnings-as-errors:
++CTest 7/7. Нативную Windows 0.2.1 сборку в среде подготовки выполнить по-прежнему
++невозможно из-за отсутствия Windows SDK/MSVC/Wine; пользовательская повторная
++Windows-сборка требуется для подтверждения следующего этапа компиляции.
+ 
+ Дата подготовки: 14 сентября 2026 года. Поставка содержит исходники Windows/Linux,
+ не готовый проверенный Windows EXE.

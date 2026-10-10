@@ -1,0 +1,32 @@
+1. Единая система усчета датчиков
+2. Система отображения/отчетов не зависит от сбора
+3. Нет лишних зависимостей
+4. Используем любые способы получения метрик
+5. Build by cmake
+6. Use PromQL 
+7. Пишем на C
+
+Quanta
+
+Metric: 
+	Type: (f64, i64, string[MAX_SIZE](with,Length))
+	KeyLable: os.memory.utilization 
+	Description: Text/Language
+	Document:
+	Value:
+	Refresh Policy: INV_REFRESH_ONCE, INV_REFRESH_POLL, INV_REFRESH_ON_EVENT
+	Refresh Cost: INV_SENSITIVE=1u, INV_EXPENSIVE=2u, INV_QUALITY_ESTIMATED
+	Unit: metric unit
+	
+	
+	typedef struct inv_value 
+{
+    inv_value_type type;
+    union 
+    { 
+        int64_t s64; 
+        double f64;
+        struct { size_t size; char data[INV_TEXT_CAP]; } string;
+        struct { size_t size; uint8_t data[INV_TEXT_CAP]; } bytes;
+    } as;
+} inv_value;

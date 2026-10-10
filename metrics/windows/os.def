@@ -1,0 +1,71 @@
+/* SPDX-License-Identifier: MIT -- Windows descriptors */
+INV_METRIC(os_name,
+ .key="os.name", .title="Operating system",
+ .description="Operating system", .doc_path="docs/metrics/os.name.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="name"
+)
+INV_METRIC(os_kernel_release,
+ .key="os.kernel.release", .title="Kernel release",
+ .description="Kernel release", .doc_path="docs/metrics/os.kernel.release.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="release"
+)
+INV_METRIC(os_kernel_version,
+ .key="os.kernel.version", .title="Kernel build",
+ .description="Kernel build", .doc_path="docs/metrics/os.kernel.version.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="version"
+)
+INV_METRIC(os_arch,
+ .key="os.arch", .title="Machine architecture",
+ .description="Machine architecture", .doc_path="docs/metrics/os.arch.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="arch"
+)
+INV_METRIC(os_hostname,
+ .key="os.hostname", .title="Host name",
+ .description="Host name", .doc_path="docs/metrics/os.hostname.md",
+ .semantic_version=1, .type=INV_STRING, .kind=INV_PROPERTY, .refresh=INV_REFRESH_ONCE,
+ .unit="", .min_poll_ns=UINT64_C(0),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=INV_SENSITIVE, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="hostname"
+)
+INV_METRIC(os_uptime,
+ .key="os.uptime", .title="Time since boot",
+ .description="Time since boot", .doc_path="docs/metrics/os.uptime.md",
+ .semantic_version=1, .type=INV_F64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="s", .min_poll_ns=UINT64_C(1000000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="uptime"
+)
+INV_METRIC(os_cpu_online,
+ .key="os.cpu.online", .title="Online logical processors",
+ .description="Online logical processors", .doc_path="docs/metrics/os.cpu.online.md",
+ .semantic_version=1, .type=INV_U64, .kind=INV_GAUGE, .refresh=INV_REFRESH_POLL,
+ .unit="", .min_poll_ns=UINT64_C(1000000000),
+ .recommended_poll_ns=INV_NS_S, .stale_after_ns=UINT64_C(5000000000),
+ .flags=0, .counter_bits=0,
+ .label_schema="", .dependencies="Win32 system APIs",
+ .provider=&inv_os_provider, .read=inv_os_read, .arg="online"
+)

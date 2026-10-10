@@ -1,0 +1,19 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {"major": 3, "minor": 21, "patch": 0},
+  "configurePresets": [
+    {"name": "windows-x64-cli", "displayName": "Windows x64 / static CRT / CLI and TUI", "generator": "Visual Studio 17 2022", "architecture": "x64", "binaryDir": "${sourceDir}/out/preset-x64-cli", "cacheVariables": {"INV_WITH_GUI": "OFF", "INV_STRICT_STATIC": "ON"}},
+    {"name": "windows-x64-gui", "inherits": "windows-x64-cli", "displayName": "Windows x64 / Dear ImGui software GDI", "binaryDir": "${sourceDir}/out/preset-x64-gui", "cacheVariables": {"INV_WITH_GUI": "ON"}},
+    {"name": "windows-x86-cli", "inherits": "windows-x64-cli", "architecture": "Win32", "binaryDir": "${sourceDir}/out/preset-x86-cli"}
+  ],
+  "buildPresets": [
+    {"name": "windows-x64-cli", "configurePreset": "windows-x64-cli", "configuration": "Release"},
+    {"name": "windows-x64-gui", "configurePreset": "windows-x64-gui", "configuration": "Release"},
+    {"name": "windows-x86-cli", "configurePreset": "windows-x86-cli", "configuration": "Release"}
+  ],
+  "testPresets": [
+    {"name": "windows-x64-cli", "configurePreset": "windows-x64-cli", "configuration": "Release", "output": {"outputOnFailure": true}},
+    {"name": "windows-x64-gui", "configurePreset": "windows-x64-gui", "configuration": "Release", "output": {"outputOnFailure": true}},
+    {"name": "windows-x86-cli", "configurePreset": "windows-x86-cli", "configuration": "Release", "output": {"outputOnFailure": true}}
+  ]
+}

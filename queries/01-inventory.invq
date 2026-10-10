@@ -1,0 +1,21 @@
+# One-shot, non-privileged inventory. DMI may be inaccessible or absent.
+version 1;
+mode file;
+format human;
+once;
+select os.name;
+select os.kernel.release;
+select os.arch;
+select os.cpu.online;
+select optional cpu.brand;
+select optional cpu.vendor;
+select optional cpu.cpuid_reference;
+select optional cpu.vmx;
+select optional cpu.svm;
+select optional cpu.hypervisor;
+select optional os.memory.total_bytes;
+select optional board.vendor;
+select optional board.model;
+select optional board.serial;
+select optional bios.version;
+select optional device.net.mac;

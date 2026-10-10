@@ -1,0 +1,13 @@
+version 1;
+mode file;
+format table;
+once;
+select os.memory.total_bytes as value(unit="GiB");
+select os.memory.available_bytes as value(unit="GiB");
+select os.memory.used_bytes as value(unit="GiB");
+select os.memory.utilization as value(unit="%");
+select windows.memory.commit.* as value(unit="GiB");
+select windows.memory.cache_bytes as value(unit="GiB");
+select os.process.count;
+select os.thread.count;
+select windows.handle.count;
