@@ -1,72 +1,35 @@
-/* SPDX-License-Identifier: MIT -- Windows descriptors */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(cpu_utilization,
- .key="cpu.utilization", .title="CPU busy fraction",
- .description="Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups.", .doc_path="docs/metrics/cpu.utilization.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="1", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GetSystemTimes / PDH Processor Information",
- .init=quanta_cpu_init,
-    .enumerate=quanta_cpu_enumerate,
-    .collect=quanta_cpu_collect,
-    .destroy=quanta_cpu_destroy,
-    .read=quanta_cpu_read, .arg="utilization"
-)
+    QUANTA_META_DESC("cpu.utilization", "CPU busy fraction",
+        "Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups."),
+    QUANTA_GAUGE_RATIO(100),
+    QUANTA_SNAPSHOT(quanta_cpu, "utilization"),
+    QUANTA_SOURCE("", "GetSystemTimes / PDH Processor Information"))
+
 QUANTA_METRIC(cpu_time_total,
- .key="cpu.time_total", .title="CPU accounted ticks",
- .description="Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups.", .doc_path="docs/metrics/cpu.time_total.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER, .refresh=QUANTA_REFRESH_POLL,
- .unit="ticks", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=64,
- .label_schema="", .dependencies="GetSystemTimes / PDH Processor Information",
- .init=quanta_cpu_init,
-    .enumerate=quanta_cpu_enumerate,
-    .collect=quanta_cpu_collect,
-    .destroy=quanta_cpu_destroy,
-    .read=quanta_cpu_read, .arg="total"
-)
+    QUANTA_META_DESC("cpu.time_total", "CPU accounted ticks",
+        "Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups."),
+    QUANTA_COUNTER_U64("ticks", 100),
+    QUANTA_SNAPSHOT(quanta_cpu, "total"),
+    QUANTA_SOURCE("", "GetSystemTimes / PDH Processor Information"))
+
 QUANTA_METRIC(cpu_idle_total,
- .key="cpu.idle_total", .title="CPU idle ticks",
- .description="Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups.", .doc_path="docs/metrics/cpu.idle_total.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_COUNTER, .refresh=QUANTA_REFRESH_POLL,
- .unit="ticks", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=64,
- .label_schema="", .dependencies="GetSystemTimes / PDH Processor Information",
- .init=quanta_cpu_init,
-    .enumerate=quanta_cpu_enumerate,
-    .collect=quanta_cpu_collect,
-    .destroy=quanta_cpu_destroy,
-    .read=quanta_cpu_read, .arg="idle"
-)
+    QUANTA_META_DESC("cpu.idle_total", "CPU idle ticks",
+        "Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups."),
+    QUANTA_COUNTER_U64("ticks", 100),
+    QUANTA_SNAPSHOT(quanta_cpu, "idle"),
+    QUANTA_SOURCE("", "GetSystemTimes / PDH Processor Information"))
+
 QUANTA_METRIC(cpu_core_utilization,
- .key="cpu.core.utilization", .title="CPU busy fraction",
- .description="Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups.", .doc_path="docs/metrics/cpu.core.utilization.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="1", .min_poll_ns=UINT64_C(100000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="cpu,group,number", .dependencies="GetSystemTimes / PDH Processor Information",
- .init=quanta_cpu_init,
-    .enumerate=quanta_cpu_enumerate,
-    .collect=quanta_cpu_collect,
-    .destroy=quanta_cpu_destroy,
-    .read=quanta_cpu_read, .arg="utilization"
-)
+    QUANTA_META_DESC("cpu.core.utilization", "CPU busy fraction",
+        "Windows CPU accounting. Aggregate raw ticks use 100 ns units and are unsupported on multi-group systems; utilization supports processor groups."),
+    QUANTA_GAUGE_RATIO(100),
+    QUANTA_SNAPSHOT(quanta_cpu, "utilization"),
+    QUANTA_SOURCE("cpu,group,number", "GetSystemTimes / PDH Processor Information"))
+
 QUANTA_METRIC(win_windows_cpu_tick_frequency_hz,
- .key="windows.cpu.tick_frequency_hz", .title="GetSystemTimes raw counter frequency",
- .description="GetSystemTimes raw counter frequency", .doc_path="docs/metrics/windows.cpu.tick_frequency_hz.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY,
- .refresh=QUANTA_REFRESH_ONCE,
- .unit="Hz", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GetSystemTimes / PDH Processor Information",
- .init=quanta_cpu_init,
-    .enumerate=quanta_cpu_enumerate,
-    .collect=quanta_cpu_collect,
-    .destroy=quanta_cpu_destroy,
-    .read=quanta_cpu_read, .arg="tick_frequency"
-)
+    QUANTA_META("windows.cpu.tick_frequency_hz", "GetSystemTimes raw counter frequency"),
+    QUANTA_PROPERTY_U64("Hz", 5000),
+    QUANTA_SNAPSHOT(quanta_cpu, "tick_frequency"),
+    QUANTA_SOURCE("", "GetSystemTimes / PDH Processor Information"))

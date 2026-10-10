@@ -9,7 +9,7 @@ extern "C"
 
 #include <stddef.h>
 #include <stdint.h>
-#define QUANTA_VERSION "0.5.0"
+#define QUANTA_VERSION "0.6.0"
 #ifndef QUANTA_TEXT_CAP
 #define QUANTA_TEXT_CAP 512
 #endif

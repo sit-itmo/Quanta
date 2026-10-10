@@ -5,7 +5,6 @@ set_target_properties(quanta PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINAR
 target_include_directories(quanta PRIVATE ${PROJECT_SOURCE_DIR}/frontends/private)
 target_link_libraries(quanta PRIVATE quanta_frontends quanta_sensors)
 if(WIN32)
-    enable_language(RC)
     target_sources(quanta PRIVATE windows_entry.c ${PROJECT_SOURCE_DIR}/resources/quanta.rc)
     target_include_directories(quanta PRIVATE ${PROJECT_SOURCE_DIR}/resources ${PROJECT_SOURCE_DIR}/osal/private)
     if(MINGW)

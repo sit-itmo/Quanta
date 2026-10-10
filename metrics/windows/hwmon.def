@@ -1,15 +1,8 @@
-/* SPDX-License-Identifier: MIT -- Windows descriptors */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(sensor_temperature,
- .key="sensor.temperature", .title="Temperature channel",
- .description="ACPI thermal-zone reading exposed by Windows PDH; not necessarily a CPU package sensor.", .doc_path="docs/metrics/sensor.temperature.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="degC", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="device,chip,channel,label", .dependencies="PDH Thermal Zone Information / Temperature",
- .init=quanta_hwmon_init,
-    .enumerate=quanta_hwmon_enumerate,
-    .collect=quanta_hwmon_collect,
-    .destroy=quanta_hwmon_destroy,
-    .read=quanta_hwmon_read, .arg="temp"
-)
+    QUANTA_META_DESC("sensor.temperature", "Temperature channel",
+        "ACPI thermal-zone reading exposed by Windows PDH; not necessarily a CPU package sensor."),
+    QUANTA_GAUGE_F64("degC", 1000),
+    QUANTA_SNAPSHOT(quanta_hwmon, "temp"),
+    QUANTA_SOURCE("device,chip,channel,label", "PDH Thermal Zone Information / Temperature"))

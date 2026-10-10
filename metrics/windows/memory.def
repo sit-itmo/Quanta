@@ -1,192 +1,79 @@
-/* SPDX-License-Identifier: MIT -- Windows descriptors */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(os_memory_total_bytes,
- .key="os.memory.total_bytes", .title="Physical memory",
- .description="Physical memory", .doc_path="docs/metrics/os.memory.total_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="total"
-)
+    QUANTA_META("os.memory.total_bytes", "Physical memory"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "total"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(os_memory_available_bytes,
- .key="os.memory.available_bytes", .title="Available memory estimate",
- .description="Available memory estimate", .doc_path="docs/metrics/os.memory.available_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="available"
-)
+    QUANTA_META("os.memory.available_bytes", "Available memory estimate"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "available"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(os_memory_used_bytes,
- .key="os.memory.used_bytes", .title="Memory: total minus available",
- .description="Memory: total minus available", .doc_path="docs/metrics/os.memory.used_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="used"
-)
+    QUANTA_META("os.memory.used_bytes", "Memory: total minus available"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "used"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(os_memory_utilization,
- .key="os.memory.utilization", .title="Memory utilization",
- .description="Memory utilization", .doc_path="docs/metrics/os.memory.utilization.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="1", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="utilization"
-)
+    QUANTA_META("os.memory.utilization", "Memory utilization"),
+    QUANTA_GAUGE_RATIO(250),
+    QUANTA_SNAPSHOT(quanta_memory, "utilization"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_memory_commit_used_bytes,
- .key="windows.memory.commit.used_bytes", .title="System committed memory, not pagefile occupancy",
- .description="System committed memory, not pagefile occupancy", .doc_path="docs/metrics/windows.memory.commit.used_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="commit_used"
-)
+    QUANTA_META("windows.memory.commit.used_bytes", "System committed memory, not pagefile occupancy"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "commit_used"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_memory_commit_limit_bytes,
- .key="windows.memory.commit.limit_bytes", .title="System commit limit",
- .description="System commit limit", .doc_path="docs/metrics/windows.memory.commit.limit_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="commit_limit"
-)
+    QUANTA_META("windows.memory.commit.limit_bytes", "System commit limit"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "commit_limit"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_memory_commit_peak_bytes,
- .key="windows.memory.commit.peak_bytes", .title="Peak system commit since boot",
- .description="Peak system commit since boot", .doc_path="docs/metrics/windows.memory.commit.peak_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="commit_peak"
-)
+    QUANTA_META("windows.memory.commit.peak_bytes", "Peak system commit since boot"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "commit_peak"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_memory_cache_bytes,
- .key="windows.memory.cache_bytes", .title="System cache physical pages",
- .description="System cache physical pages", .doc_path="docs/metrics/windows.memory.cache_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="cache"
-)
+    QUANTA_META("windows.memory.cache_bytes", "System cache physical pages"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "cache"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_memory_kernel_paged_bytes,
- .key="windows.memory.kernel_paged_bytes", .title="Paged kernel memory",
- .description="Paged kernel memory", .doc_path="docs/metrics/windows.memory.kernel_paged_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="kernel_paged"
-)
+    QUANTA_META("windows.memory.kernel_paged_bytes", "Paged kernel memory"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "kernel_paged"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_memory_kernel_nonpaged_bytes,
- .key="windows.memory.kernel_nonpaged_bytes", .title="Nonpaged kernel memory",
- .description="Nonpaged kernel memory", .doc_path="docs/metrics/windows.memory.kernel_nonpaged_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="kernel_nonpaged"
-)
+    QUANTA_META("windows.memory.kernel_nonpaged_bytes", "Nonpaged kernel memory"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "kernel_nonpaged"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_os_process_count,
- .key="os.process.count", .title="System process count",
- .description="System process count", .doc_path="docs/metrics/os.process.count.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="process_count"
-)
+    QUANTA_META("os.process.count", "System process count"),
+    QUANTA_GAUGE_U64("", 250),
+    QUANTA_SNAPSHOT(quanta_memory, "process_count"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_os_thread_count,
- .key="os.thread.count", .title="System thread count",
- .description="System thread count", .doc_path="docs/metrics/os.thread.count.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="thread_count"
-)
+    QUANTA_META("os.thread.count", "System thread count"),
+    QUANTA_GAUGE_U64("", 250),
+    QUANTA_SNAPSHOT(quanta_memory, "thread_count"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))
+
 QUANTA_METRIC(win_windows_handle_count,
- .key="windows.handle.count", .title="System handle count",
- .description="System handle count", .doc_path="docs/metrics/windows.handle.count.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE,
- .refresh=QUANTA_REFRESH_POLL,
- .unit="", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="GlobalMemoryStatusEx / GetPerformanceInfo",
- .init=quanta_memory_init,
-    .enumerate=quanta_memory_enumerate,
-    .collect=quanta_memory_collect,
-    .destroy=quanta_memory_destroy,
-    .read=quanta_memory_read, .arg="handle_count"
-)
+    QUANTA_META("windows.handle.count", "System handle count"),
+    QUANTA_GAUGE_U64("", 250),
+    QUANTA_SNAPSHOT(quanta_memory, "handle_count"),
+    QUANTA_SOURCE("", "GlobalMemoryStatusEx / GetPerformanceInfo"))

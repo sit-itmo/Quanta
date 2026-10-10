@@ -3,14 +3,16 @@
 The application/core/collectors/TUI/software rasterizer/XCB and Win32 adapters are provided
 under the root MIT license. No external monitor executable is called at runtime.
 
-## Dear ImGui (optional; not bundled in this source archive)
+## Dear ImGui (bundled library sources)
 
 - Upstream: https://github.com/ocornut/imgui
-- Version: v1.91.9b
-- Commit: f5befd2d29e66809cd1110a152e375a7f1981f06
-- License: upstream MIT, retain its LICENSE.txt when fetching/distributing.
-- Four .cpp translation units and required headers are linked as a static library.
-- No system font files are included. --font reads a user-provided local file.
+- Version: **1.92.9b**, from the user-supplied archive, not a network fetch.
+- Library sources/headers are unmodified; license: `vendor/imgui/LICENSE.txt` (MIT).
+- Four core .cpp translation units are built as STATIC `imgui_vendor` by default.
+- `imgui_demo.cpp` is retained for reference, not compiled into Quanta.
+- Unused upstream backends/examples/build scripts and external font files are excluded.
+- Exact included files and source SHA256: [vendor/IMGUI.md](vendor/IMGUI.md).
+- `--font` reads a local font supplied by the user. No external font files are distributed.
 
 ## XCB (Linux-only optional GUI)
 
@@ -34,13 +36,13 @@ exceptions before distributing your own statically linked binaries.
 - Linux hwmon ABI: https://docs.kernel.org/hwmon/sysfs-interface.html
 - Linux network statistics: https://docs.kernel.org/networking/statistics.html
 - DMI sysfs implementation: https://github.com/torvalds/linux/blob/master/drivers/firmware/dmi-id.c
-- Dear ImGui backend contract (pinned): https://github.com/ocornut/imgui/blob/v1.91.9b/docs/BACKENDS.md
+- Dear ImGui backend contract (pinned): vendor/imgui/docs/BACKENDS.md (bundled version 1.92.9b)
 - XCB core API: https://xcb.freedesktop.org/manual/group__XCB____API.html
 
 ## Windows toolchain and system API
 
 No Windows SDK, runtime binary or font is distributed in this archive. The user
-provides a licensed SDK/toolchain. Application libraries and optional ImGui are
+provides a licensed SDK/toolchain. Application libraries and bundled ImGui are
 STATIC; MSVC uses /MT for release and /MTd for debug in the strict profile.
 System import libraries refer to Windows DLLs; these DLLs are not bundled or
 incorporated into the EXE. MinGW may depend on the system MSVCRT/UCRT even with
@@ -62,3 +64,11 @@ individual source/binary licenses; the root MIT license does not relicense them.
 
 The original SDK configuration supplied by the user is retained only under firmware/esp8266/reference;
 it is not asserted to fit a different board.
+
+## Build-fix references
+
+- CMake language scope: https://cmake.org/cmake/help/latest/command/enable_language.html
+- RegOpenKeyExW: https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyexw
+- Alternate registry views: https://learn.microsoft.com/en-us/windows/win32/winprog64/accessing-an-alternate-registry-view
+
+Source references explain contracts; they do not constitute execution tests of this archive.

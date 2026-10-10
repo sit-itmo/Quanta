@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "collector_internal.h"
+#include "quanta/metric_def.h"
 #define QUANTA_METRIC(symbol, ...) static const quanta_metric_desc symbol = {__VA_ARGS__};
 #include "selected.def"
 #undef QUANTA_METRIC

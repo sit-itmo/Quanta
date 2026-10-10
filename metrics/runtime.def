@@ -1,37 +1,25 @@
-/* SPDX-License-Identifier: MIT -- intentionally no include guard */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(quanta_version,
-    .key="quanta.version", .title="Quanta version",
-    .description="Quanta version", .doc_path="docs/metrics/quanta.version.md",
-    .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY,
-    .refresh=QUANTA_REFRESH_ONCE, .unit="",
-    .recommended_poll_ns=QUANTA_NS_S,
-    .label_schema="", .dependencies="build",
-    .enumerate=quanta_discover_single, .read=quanta_runtime_read, .arg="version"
-)
+    QUANTA_META("quanta.version", "Quanta version"),
+    QUANTA_PROPERTY_TEXT(0),
+    QUANTA_SINGLE_READ(quanta_runtime_read, "version"),
+    QUANTA_SOURCE("", "build"))
+
 QUANTA_METRIC(hal_name,
-    .key="hal.name", .title="Selected hardware backend",
-    .description="Selected hardware backend", .doc_path="docs/metrics/hal.name.md",
-    .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY,
-    .refresh=QUANTA_REFRESH_ONCE, .unit="",
-    .recommended_poll_ns=QUANTA_NS_S,
-    .label_schema="", .dependencies="HAL get_info",
-    .enumerate=quanta_discover_single, .read=quanta_runtime_read, .arg="hal_name"
-)
+    QUANTA_META("hal.name", "Selected hardware backend"),
+    QUANTA_PROPERTY_TEXT(0),
+    QUANTA_SINGLE_READ(quanta_runtime_read, "hal_name"),
+    QUANTA_SOURCE("", "HAL get_info"))
+
 QUANTA_METRIC(hal_capabilities,
-    .key="hal.capabilities", .title="Implemented HAL operations bitmask",
-    .description="Implemented HAL operations bitmask", .doc_path="docs/metrics/hal.capabilities.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY,
-    .refresh=QUANTA_REFRESH_ONCE, .unit="",
-    .recommended_poll_ns=QUANTA_NS_S,
-    .label_schema="", .dependencies="HAL get_info",
-    .enumerate=quanta_discover_single, .read=quanta_runtime_read, .arg="capabilities"
-)
+    QUANTA_META("hal.capabilities", "Implemented HAL operations bitmask"),
+    QUANTA_PROPERTY_U64("", 0),
+    QUANTA_SINGLE_READ(quanta_runtime_read, "capabilities"),
+    QUANTA_SOURCE("", "HAL get_info"))
+
 QUANTA_METRIC(hal_logical_cpus,
-    .key="hal.logical_cpus", .title="HAL logical CPU count",
-    .description="HAL logical CPU count", .doc_path="docs/metrics/hal.logical_cpus.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY,
-    .refresh=QUANTA_REFRESH_ONCE, .unit="count",
-    .recommended_poll_ns=QUANTA_NS_S,
-    .label_schema="", .dependencies="HAL get_info",
-    .enumerate=quanta_discover_single, .read=quanta_runtime_read, .arg="logical_cpus"
-)
+    QUANTA_META("hal.logical_cpus", "HAL logical CPU count"),
+    QUANTA_PROPERTY_U64("count", 0),
+    QUANTA_SINGLE_READ(quanta_runtime_read, "logical_cpus"),
+    QUANTA_SOURCE("", "HAL get_info"))

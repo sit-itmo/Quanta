@@ -1,126 +1,61 @@
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(mcu_heap_free_bytes,
-    .key="mcu.heap.free_bytes", .title="Free heap",
-    .description="Free heap", .doc_path="docs/metrics/mcu.heap.free_bytes.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
-    .unit="B", .min_poll_ns=QUANTA_NS_S,
-    .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_get_free_heap_size",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="heap_free"
-)
+    QUANTA_META("mcu.heap.free_bytes", "Free heap"),
+    QUANTA_GAUGE_BYTES(1000),
+    QUANTA_SNAPSHOT(quanta_mcu, "heap_free"),
+    QUANTA_SOURCE("", "esp_get_free_heap_size"))
+
 QUANTA_METRIC(mcu_heap_min_free_bytes,
-    .key="mcu.heap.min_free_bytes", .title="Minimum free heap since boot",
-    .description="Minimum free heap since boot", .doc_path="docs/metrics/mcu.heap.min_free_bytes.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
-    .unit="B", .min_poll_ns=QUANTA_NS_S,
-    .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_get_minimum_free_heap_size",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="heap_min_free"
-)
+    QUANTA_META("mcu.heap.min_free_bytes", "Minimum free heap since boot"),
+    QUANTA_GAUGE_BYTES(1000),
+    QUANTA_SNAPSHOT(quanta_mcu, "heap_min_free"),
+    QUANTA_SOURCE("", "esp_get_minimum_free_heap_size"))
+
 QUANTA_METRIC(mcu_cpu_freq_mhz,
-    .key="mcu.cpu.freq_mhz", .title="CPU clock frequency",
-    .description="CPU clock frequency", .doc_path="docs/metrics/mcu.cpu.freq_mhz.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
-    .unit="MHz", .min_poll_ns=QUANTA_NS_S,
-    .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="configCPU_CLOCK_HZ",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="freq_mhz"
-)
+    QUANTA_META("mcu.cpu.freq_mhz", "CPU clock frequency"),
+    QUANTA_GAUGE_U64("MHz", 1000),
+    QUANTA_SNAPSHOT(quanta_mcu, "freq_mhz"),
+    QUANTA_SOURCE("", "configCPU_CLOCK_HZ"))
+
 QUANTA_METRIC(mcu_power_vdd_mv,
-    .key="mcu.power.vdd_mv", .title="Supply voltage",
-    .description="Supply voltage", .doc_path="docs/metrics/mcu.power.vdd_mv.md",
-    .semantic_version=2, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
-    .unit="mV", .min_poll_ns=QUANTA_NS_S,
-    .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_wifi_get_vdd33",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="vdd_mv"
-)
+    QUANTA_META_VERSION("mcu.power.vdd_mv", "Supply voltage", "Supply voltage", 2),
+    QUANTA_GAUGE_U64("mV", 1000),
+    QUANTA_SNAPSHOT(quanta_mcu, "vdd_mv"),
+    QUANTA_SOURCE("", "esp_wifi_get_vdd33"))
+
 QUANTA_METRIC(mcu_cores,
-    .key="mcu.cores", .title="CPU core count",
-    .description="CPU core count", .doc_path="docs/metrics/mcu.cores.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
-    .unit="", .min_poll_ns=0,
-    .recommended_poll_ns=0, .stale_after_ns=0,
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_chip_info",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="cores"
-)
+    QUANTA_META("mcu.cores", "CPU core count"),
+    QUANTA_VALUE(QUANTA_U64, QUANTA_PROPERTY, QUANTA_REFRESH_ONCE, ""),
+    QUANTA_TIMING_MS(0, 0, 0),
+    QUANTA_SNAPSHOT(quanta_mcu, "cores"),
+    QUANTA_SOURCE("", "esp_chip_info"))
+
 QUANTA_METRIC(mcu_revision,
-    .key="mcu.revision", .title="Chip wafer revision",
-    .description="Chip wafer revision", .doc_path="docs/metrics/mcu.revision.md",
-    .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
-    .unit="", .min_poll_ns=0,
-    .recommended_poll_ns=0, .stale_after_ns=0,
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_chip_info",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="revision"
-)
+    QUANTA_META("mcu.revision", "Chip wafer revision"),
+    QUANTA_VALUE(QUANTA_U64, QUANTA_PROPERTY, QUANTA_REFRESH_ONCE, ""),
+    QUANTA_TIMING_MS(0, 0, 0),
+    QUANTA_SNAPSHOT(quanta_mcu, "revision"),
+    QUANTA_SOURCE("", "esp_chip_info"))
+
 QUANTA_METRIC(mcu_chip_id,
-    .key="mcu.chip_id", .title="Chip ID",
-    .description="Chip ID", .doc_path="docs/metrics/mcu.chip_id.md",
-    .semantic_version=2, .type=QUANTA_U64, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
-    .unit="", .min_poll_ns=0,
-    .recommended_poll_ns=0, .stale_after_ns=0,
-    .flags=QUANTA_SENSITIVE, .counter_bits=0,
-    .label_schema="", .dependencies="esp_efuse_mac_get_default",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="chip_id"
-)
+    QUANTA_META_VERSION("mcu.chip_id", "Chip ID", "Chip ID", 2),
+    QUANTA_VALUE(QUANTA_U64, QUANTA_PROPERTY, QUANTA_REFRESH_ONCE, ""),
+    QUANTA_TIMING_MS(0, 0, 0),
+    QUANTA_SNAPSHOT(quanta_mcu, "chip_id"),
+    .flags = QUANTA_SENSITIVE,
+    QUANTA_SOURCE("", "esp_efuse_mac_get_default"))
+
 QUANTA_METRIC(mcu_flash_embedded,
-    .key="mcu.flash_embedded", .title="Embedded flash present",
-    .description="Embedded flash present", .doc_path="docs/metrics/mcu.flash_embedded.md",
-    .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
-    .unit="", .min_poll_ns=0,
-    .recommended_poll_ns=0, .stale_after_ns=0,
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_chip_info",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="flash_embedded"
-)
+    QUANTA_META("mcu.flash_embedded", "Embedded flash present"),
+    QUANTA_VALUE(QUANTA_BOOL, QUANTA_PROPERTY, QUANTA_REFRESH_ONCE, ""),
+    QUANTA_TIMING_MS(0, 0, 0),
+    QUANTA_SNAPSHOT(quanta_mcu, "flash_embedded"),
+    QUANTA_SOURCE("", "esp_chip_info"))
+
 QUANTA_METRIC(mcu_sdk_version,
-    .key="mcu.sdk_version", .title="SDK version",
-    .description="SDK version", .doc_path="docs/metrics/mcu.sdk_version.md",
-    .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
-    .unit="", .min_poll_ns=0,
-    .recommended_poll_ns=0, .stale_after_ns=0,
-    .flags=0, .counter_bits=0,
-    .label_schema="", .dependencies="esp_get_idf_version",
-    .init=quanta_mcu_init,
-    .enumerate=quanta_mcu_enumerate,
-    .collect=quanta_mcu_collect,
-    .destroy=quanta_mcu_destroy,
-    .read=quanta_mcu_read, .arg="sdk_version"
-)
+    QUANTA_META("mcu.sdk_version", "SDK version"),
+    QUANTA_VALUE(QUANTA_STRING, QUANTA_PROPERTY, QUANTA_REFRESH_ONCE, ""),
+    QUANTA_TIMING_MS(0, 0, 0),
+    QUANTA_SNAPSHOT(quanta_mcu, "sdk_version"),
+    QUANTA_SOURCE("", "esp_get_idf_version"))

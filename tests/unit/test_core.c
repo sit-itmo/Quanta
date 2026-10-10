@@ -284,7 +284,7 @@ static void test_raster(void)
     CHECK(pixels[0] == 0x800000);
     {
         uint8_t alpha = 0;
-        quanta_texture t = {&alpha, 1, 1};
+        quanta_texture t = {&alpha, 1, 1, 1, 0};
         quanta_raster_clear(&s, 0);
         quanta_raster_triangle(&s, &clip, b, &t);
         for (i = 0; i < 64; i++)

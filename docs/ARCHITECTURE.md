@@ -1,4 +1,4 @@
-# Архитектура Quanta 0.5.0
+# Архитектура Quanta 0.6.0
 
 Этот документ описывает действующее решение. `Quanta_Design.md` — неизменённый исходный
 дизайн; положения о providers, отдельных программах и прежнем дереве каталогов заменены
@@ -115,6 +115,8 @@ sensors/
 ```
 
 Декларации `metrics/*.def` задают key, type, unit, callbacks, политику обновления и документацию.
+Типовые initializer helpers находятся в `include/quanta/metric_def.h`: [METRICS](METRICS.md).
+Они не добавляют runtime/генератор и сохраняют исходные поля дескриптора.
 `selected.def` формирует каталог только из включённых групп. Документация метрик —
 [metrics/INDEX.md](metrics/INDEX.md). `sensors/metric_docs.c` генерируется из этих Markdown-файлов.
 
@@ -130,11 +132,20 @@ OS acquisition. Неизвестное число CPU даёт UNSUPPORTED, а �
 Не используется Linux-доступ к /proc, /sys, устройствам и терминалу. Это подтверждает границу
 переносимости, но не предоставляет OS-specific метрик там, где нет соответствующего OS API.
 
-GUI/TUI выбираются в единой программе. `AUTO` включает доступное, `ON` требует зависимость,
+GUI/TUI выбираются в единой программе; native-сборка по умолчанию требует оба (`ON`).
+`AUTO` явно разрешает сокращённый набор при отсутствии зависимостей, `ON` требует зависимость,
 `OFF` исключает её. ImGui имеет собственные view, software renderer и Win32/XCB window backend;
 TUI имеет общий код и POSIX/Windows terminal backend. Core не требует C++ и не открывает окна.
 Сборка без UI не требует их headers/libraries. Если GUI включён при сборке, его link-time
 зависимости остаются у executable и при запуске с `--cli`; это не динамические плагины. `--list-modes` показывает результат конфигурации.
+
+Dear ImGui **1.92.9b** встроен как неизменённые исходники в `vendor/imgui`. C++ включается
+в верхнем CMake scope при GUI, а не только внутри `frontends`: так C++ runtime доходит
+до sibling app/tests. `imgui_vendor` — дополнительная STATIC зависимость GUI, не часть core.
+Renderer владеет копиями Alpha8/RGBA32 текстур и обслуживает create/update/destroy протокол
+1.92; рост атласа не оставляет dangling pointer. Renderer shutdown выполняется до
+уничтожения ImGui context. Стандартные sampler/reset callbacks и VtxOffset обрабатываются
+программно. Native backends передают события ввода и показывают framebuffer.
 
 ESP SDK-компонент берёт файлы и публичные размеры из одного `cmake/esp8266_sources.cmake`.
 Host SDK-stubs находятся только в тестах. На плате используются настоящие SDK headers/calls.

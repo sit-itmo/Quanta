@@ -36,7 +36,7 @@ typedef struct mock_control
 } mock_control;
 
 static mock_control control;
-static const quanta_metric_desc alternate_count;
+static const quanta_metric_desc *alternate_metric(void);
 
 static quanta_status open_mock(quanta_metric_context *context, unsigned method)
 {
@@ -94,7 +94,7 @@ static quanta_status discover_primary(quanta_metric_context *context, quanta_dis
         }
         if (control.invalid_discovery == 2)
         {
-            instance.metric = &alternate_count;
+            instance.metric = alternate_metric();
         }
         if (control.invalid_discovery == 3)
         {
@@ -151,6 +151,12 @@ static const quanta_metric_desc alternate_count = {
     .kind = QUANTA_COUNTER, .refresh = QUANTA_REFRESH_POLL,
     .init = open_secondary, .enumerate = discover_secondary, .collect = refresh_mock, .destroy = close_mock, .min_poll_ns = 10 * QUANTA_NS_MS,
     .arg = "count",         .counter_bits = 64};
+
+static const quanta_metric_desc *alternate_metric(void)
+{
+    return &alternate_count;
+}
+
 static const quanta_metric_desc *const entries[] = {&first_count, &property, &alternate_count};
 static const quanta_catalog catalog = {entries, 3};
 

@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "quanta/osal.h"
 #include "quanta/view.h"
-#include "raster.h"
+#include "imgui_renderer.h"
 #include "window.h"
 #include <algorithm>
 #include <cctype>
@@ -16,8 +16,8 @@
 #include <inttypes.h>
 #include <new>
 #include <vector>
-#if IMGUI_VERSION_NUM < 19100 || IMGUI_VERSION_NUM >= 19200
-#error "This adapter targets the pinned ImGui 1.91 API. Use v1.91.9b."
+#if IMGUI_VERSION_NUM != 19291
+#error "This adapter is validated with the bundled Dear ImGui 1.92.9b."
 #endif
 namespace
 {
@@ -41,6 +41,8 @@ struct App
         quanta_model_destroy(&model);
         if (imgui)
         {
+            ImGui::SetCurrentContext(imgui);
+            quanta_imgui_renderer_shutdown();
             ImGui::DestroyContext(imgui);
         }
         if (window)
@@ -351,11 +353,11 @@ void gauge(const quanta_item &p)
     ImDrawList *d = ImGui::GetWindowDrawList();
     const float start = 2.35619449f, finish = 7.06858347f;
     d->PathArcTo(center, 47, start, finish, 56);
-    d->PathStroke(IM_COL32(48, 63, 81, 255), 0, 10);
+    d->PathStroke(IM_COL32(48, 63, 81, 255), 10.0f);
     if (frac > 0)
     {
         d->PathArcTo(center, 47, start, start + (finish - start) * frac, 56);
-        d->PathStroke(IM_COL32(94, 205, 171, 255), 0, 10);
+        d->PathStroke(IM_COL32(94, 205, 171, 255), 10.0f);
     }
     char label[32];
     quanta_snprintf(label, sizeof(label), "%.0f%%", frac * 100);
@@ -544,48 +546,6 @@ void table(quanta_model &model, std::vector<size_t> &visible, bool redact)
     ImGui::EndTable();
 }
 
-void render_draw_data(ImDrawData *data, quanta_surface *surface, const quanta_texture *texture)
-{
-    quanta_raster_clear(surface, 0x101721);
-    ImVec2 pos = data->DisplayPos, scale = data->FramebufferScale;
-    for (int n = 0; n < data->CmdListsCount; n++)
-    {
-        const ImDrawList *list = data->CmdLists[n];
-        for (int j = 0; j < list->CmdBuffer.Size; j++)
-        {
-            const ImDrawCmd &cmd = list->CmdBuffer[j];
-            if (cmd.UserCallback)
-            {
-                if (cmd.UserCallback != ImDrawCallback_ResetRenderState)
-                {
-                    cmd.UserCallback(list, &cmd);
-                }
-                continue;
-            }
-            if (cmd.GetTexID() != (ImTextureID)1)
-            {
-                continue;
-            }
-            quanta_clip clip{(int)quanta_floor((cmd.ClipRect.x - pos.x) * scale.x),
-                             (int)quanta_floor((cmd.ClipRect.y - pos.y) * scale.y),
-                             (int)quanta_ceil((cmd.ClipRect.z - pos.x) * scale.x),
-                             (int)quanta_ceil((cmd.ClipRect.w - pos.y) * scale.y)};
-            for (unsigned k = 0; k + 2 < cmd.ElemCount; k += 3)
-            {
-                quanta_vertex vertices[3];
-                for (unsigned v = 0; v < 3; v++)
-                {
-                    const ImDrawVert &src = list->VtxBuffer[(
-                        int)(cmd.VtxOffset + list->IdxBuffer[(int)(cmd.IdxOffset + k + v)])];
-                    vertices[v] = {(src.pos.x - pos.x) * scale.x, (src.pos.y - pos.y) * scale.y,
-                                   src.uv.x, src.uv.y, src.col};
-                }
-                quanta_raster_triangle(surface, &clip, vertices, texture);
-            }
-        }
-    }
-}
-
 int run(quanta_engine *engine, const quanta_plan *plan)
 {
     App app;
@@ -602,8 +562,11 @@ int run(quanta_engine *engine, const quanta_plan *plan)
     io.IniFilename = nullptr;
     io.LogFilename = nullptr;
     io.BackendPlatformName = "quanta_native_window";
-    io.BackendRendererName = "quanta_software";
-    io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+    if (!quanta_imgui_renderer_init())
+    {
+        quanta_fprintf(quanta_stderr, "quanta: cannot initialize ImGui renderer\n");
+        return 1;
+    }
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     const float dpi = quanta_window_scale(app.window);
     ImGui::GetMainViewport()->PlatformHandleRaw = quanta_window_native(app.window);
@@ -641,8 +604,7 @@ int run(quanta_engine *engine, const quanta_plan *plan)
             return 1;
         }
         /* Atlas owns this memory, including on a failed font build. */
-        if (!io.Fonts->AddFontFromMemoryTTF(data, (int)bytes, 17.0f * dpi, nullptr,
-                                            io.Fonts->GetGlyphRangesCyrillic()))
+        if (!io.Fonts->AddFontFromMemoryTTF(data, (int)bytes, 17.0f))
         {
             quanta_fprintf(quanta_stderr, "quanta: cannot decode GUI font\n");
             return 1;
@@ -651,15 +613,9 @@ int run(quanta_engine *engine, const quanta_plan *plan)
     else
     {
         ImFontConfig font_config;
-        font_config.SizePixels = 13.0f * dpi;
+        font_config.SizePixels = 13.0f;
         io.Fonts->AddFontDefault(&font_config);
     }
-    io.FontGlobalScale = 1.0f / dpi;
-    unsigned char *alpha = nullptr;
-    int tw = 0, th = 0;
-    io.Fonts->GetTexDataAsAlpha8(&alpha, &tw, &th);
-    io.Fonts->SetTexID((ImTextureID)1);
-    quanta_texture texture{alpha, tw, th};
     ImGui::StyleColorsDark();
     ImGuiStyle &style = ImGui::GetStyle();
     style.WindowRounding = 0;
@@ -748,12 +704,12 @@ int run(quanta_engine *engine, const quanta_plan *plan)
         ImGui::NewFrame();
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(io.DisplaySize);
-        ImGui::Begin("INV", nullptr,
+        ImGui::Begin("Quanta", nullptr,
                      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
                          ImGuiWindowFlags_NoSavedSettings);
         ImGui::TextUnformatted("Quanta / SYSTEM OBSERVATORY");
         ImGui::SameLine();
-        ImGui::TextDisabled("v%s  |  C99 collectors  |  software renderer", QUANTA_VERSION);
+        ImGui::TextDisabled("v%s  |  C11 collectors  |  software renderer", QUANTA_VERSION);
         ImGui::Separator();
         ImGui::SetNextItemWidth(std::max(180.0f, io.DisplaySize.x * .30f));
         ImGui::InputTextWithHint("##filter", "Filter metric, label or title", filter,
@@ -836,7 +792,11 @@ int run(quanta_engine *engine, const quanta_plan *plan)
             app.pixels.resize(count);
         }
         quanta_surface surface{app.pixels.data(), app.width, app.height, app.width};
-        render_draw_data(ImGui::GetDrawData(), &surface, &texture);
+        if (!quanta_imgui_renderer_render(ImGui::GetDrawData(), &surface))
+        {
+            quanta_fprintf(quanta_stderr, "quanta: ImGui texture or draw-data validation failed\n");
+            return 1;
+        }
         if (!quanta_window_present(app.window, app.pixels.data(), app.width, app.height))
         {
             quanta_fprintf(quanta_stderr, "quanta: window presentation failed\n");

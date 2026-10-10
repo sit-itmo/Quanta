@@ -2,6 +2,7 @@
 """Single-executable CLI, format selection and HAL contracts; no privileged I/O."""
 import csv
 import io
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -22,20 +23,22 @@ def run(*args, status=0, **kwargs):
     return result
 
 
+expected_version = re.search(r'#define QUANTA_VERSION "([^"]+)"',
+                             (ROOT / "include/quanta/types.h").read_text()).group(1)
 version = run("--version").stdout
-assert "quanta 0.5.0" in version
+assert "quanta " + expected_version in version
 modes = run("--list-modes").stdout.splitlines()
 assert modes[0] == "file" and len(modes) == len(set(modes))
 assert ("tui" in modes) == ("TUI=1" in version)
 assert ("gui" in modes) == ("GUI=1" in version)
 run("--list-modes", "ignored", status=2)
 value = run("get", "quanta.version", "--format", "value").stdout
-assert value.strip() == "0.5.0" and len(value.splitlines()) == 1
+assert value.strip() == expected_version and len(value.splitlines()) == 1
 records = list(csv.DictReader(io.StringIO(run("get", "quanta.version", "--format", "csv").stdout)))
 assert len(records) == 1 and records[0]["status"] == "OK" and records[0]["key"] == "quanta.version"
 for fmt in ("table", "txt", "md", "human"):
     text = run("get", "quanta.version", "--format", fmt).stdout
-    assert "quanta.version" in text and "0.5.0" in text and "OK" in text
+    assert "quanta.version" in text and expected_version in text and "OK" in text
 assert run("get", "quanta.version", "--mode", "cli", "--format", "value").stdout == value
 assert run("get", "quanta.version", "--cli", "--format", "value").stdout == value
 run("get", "quanta.version", "--gui", "--cli", status=2)

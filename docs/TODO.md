@@ -1,4 +1,4 @@
-# TODO 0.5.0
+# TODO 0.6.0
 
 ## P0 — приёмка на целевых платформах
 
@@ -6,8 +6,9 @@
   Проверить длительный heap/min-heap, stack high-water mark, cold reboot, SDK threading.
 - [ ] Проверить VDD33 только на плате с TOUT unconnected и PHY setting=255; сравнить с прибором.
 - [ ] Windows x64 VS2022 Debug/Release и минимальный preset: native collectors, HAL GroupAffinity,
-  CLI/TUI, optional GUI. CI workflow подготовлен, результат запуска не присваивается заранее.
-- [ ] GUI Linux/Windows: window open/close, fonts, resizing, worker shutdown; зависимости опциональны.
+  CLI/TUI/GUI, windows-no-gui preset. CI workflow подготовлен, результат запуска не присваивается заранее.
+- [ ] Ручная GUI-приёмка на Linux/Windows: DPI, Unicode/local fonts, размеры окна и удобство.
+  Linux окно на Xvfb и renderer pixel/lifecycle tests уже проверены; это не ручная приёмка.
 
 ## P1 — аппаратное направление
 

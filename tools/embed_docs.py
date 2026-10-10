@@ -4,6 +4,11 @@ from pathlib import Path
 import argparse, json, re, sys
 ROOT = Path(__file__).resolve().parents[1]
 
+def metric_keys(text):
+    """Identity helpers are literal strings; raw .key initializers remain valid."""
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', '', text, flags=re.S)
+    return re.findall(r'(?:QUANTA_META(?:_DESC|_VERSION)?\s*\(\s*|\.key\s*=\s*)"([^"\n]+)"', text)
+
 def render():
     by_key={}
     for subdir,platform in [('', 'QUANTA_OS_LINUX'),('windows','QUANTA_OS_WINDOWS')]:
@@ -20,7 +25,7 @@ def render():
                 flag='(QUANTA_OS_LINUX || QUANTA_PLATFORM_FREERTOS)'
             if definition.stem not in ('os','mcu','smbios_mem','runtime'): flag+=' && QUANTA_WITH_'+definition.stem.upper()
             if definition.stem=='cpuid': flag+=' && QUANTA_ARCH_X86'
-            keys=re.findall(r'\.key\s*=\s*"([^"]+)"',definition.read_text(encoding='utf-8'))
+            keys=metric_keys(definition.read_text(encoding='utf-8'))
             if len(set(keys))!=len(keys): raise RuntimeError('Duplicate keys in '+str(definition))
             for key in keys:
                 item=by_key.setdefault(key,[])

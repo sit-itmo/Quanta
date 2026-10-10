@@ -30,7 +30,7 @@ try:
         user32.EnumWindows(visit,0)
         if found: break
         time.sleep(.05)
-    assert found, ('INV window not found',p.poll())
+    assert found, ('Quanta window not found',p.poll())
     hwnd = found[0]
     time.sleep(.5)
     assert user32.SetWindowPos(hwnd,None,0,0,960,700,0x0002|0x0004)  # NOMOVE|NOZORDER

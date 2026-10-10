@@ -4,7 +4,7 @@ import csv, io, json, os, pathlib, subprocess, sys, tempfile
 if os.name != 'nt':
     raise SystemExit('This suite needs a real Windows process environment.')
 BIN = str(pathlib.Path(sys.argv[1]).resolve())
-ROOT = pathlib.Path(__file__).resolve().parents[1]
+ROOT = pathlib.Path(__file__).resolve().parents[2]
 checks = 0
 
 def run(*args, code=0):

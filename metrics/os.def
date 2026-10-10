@@ -1,127 +1,56 @@
-/* SPDX-License-Identifier: MIT -- intentionally no include guard */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(os_name,
- .key="os.name", .title="Operating system",
- .description="Operating system", .doc_path="docs/metrics/os.name.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="name"
-)
+    QUANTA_META("os.name", "Operating system"),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_SNAPSHOT(quanta_os, "name"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_kernel_release,
- .key="os.kernel.release", .title="Kernel release",
- .description="Kernel release", .doc_path="docs/metrics/os.kernel.release.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="release"
-)
+    QUANTA_META("os.kernel.release", "Kernel release"),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_SNAPSHOT(quanta_os, "release"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_kernel_version,
- .key="os.kernel.version", .title="Kernel build",
- .description="Kernel build", .doc_path="docs/metrics/os.kernel.version.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="version"
-)
+    QUANTA_META("os.kernel.version", "Kernel build"),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_SNAPSHOT(quanta_os, "version"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_arch,
- .key="os.arch", .title="Machine architecture",
- .description="Machine architecture", .doc_path="docs/metrics/os.arch.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="arch"
-)
+    QUANTA_META("os.arch", "Machine architecture"),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_SNAPSHOT(quanta_os, "arch"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_hostname,
- .key="os.hostname", .title="Host name",
- .description="Host name", .doc_path="docs/metrics/os.hostname.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=QUANTA_SENSITIVE, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="hostname"
-)
+    QUANTA_META("os.hostname", "Host name"),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_SNAPSHOT(quanta_os, "hostname"),
+    .flags = QUANTA_SENSITIVE,
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_uptime,
- .key="os.uptime", .title="Time since boot",
- .description="Time since boot", .doc_path="docs/metrics/os.uptime.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="s", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="uptime"
-)
+    QUANTA_META("os.uptime", "Time since boot"),
+    QUANTA_GAUGE_SECONDS(1000),
+    QUANTA_SNAPSHOT(quanta_os, "uptime"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_load_1m,
- .key="os.load.1m", .title="Load average (1 minute)",
- .description="Load average (1 minute)", .doc_path="docs/metrics/os.load.1m.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="load1"
-)
+    QUANTA_META("os.load.1m", "Load average (1 minute)"),
+    QUANTA_GAUGE_F64("", 1000),
+    QUANTA_SNAPSHOT(quanta_os, "load1"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_load_5m,
- .key="os.load.5m", .title="Load average (5 minutes)",
- .description="Load average (5 minutes)", .doc_path="docs/metrics/os.load.5m.md",
- .semantic_version=1, .type=QUANTA_F64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="load5"
-)
+    QUANTA_META("os.load.5m", "Load average (5 minutes)"),
+    QUANTA_GAUGE_F64("", 1000),
+    QUANTA_SNAPSHOT(quanta_os, "load5"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(os_cpu_online,
- .key="os.cpu.online", .title="Online logical processors",
- .description="Online logical processors", .doc_path="docs/metrics/os.cpu.online.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="", .min_poll_ns=UINT64_C(1000000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_os_init,
-    .enumerate=quanta_os_enumerate,
-    .collect=quanta_os_collect,
-    .destroy=quanta_os_destroy,
-    .read=quanta_os_read, .arg="online"
-)
+    QUANTA_META("os.cpu.online", "Online logical processors"),
+    QUANTA_GAUGE_U64("", 1000),
+    QUANTA_SNAPSHOT(quanta_os, "online"),
+    QUANTA_SOURCE("", ""))

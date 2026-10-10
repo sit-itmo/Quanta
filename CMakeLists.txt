@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
-project(Quanta VERSION 0.5.0 LANGUAGES C)
+project(Quanta VERSION 0.6.0 LANGUAGES C)
+
+# A plain single-configuration build is usable without selecting a preset.
+if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build configuration" FORCE)
+endif()
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -18,6 +23,10 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(QUANTA_OS_LINUX ON)
 else()
     message(FATAL_ERROR "Select QUANTA_PORTABLE=ON or add a native platform backend.")
+endif()
+if(MSVC)
+    # No vcpkg packages or app-local copying are used by this self-contained tree.
+    list(APPEND CMAKE_VS_GLOBALS "VcpkgEnabled=false" "VcpkgApplocalDeps=false")
 endif()
 if(MSVC AND MSVC_VERSION LESS 1928)
     message(FATAL_ERROR "A C11 compiler is required; use Visual Studio 2022.")
@@ -50,6 +59,17 @@ if(CMAKE_GENERATOR_PLATFORM MATCHES "ARM")
 endif()
 
 include(cmake/Frontends.cmake)
+# All indirect C++ consumers (app and tests) must share this language scope.
+# Enabling CXX only inside frontends/ loses its runtime on sibling C targets.
+if(QUANTA_WITH_GUI)
+    enable_language(CXX)
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+if(WIN32)
+    enable_language(RC)
+endif()
 configure_file(cmake/quanta_config.h.in generated/quanta_config.h)
 include(cmake/CompilerOptions.cmake)
 add_subdirectory(core)

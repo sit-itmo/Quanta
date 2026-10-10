@@ -1,74 +1,82 @@
-# Quanta 0.5.0
+# Quanta 0.6.0
 
 <p align="center"><img src="docs/assets/logo.jpg" width="280" alt="Quanta"></p>
 
 **Сбор, обработка и отображение аппаратных и системных метрик на C.**
 Проект Мастерской системного программирования: Linux, Windows и активный порт ESP8266/FreeRTOS.
 
-## Цель проекта
+## Цель и архитектура
 
-Единый query, каталог и scheduler отделяют получение измерений от их отображения.
-Аппаратные метрики используют минимальный HAL; другие реализации могут непосредственно
-обращаться к API ОС, CPUID или SDK. **Одно имя метрики — один метод получения**, без выбираемых
-providers и автоматической подмены метода. HAL выбирается независимо.
+Единый query, каталог и scheduler отделяют получение измерений от отображения.
+Аппаратные метрики используют минимальный HAL; другие реализации обращаются к API ОС,
+CPUID или SDK. **Одно имя метрики — один метод получения**: без выбираемых providers,
+приоритетов и скрытой подмены метода. HAL выбирается независимо.
 
-**Один исполняемый файл — `quanta`.** Текст, CSV, Markdown, value, TUI и Dear ImGui GUI —
-режимы этой программы, а не отдельные копии executable. GUI/TUI включаются в `AUTO`, когда
-доступны их зависимости. CMake ничего не скачивает; запрос недоступного режима — явная ошибка.
+**Одна программа — `quanta`.** Текст, CSV, Markdown, value, TUI и GUI — её режимы.
+Query находится в core, публичные заголовки — только в `include/quanta/`.
+OSAL фиксирует минимальный контракт памяти, stdio, времени, потоков и блокировок.
+GUI/TUI имеют свои платформенные backends, а ядро не зависит от C++.
 
 ```text
-quanta: CLI options / query file
-                 |
-          frontend dispatcher
-       file / TUI / ImGui GUI
-                 |
-      core: query, registry, scheduler,
-            value, history, live
-                 |
-      metric implementations (sensors)
-         /                      \
-    hardware HAL          native OS / CPUID / SDK
-
-OSAL: общий контракт runtime, файлов, часов, потоков и блокировок.
-GUI/TUI: собственные платформенные backends вне переносимого ядра.
+app: CLI / query file → frontend dispatcher → file / TUI / ImGui
+                                              ↓
+                       core: query, registry, scheduler, history, live
+                                              ↓
+                         metric implementations: sensors
+                                ↙                         ↘
+                      primitive HAL                native OS / CPUID / SDK
 ```
 
-Действующее описание — **[ARCHITECTURE](docs/ARCHITECTURE.md)**;
-точный runtime-контракт — **[include/quanta/osal.h](include/quanta/osal.h)**.
-[Исходный дизайн](docs/Quanta_Design.md) сохранён без изменения как историческая основа:
-его providers, отдельные executable и дерево include не описывают текущую реализацию.
-[Предоставленная исходная схема](docs/assets/architecture-original.jpg) также сохранена как справочная.
+Текущее описание: [ARCHITECTURE](docs/ARCHITECTURE.md), [OSAL-контракт](include/quanta/osal.h),
+[HAL](docs/HAL.md), [Query](docs/QUERY.md), [добавление метрик](docs/METRICS.md).
+[Исходный дизайн](docs/Quanta_Design.md) и
+[предоставленная схема](docs/assets/architecture-original.jpg) сохранены как историческая
+основа; их providers и отдельные executable не описывают текущую реализацию.
 
-## Быстрый запуск
+## Быстрый запуск: полная сборка по умолчанию
 
-Linux / Ubuntu, из новой распакованной папки:
+**Dear ImGui 1.92.9b уже находится в `vendor/imgui`.** Обычный CMake без preset включает
+все native-группы метрик, GUI, TUI и тесты. Сетевые загрузчики не нужны.
+
+Linux / Ubuntu:
 
 ```bash
 sudo apt update
-sudo apt install build-essential cmake ninja-build python3
-cmake --preset linux-default
-cmake --build --preset linux-default --parallel
-ctest --preset linux-default --output-on-failure
-./build/linux-default/bin/quanta --list-modes
-./build/linux-default/bin/quanta get os.name os.arch --hal none
-./build/linux-default/bin/quanta get os.uptime --format csv
+sudo apt install build-essential cmake ninja-build python3 libxcb1-dev xvfb
+cmake -S . -B build/default
+cmake --build build/default --parallel
+ctest --test-dir build/default --output-on-failure
+./build/default/bin/quanta --list-modes
+./build/default/bin/quanta examples/queries/04-dashboard-gui.q
 ```
 
-Windows: Visual Studio 2022 с C++ build tools и Windows SDK, CMake и Python в PATH.
+Для окна нужен локальный X11/Xwayland. Xvfb используется только автоматическим window test.
+Windows: Visual Studio 2022 с Desktop C++ tools и Windows SDK, CMake, Python 3 в PATH:
 
 ```powershell
-cmake --preset windows-native
-cmake --build --preset windows-native --parallel
-ctest --preset windows-native --output-on-failure
-.\build\windows-native\bin\Release\quanta.exe get os.name os.arch --hal none
+cmake -S . -B build/default -G "Visual Studio 17 2022" -A x64
+cmake --build build/default --config Release --parallel
+ctest --test-dir build/default -C Release --output-on-failure
+.\build\default\bin\Release\quanta.exe --list-modes
+.\build\default\bin\Release\quanta.exe examples/queries/windows/04-dashboard-gui.q
 ```
 
-Обычная полная нативная сборка **сама запускает CTest**. Ошибка теста прерывает сборку.
-Для тестовой конфигурации Python обязателен: наборы не пропускаются молча.
-Сборка одного target `quanta` не запускает все тесты; для этого есть target `check`.
-[Полные инструкции, GUI, presets, установка](docs/BUILD.md).
+Полная сборка сама запускает CTest; ошибка теста делает сборку неуспешной. Сборка одного
+target `quanta` не запускает все тесты. [Полная инструкция и ограничения](docs/BUILD.md).
 
-## Query и режимы
+**Без GUI, но со всеми native-метриками и TUI:**
+
+```bash
+cmake --preset linux-no-gui
+cmake --build --preset linux-no-gui --parallel
+ctest --preset linux-no-gui --output-on-failure
+```
+
+На Windows — те же команды с `windows-no-gui`. Эквивалент без preset:
+`cmake -S . -B build/no-gui -DQUANTA_WITH_GUI=OFF`. В такой сборке не нужен C++/XCB/ImGui.
+`linux-minimal` и `windows-minimal` дополнительно сокращают набор метрик и убирают TUI.
+
+## Query, форматы и HAL
 
 ```text
 version 1;
@@ -81,82 +89,85 @@ select os.uptime;
 ```
 
 ```bash
+quanta get os.uptime --format value
+quanta get os.uptime --format csv
 quanta dashboard.q --tui
 quanta dashboard.q --gui
-quanta dashboard.q --cli --format csv --output report.csv
-quanta dashboard.q --hal native
+quanta dashboard.q --cli --format table --hal native
 quanta --list-hals
-quanta hal-info --hal none
 ```
 
-CLI имеет приоритет над соответствующей директивой query. `mode cli` и `mode file` — один
-неинтерактивный frontend. `hal none` отключает аппаратные примитивы, но не native OS-метрики.
-Выходной файл создаётся без перезаписи существующего. [Query и форматы](docs/QUERY.md),
-[HAL и ограничения аппаратного доступа](docs/HAL.md).
+CLI имеет приоритет над query. `hal none` отключает аппаратные примитивы, не native
+OS-метрики. Недоступный GUI/TUI возвращает ошибку. Выходной файл создаётся без перезаписи.
 
-## Переносимая конфигурация и ESP8266
-
-`portable-posix` проверяет работу без native-метрик, GUI/TUI и Linux API: только stdio/C runtime,
-POSIX часы/pthreads как пример реализации OSAL, HAL без аппаратных возможностей и общие метрики.
-Query, scheduler, история, потоки и файловый frontend остаются настоящими, не заглушками.
-
-```bash
-cmake --preset portable-posix
-cmake --build --preset portable-posix --parallel
-./build/portable-posix/bin/quanta examples/queries/00-portable.q
-```
-
-Это **не обещание получить Windows working set или Linux CPU load только через fread**:
-такие метрики остаются в соответствующих OS-папках. Для собственного runtime реализуется
-контракт `osal.h` и, при необходимости, HAL. Это ещё не готовый noOS/ESP32-порт.
-
-ESP8266: все девять `mcu.*` ключей, OS-метрики, serial-приложение и SDK-компонент сохранены в
-активной сборке. SDK source/ABI manifest общий для firmware и host-тестов.
-Файловая система платы в примере не подключена; VDD33 выключен по умолчанию.
-[Сборка, ограничения и аппаратная приёмка ESP8266](docs/ESP8266.md).
-
-## Дерево исходников
+## Исходники и метрики
 
 ```text
-include/quanta/         Единственный публичный C API, включая osal.h и hal.h
-include/private/        Общий приватный support.h; не устанавливается как public API
-core/src/               Query, registry, scheduler, history, live; core/private/ — внутренние типы
-osal/                   Общие stdio helpers; Linux, Windows, POSIX, FreeRTOS, portable
-hal/                    Общий wrapper и аппаратные backends
-sensors/common/         HAL-метрики и чистые общие алгоритмы
-sensors/os/             Дескрипторы OS-групп; linux/ и windows/ — native-реализации
-sensors/arch/x86/        CPUID и архитектурно-зависимые части
-sensors/platform/esp8266/ SDK-метрики MCU и OS-поля платформы
-metrics/                Декларации .def, не ещё один слой providers
-app/                    Единственный main и обработка аргументов
-frontends/              Общий файловый вывод, TUI и GUI с отдельными backends
-firmware/esp8266/        SDK-компонент и serial-приложение
-cmake/                  Небольшие build helpers и ESP manifest
-examples/queries/        Рабочие примеры query
-tests/                 unit/, platform/, integration/ и проверки исходной структуры
-docs/                  Текущие руководства и документация метрик
+include/quanta/             Public C API, osal.h, hal.h, metric_def.h
+core/src/                   Query и переносимый механизм обработки
+osal/                       Общий runtime и OS implementations
+hal/                        Аппаратные primitives/backends
+sensors/common/              HAL-метрики и общие декодеры
+sensors/os/{linux,windows}/  Native collectors
+sensors/arch/x86/            CPUID
+sensors/platform/esp8266/    MCU/SDK-метрики
+metrics/                    Компактные .def; registry остаётся обычным C
+frontends/                  File, TUI, GUI, native windows + CPU renderer
+app/                        Единственный executable
+firmware/esp8266/            SDK component и serial app
+vendor/imgui/               Локальные unmodified upstream library sources
+cmake/, tests/, docs/, examples/
 ```
 
-## TODO и состояние проверок
+Пример `.def`:
 
-- [ ] Нативная Windows-приёмка, настоящая SDK/Xtensa-сборка и плата ESP8266, GUI-приёмка.
-- [ ] Windows driver HAL, Linux GPIO, более полное обнаружение SMBIOS/ACPI.
+```c
+QUANTA_METRIC(os_memory_total_bytes,
+    QUANTA_META("os.memory.total_bytes", "Physical memory"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_memory, "total"),
+    QUANTA_SOURCE("", "/proc/meminfo"))
+```
+
+Helpers сокращают повторение полей, но не меняют ABI, units или callbacks.
+Правила и нестандартные случаи: [METRICS](docs/METRICS.md).
+
+`portable-posix` оставляет настоящее core/query/file и common-метрики без native Linux
+collectors и UI. Это пример реализации OSAL, а не готовый noOS-порт.
+ESP8266 сохранил все девять `mcu.*` ключей, OS-метрики и активный SDK-компонент.
+VDD33 выключен по умолчанию; [SDK-инструкция и аппаратная приёмка](docs/ESP8266.md).
+
+## Изменения 0.6.0 и проверки
+
+Исправлены C/C++ linking при GUI, include path Windows frontend, доступ к 64-битному
+представлению реестра без позднего RRF flag, относительный путь Windows integration tests.
+Renderer переведён на динамические текстуры ImGui 1.92; добавлены pixel/lifecycle tests.
+Встроены библиотечные исходники ImGui, удалены fetch/build wrapper scripts. Все 137 записей
+в 21 `.def` переведены на helpers без изменения 3014 сравниваемых полей дескрипторов.
+
+Linux full GUI/TUI, no-GUI, portable, sanitizer и проверка готового архива описаны в
+[TESTING](docs/TESTING.md). Linux GUI действительно собирается и запускается на Xvfb;
+отдельный renderer test не требует дисплея. **Нативный MSVC/Windows и настоящий ESP SDK/плата
+здесь не проверены**. CI содержит Windows Debug/Release, но результат ещё должен быть получен.
+
+Архив распаковывать в новую папку и собирать заново. Он заменяет предыдущий baseline целиком,
+не является overlay. Старый CMake cache, особенно настройки AUTO/OFF GUI, не переносить.
+
+## TODO
+
+- [ ] Нативная Windows-приёмка; настоящая SDK/Xtensa-сборка и плата ESP8266; ручная UI-приёмка.
+- [ ] Windows driver HAL, Linux GPIO, расширение SMBIOS/ACPI.
 - [ ] Blob record/replay, File/Pipe/UART/JTAG acquisition, event subscriptions и poll budget.
 
-[Приоритеты и критерии готовности](docs/TODO.md). Providers и отдельные product executables
-не являются отложенной функциональностью: они намеренно удалены.
-[TESTING](docs/TESTING.md) содержит организацию тестов, результаты этой ревизии и границы проверки.
-
-Архив предназначен **для новой папки и полной пересборки**. В 0.5.0 перемещены заголовки,
-изменён ABI непрозрачных объектов синхронизации, удалены копии `quanta_cli/csv/txt`.
-Старые бинарные объекты, CMake cache и ESP ABI-настройки с новым деревом не смешивать.
+[Полный TODO](docs/TODO.md). Providers и отдельные `quanta_cli/csv/txt` намеренно удалены,
+а не отложены до следующего выпуска.
 
 ## Авторы и лицензия
 
-Исходная авторская атрибуция **INV contributors** сохранена в [MIT LICENSE](LICENSE).
+Исходная атрибуция **INV contributors** сохранена в [MIT LICENSE](LICENSE).
 Quanta развивается в Мастерской системного программирования. Имена отдельных авторов и
-сопровождающих в переданных материалах не указаны; персональные имена следует добавить
-после подтверждения участниками.
+сопровождающих в переданных материалах не указаны; персональные имена добавляются участниками.
 
-[Сторонние компоненты](THIRD_PARTY.md): SDK, toolchain и ImGui распространяются отдельно.
-В архиве нет драйверов, SDK, исходников ImGui или файлов шрифтов.
+[Сторонние компоненты](THIRD_PARTY.md), [точный состав ImGui и хэши](vendor/IMGUI.md).
+В архиве есть библиотечные исходники ImGui и его лицензия; SDK, toolchains, драйверы,
+внешние файлы шрифтов и готовые platform binaries не включены.

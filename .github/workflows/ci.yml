@@ -8,22 +8,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        preset: [linux-default, linux-minimal, portable-posix, linux-asan]
+        profile: [default, linux-no-gui, linux-minimal, portable-posix, linux-asan]
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 clang
-      - run: cmake --preset ${{ matrix.preset }} -DQUANTA_WARNINGS_AS_ERRORS=ON
-      - run: cmake --build --preset ${{ matrix.preset }} --parallel 2
-      - run: ctest --preset ${{ matrix.preset }} --output-on-failure
+      - run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 clang libxcb1-dev xvfb
+      - name: Configure without preset (all native features)
+        if: matrix.profile == 'default'
+        run: cmake -S . -B build/default -DQUANTA_WARNINGS_AS_ERRORS=ON
+      - name: Configure selected preset
+        if: matrix.profile != 'default'
+        run: cmake --preset ${{ matrix.profile }} -DQUANTA_WARNINGS_AS_ERRORS=ON
+      - run: cmake --build build/${{ matrix.profile }} --parallel 2
+      - run: ctest --test-dir build/${{ matrix.profile }} --output-on-failure
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
   windows:
     runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
-        preset: [windows-native, windows-minimal]
+        profile: [default, windows-no-gui, windows-minimal]
         configuration: [Debug, Release]
     steps:
       - uses: actions/checkout@v4
-      - run: cmake --preset ${{ matrix.preset }}
-      - run: cmake --build build/${{ matrix.preset }} --config ${{ matrix.configuration }} --parallel 2
-      - run: ctest --test-dir build/${{ matrix.preset }} -C ${{ matrix.configuration }} --output-on-failure
+      - name: Configure without preset (all native features)
+        if: matrix.profile == 'default'
+        run: cmake -S . -B build/default -G "Visual Studio 17 2022" -A x64
+      - name: Configure selected preset
+        if: matrix.profile != 'default'
+        run: cmake --preset ${{ matrix.profile }}
+      - run: cmake --build build/${{ matrix.profile }} --config ${{ matrix.configuration }} --parallel 2
+      - run: ctest --test-dir build/${{ matrix.profile }} -C ${{ matrix.configuration }} --output-on-failure

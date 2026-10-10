@@ -7,9 +7,16 @@ static int registry_text(const wchar_t *value, char *out, size_t capacity)
 {
     wchar_t text[QUANTA_TEXT_CAP];
     DWORD bytes = sizeof(text);
-    LSTATUS status =
-        RegGetValueW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", value,
-                     RRF_RT_REG_SZ | RRF_SUBKEY_WOW6464KEY, NULL, text, &bytes);
+    HKEY key = NULL;
+    LSTATUS status = RegOpenKeyExW(HKEY_LOCAL_MACHINE,
+        L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0,
+        KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+    if (status != ERROR_SUCCESS)
+    {
+        return 0;
+    }
+    status = RegGetValueW(key, NULL, value, RRF_RT_REG_SZ, NULL, text, &bytes);
+    RegCloseKey(key);
     return status == ERROR_SUCCESS && quanta_win_utf8(out, capacity, text);
 }
 
@@ -27,10 +34,8 @@ quanta_status quanta_native_os_refresh(quanta_os_snapshot *out, quanta_snapshot_
     quanta_memset(out, 0, sizeof(*out));
     quanta_memset(&version, 0, sizeof(version));
     version.dwOSVersionInfoSize = sizeof(version);
-    if (sizeof(get_version) == sizeof(address))
-    {
-        quanta_memcpy(&get_version, &address, sizeof(get_version));
-    }
+    _Static_assert(sizeof(get_version) == sizeof(address), "WinAPI pointer size mismatch");
+    quanta_memcpy(&get_version, &address, sizeof(get_version));
     if (!GetComputerNameExW(ComputerNameDnsHostname, hostname, &length))
     {
         DWORD error = GetLastError();

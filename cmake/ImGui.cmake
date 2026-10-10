@@ -8,3 +8,12 @@ target_compile_features(imgui_vendor PUBLIC cxx_std_11)
 if(QUANTA_SANITIZE)
   target_compile_options(imgui_vendor PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
 endif()
+
+if(WIN32)
+    # Keep native ImGui helpers' dependencies on their own target, including
+    # non-MSVC linkers which do not process #pragma comment(lib, ...).
+    target_link_libraries(imgui_vendor PRIVATE user32 imm32 shell32)
+endif()
+if(MSVC)
+    target_compile_options(imgui_vendor PRIVATE /utf-8)
+endif()

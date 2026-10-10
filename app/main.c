@@ -241,7 +241,7 @@ int quanta_cli_main(int argc, char **argv)
         size_t n;
         quanta_registry(&n);
         quanta_printf("quanta %s | C11 | metrics=%zu | TUI=%d GUI=%d static=%d | ImGui "
-               "adapter=1.91.9b\n",
+               "adapter=1.92.9b\n",
                QUANTA_VERSION, n, QUANTA_WITH_TUI, QUANTA_WITH_GUI, QUANTA_STRICT_STATIC);
         return 0;
     }

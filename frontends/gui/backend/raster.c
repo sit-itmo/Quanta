@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT
- * CPU rasterizer for Dear ImGui indexed, clipped, alpha-textured triangles.
+ * CPU rasterizer for Dear ImGui indexed, clipped, Alpha8/RGBA32-textured triangles.
  * Surface pixels are 0x00RRGGBB. Vertex color is ImGui's default 0xAABBGGRR.
  * Top-left coverage prevents double blending along shared triangle edges.
  */
@@ -33,13 +33,17 @@ static unsigned component(uint32_t c, unsigned shift)
     return (c >> shift) & 255u;
 }
 
-static float texel(const quanta_texture *t, float u, float v)
+static float texel(const quanta_texture *t, float u, float v, int channel)
 {
     float x, y, fx, fy;
     int ix, iy, x1, y1;
-    if (!t || !t->alpha)
+    if (!t || !t->pixels || (t->channels == 1 && channel != 3))
     {
         return 255;
+    }
+    if (t->channels == 1)
+    {
+        channel = 0;
     }
     x = u * t->width - 0.5f;
     y = v * t->height - 0.5f;
@@ -59,6 +63,13 @@ static float texel(const quanta_texture *t, float u, float v)
     {
         y = (float)t->height - 1;
     }
+    if (t->nearest)
+    {
+        ix = mini((int)(x + 0.5f), t->width - 1);
+        iy = mini((int)(y + 0.5f), t->height - 1);
+        return t->pixels[((size_t)iy * (size_t)t->width + (size_t)ix) *
+                         (size_t)t->channels + (size_t)channel];
+    }
     ix = (int)x;
     iy = (int)y;
     fx = x - ix;
@@ -66,8 +77,8 @@ static float texel(const quanta_texture *t, float u, float v)
     x1 = mini(ix + 1, t->width - 1);
     y1 = mini(iy + 1, t->height - 1);
     return (1 - fy) *
-               ((1 - fx) * t->alpha[iy * t->width + ix] + fx * t->alpha[iy * t->width + x1]) +
-           fy * ((1 - fx) * t->alpha[y1 * t->width + ix] + fx * t->alpha[y1 * t->width + x1]);
+               ((1 - fx) * t->pixels[((size_t)iy * (size_t)t->width + (size_t)ix) * (size_t)t->channels + (size_t)channel] + fx * t->pixels[((size_t)iy * (size_t)t->width + (size_t)x1) * (size_t)t->channels + (size_t)channel]) +
+           fy * ((1 - fx) * t->pixels[((size_t)y1 * (size_t)t->width + (size_t)ix) * (size_t)t->channels + (size_t)channel] + fx * t->pixels[((size_t)y1 * (size_t)t->width + (size_t)x1) * (size_t)t->channels + (size_t)channel]);
 }
 
 void quanta_raster_clear(quanta_surface *s, uint32_t color)
@@ -96,7 +107,8 @@ void quanta_raster_triangle(quanta_surface *s, const quanta_clip *clip, const qu
     {
         return;
     }
-    if (tex && tex->alpha && (tex->width <= 0 || tex->height <= 0))
+    if (tex && tex->pixels && (tex->width <= 0 || tex->height <= 0 ||
+        (tex->channels != 1 && tex->channels != 4)))
     {
         return;
     }
@@ -173,7 +185,13 @@ void quanta_raster_triangle(quanta_surface *s, const quanta_clip *clip, const qu
                 alpha = w0 * component(a.rgba, 24) + w1 * component(b.rgba, 24) +
                         w2 * component(c.rgba, 24);
             }
-            ai = (unsigned)(alpha * texel(tex, u, v) / 255.0f + 0.5f);
+            if (tex && tex->pixels && tex->channels == 4)
+            {
+                r = (unsigned)(r * texel(tex, u, v, 0) / 255.0f + 0.5f);
+                g = (unsigned)(g * texel(tex, u, v, 1) / 255.0f + 0.5f);
+                blue = (unsigned)(blue * texel(tex, u, v, 2) / 255.0f + 0.5f);
+            }
+            ai = (unsigned)(alpha * texel(tex, u, v, 3) / 255.0f + 0.5f);
             if (ai > 255)
             {
                 ai = 255;

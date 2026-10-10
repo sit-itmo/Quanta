@@ -351,7 +351,7 @@ int quanta_window_open(const char *title, int width, int height, quanta_window *
                             (uint32_t)quanta_strlen(title), title);
     }
     xcb_change_property(p->c, XCB_PROP_MODE_REPLACE, p->window, XCB_ATOM_WM_CLASS, XCB_ATOM_STRING,
-                        8, 8, "quanta\0INV");
+                        8, sizeof("quanta\0Quanta"), "quanta\0Quanta");
     keymap(p);
     xcb_map_window(p->c, p->window);
     xcb_flush(p->c);

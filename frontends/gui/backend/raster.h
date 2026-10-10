@@ -21,8 +21,10 @@ typedef struct quanta_surface
 
 typedef struct quanta_texture
 {
-    const uint8_t *alpha;
+    const uint8_t *pixels;
     int width, height;
+    int channels; /* 1: Alpha8 (white RGB); 4: RGBA32 bytes. */
+    int nearest;  /* 0: bilinear; 1: nearest. */
 } quanta_texture;
 
 typedef struct quanta_clip

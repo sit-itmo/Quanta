@@ -1,109 +1,124 @@
-# Тесты и проверка поставки 0.5.0
+# Тесты и проверка поставки 0.6.0
 
 ## Запуск
 
 ```bash
-cmake --preset linux-default
-cmake --build --preset linux-default --parallel   # уже запускает CTest
-ctest --preset linux-default --output-on-failure # повторный прогон
-cmake --build build/linux-default --target check
+cmake -S . -B build/default
+cmake --build build/default --parallel
+ctest --test-dir build/default --output-on-failure
 ```
 
-Windows: те же команды с preset `windows-native`. Для Debug:
-`ctest --test-dir build/windows-native -C Debug --output-on-failure`.
-`BUILD_TESTING=ON` требует Python 3; CMake не выдаёт сокращённый набор за полную проверку.
-Сборка одного target `quanta` либо `QUANTA_TESTS_ON_BUILD=OFF` не запускает ALL-проверку.
+Обычная полная native-сборка сама запускает CTest. В Visual Studio multi-config нужны
+согласованные `--config Release` при build и `-C Release` при CTest. `check` зависит от
+программы и всех тестовых executable; нет запуска black-box tests до успешной линковки.
+Сборка одного `quanta` либо `QUANTA_TESTS_ON_BUILD=OFF` не выполняет ALL-проверку.
 
-## Организация без дополнительного test framework
+## Что исправлено по пользовательским логам
+
+| Исходный симптом | Исправление |
+|---|---|
+| Linux: `cc` линкует GUI; unresolved `operator new/delete`, exception runtime | CXX включён в верхнем CMake scope для всех indirect consumers; app действительно линкуется C++ driver |
+| Windows TUI: не найден `windows_internal.h` | Приватный OSAL include path добавлен frontend target, включая Win32 GUI |
+| Windows: не объявлен `RRF_SUBKEY_WOW6464KEY` | 64-битное представление открывается через RegOpenKeyExW/KEY_WOW64_64KEY; чтение через обычный RegGetValueW; handle закрывается |
+| MSVC: tentative uninitialized static const в catalog test | Forward helper вместо предварительного определения объекта |
+| После build failure: `FileNotFoundError`, tests Not Run | Исправляются причины сборки, а не скрываются тесты отсутствующих программ |
+| Windows integration ищет examples внутри tests | Исправлен root после переноса скрипта в integration |
+| Получение ImGui через python3/fetch script | Library sources включены локально, загрузчик удалён |
+
+`pwsh.exe`/InitializeDefaultDrives в логе сами по себе не доказывают конкретный источник
+внешнего hook. В новых VS проектах отключена неиспользуемая vcpkg/app-local integration;
+собственные build wrappers не используются. Исполнение MSBuild в исходном окружении
+пользователя всё равно требуется для окончательной проверки Windows.
+
+Дополнительно устранена несовместимость прежнего GUI adapter с **переданной 1.92.9b**:
+новый texture protocol, font atlas, reset/sampler callbacks, новая сигнатура PathStroke.
+Проверки vendor/adapter компилируются с `IMGUI_DISABLE_OBSOLETE_FUNCTIONS`.
+
+## Организация тестов
+
+CTest — единственный runner, без стороннего test framework. Проверки не исчезают с NDEBUG.
 
 ```text
-tests/
-  unit/                 catalog, core/metrics, history, HAL, OSAL
-  platform/linux/       parsing, discovery, идентичность устройств
-  platform/windows/     native tests, pure-data tests, catalog schema
-  platform/esp8266/     SDK seam и stubs, только на host
-  integration/          единый CLI/HAL/format тест, native smoke, TUI/GUI
-  source_contract.py    границы include/runtime, расположение query и MCU
+tests/unit/                 catalog, history, OSAL, HAL, metric helpers, core, ImGui renderer
+tests/platform/linux/       parsing, discovery, device identity
+tests/platform/windows/     native tests, pure-data tests, schema fixtures
+tests/platform/esp8266/     SDK seam, только host
+tests/integration/          CLI/HAL/форматы, native, TUI, реальное GUI-окно
+tests/source_contract.py    include/runtime/query/MCU/vendor regression checks
 ```
 
-Небольшие C suites возвращают обычный код завершения; проверки не зависят от NDEBUG.
-CTest — единственный runner. Core-only tests (`catalog/history/osal`) намеренно не линкуют
-sensors/frontends. Windows schema на Linux проверяет только каталог и примеры query;
-это не эмуляция Windows и не исполнение WinAPI.
+`catalog/history/osal/metric_def` линкуют **только C core**, даже при включённом GUI.
+Windows schema на Linux проверяет каталог/queries, не исполняет WinAPI.
+`source_contract.py` — regression check, не формальный анализ всех зависимостей C.
 
-CLI/HAL/format проверки объединены в один `integration/cli.py` без повторных запусков
-четырёх почти одинаковых программ. Проверяются режимы и их overrides, недоступный GUI/TUI,
-HAL none/native/неизвестный, форматы, Unicode query/output path, stdin, NUL/лимиты,
-запрет перезаписи output и отсутствие старых product-копий в bin.
+**ImGui renderer:** 38 проверок с настоящими upstream sources без window server.
+Проверяются создание RGBA32/Alpha8 texture, частичные updates и source pitch, сохранение
+texture ID, отклонение update вне границ, sampler/reset, alpha blend, шрифтовый atlas
+при разных размерах, >65536 vertices через VtxOffset, destruction до/после upload,
+shutdown и повторная очистка. Проверяются pixels и состояния, не только exit code.
 
-OSAL suite проверяет opaque lifecycle, mutex/condition/thread, repeated cleanup,
-calloc overflow, realloc preservation, семантику fread/fwrite по элементам, seek/tell,
-EOF/clearerr, text boundaries/NUL, часы, UTC leap-year и предельный uint64 timestamp.
-`source_contract.py` ищет прямые libc/native вызовы в переносимых слоях и утечку native
-headers в public API. Это полезный regression check, **не формальное доказательство**
-полноты зависимостей и не полноценный C parser.
+**GUI window:** Linux smoke запускает именно Quanta на собственном Xvfb и проверяет
+завершение по query deadline. При отсутствии Xvfb этот тест не добавляется, но renderer
+unit test остаётся. Windows smoke на целевой ОС создаёт окно, меняет размер, посылает
+Unicode/WM_CLOSE и проверяет завершение. Это не подмена frontend файловым режимом.
 
-ESP VDD-enabled/disabled targets используют тот же source/ABI manifest, что SDK-компонент,
-включая query, app_main и serial formatter. Stubs заменяют SDK-вызовы, а не scheduler.
-Бесконечный serial loop компилируется, но не запускается на host. Сохраняются все 9 MCU keys;
-в каталоге дополнительно 9 OS и 4 общих descriptor. При отсутствии файловой системы stdio
-helpers теперь возвращают UNSUPPORTED из ENOSYS, не маскируют его как отсутствующий файл.
+**MCU:** enabled/disabled SDK seam использует тот же список исходников и ABI defines, что
+firmware-компонент. Компилируются query, serial formatter и app_main; бесконечный serial
+loop на host не исполняется. SDK calls заменены fixtures. Все 9 MCU ключей сохраняются.
+Это не Xtensa cross-build, не real SDK link и не проверка платы.
 
-## Выполнено для этой ревизии
+## Выполнено в этой среде
 
-Рабочая среда: Linux x86-64, GCC 14.2.0, Clang 17.0.0, CMake 3.31.6, Ninja 1.12.1,
-Python 3.13.5. Это сведения о тестовой среде, не обязательные точные версии для сборки.
+Linux x86-64, GCC 14.2.0, Clang 17.0.0, CMake 3.31.6, Ninja 1.12.1, Python 3.13.5,
+XCB 1.17.0 и Xvfb. Это версии проверочной среды, не требования на точные версии установки.
 
 | Конфигурация | Результат |
 |---|---|
-| GCC Debug, native Linux + TUI, warnings-as-errors | 16/16 |
-| Clang Release, native Linux + TUI, warnings-as-errors | 16/16 |
-| Clang Debug + ASan/UBSan, leak detection + halt-on-error | 16/16 |
-| GCC Release, linux-minimal, GUI/TUI OFF | 15/15 |
-| GCC Debug, portable contract, GUI/TUI OFF | 9/9 |
-| GCC Release, strict static, без GUI | 16/16; нет PT_INTERP/DT_NEEDED |
+| Обычный CMake **без preset**, GCC Release, Makefiles, GUI + TUI | **19/19** |
+| GCC Debug, GUI + TUI, warnings-as-errors | **19/19** |
+| Clang Debug + ASan/UBSan, GUI + TUI, leak detection | **19/19** |
+| Ninja Multi-Config Debug, GUI + TUI | **19/19** |
+| Ninja Multi-Config Release, GUI + TUI | **19/19** |
+| `linux-no-gui`, все native-метрики + TUI | **17/17** |
+| `linux-minimal`, без GUI/TUI | **16/16** |
+| `portable-posix`, минимальный runtime | **10/10** |
+| Static Linux, без GUI | **17/17**, нет PT_INTERP/DT_NEEDED |
 
-В указанных sanitizer-прогонах ошибок не обнаружено. Это не гарантия отсутствия всех ошибок.
-Сравнены полностью раскрытые дескрипторы с 0.4.0: Linux 54 → 58, Windows schema 72 → 76,
-ESP8266 18 → 22; удалённых ключей нет. В каждом наборе добавлены только четыре общие метрики.
-Негативная компиляция с PHY VDD33=254 отклонена предусмотренным #error.
-OSAL suite: 69 проверок; SDK seams: 122 с VDD и 115 без VDD; единый CLI: 41 командный случай
-для протестированной native сборки GUI=OFF/TUI=ON (число зависит от compiled modes).
-В minimal несколько platform suites выполняют только проверки включённых групп.
+Sanitizer suite с `detect_leaks=1:halt_on_error=1` и `UBSAN_OPTIONS=halt_on_error=1`
+завершился без зарегистрированных ошибок. Это не доказательство отсутствия всех дефектов.
+Ninja Multi-Config проверяет правильную конфигурацию/пути в много-конфигурационной сборке,
+**но не заменяет Visual Studio/MSVC**.
 
-Дополнительно: product-only конфигурация без тестов и UI не ищет Python/C++ compiler;
-установка проверена, отдельный C-клиент линкует установленный core/query без sensors/UI.
-14 public headers отдельно скомпилированы в C11 и C++17 (28 запусков),
-единственный project include path — `include`. Для portable executable проверен список
-неразрешённых символов: нет прямых зависимостей от getpid/sigaction/uname/sysconf/socket
-или native metric API. ABI-symbol aliases libc зависят от toolchain: это не обещание запуска
-полученного бинарника на старой glibc. XCB window backend отдельно компилируется с -Werror,
-но эта компиляция не считается тестом всего ImGui frontend.
+Дополнительно проверены:
 
-## Не проверено / не заявляется
+- 15 публичных headers отдельно в C11 и C++17 (30 компиляций), единственный include root;
+- Product-only build без GUI/TUI/tests: нет поиска C++/Python и импорта libstdc++/libxcb;
+- Установка и отдельный C-клиент установленного core/query, без sensors/frontends;
+- Все 137 дескрипторов до/после перехода на helpers: 3014 полей, 0 расхождений;
+- Побайтное совпадение включённых ImGui sources/headers с пользовательским архивом;
+- Запуск dashboard в настоящем Linux frontend: [снимок Xvfb](assets/gui-linux.png).
 
-**Windows нативно не запускался.** CI и инструкции подготовлены; pure-data/schema tests
-не заменяют MSVC Debug/Release, Windows TUI и processor-group affinity.
+Последний снимок показывает фактическую программу, не макет. Он не проверяет все состояния
+UI, monitor DPI, все layouts, пользовательские шрифты или интерактивность каждого элемента.
 
-**Нет реальной SDK/Xtensa-сборки и прошивки ESP8266.** Нужны build/link/size/map, плата,
-serial, heap/stack и длительный прогон; подробности в [ESP8266](ESP8266.md).
+## Границы проверки
 
-**Весь ImGui GUI не собирался и окно программы не проверялось.** Исходники зависимости
-в среде отсутствовали; попытка явного получения не удалась из-за недоступности DNS/сети.
-Проверены AUTO-отключение и явная ошибка при GUI=ON без зависимости. Linux GUI smoke исправлен:
-он создаёт собственный Xvfb, а не вызывает отсутствующий вспомогательный script. Его полный
-GUI-сценарий ещё требует прогона с настоящим ImGui. Это не screenshot/визуальная приёмка.
+**Нативный Windows/MSVC-прогон здесь не выполнен.** Известные ошибки исправлены в исходниках
+и CMake, но runtime collectors, Win32 GUI/TUI, процессорные группы и реальные MSBuild hooks
+должны пройти целевую проверку. В CI предусмотрены full/no-GUI/minimal и Debug/Release;
+выполнение workflow не заявляется заранее.
 
-Аппаратные memory/MSR/PCI/GPIO операции проверяются fixtures, не реальными опасными записями.
-Ни тесты, ни сборка не требуют root и не загружают драйверы.
+**Настоящие SDK/Xtensa-сборка и плата ESP8266 не проверены.** Требуются clean build/link,
+size/map, serial, heap/stack и длительный аппаратный прогон: [ESP8266](ESP8266.md).
+Опасные записи hardware не выполнялись. Тесты не требуют root/установки драйвера.
 
-## Проверка архива
+## Проверка поставки
 
-При выпуске создаются MANIFEST.sha256 (файлы дерева, кроме самого манифеста) и внешний SHA256
-ZIP. ZIP распаковывается в новый путь с пробелами, манифест сверяется, выполняется чистая
-configure/build с автоматическими тестами и повторный CTest. Логи проверки архива и матрицы
-прилагаются отдельно, чтобы не держать в исходном дереве историю старых прогонов и build outputs.
+MANIFEST.sha256 перечисляет файлы исходного дерева, кроме самого манифеста. Внешний SHA256
+проверяет ZIP. Готовый ZIP распаковывается в новый путь с пробелами; манифест и CRC проверяются,
+выполняется чистая обычная полная CMake-сборка без preset и повторный CTest. Итоговый лог
+прилагается отдельно вместе с журналом матрицы, чтобы не засорять source tree build outputs.
 
-Документация embedded-метрик проверяется `python3 tools/embed_docs.py --check`.
-Исходный `docs/Quanta_Design.md` в этой поставке побайтно совпадает с документом пользователя;
-текущая архитектура описана отдельно, а не незаметно переписана в исходном документе.
+`python3 tools/embed_docs.py --check` проверяет совпадение документации с `.def` и
+подготовленным `sensors/metric_docs.c`. Исходный `docs/Quanta_Design.md` сохранён побайтно:
+действующие изменения отражены отдельно в ARCHITECTURE, а не внесены незаметно в оригинал.

@@ -1,127 +1,64 @@
-/* SPDX-License-Identifier: MIT -- intentionally no include guard */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(cpu_vendor,
- .key="cpu.vendor", .title="CPU vendor",
- .description="CPU vendor; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.vendor.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="vendor"
-)
+    QUANTA_META_DESC("cpu.vendor", "CPU vendor",
+        "CPU vendor; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "vendor"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_brand,
- .key="cpu.brand", .title="CPU brand string",
- .description="CPU brand string; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.brand.md",
- .semantic_version=1, .type=QUANTA_STRING, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="brand"
-)
+    QUANTA_META_DESC("cpu.brand", "CPU brand string",
+        "CPU brand string; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_TEXT(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "brand"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_cpuid_reference,
- .key="cpu.cpuid_reference", .title="Logical CPU used for CPUID",
- .description="Logical CPU used for CPUID; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.cpuid_reference.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="cpuid_reference"
-)
+    QUANTA_META_DESC("cpu.cpuid_reference", "Logical CPU used for CPUID",
+        "Logical CPU used for CPUID; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_U64("", 5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "cpuid_reference"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_vmx,
- .key="cpu.vmx", .title="VMX hardware capability",
- .description="VMX hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.vmx.md",
- .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="vmx"
-)
+    QUANTA_META_DESC("cpu.vmx", "VMX hardware capability",
+        "VMX hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_BOOL(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "vmx"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_svm,
- .key="cpu.svm", .title="SVM hardware capability",
- .description="SVM hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.svm.md",
- .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="svm"
-)
+    QUANTA_META_DESC("cpu.svm", "SVM hardware capability",
+        "SVM hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_BOOL(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "svm"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_sse2,
- .key="cpu.sse2", .title="SSE2 capability",
- .description="SSE2 capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.sse2.md",
- .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="sse2"
-)
+    QUANTA_META_DESC("cpu.sse2", "SSE2 capability",
+        "SSE2 capability; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_BOOL(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "sse2"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_avx,
- .key="cpu.avx", .title="AVX hardware capability",
- .description="AVX hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.avx.md",
- .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="avx"
-)
+    QUANTA_META_DESC("cpu.avx", "AVX hardware capability",
+        "AVX hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_BOOL(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "avx"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_avx2,
- .key="cpu.avx2", .title="AVX2 hardware capability",
- .description="AVX2 hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.avx2.md",
- .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="avx2"
-)
+    QUANTA_META_DESC("cpu.avx2", "AVX2 hardware capability",
+        "AVX2 hardware capability; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_BOOL(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "avx2"),
+    QUANTA_SOURCE("", ""))
+
 QUANTA_METRIC(cpu_hypervisor,
- .key="cpu.hypervisor", .title="Hypervisor-present CPUID bit",
- .description="Hypervisor-present CPUID bit; sampled on the explicitly pinned reference CPU, not an all-core intersection.", .doc_path="docs/metrics/cpu.hypervisor.md",
- .semantic_version=1, .type=QUANTA_BOOL, .kind=QUANTA_PROPERTY, .refresh=QUANTA_REFRESH_ONCE,
- .unit="", .min_poll_ns=UINT64_C(0),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_cpuid_init,
-    .enumerate=quanta_cpuid_enumerate,
-    .collect=NULL,
-    .destroy=quanta_cpuid_destroy,
-    .read=quanta_cpuid_read, .arg="hypervisor"
-)
+    QUANTA_META_DESC("cpu.hypervisor", "Hypervisor-present CPUID bit",
+        "Hypervisor-present CPUID bit; sampled on the explicitly pinned reference CPU, not an all-core intersection."),
+    QUANTA_PROPERTY_BOOL(5000),
+    QUANTA_INIT_SNAPSHOT(quanta_cpuid, "hypervisor"),
+    QUANTA_SOURCE("", ""))

@@ -14,7 +14,7 @@ function(quanta_test name)
 endfunction()
 
 # These deliberately link core alone: no hidden metric or UI dependency is allowed.
-foreach(suite catalog history osal)
+foreach(suite catalog history osal metric_def)
     add_executable(quanta_test_${suite} unit/test_${suite}.c)
     quanta_target(quanta_test_${suite})
     target_link_libraries(quanta_test_${suite} PRIVATE quanta_core)
@@ -35,6 +35,11 @@ if(NOT QUANTA_PORTABLE)
         include(platform/windows/schema.cmake)
     endif()
 endif()
+if(QUANTA_WITH_GUI)
+    quanta_test(imgui_renderer unit/test_imgui_renderer.cpp)
+    target_link_libraries(quanta_test_imgui_renderer PRIVATE imgui_vendor)
+endif()
+
 include(esp8266.cmake)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
@@ -70,7 +75,7 @@ set_tests_properties(${all_tests} PROPERTIES TIMEOUT 120)
 get_property(test_targets GLOBAL PROPERTY QUANTA_TEST_TARGETS)
 add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} --test-dir ${PROJECT_BINARY_DIR} -C $<CONFIG> --output-on-failure --no-tests=error
-    DEPENDS ${test_targets} quanta USES_TERMINAL)
+    DEPENDS ${test_targets} quanta USES_TERMINAL VERBATIM)
 if(QUANTA_TESTS_ON_BUILD AND NOT CMAKE_CROSSCOMPILING)
     add_custom_target(quanta_verify ALL DEPENDS check)
 endif()

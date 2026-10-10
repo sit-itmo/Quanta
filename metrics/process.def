@@ -1,15 +1,7 @@
-/* SPDX-License-Identifier: MIT -- intentionally no include guard */
+/* SPDX-License-Identifier: MIT -- intentionally no include guard.
+ * Helpers: include/quanta/metric_def.h; each block is one implementation. */
 QUANTA_METRIC(process_self_rss_bytes,
- .key="process.self.rss_bytes", .title="Collector resident memory",
- .description="Collector resident memory", .doc_path="docs/metrics/process.self.rss_bytes.md",
- .semantic_version=1, .type=QUANTA_U64, .kind=QUANTA_GAUGE, .refresh=QUANTA_REFRESH_POLL,
- .unit="B", .min_poll_ns=UINT64_C(250000000),
- .recommended_poll_ns=QUANTA_NS_S, .stale_after_ns=UINT64_C(5000000000),
- .flags=0, .counter_bits=0,
- .label_schema="", .dependencies="",
- .init=quanta_process_init,
-    .enumerate=quanta_process_enumerate,
-    .collect=quanta_process_collect,
-    .destroy=quanta_process_destroy,
-    .read=quanta_process_read, .arg="rss"
-)
+    QUANTA_META("process.self.rss_bytes", "Collector resident memory"),
+    QUANTA_GAUGE_BYTES(250),
+    QUANTA_SNAPSHOT(quanta_process, "rss"),
+    QUANTA_SOURCE("", ""))
