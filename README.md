@@ -1,20 +1,30 @@
 # Quanta 0.8.0
 
+На связи
+[Мастерская системного программирования ИТМО](https://t.me/itmosysint)
+
 <p align="center"><img src="docs/assets/logo.jpg" width="280" alt="Quanta"></p>
 
-**Сбор, обработка и отображение аппаратных и системных метрик на C.**
-Проект Мастерской системного программирования. Одна программа `quanta`: CLI, файл,
-CSV/Markdown/value, TUI и GUI на Dear ImGui. Основные платформы — Linux и Windows;
-отдельно сохранён активный порт ESP8266/FreeRTOS.
+**Сбор, обработка и отображение аппаратных и системных метрик на C**
+
+**Репозиторий:** https://github.com/sit-itmo/Quanta
 
 ## Цель и архитектура
 
-Query, каталог, планировщик и история отделены от способов измерения и отображения.
-**Одно имя метрики — один способ получения**, без выбираемых providers и скрытого
-резервного метода. HAL предоставляет аппаратные примитивы; сборщики ОС/CPUID/SDK
-могут его не использовать. Минимальный контракт исполнения описан в
-[include/quanta/osal.h](include/quanta/osal.h). Публичные заголовки находятся в
-`include/quanta/`, парсер query входит в `core/`.
+Цель в создании платформы для сбора метрик и информации о системе. Основой является ядро на языке С которое можно компилировать где угодно (хоть а утюге). С момощью ядра quanta регистрируются все возможные в системе метрики (серийники, счетчики, темпиратура, ...), и с помощью программы quanta собирать эти метрики в любой момент по одному, в фафлы MD/CSV/TXT, отображать с помощью GUI/TUI, а так же делать сложные запросы нужных конфигураций с помощью встроенного языка запросов.
+
+### Базовые положения
+* Query, каталог, планировщик и история отделены от способов измерения и отображения.
+* Одно имя метрики — один способ получения. 
+* HAL предоставляет аппаратные примитивы; сборщики ОС/CPUID/SDK
+могут его не использовать. 
+* Минимальный контракт исполнения описан в [include/quanta/osal.h](include/quanta/osal.h). 
+* Публичные заголовки находятся в `include/quanta/`.
+* Комментарии собственных исходников, заголовки файлов, тесты и скрипты — **на английском**.
+* Документация Quanta в Markdown, включая описания метрик, — **на русском**.
+* Каждая метрика снабжается не только способом получения (callback) но и описанием и типом.
+* GUI по умолчанию: **Dear ImGui + GLFW + OpenGL 3.3**.
+* Сборка на базе CMake
 
 ```text
 app → frontend (file / TUI / ImGui) → core (query / catalog / scheduler / history / live)
@@ -29,68 +39,51 @@ app → frontend (file / TUI / ImGui) → core (query / catalog / scheduler / hi
 [Исходный дизайн](docs/Quanta_Design.md) и [схема](docs/assets/architecture-original.jpg)
 сохранены как историческая основа: providers и несколько программ в них уже неактуальны.
 
-## Что входит в эту версию
+## Зачем это всё?
 
-**GLFW 3.4 теперь включён целиком в `vendor/glfw`**, из переданного исходного архива.
-ImGui 1.92.9b и его GLFW/OpenGL3-адаптеры уже находятся в `vendor/imgui`.
-В Windows дополнительные загрузки библиотек не нужны: используется локальное дерево.
-На Linux по-прежнему применяется системный GLFW, устанавливаемый пакетами.
+Прграмма quanta это открытый проект который позволяет изучить различные низкоуровневые метрики системы, уметь удобно их отображать и анализировать. Удобный query и способы отображения позволяют использовать программу в системах автоматизации. Цель получить больше информации о системе, понять ее характеристики и разобраться какие идентификаторы в ней есть.
 
-Комментарии собственных исходников, заголовки файлов, тесты и скрипты — **на английском**.
-Документация Quanta в Markdown, включая описания метрик, — **на русском**.
-Исходники, лицензии и собственные справочники сторонних библиотек сохранены на языке
-оригинала без изменений; русские инструкции по интеграции находятся в `vendor/*.md`.
-Правило языка, целостность GLFW/ImGui и актуальность встроенной документации проверяются тестами.
+Приглашаем всех поучаствовать в проекте и добавить свои метрики.
 
-## Linux / Ubuntu: полная сборка по умолчанию
-
-GUI по умолчанию: **Dear ImGui + GLFW + OpenGL 3.3**.
+## Сборка в Linux / Ubuntu
 
 ```bash
 sudo apt-get update
 sudo apt-get install --no-install-recommends build-essential cmake libglfw3-dev libx11-dev
 
-cmake -S . -B build/default
-cmake --build build/default --parallel
-ctest --test-dir build/default --output-on-failure
+cmake -S . -B build/linux
+cmake --build build/linux --parallel
+ctest --test-dir build/linux --output-on-failure
 
-./build/default/bin/quanta --list-modes
-./build/default/bin/quanta examples/queries/04-dashboard-gui.q
+./build/linux/bin/quanta --list-modes
+./build/linux/bin/quanta examples/queries/04-dashboard-gui.q
 ```
 
 При отсутствии файлов разработки OpenGL CMake выдаёт сообщение с указанием пакета
 `libgl-dev`. Для запуска окна нужен графический сеанс и поддержка OpenGL 3.3; в WSL —
-работающий WSLg/X-сервер. **Ninja, Python, Git, GLAD/GLEW, SDL и сетевые загрузчики
-не обязательны для обычной сборки.** Дополнительные проверки используют Python/Xvfb,
+работающий WSLg/X-сервер. Дополнительные проверки используют Python/Xvfb,
 когда они установлены. Сама конфигурация и сборка ничего из сети не скачивают.
 
-## Windows: локальные зависимости уже включены
+## Сборка в Windows
 
-Нужны Visual Studio 2022 с компонентом Desktop development with C++ и Windows SDK.
+Нужны Visual Studio (рекоммендуется 2022) с компонентом Desktop development with C++ и Windows SDK.
 **[Скачать CMake для Windows](https://cmake.org/download/)** — выбрать Windows x64 Installer
 и добавить CMake в PATH. Минимальная версия проекта — CMake 3.21.
 
-**GLFW отдельно скачивать и распаковывать не надо.** В архиве уже есть
-`vendor/glfw/CMakeLists.txt`, `include/GLFW`, `src`, `CMake` и исходная лицензия.
-[Состав и контрольные суммы](vendor/GLFW.md).
-
 ```powershell
-cmake -S . -B build/default -G "Visual Studio 17 2022" -A x64
-cmake --build build/default --config Release --parallel
-ctest --test-dir build/default -C Release --output-on-failure
+cmake -S . -B build/windows
+cmake --build build/windows --config Release --parallel
+ctest --test-dir build/windows -C Release --output-on-failure
 
-.\build\default\bin\Release\quanta.exe --list-modes
-.\build\default\bin\Release\quanta.exe examples/queries/windows/04-dashboard-gui.q
+.\build\windows\bin\Release\quanta.exe --list-modes
+.\build\windows\bin\Release\quanta.exe examples/queries/windows/04-dashboard-gui.q
 ```
-
-GLFW собирается статически тем же компилятором и с согласованной политикой CRT;
-его примеры, тесты и документация не входят в обычную сборку Quanta. Не требуются
-vcpkg, Python или PowerShell 7. Драйвер OpenGL остаётся компонентом системы.
-Для Debug заменить `Release` на `Debug` в командах сборки, тестирования и пути запуска.
 
 ## Другие варианты сборки
 
-**CPU/framebuffer**, без GLFW и OpenGL:
+По умолчанию GUI работает на базе ImGUI + GLFW + OpenGL и на Windows и на Linux
+Однако мы планируем запуск quanta и на микроконтроллерах (уже поддерживается ESP8266), для этих случаев есть реализация ImGUI на базе framebuffer (**CPU/framebuffer**, без GLFW и OpenGL):
+Эту версию можно протестировать и в Windows и в Linux. Для этого собрать:
 
 ```bash
 cmake -S . -B build/framebuffer -DQUANTA_GUI_BACKEND=FRAMEBUFFER
@@ -116,7 +109,9 @@ ctest --preset linux-no-gui --output-on-failure
 `cmake -S . -B build/no-gui -DQUANTA_WITH_GUI=OFF`.
 Этот вариант не требует C++ и графических библиотек.
 
-## Режимы и структура
+## Режимы работы
+
+Примеры запусков:
 
 ```bash
 quanta get os.uptime --format value
@@ -130,6 +125,10 @@ quanta describe os.memory.available_bytes
 
 CLI имеет приоритет над query. Графический backend выбирается **при сборке**, а режим
 `--gui` — при запуске. Недоступный режим возвращает явную ошибку.
+
+## Структура
+
+Структура кода проекта:
 
 ```text
 include/quanta/               Публичный API, osal.h, hal.h, metric_def.h
@@ -149,32 +148,26 @@ vendor/                      Исходники зависимостей и св
 Все девять MCU-метрик и отдельная сборка ESP8266 сохранены:
 [инструкция для SDK/платы](docs/ESP8266.md).
 
-## Проверки и TODO
+## Актуальные задачи (Roadmap)
 
 [Тестирование и ограничения проверки](docs/TESTING.md) · [Полная сборка](docs/BUILD.md) ·
 [TODO](docs/TODO.md).
 
-Linux framebuffer проверяется с настоящим окном на Xvfb; отдельно проверяются вариант
-без GUI, минимальный POSIX-контракт и sanitizer-сборка. Это **не подтверждение**
-нативного Windows-прогона, OpenGL-окна или прошивки ESP8266. Точный выполненный набор
-и результаты приведены в отчёте, а не выводятся из наличия исходников зависимостей.
+- [ ] Добавить поддержку RW.sys в качестве HAL для windows.
+- [ ] Добавить метрики по x86 платформам на базе HAL.
 
-- [x] Включить GLFW 3.4 и исключить дополнительную загрузку библиотеки для Windows.
-- [x] Английские комментарии и русская проектная документация с автоматическими проверками.
-- [ ] Выполнить нативную Windows/OpenGL-приёмку и аппаратную проверку ESP8266.
-- [ ] Реализовать запись/воспроизведение измерений, внешние источники и подписки на события.
+## Команда
+- Участники сообщества: https://t.me/itmosysint
+- Координатор: Алексей Никольский — https://t.me/ebfecode
 
-Обычная полная сборка запускает CTest автоматически. Без Python дополнительные
-Python-проверки явно пропускаются; встроенные C/C++-тесты остаются.
-Распаковывать в **новую папку**, не поверх 0.7.0 и не со старым CMake cache.
+Авторы (по алфавиту):
+- София @pactiwka999
 
-## Авторы и лицензии
+## Полезные ссылки
+- https://github.com/ocornut/imgui
+- https://github.com/glfw/glfw
 
-Исходная атрибуция **INV contributors** сохранена в [LICENSE](LICENSE).
-Проект развивается в Мастерской системного программирования; индивидуальные имена
-авторов добавляются участниками.
-
-[Сторонние компоненты](THIRD_PARTY.md), [ImGui](vendor/IMGUI.md), [GLFW](vendor/GLFW.md).
-Лицензия переданного portable_gui не указана: это отмечено отдельно, MIT ему
-не присваивается. SDK, компиляторы, драйверы, внешние файлы шрифтов и готовые программы
-в поставку не входят. Оригинальные тексты лицензий не переводились и не заменялись.
+## Скрины
+| Windows GUI | Hardware | TUI |
+|:---:|:---:|:---:|
+| ![alt](docs/assets/gui-windows.png) | ![alt](docs/assets/photo.jpg) | ![alt](docs/assets/tui.png) |
